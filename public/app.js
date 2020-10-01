@@ -1,17 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-class App  extends React.Component{
+//================================//
+import Router from './components/Router'
+//====================================//
+class App extends React.Component{
     
     render(){
         return(
-            
+            <Router>
                 <div>Hi there!</div>
+            </Router>
+               
             
         )
     }
 }
 
-ReactDOM.render(
-        <App />
-, document.querySelector('#container'))
+ReactDOM.render(<App />, document.querySelector('#container'))

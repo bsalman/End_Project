@@ -1,5 +1,6 @@
 const express = require('express')
 const fs = require('fs')
+const dataModule= require('./modules/mysqlDataModules')
 
 const app = express()
 
@@ -9,9 +10,13 @@ app.use(express.json())
 
 const port = process.env.PORT || 3000
 
-// app.get('/',(req,res)=>{
-//     res.send('hello')
-// })
+app.post('/settings',(req,res)=>{
+const {userName,password}=req.body
+    dataModule.changeUser(userName, password,value){
+
+    }
+})
+
 app.use('/', (req, res) => {
     const html = fs.readFileSync(__dirname + '/index.html' , 'utf-8')
     res.send(html);
