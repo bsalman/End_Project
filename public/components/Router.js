@@ -13,7 +13,8 @@ class Router extends React.Component {
                    
                     
                     <Switch>
-                        <Route path="/" exact component={Login} />
+                    
+                        <Route path="/login" exact component={Login} />
                         <Route path="/" component={Page404} />  
                     </Switch>
                     

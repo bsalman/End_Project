@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
+
 
 import CustomModal from './CustomModal'
+import {loginPost} from '../services/api'
+
 
 const Login = () => {
+
+
+  const history = useHistory()
 
   const initialState = {
     username: '',
@@ -43,13 +50,44 @@ const Login = () => {
           errorTitle: 'entries Error'
         })
       } else {
-        console.log(myState);
+        //console.log(myState);
+        loginPost(myState.username,myState.password).then(data => {
+         console.log(data);
+          //here i need to write the switch selon le backend
+        
+          switch (data) {
+            case 2:
+              setMyState({...myState,entriesError: true,errorElement:<p>There was a server error</p>,errorTitle: 'Server error'})
+              break;
+
+            case 3:
+              setMyState({...myState, entriesError:true, errorElement:<p>Password is wrong</p>,errorTitle: 'Wrong password'})
+              break;
+
+            case 4:
+              setMyState({...myState, entriesError:true, errorElement:<p>The username that you enter is not exist</p>,errorTitle: 'Username not exist'})
+              break;
+
+            case 1:
+              //show admin panel
+              history.push('/settings')
+              //console.log('should be login');
+              break;
+          
+            default:
+              break;
+          }
+        }).catch(error => {
+          console.log(error);
+          setMyState({...myState, entriesError:true, errorElement:<p>can not send the data</p>,errorTitle: 'unknown error'})
+        })
+
       }
     
   }
 
   const closeModal = () => {
-    console.log('I am called from the child');
+    // console.log('I am called from the child');
     setMyState({
       ...myState,
       entriesError: false
