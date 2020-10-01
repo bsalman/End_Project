@@ -7,6 +7,7 @@ import CustomModal from './CustomModal'
 import {loginPost} from '../services/api'
 
 
+// creating a Login function Component
 const Login = (props) =>{
 
 
@@ -37,7 +38,7 @@ const onLoginBtnClick = (e) =>{
           ? <div>Please Enter Your Name</div>
           : null}
         {state.password === ''
-          ? <div>A Password is required</div>
+          ? <div>A Password Is Required</div>
           : null}
      </div>
     )
@@ -45,19 +46,43 @@ const onLoginBtnClick = (e) =>{
       ...state,
       entriesError: true,
       errorElement,
-      errorTitle: 'Entries Error'
+      errorTitle: 'Error with Your Entries'
     })
   } else {
-      console.log(state);
+    loginPost(state.name, setState.password).then(data => {
+      switch (data) {
+        case 2:
+          setState({... state, entriesError: true, errorElement: <p>there was a server error</p>, errorTitle: 'Server Error' })
+          break;
+        case 3:
+          setState({... state, entriesError: true, errorElement: <p>Password is wrong</p>, errorTitle: 'Wrong password' })
+          break;
+        case 4:
+          setState({... state, entriesError: true, errorElement: <p>The Username doesn't exist</p>, errorTitle: 'User does not exist' })
+          break;
+        case 1:
+          // show admin panel
+          props.setUserAction(state.name)
+          history.push('/settings')
+          break;
+      
+        default:
+          break;
   }
+}).catch(error => {
+  setState({... state, entriesError: true, errorElement: <p>can not send the data</p>, errorTitle: 'unknown error' })
+})
+}
 }
 
+// closing the Modal function
 const closeModal = () => {
     setState({
       ...state,
       entriesError: false
     })
   }
+
 
     return(
         <React.Fragment>

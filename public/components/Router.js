@@ -6,6 +6,8 @@ import {connect} from 'react-redux'
 
 // importing the components
 import Login from './Login'
+import Settings from './Settings'
+import Page404 from './Page404'
 
 class Router extends React.Component{
 
@@ -15,6 +17,8 @@ class Router extends React.Component{
                 <div>
                     <Switch>
                     <Route path="/login" exact component={Login} />
+                    <Route path="/settings" exact component={Settings} />
+                    <Route path="/" component={Page404} />
                     {/* <Route path="/" component={Page404} /> */}
                     </Switch>
                 </div>
