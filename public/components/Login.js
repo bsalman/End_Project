@@ -95,9 +95,9 @@ const closeModal = () => {
         </CustomModal>
         <div className="d-flex align-items-center pb-4">
     <div className="row mx-auto" style={{width:"100%",maxWidth:"24rem"}}>
-      <div className="col-12 mb-2 text-center">
+      {/* <div className="col-12 mb-2 text-center">
         <img src="/images/symbiot4.svg" width="140" height="20" alt="SYMBIOT 4" className="mx-auto" />
-      </div>
+      </div> */}
       <div className="col-12">
         {/* <!-- Login form START --> */}
         <div className="card px-4 pt-2">
