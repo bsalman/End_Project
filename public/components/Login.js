@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 // import the components 
 import CustomModal from './CustomModal'
 import {loginPost} from '../services/api'
+import {setUserAction, setLoggedInAction} from '../actions'
 
 
 // creating a Login function Component
 const Login = (props) =>{
 
+  useEffect(() => {
+    props.setUserAction(null)
+    props.setLoggedInAction('false')
+    
+  }, []);
 
+  const history = useHistory()
 
     //current state
 const initialState = {
-    name: '',
-    password: '',
-    entriesError: false,
-    errorElement: null,
-    errorTitle: ''
+  username: '',
+  password: '',
+  errorElement: null,
+  entriesError: false,
+  errorTitle: ''
     
 }
 
@@ -29,11 +37,11 @@ const [state, setState] = useState(initialState)
 const onLoginBtnClick = (e) =>{
     e.preventDefault()
    console.log(state);
-   if (state.name.trim() === '' || setState.password === '') {
+   if (state.username.trim() === '' || state.password === '') {
     const errorElement = (
       <div>
         {state
-          .name
+          .username
           .trim() === ''
           ? <div>Please Enter Your Name</div>
           : null}
@@ -49,26 +57,29 @@ const onLoginBtnClick = (e) =>{
       errorTitle: 'Error with Your Entries'
     })
   } else {
-    loginPost(state.name, setState.password).then(data => {
+    loginPost(state.username, state.password).then(data => {
       switch (data) {
         case 2:
-          setState({... state, entriesError: true, errorElement: <p>there was a server error</p>, errorTitle: 'Server Error' })
+          setState({...state,entriesError: true,errorElement:<p>There was a server error</p>,errorTitle: 'Server error'})
           break;
         case 3:
-          setState({... state, entriesError: true, errorElement: <p>Password is wrong</p>, errorTitle: 'Wrong password' })
+          setState({...state, entriesError:true, errorElement:<p>Password is wrong</p>,errorTitle: 'Wrong password'})
           break;
         case 4:
-          setState({... state, entriesError: true, errorElement: <p>The Username doesn't exist</p>, errorTitle: 'User does not exist' })
+          setState({...state, entriesError:true, errorElement:<p>The username that you enter is not exist</p>,errorTitle: 'Username not exist'})
           break;
-        case 1:
-          // show admin panel
-          props.setUserAction(state.name)
+        case 5:
+          setState({...state, entriesError:true, errorElement:<p>Server error, please contact the service provider</p>,errorTitle: 'Server Error'})
+          break;
+        case 'false':
+        case 'true':
+         
           history.push('/settings')
+          //console.log('should be login');
           break;
-      
         default:
           break;
-  }
+      }
 }).catch(error => {
   setState({... state, entriesError: true, errorElement: <p>can not send the data</p>, errorTitle: 'unknown error' })
 })
@@ -105,10 +116,10 @@ const closeModal = () => {
             <div className="form-group row">
               <label htmlFor="user-name" className="col-12 col-form-label">Username</label>
               <div className="col-12">
-                <input className="form-control custom-focus" type="text" placeholder="Name" id="user-name" value={state.name} onChange={(e) => {
+                <input className="form-control custom-focus" type="text" placeholder="Name" id="user-name" value={state.username} onChange={(e) => {
                     setState({
                       ...state,
-                      name: e.target.value
+                      username: e.target.value
                     })
                   }} required/>
               </div>
@@ -142,4 +153,4 @@ const closeModal = () => {
 }
 
 
-export default Login
+export default connect(null,{setUserAction})(Login)

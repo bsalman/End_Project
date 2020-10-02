@@ -1,7 +1,7 @@
 // importing dependencies
 import React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import {connect} from 'react-redux'
+
 
 
 // importing the components

@@ -4,3 +4,10 @@ export const setUserAction = (user) => {
         payload: user
     }
 }
+
+export const setLoggedInAction = (user) => {
+    return{
+        type: 'CHANGE_LOGGEDIN' ,
+        payload: user
+    }
+}
