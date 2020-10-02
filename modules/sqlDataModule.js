@@ -122,25 +122,37 @@ function changeUser (userName, password,value) {
 function checkUser(username, password) {
     return new Promise((resolve, reject) => {
         // any result from SELECT query will be return as an array (empty array or array with one element or array with many elements)
-        runQuery(`SELECT * FROM configurations WHERE name = 'username' OR name = 'userpassword'`).then(result => {
-            console.log(result)
-            if (result[0].value !== username) {
+        runQuery(`SELECT * FROM configurations WHERE name LIKE 'username' OR name LIKE 'userpassword' OR name LIKE 'loggedin'`).then(result => {
+            console.log('the result', result)
+            const systemUserName = result.find(element => element.name === 'username').value
+            const systemPassword = result.find(element => element.name === 'userpassword').value
+            const systemCheckLogin = result.find(element => element.name === 'loggedin').value
+            if (systemUserName !== username) {
                 reject(4)
             } else {
-                if (passwordHash.verify(password, result[1].value)) {
-                    result[0]._id = result[0].id
-                    resolve(result[0])
+                if (passwordHash.verify(password, systemPassword)) {
+                    if(systemCheckLogin === 'false') {
+                        runQuery("UPDATE configurations SET value = 'true' WHERE name LIKE 'loggedin'").then(() => {
+                        resolve(systemCheckLogin)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    } else {
+                        resolve(systemCheckLogin)
+                    }
+                    
                 } else {
                     reject(3)
                 }
             }
         }).catch(error => {
             console.log(error);
-            reject(error)
+            reject(5)
         })
     })
 }
 
 module.exports = {
-    checkUser
+    checkUser,
+    changeUser
 }

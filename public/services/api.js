@@ -29,11 +29,12 @@ export const loginPost = (username, password) => {
 
 }
 
-export const changeUserPost =(newUsername,newPassword) => {
+export const changeUserPost =(newUsername,newPassword,repassword) => {
     return new Promise((resolve,reject) => {
         const data = {
             username: newUsername,
-            password: newPassword
+            password: newPassword,
+            repassword
         }
 
         fetch('/settings', {

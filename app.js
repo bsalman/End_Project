@@ -29,14 +29,24 @@ app.post('/login', (req, res) => {
     console.log(req.body);
     
     if (req.body.username && req.body.password) {
-        dataModule.checkUser(req.body.username.trim(),req.body.password).then(user => {
+        dataModule.checkUser(req.body.username.trim(),req.body.password).then(checklogin => {
             // req.session.user = user
-            res.json(1)
+            res.json(checklogin)
         }).catch(error => {
-            if (error == 3) {
-                res.json(3)
-            }else{
-                res.json(4)
+            console.log(error);
+            switch (error) {
+                case 3:
+                    res.json(3)
+                    break;
+                case 4:
+                    res.json(4)
+                    break;
+                case 5:
+                    res.json(5)
+                    break;
+                default:
+                    res.json(5)
+                    break;
             }
         })
     } else {
@@ -47,6 +57,31 @@ app.post('/login', (req, res) => {
 
 app.post('/settings', (req, res) => {
     console.log(req.body);
+    //console.log(req.body);
+    //2 data error
+    //1 user registered successfully
+    //3 user exist
+    //4 server error
+//    const username = req.body.username.trim()
+//    const password = req.body.password
+//    const repassword = req.body.repassword
+
+//    if (username && password && password == repassword) {
+//       // let ressult = dataModule.registerUser
+//        dataModule.changeUser(username,password,'admin').then(() => {
+//            res.json(1)
+//        }).catch(error => {
+//            console.log(error);
+//            if (error == "exist") {
+//                res.json(3)
+//            } else {
+//                res.json(4)
+//            }
+           
+//        })
+//    }else {
+//        res.json(2)
+//    }
     
     
 

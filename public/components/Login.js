@@ -33,9 +33,7 @@ const Login = () => {
               .trim() === ''
               ? <li className='secondary'>Username should not be empty</li>
               : null}
-            {/* {!validator.isEmail(myState.email.trim())
-                ? <li>You have to enter a valid Email</li>
-                : null} */}
+            
             {myState.password === ''
               ? <li>Password should not be empty</li>
               : null}
@@ -67,8 +65,11 @@ const Login = () => {
             case 4:
               setMyState({...myState, entriesError:true, errorElement:<p>The username that you enter is not exist</p>,errorTitle: 'Username not exist'})
               break;
-
-            case 1:
+            case 5:
+              setMyState({...myState, entriesError:true, errorElement:<p>Server error, please contact the service provider</p>,errorTitle: 'Server Error'})
+              break;
+            case 'false':
+            case 'true':
               //show admin panel
               history.push('/settings')
               //console.log('should be login');
