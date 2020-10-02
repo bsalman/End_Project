@@ -56,68 +56,34 @@ function runQuery(queryString) {
     })
 }
 //========================================//
-function getConfig(value){
-    return new Promise((resolve,reject)=>{
-            runQuery(`SELECT * from configurations WHERE configuration.value=${value}`).then(results=>{
-                resolve(results)
-            }).catch((error)=>{
-                reject(error)
-            })
-    })
-}
+// function getConfig(value){
+//     return new Promise((resolve,reject)=>{
+//             runQuery(`SELECT * from configurations WHERE configuration.value=${value}`).then(results=>{
+//                 resolve(results)
+//             }).catch((error)=>{
+//                 reject(error)
+//             })
+//     })
+// }
 //=========================================//
-function changeUser (userName, password,value) {
+function changeUser (userName, newPassword,oldPassword) {
     return new Promise( (resolve, reject) => {
-        try{
-            (async () => {
-                let oldUsers = await getConfig(value)
-                let usernameChange=null;
-                let userPasswordchange=null;
-
-                if (oldUsers) {
-
-                    oldUsers.forEach(async oldUser => {
-                        if(oldUser.name=='username'&&oldUser.value=='admin'){
-                            await runQuery(`UPDATE configurations SET value='${userName}' WHERE name='username' `).then(data=>{
-                                usernameChange= data;
-                            }).catch(error =>{
-                                reject(error)
-                            })
-                        
-                        
-                        }
-                        if(oldUser.name=='userpassword'&&oldUser.value=='admin'){
-                            await runQuery(`UPDATE configurations SET value='${password}' WHERE name='userpassword' `).then(data=>{
-                                userPasswordchange = data;
-                            }).catch(error =>{
-                                reject(error)
-                            })
-                        }
-
-                    }) 
-                    if (usernameChange && userPasswordchange) {
-
-                        resolve('Username and Password changes')
-
-                    }else{
-                        reject(error)
-                    }
-                    
-                }else{
-                    reject('no user found')
-                }
-            })()
-            
-           
-
-        }catch(error) {
-        reject(error)
-    }
-       
-    })
-}
-
-
+        runQuery(`SELECT * FROM configurations WHERE name LIKE 'userpassword'`).then(result=>{
+            const systemPassword = result.find(element => element.name === 'userpassword').value
+            if(passwordHash.verify(oldPassword,systemPassword)){
+                const hashedNewPassword = passwordHash.generate(newPassword)
+                runQuery(`UPDATE configurations  SET value = '${hashedNewPassword}' WHERE name LIKE 'userpassword'; UPDATE configurations  SET value = '${userName}' WHERE name LIKE 'username';`).then(()=>{
+                    resolve(result)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject("not exist")
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })}
 //========================================//
 function checkUser(username, password) {
     return new Promise((resolve, reject) => {

@@ -61,12 +61,46 @@ app.post('/login', (req, res) => {
 
 
 // app for the setting 
+// app.post('/settings', (req, res) => {
+//      console.log(req.body);
+//     res.json('something')
+    
+
+// });
 app.post('/settings', (req, res) => {
-    // console.log(req.body);
-    res.json('something')
+    console.log(req.body);
+   
+  
+    // 1 user registered successfully
+    // 2 data error
+    // 3 user exist
+    // 4 server error
+   const username = req.body.username.trim()
+   const oldPassword = req.body.oldPassword
+   const password = req.body.password
+   const repassword = req.body.repassword
+
+   if (username && oldPassword && password && password == repassword) {
+      // let result = dataModule.registerUser
+       dataModule.changeUser(username,password,oldPassword).then(() => {
+           res.json(1)
+       }).catch(error => {
+           console.log(error);
+           if (error == "exist") {
+               res.json(3)
+           } else {
+               res.json(4)
+           }
+           
+       })
+   }else {
+       res.json(2)
+   }
+    
     
 
 });
+
 
 
 

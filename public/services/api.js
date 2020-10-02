@@ -35,11 +35,13 @@ export const loginPost = (username, password) => {
 
 
 // change the default user settings
-export const changeUserPost =(newUsername,newPassword) => {
+export const changeUserPost =(newUsername,newPassword,repassword, oldPassword) => {
     return new Promise((resolve,reject) => {
         const data = {
             username: newUsername,
-            password: newPassword
+            password: newPassword,
+            repassword,
+            oldPassword
         }
 
         fetch('/settings', {

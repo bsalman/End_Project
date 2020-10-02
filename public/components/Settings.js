@@ -1,7 +1,7 @@
 // import dependencies
 import React from 'react'
-import {Link} from 'react-router-dom'
-
+import {Link, withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 // import the components
 import {changeUserPost} from '../services/api'
 import CustomModal from './CustomModal'
@@ -40,7 +40,7 @@ class Settings extends React.Component {
             ? <div>Password should not be empty</div>
             : null}
           {this.state.password !== this.state.repassword
-            ? <div>Password is not matching the Repassword</div>
+            ? <div>Password is not matching the Reconfirmation</div>
             : null}
         </ul>
 
@@ -49,7 +49,7 @@ class Settings extends React.Component {
       this.setState({errorComponent: errorsElement, showErrorModal: true})
     } else {
       // console.log(this.state);
-      changeUserPost(this.state.username, this.state.password, this.state.repassword).then(data => {
+      changeUserPost(this.state.username, this.state.password, this.state.repassword, this.state.oldPassword).then(data => {
      console.log(data);
         let badgeClass = ''
         let badgeMessage =''
@@ -100,6 +100,7 @@ class Settings extends React.Component {
 
 
   render() {
+    console.log(this.state);
     return (
 
       <React.Fragment>
@@ -226,7 +227,7 @@ class Settings extends React.Component {
                                 <input
                                   className="form-control custom-focus"
                                   type="text"
-                                  value={this.state.name}
+                                  value={this.state.username}
                                   onChange={(e) => {
                                    this.setState({username: e.target.value})
                                    }}
@@ -325,9 +326,11 @@ class Settings extends React.Component {
   }
 
 }
-
 const mapStateToProps = (state) => {
-  return ({user: state.user})
+  return({
+      user: state.user, 
+      loggedin: state.loggedin})
 }
+
 
 export default connect(mapStateToProps)(withRouter(Settings))

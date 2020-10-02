@@ -2,7 +2,7 @@ import {combineReducers} from 'redux'
 
 
 const userReducer = (user = null, action) => {
-    if (action.type === 'CHANGE_USER'){
+    if (action.type === 'CHANGE_USER') {
         return action.payload
     }
 
@@ -11,7 +11,7 @@ const userReducer = (user = null, action) => {
 }
 
 const loggedinReducer = (loggedin = null, action) => {
-    if (action.type === 'CHANGE_LOGGEDIN'){
+    if (action.type === 'CHANGE_LOGGEDIN') {
         return action.payload
     }
 
@@ -21,5 +21,5 @@ const loggedinReducer = (loggedin = null, action) => {
 
 export default combineReducers({
     user: userReducer,
-    loggedin: loggedinReduce
+    loggedin: loggedinReducer
 })
