@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import {connect} from 'react-redux'
 
 import CustomModal from './CustomModal'
 import {loginPost} from '../services/api'
+import {setUserAction,setLoggedInAction} from '../actions'
 
 
-const Login = () => {
+const Login = (props) => {
 
+  useEffect(() => {
+    props.setUserAction(null)
+    props.setLoggedInAction('false')
+  },[])
 
   const history = useHistory()
 
@@ -71,6 +77,8 @@ const Login = () => {
             case 'false':
             case 'true':
               //show admin panel
+              props.setUserAction(myState.username)
+              props.setLoggedInAction(data)
               history.push('/settings')
               //console.log('should be login');
               break;
@@ -168,4 +176,4 @@ const Login = () => {
 
 }
 
-export default Login
+export default connect(null,{setUserAction,setLoggedInAction})(Login)

@@ -1,0 +1,16 @@
+
+     .modal-content
+     {
+        
+        background-color: rgba(107, 160, 182, 0.616);
+ 
+        color: #06315c;
+     }
+ 
+     .modal-content h5{  
+         color: #aee0fa;
+     }
+ 
+     .bg-danger {
+         background-color: #0d151d !important;}
+        
