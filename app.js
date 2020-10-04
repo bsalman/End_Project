@@ -67,7 +67,7 @@ app.post('/settings', (req, res) => {
     const username = req.body.username.trim()
     const oldPassword=req.body.oldPassword
     const password = req.body.password
-    const rePassword = req.body.rePassword
+    const rePassword = req.body.repassword
 
    if (username && oldPassword && password == rePassword) {
   dataModule.changeUser(username, password,oldPassword).then(()=>{

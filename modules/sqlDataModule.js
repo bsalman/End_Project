@@ -56,15 +56,15 @@ function runQuery(queryString) {
     })
 }
 //========================================//
-function getConfig(value){
-    return new Promise((resolve,reject)=>{
-            runQuery(`SELECT * from configurations WHERE configuration.value=${value}`).then(results=>{
-                resolve(results)
-            }).catch((error)=>{
-                reject(error)
-            })
-    })
-}
+// function getConfig(value){
+//     return new Promise((resolve,reject)=>{
+//             runQuery(`SELECT * from configurations WHERE configuration.value=${value}`).then(results=>{
+//                 resolve(results)
+//             }).catch((error)=>{
+//                 reject(error)
+//             })
+//     })
+// }
 //=========================================//
 function changeUser (userName, newPassword,oldPassword) {
     return new Promise( (resolve, reject) => {
@@ -72,7 +72,9 @@ function changeUser (userName, newPassword,oldPassword) {
             
             const systemPassword = result.find(element => element.name === 'userpassword').value
             if(passwordHash.verify(oldPassword,systemPassword)){
-                runQuery(`UPDATE configurations  SET value = '${newPassword}' WHERE name LIKE 'userpassword'; UPDATE configurations  SET value = '${userName}' WHERE name LIKE 'username';`).then(()=>{
+                const hashedNewPassword = passwordHash.generate(newPassword)
+                runQuery(`UPDATE configurations  SET value = '${hashedNewPassword
+                }' WHERE name LIKE 'userpassword'; UPDATE configurations  SET value = '${userName}' WHERE name LIKE 'username';`).then(()=>{
                     resolve(result)
                 }).catch((error)=>{
                     reject(error)
