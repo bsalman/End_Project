@@ -9,6 +9,8 @@ class SideNav extends React.Component{
     render(){
         return(
             <React.Fragment>
+          
+      
                    {/* <!-- Side menu START --> */}
               <div id="sidebar" className="sidebar-offcanvas">
                 <ul className="nav flex-column nav-sidebar">
@@ -45,7 +47,10 @@ class SideNav extends React.Component{
                 </ul>
               </div>
               {/* <!-- Side menu END --> */}
+            
+             
             </React.Fragment>
+            
         )
     }
 

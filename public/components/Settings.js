@@ -58,6 +58,7 @@ class Settings extends React.Component {
           case 1:
             badgeClass = 'alert alert-success'
             badgeMessage = 'You changed your Username and Password successfully, please go on'
+            this.props.history.push('/dashboard') 
             break;
           case 2:
           case 4:
@@ -66,7 +67,7 @@ class Settings extends React.Component {
             break;
           case 3:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'this user already exists'
+            badgeMessage = 'the old password is wrong, please try again'
             break;
           default:
             break;
@@ -76,9 +77,8 @@ class Settings extends React.Component {
                       {badgeMessage}
           </div>
         )
-        this.setState({
-          resultElement: badge
-        })
+        this.setState({errorComponent: badge, showErrorModal:true})
+        
 
       }).catch(error => {
         const badge = (
@@ -86,9 +86,7 @@ class Settings extends React.Component {
                       can not send the registration data to server
           </div>
         )
-        this.setState({
-          resultElement: badge
-        })
+        this.setState({errorComponent: badge, showErrorModal:true})
       })
     }
   }

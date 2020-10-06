@@ -30,7 +30,7 @@ app.use(express.json())
 
 
 
-// app post login
+// middleware for login 
 app.post('/login', (req, res) => {
     console.log(req.body);
     if (req.body.username && req.body.password) {
@@ -67,10 +67,10 @@ app.post('/login', (req, res) => {
     
 
 // });
+
+// middleware for the settings
 app.post('/settings', (req, res) => {
     console.log(req.body);
-   
-  
     // 1 user registered successfully
     // 2 data error
     // 3 user exist
@@ -101,9 +101,51 @@ app.post('/settings', (req, res) => {
 
 });
 
+// middleware for adding a single room
+// adminRouter.post('/dashboard', (req, res) => {
+//     const arr = [{roomName: 'bed', roomType: 'a'}]
+//   //  const room = req.body.room       
+// dataModule.addRoom(arr).then(result => {
+//     console.log(result);
+//         }).catch(error => {
+//             console.log(error);
+//                 res.json(3)  
+//         }) 
+// });
+
+// middleware to show all rooms
+// app.post("/dashboard", (req, res) => {
+//     // you have to get all the exames from db and send them to the ejs file and render it
+//     dataModule.addRooms().then((rooms) => {
+        
+//         res.render('dashboard', {
+//             rooms
+//         })
+//     }).catch(error => {
+
+//         res.json(2)
+
+//     })
+
+// });
+
+//middleware to get all rooms
+// app.post('/dashboard', (req, res) => {
+//     dataModule.addRooms().then(rooms => {
+//         res.json(rooms)
+//     }).catch(error => {
+//         res.json(2)
+//     })
+// });
 
 
+//===============================================//
+app.post('/dashboard',(req,res)=>{
+    console.log(req.body);
+   // res.send ('Hallo')
+})
 
+//-----------------------------------------------
 app.use('/', (req, res, next)=>{
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)

@@ -1,0 +1,211 @@
+/* ------------------------------
+   Custom buttons
+------------------------------ */
+
+//@function theme-color($key: "primary") {
+//  @return map-get($theme-colors, $key);
+//}
+
+
+
+.btn {
+  cursor: pointer;
+}
+
+.btn .icon-sprite {
+  pointer-events: none;
+}
+//
+// Alternate buttons
+//
+
+//@each $color, $value in $theme-colors {
+//  .btn-#{$color} {
+//    @include button-variant($value, $value);
+//  }
+//}
+//
+//
+//.btn-primary {
+//  box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 12px rgba($btn-primary-bg, 0.5);
+//  @include hover-focus {
+//    box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 16px rgba($btn-primary-bg, 0.75);
+//    background-color: lighten($btn-primary-bg, 7%);
+//  }
+//}
+
+.btn-primary {
+  box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 12px rgba(theme-color("primary"), 0.5);
+  @include hover-focus {
+    box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 16px rgba(theme-color("primary"), 0.75);
+    border: $input-btn-border-width solid lighten(theme-color("primary"), 7%);
+    background-color: lighten(theme-color("primary"), 7%);
+  }
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: lighten(theme-color("primary"), 10%);
+    @if $enable-gradients {
+      background-image: none; // Remove the gradient for the pressed/active state
+    }
+    border: $input-btn-border-width solid lighten(theme-color("primary"), 10%);
+
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("primary"), 0.75);
+    } @else {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("primary"), 0.75);
+    }
+  }
+}
+
+.btn-secondary {
+  
+  color: theme-color("primary");
+  border: $input-btn-border-width solid rgba(theme-color("primary"), 0.5);
+  background-color: rgba(theme-color("primary"), 0.25);
+  box-shadow: inset 0 0 12px rgba(theme-color("primary"), 0.25), 0 0 12px rgba(theme-color("primary"), 0.15);
+  @include hover-focus {
+    border: $input-btn-border-width solid rgba(theme-color("primary"), 0.75);
+    box-shadow: inset 0 0 12px rgba(theme-color("primary"), 0.45), 0 0 16px rgba(theme-color("primary"), 0.45);
+    background-color: rgba(theme-color("primary"), 0.25);
+    color: lighten(theme-color("primary"), 35%);
+  }
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+	color: lighten(theme-color("primary"), 35%);
+    background-color: rgba(theme-color("primary"), 0.25);
+    @if $enable-gradients {
+      background-image: none; // Remove the gradient for the pressed/active state
+    }
+    border: $input-btn-border-width solid rgba(theme-color("primary"), 0.8);
+
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("primary"), 0.5);
+    } @else {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("primary"), 0.5);
+    }
+  }
+}
+
+.btn-info {
+  color: theme-color("primary");
+  border: $input-btn-border-width solid $white;
+  background-color: $white;
+  box-shadow: 0 0 12px rgba($white, 0.4);
+  @include hover-focus {
+    color: theme-color("primary");
+    border: $input-btn-border-width solid $white !important;
+    box-shadow: 0 0 16px rgba($white, 0.6);
+    background-color: $white;
+  }
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    color: theme-color("primary");
+    background-color: $white;
+    @if $enable-gradients {
+      background-image: none; // Remove the gradient for the pressed/active state
+    }
+    border-color: $input-btn-border-width solid $white;
+
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: 0 0 24px rgba($white, 0.6);
+    } @else {
+      box-shadow: 0 0 24px rgba($white, 0.6);
+    }
+  }
+}
+
+.btn-success {
+  box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 12px rgba(theme-color("success"), 0.5);
+  @include hover-focus {
+    box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 16px rgba(theme-color("success"), 0.75);
+    border: $input-btn-border-width solid lighten(theme-color("success"), 7%);
+    background-color: lighten(theme-color("success"), 7%);
+  }
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: lighten(theme-color("success"), 10%);
+    @if $enable-gradients {
+      background-image: none; // Remove the gradient for the pressed/active state
+    }
+    border: $input-btn-border-width solid lighten(theme-color("success"), 10%);
+
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("success"), 0.75);
+    } @else {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("success"), 0.75);
+    }
+  }
+}
+
+.btn-warning {
+  box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 12px rgba(theme-color("warning"), 0.5);
+  @include hover-focus {
+    box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 16px rgba(theme-color("warning"), 0.75);
+    border: $input-btn-border-width solid lighten(theme-color("warning"), 7%);
+    background-color: lighten(theme-color("warning"), 7%);
+  }
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: lighten(theme-color("warning"), 10%);
+    @if $enable-gradients {
+      background-image: none; // Remove the gradient for the pressed/active state
+    }
+    border: $input-btn-border-width solid lighten(theme-color("warning"), 10%);
+
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("warning"), 0.75);
+    } @else {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("warning"), 0.75);
+    }
+  }
+}
+
+.btn-danger {
+  box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 12px rgba(theme-color("danger"), 0.6);
+  @include hover-focus {
+    box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 16px rgba(theme-color("danger"), 0.8);
+    border: $input-btn-border-width solid lighten(theme-color("danger"), 7%);
+    background-color: lighten(theme-color("danger"), 7%);
+  }
+  &:not([disabled]):not(.disabled):active,
+  &:not([disabled]):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: lighten(theme-color("danger"), 10%);
+    @if $enable-gradients {
+      background-image: none; // Remove the gradient for the pressed/active state
+    }
+    border: $input-btn-border-width solid lighten(theme-color("danger"), 10%);
+
+    // Avoid using mixin so we can pass custom focus shadow properly
+    @if $enable-shadows {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("danger"), 0.8);
+    } @else {
+      box-shadow: inset 0 0 12px rgba($white, 0.25), 0 0 24px rgba(theme-color("danger"), 0.8);
+    }
+  }
+}
+
+.btn-label {
+  min-width: 4rem;
+  color: theme-color("primary");
+  background-color: rgba(theme-color("primary"), 0.15);
+  box-shadow: none;
+  @include hover-focus {
+    background-color: rgba(theme-color("primary"), 0.25);
+  }
+  &.active {
+    color: lighten(theme-color("primary"), 35%);
+    background-color: rgba(theme-color("primary"), 0.5);
+    box-shadow: none;
+  }
+}
