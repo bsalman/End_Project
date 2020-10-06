@@ -59,8 +59,12 @@ class Settings extends React.Component {
           case 1:
             badgeClass = 'alert alert-success'
             badgeMessage = 'You changed your Username and Password successfully, please go on'
+            this.props.history.push('/dashboard')
             break;
           case 2:
+            badgeClass = 'alert alert-danger'
+            badgeMessage = 'there sever side error , please contect with the proveider '
+            break;
           case 4:
             badgeClass = 'alert alert-danger'
             badgeMessage = 'there was a server side error, please contact the administrator'
@@ -78,7 +82,7 @@ class Settings extends React.Component {
           </div>
         )
         this.setState({
-          resultElement: badge
+          errorComponent: badge,showErrorModal:true
         })
 
       }).catch(error => {

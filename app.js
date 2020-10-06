@@ -86,9 +86,12 @@ app.post('/settings', (req, res) => {
 });
 
 //===============================================//
+app.post('/addroom',(req,res)=>{
+    console.log(req.body);
+    res.send ('Hallo')
+})
 
-
-
+//==============================================//
 app.use('/', (req, res,next) => {
     const html = fs.readFileSync(__dirname + '/index.html','utf-8')
     res.send(html)
