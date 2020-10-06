@@ -1,6 +1,7 @@
 // import dependencies
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,withRouter} from 'react-router-dom'
+
 
 import {connect} from 'react-redux'
 // import the components
@@ -12,6 +13,7 @@ import {changeUserPost} from '../services/api'
 
 // create a setting classNameName
 class Settings extends React.Component {
+  
 
     
   // create a state
@@ -19,6 +21,7 @@ class Settings extends React.Component {
     name: '',
     password: '',
     repassword: '',
+    oldPassword: '',
     errorComponent: null,
     showErrorModal: false,
     resultElement: null
@@ -26,7 +29,7 @@ class Settings extends React.Component {
  
   onRegisterBtnClick = (e) => {
     e.preventDefault()
-    if (this.state.name.trim() === '' || this.state.password === '' || this.state.password !== this.state.repassword) {
+    if (this.state.name.trim() === '' || this.state.oldPassword.trim() === '' || this.state.password === '' || this.state.password !== this.state.repassword) {
       const errorsElement = (
 
         <ul>
@@ -35,6 +38,10 @@ class Settings extends React.Component {
             .name
             .trim() === ''
             ? <div>Name should not be empty</div>
+            : null}
+            {this
+            .state.oldPassword.trim() === ''
+            ? <div>Old Password should not be empty</div>
             : null}
           {this.state.password === ''
             ? <div>password should not be empty</div>
@@ -49,24 +56,25 @@ class Settings extends React.Component {
       this.setState({errorComponent: errorsElement, showErrorModal: true})
     } else {
       //console.log(this.state);
-      changeUserPost(this.state.name, this.state.password, this.state.repassword).then(data => {
+      changeUserPost(this.state.name, this.state.password,this.state.repassword, this.state.oldPassword).then(data => {
         console.log(data);
         let badgClass = ''
         let badgMessage =''
 
         switch (data) {
           case 1:
-            badgClass = 'alert alert-success'
-            badgMessage = 'You register succefully, you can login now'
+            // badgClass = 'alert alert-success'
+            // badgMessage = 'The changes are done succefully, you can login again now'
+            this.props.history.push('/dashboard')
             break;
           case 2:
           case 4:
             badgClass = 'alert alert-danger'
-            badgMessage = 'there was a server side error, pleasecontact the adminstrator'
+            badgMessage = 'there was a server side error, please contact the adminstrator'
             break;
           case 3:
             badgClass = 'alert alert-danger'
-            badgMessage = 'there is already a user with the same email, please choose another email'
+            badgMessage = 'The old password is wrong, please try again'
             break;
           default:
             break;
@@ -76,9 +84,10 @@ class Settings extends React.Component {
                       {badgMessage}
           </div>
         )
-        this.setState({
-          resultElement: badge
-        })
+        // this.setState({
+        //   resultElement: badge
+        // })
+        this.setState({errorComponent: badge, showErrorModal: true})
 
 
       }).catch(error => {
@@ -89,7 +98,8 @@ class Settings extends React.Component {
           </div>
         )
         this.setState({
-          resultElement: badge
+          errorComponent: badge,
+          showErrorModal: true
         })
       })
     }
@@ -103,7 +113,7 @@ class Settings extends React.Component {
 
   
   render() {
-      console.log('the props is:',this.props);
+    //   console.log('the props is:',this.props);
     return (
 
       <React.Fragment>
@@ -206,7 +216,7 @@ class Settings extends React.Component {
                       {/* <!-- Profile tabs START --> */}
                       <ul className="nav nav-tabs nav-fill" role="tablist">
                         <li className="nav-item">
-                          <h3>CHANGE DEFAULT PASSWORD</h3>
+                          <h3>Please Change Your Default Settings</h3>
                         </li>
                       </ul>
                       <div className="info-holder info-ct">
@@ -221,9 +231,9 @@ class Settings extends React.Component {
                       <div className="tab-content px-4 px-sm-0 py-sm-4 mt-4">
 
                         {/* <!-- Password pane START --> */}
-                          <form>
+                        <form>
                             <div className="form-group row">
-                              <label htmlFor="first-name" className="col-12 col-sm-3 col-form-label">First name</label>
+                              <label htmlFor="first-name" className="col-12 col-sm-3 col-form-label">New Username</label>
                               <div className="col-12 col-sm-9">
                                 <input
                                   className="form-control custom-focus"
@@ -233,6 +243,19 @@ class Settings extends React.Component {
                                    this.setState({name: e.target.value})
                                    }}
                                   id="first-name"/>
+                              </div>
+                            </div>
+                            <div className="form-group row">
+                              <label htmlFor="user-password" className="col-12 col-sm-3 col-form-label">Old Password</label>
+                              <div className="col-12 col-sm-9">
+                                <input
+                                  className="form-control custom-focus"
+                                  type="password"
+                                  value={this.state.oldPassword}
+                                  onChange={(e) => {
+                                   this.setState({oldPassword: e.target.value})
+                                   }}
+                                  id="user-password"/>
                               </div>
                             </div>
                             <div className="form-group row">
@@ -249,7 +272,7 @@ class Settings extends React.Component {
                               </div>
                             </div>
                             <div className="form-group row has-success">
-                              <label htmlFor="user-password-confirm" className="col-12 col-sm-3 col-form-label">Confirm password</label>
+                              <label htmlFor="user-password-confirm" className="col-12 col-sm-3 col-form-label">Confirm Password</label>
                               <div className="col-12 col-sm-9">
                                 <input
                                   className="form-control custom-focus"
@@ -263,7 +286,7 @@ class Settings extends React.Component {
                             </div>
                             <div className="form-group row">
                               <div className="offset-xs-0 offset-sm-3 col-12 col-sm-9 mt-3">
-                                <button  onClick={this.onRegisterBtnClick}className="btn btn-primary">Save password</button>
+                                <button  onClick={this.onRegisterBtnClick}className="btn btn-primary">Save Changes</button>
                               </div>
                             </div>
                           </form>
@@ -321,4 +344,4 @@ const mapStateToProps = (state) => {
         loggedin: state.loggedin})
 }
 
-export default connect(mapStateToProps)(Settings)
+export default connect(mapStateToProps)(withRouter(Settings))
