@@ -134,9 +134,25 @@ function addRoom(roomName,roomType) {
         })
     })
 }
+//=============================================//
+function getAllRooms(){
+    return new Promise((resolve, reject) =>{
+        runQuery(`SELECT * FROM rooms`).then(results=>{
+            const rooms = [];
+            results.forEach(result => {
+                rooms.push(result)
+            });
+            resolve(rooms)
+            console.log(rooms);
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+}
 
 module.exports = {
     checkUser,
     changeUser,
-    addRoom
+    addRoom,
+    getAllRooms
 }

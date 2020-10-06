@@ -121,6 +121,15 @@ app.post('/dashboard', (req, res) => {
     }
     
 });
+//==================Your Rooms post ======================//
+app.post('/dashboard',(req,res)=>{
+    dataModule.getAllRooms().then(rooms=>{
+        console.log(rooms);
+        res.json(rooms)
+    }).catch(error=>{
+        res.json(2)
+    })
+})
 
 
 app.use('/', (req, res, next) => {

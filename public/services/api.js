@@ -87,3 +87,26 @@ export const addRoomPost =(roomName,roomType)=>{
     })
 
 }
+//============================================//
+export const allRoomsPost = () => {
+    return new Promise((resolve, reject) => {
+        fetch('/dashboard', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status === 200 ){
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else {
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}

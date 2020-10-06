@@ -4,7 +4,7 @@ import {Button, Form, FormGroup, Label, Input } from 'reactstrap';
 //==============================================//
 import CustomModal from './CustomModal'
 import {addRoomPost} from '../services/api'
-import YourRoom from './YourRoom'
+import YourRooms from './YourRooms'
 
 
 class AddRooms extends React.Component{
@@ -133,7 +133,7 @@ class AddRooms extends React.Component{
 							</div>
 						</div>
 					</div>
-						<YourRoom/>
+						<YourRooms/>
             </div>
             </React.Fragment>
            
