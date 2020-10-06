@@ -1,0 +1,135 @@
+/*!
+ + IOT theme v1.2 (https://www.creatingo.com)
+ * Copyright 2016-2019 creatingo.com
+ * Autor: Jozef Dvorsky
+ */
+
+
+$white:                     #fff;
+$black:                     rgb(0, 0, 0);
+$gray:                      rgb(30, 40, 50);
+$gray-dark:                 darken(rgb(30, 40, 50), 4%);
+
+$theme-colors: (
+  "primary": rgb(15, 156, 230),
+  "secondary": rgba(15, 156, 230, 0.25),
+  "success":    #59ac4a,
+  "info":       rgb(15, 156, 230),
+  "warning":    #eba440,
+  "danger": #dd004a,
+  "extra": #a100dd
+);
+
+@function theme-color($key: "primary") {
+  @return map-get($theme-colors, $key);
+}
+@function theme-color($key: "warning") {
+  @return map-get($theme-colors, $key);
+}
+@function theme-color($key: "danger") {
+  @return map-get($theme-colors, $key);
+}
+
+
+// Global styling by enabling or disabling optional features.
+$enable-caret:              true;
+$enable-rounded:            true;
+$enable-shadows:            true;
+$enable-gradients:          false;
+$enable-transitions:        true;
+$enable-hover-media-query:  false;
+$enable-grid-classes:       true;
+$enable-print-styles:       false;
+
+$body-bg:    $gray;
+$body-color: lighten(theme-color("primary"), 35%);
+$fixed-top-height:  50px;
+
+$link-hover-color:      lighten(theme-color("primary"), 20%);
+$text-muted:            rgba(theme-color("primary"), 0.65);
+
+//Buttons
+$input-btn-focus-box-shadow:  none;
+$btn-active-box-shadow:       none;
+
+// Sidebar
+$sidebar-width:              220px;
+$sidebar-width-mini:         60px;
+
+// Dropdowns
+$dropdown-min-width:             10rem;
+$dropdown-padding-y:             .5rem;
+$dropdown-margin-top:            0;
+$dropdown-bg:                    theme-color("primary");
+$dropdown-border-color:          none;
+$dropdown-border-width:          0;
+$dropdown-divider-bg:            rgba(255,255,255,.25);
+$dropdown-box-shadow:            inset 0 0 25px rgba(255,255,255,.35), 0 0 16px rgba(theme-color("primary"), 0.45);
+
+$dropdown-link-color:            lighten(theme-color("primary"), 35%);
+$dropdown-link-hover-color:      $white;
+$dropdown-link-hover-bg:         none;
+$dropdown-link-active-bg:        none;
+
+//Lists
+$list-group-bg:                 transparent;
+$list-group-border-color:       rgba(theme-color("primary"), 0.15);
+$list-group-active-bg:          transparent;
+$list-group-active-border:      rgba(theme-color("primary"), 0.15);
+$list-group-active-text-color:  theme-color("primary");
+
+// Modal
+$modal-backdrop-bg:           $gray-dark;
+$modal-backdrop-opacity:      0.8;
+
+// Progress bars
+$progress-bg:                 $gray-dark;
+$progress-bar-color:          theme-color("primary");
+$progress-border-radius:      0;
+$progress-box-shadow:         none;
+$progress-height:             auto;
+
+
+//Horizontal divider
+$hr-border-color:             rgba(theme-color("primary"), 0.15);
+
+//Forms
+$input-bg:                       $gray-dark;
+$input-bg-disabled:              $gray;
+$input-color:                    theme-color("primary");
+$input-border-color:             rgba(theme-color("primary"), 0.25);
+$input-focus-border-color:       rgba(theme-color("primary"), 0.5);
+$input-focus-color:              lighten(theme-color("primary"), 35%);
+$input-placeholder-color:        rgba(theme-color("primary"),0.6);
+
+// IOT Custom var
+$input-focus-box-shadow:         inset 0 1px 1px rgba($black,.075),  0 0 16px rgba(theme-color("primary"), 0.45);
+
+//Tabs
+$nav-tabs-border-color:          none;
+$nav-tabs-border-width:          0;
+$nav-tabs-link-active-bg:        transparent;
+
+// Popovers
+$popover-header-bg:                 lighten(theme-color("primary"), 45%);
+$popover-header-color:              theme-color("primary");
+$popover-body-color:                $gray-dark;
+
+
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+@import "chartist-settings";
+
+// Theme customs
+@import "iot-basic";
+@import "iot-sidebar";
+@import "iot-buttons";
+@import "iot-switch";
+@import "iot-data-cards";
+@import "iot-modals";
+@import "iot-range-slider";
+
+@import "../node_modules/chartist/scss/chartist";
+@import "iot-chartist";

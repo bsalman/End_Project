@@ -1,5 +1,3 @@
-import { response } from "express";
-
 export const loginPost = (username, password) => {
 
     return new Promise((resolve, reject) => {
@@ -7,7 +5,7 @@ export const loginPost = (username, password) => {
             username,
             password
         }
-        console.log(data);
+        //console.log(data);
         fetch('/login', {
             method: 'POST',
             headers: {
@@ -34,10 +32,10 @@ export const loginPost = (username, password) => {
 export const changeUserPost =(newUsername,newPassword,repassword,oldPassword) => {
     return new Promise((resolve,reject) => {
         const data = {
-            username:newUsername ,
-            password:newPassword ,
+            username: newUsername,
+            password: newPassword,
             repassword,
-            oldPassword:oldPassword
+            oldPassword
         }
 
         fetch('/settings', {
@@ -68,7 +66,7 @@ export const addRoomPost =(roomName,roomType)=>{
         roomType:roomType
     }
     return new Promise((resolve,reject)=>{
-        fetch('/addroom',{
+        fetch('/dashboard',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +76,7 @@ export const addRoomPost =(roomName,roomType)=>{
             if (response.status===200) {
                 response.json().then((data)=>{
                     resolve(data)
-                    console.log(data);
+                    //console.log(data);
                 }).catch((error)=>{
                     reject(error);  
                 })

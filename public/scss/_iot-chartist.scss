@@ -1,0 +1,48 @@
+// Bi-polar bar chart - negative value
+.ct-series-a .ct-bar.abovezero {
+	stroke: theme-color("danger");
+}
+
+// Chartist legend
+.ct-legend {
+  position: relative;
+  list-style-type: none;
+  margin: 0;
+  padding: 12px;
+  z-index: 10;
+
+  li {
+    position: relative;
+    display: inline-block;
+    color: rgba(theme-color("primary"), 0.6);
+    padding: 0 20px 0 16px;
+    margin-bottom: 3px;
+  }
+
+  li:before {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    content: ''; //        border: 3px solid transparent;
+    border-radius: 2px;
+  }
+
+  li.inactive:before {
+    background: transparent;
+  }
+
+  &.ct-legend-inside {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  @for $i from 0 to length($ct-series-colors) {
+    .ct-series-#{$i}:before {
+      background-color: nth($ct-series-colors, $i + 1);
+      border-color: nth($ct-series-colors, $i + 1);
+    }
+  }
+}

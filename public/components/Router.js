@@ -1,41 +1,43 @@
-//=======================/start-import dependencies aria /===================================//
 import React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-//========================/start-import dependencies aria /==================================//
-//=============/start_import Routers aria/===========================//
-import Login from './Login'
-import Page404 from './Page404'
-import Settings from './Settings'
-import DashBoard from './DashBoard'
+
+
 import SideNav from './SideNav'
 import TopNav from './TopNav'
-//================/end-import Routers aria/========================//
+import Page404 from './Page404'
 
-class Router extends React.Component{
-    render(){
-        return(
+import Dashboard from './Dashboard'
+
+
+class Router extends React.Component {
+    render() {
+        return (
             <BrowserRouter>
                 <div>
-                   
-                  
-                   {/* <div id="wrapper">
-                   <TopNav/> 
-                   <div className="wrapper-offcanvas">
-                    <div className="row-offcanvas row-offcanvas-left">
-                        <SideNav/> */}
-                    <Switch>
-                    <Route path="/login" exact component={Login} />
-                    <Route path="/settings" exact component={Settings} />
-                    <Route path="/dashboard" exact component={DashBoard} />
-                    <Route path="/" component={Page404} />
-                    </Switch>
-                    {/* </div>
-                    </div> */}
-                    {/* </div> */}
-                </div>
-                </BrowserRouter>
+                    <div id="wrapper">
+                        <TopNav/> 
+                        <div className="wrapper-offcanvas">
+                            <div className="row-offcanvas row-offcanvas-left">
+                                <SideNav/>
+                                     <div id="main">
+                                        <div className="container-fluid"> 
+                                
+                                            <Switch>
+                                                
+                                                <Route path="/dashboard" exact component={Dashboard} />
+                                                <Route path="/" component={Page404} />  
+                                            </Switch>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>               
+            </BrowserRouter>
         )
+    
     }
 }
-//==============export aria=======================//
+
+
 export default Router
