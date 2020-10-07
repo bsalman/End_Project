@@ -122,9 +122,9 @@ app.post('/dashboard', (req, res) => {
     
 });
 //==================Your Rooms post ======================//
-app.post('/dashboard',(req,res)=>{
+app.post('/dashboard/yourroom',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
-        console.log(rooms);
+        
         res.json(rooms)
     }).catch(error=>{
         res.json(2)

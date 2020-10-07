@@ -5,6 +5,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import SideNav from './SideNav'
 import TopNav from './TopNav'
 import Page404 from './Page404'
+import YourRooms from './YourRooms'
 
 import Dashboard from './Dashboard'
 
@@ -25,6 +26,7 @@ class Router extends React.Component {
                                             <Switch>
                                                 
                                                 <Route path="/dashboard" exact component={Dashboard} />
+                                                <Route path="/dashboard/yourroom" exact component={()=><YourRooms/>} />
                                                 <Route path="/" component={Page404} />  
                                             </Switch>
                                         </div> 

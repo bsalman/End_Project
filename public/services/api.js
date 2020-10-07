@@ -90,7 +90,7 @@ export const addRoomPost =(roomName,roomType)=>{
 //============================================//
 export const allRoomsPost = () => {
     return new Promise((resolve, reject) => {
-        fetch('/dashboard', {
+        fetch('/dashboard/yourroom', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

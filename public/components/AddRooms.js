@@ -15,7 +15,8 @@ class AddRooms extends React.Component{
 		errorComponent: null,
 		showErrorModal: false,
 		modalTitle: '',
-        modalClass: 'bg-danger'
+		modalClass: 'bg-danger',
+		addedRoom: null
 	}
 	//=====================//
 	onAddRoomClick=(e)=>{
@@ -36,7 +37,10 @@ class AddRooms extends React.Component{
 			switch (data) {
           case 1:
             badgeClass = 'alert alert-success'
-            badgeMessage = ' the adding is successful'
+			badgeMessage = ' the adding is successful'
+			let ro = {roomType: this.state.roomName.trim(), roomName: this.state.roomType}
+			console.log(ro)
+			this.setState({...this.state, addedRoom: ro})
             break;
           case 2:
 			badgeClass = 'alert alert-danger'
@@ -79,6 +83,9 @@ class AddRooms extends React.Component{
 	  }
 
     render(){
+		const room = ()=>{
+			return this.state.room
+		}
         return(
             // <!-- Interior lights  START -->
         <React.Fragment>
@@ -133,7 +140,8 @@ class AddRooms extends React.Component{
 							</div>
 						</div>
 					</div>
-						<YourRooms/>
+					
+						<YourRooms newRoom={this.state.addedRoom} />
             </div>
             </React.Fragment>
            

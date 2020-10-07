@@ -12,17 +12,11 @@ class MainRouter extends React.Component {
         return (
             <BrowserRouter>
                 <div>
-                   
-                    
                     <Switch>
-                    
                         <Route path="/login" exact component={Login} />
                         <Route path="/settings" exact component={Settings} />
-                        <Router/>
-                         
-                    </Switch>
-                    
-                    
+                        <Router/>  
+                    </Switch>                   
                 </div>
                 </BrowserRouter>
         )
