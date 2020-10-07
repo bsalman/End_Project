@@ -5,15 +5,11 @@ import {Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import SideNav from './SideNav'
 import TopNav from './TopNav'
 import CustomModal from './CustomModal'
-import {addRoomPost,getRoomPost} from '../services/api'
+import {addRoomPost, allRoomsPost} from '../services/api'
 
 
 class AddRooms extends React.Component{
-
-	
-	
-	
-	state={
+    state={
 		roomName:'',
 		roomType :'',
 		modalElement: null,
@@ -21,15 +17,21 @@ class AddRooms extends React.Component{
 		showErrorModal: false,
 		modalTitle: '',
 		modalClass: 'bg-danger',
-		room: null
+		rooms: ''
 	}
 
-	
+	// componentDidMount() {
+	// 	//console.log(new Date().toLocaleTimeString());
+	// 	allRoomsPost().then(data => {
+	// 	  console.log('rooms:',data);
+	// 	}).catch(error => {
+	// 	  console.log(error);
+	// 	})
+	//   }
 	
 	//=====================//
 	onAddRoomClick=(e)=>{
 		e.preventDefault();
-		
 		if(this.state.roomName.trim()===''||this.state.roomType ===''){
 			const errorsElement=(
 				<ul>
@@ -40,7 +42,7 @@ class AddRooms extends React.Component{
 			this.setState({errorComponent: errorsElement, showErrorModal: true})
 		} else{
 			addRoomPost(this.state.roomName,this.state.roomType).then(data=>{
-			console.log('here',data);
+			console.log(data);
             let badgeClass = ''
 			let badgeMessage = ''
 			
@@ -63,40 +65,39 @@ class AddRooms extends React.Component{
             badgeMessage = 'There was a server side error, please contact the adminstrator'
             break;
           default:
+			  data.forEach(room => {
+				this.setState({rooms: room.type})
+			  });
 				console.log('success');
-				// getRoomPost(data.id).then(roo => {
-				// 	console.log('roo:',roo);
-					const roomElement = (
-						<ul>
-							<li>
-							<div className="card" data-unit="switch-light-6">
-								<div className="card-body d-flex flex-row justify-content-center">
-									 <h5>dvvs</h5>
-								</div>
-							</div>
-							</li>
-							<li>
-							<div className="card" data-unit="switch-light-6">
-								<div className="card-body d-flex flex-row justify-content-center">
-									 <h5>{data.type}</h5>
-								</div>
-							</div>
-							</li>
-						  </ul>
-					)
-					this.setState({
-						...this.state,
-						room:roomElement,
-						roomName:'',
-						roomType:''
-					  })
-					//   console.log(this.props);
-				//})
-				
+				this.setState({rooms: data})
+				// const roomElement = (
+				// 	<ul>
+				// 		<li>
+				// 		<div className="card" data-unit="switch-light-6">
+                //             <div className="card-body d-flex flex-row justify-content-center">
+                //                  <h5>dvvs</h5>
+                //             </div>
+                //         </div>
+				// 		</li>
+            	// 		<li>
+				// 		<div className="card" data-unit="switch-light-6">
+                //             <div className="card-body d-flex flex-row justify-content-center">
+                //                  <h5>{data.type}</h5>
+                //             </div>
+                //         </div>
+				// 		</li>
+          		// 	</ul>
+				// )
+				// this.setState({
+				// 	...this.state,
+				// 	room:roomElement,
+				// 	roomName:'',
+				// 	roomType:''
+				//   })
+				//   console.log(this.state.room);
 				
             break;
 		}
-		
 		if (typeof(data) === 'number') {
 			const badge = (
 			<div className={badgeClass} role="alert">
@@ -125,12 +126,10 @@ class AddRooms extends React.Component{
 		}
 		
 	}
-	componentDidMount() {
-		this.setState({
-			...this.state
-		  })
-		console.log('state',this.state.room);
-	}
+
+	
+
+
 	closeModal = () => {
 		this.setState({showErrorModal: false})
 	  }
@@ -211,7 +210,7 @@ class AddRooms extends React.Component{
                     <div className="card-body">
                         <h3 className="card-title">Add Room</h3>
                         <hr className="my-0"/>
-                        kitchen
+                        {this.state.room}
                     </div> 
                 </div>
             </div>

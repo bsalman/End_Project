@@ -79,15 +79,19 @@ class Settings extends React.Component {
           default:
             break;
         }
-        const badge = (
+        if (data !== 1) {
+          const badge = (
           <div className={badgClass} role="alert">
                       {badgMessage}
           </div>
-        )
+          )
+          this.setState({errorComponent: badge, showErrorModal: true})
+        }
+        
         // this.setState({
         //   resultElement: badge
         // })
-        this.setState({errorComponent: badge, showErrorModal: true})
+        
 
 
       }).catch(error => {

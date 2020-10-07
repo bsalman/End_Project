@@ -107,7 +107,18 @@ app.post('/dashboard', (req, res) => {
     const roomType = req.body.roomType
     if (roomName && roomType) {
         dataModule.addRoom(roomName,roomType).then(room => {
-            res.json(1)
+            //console.log(room.insertId);
+            dataModule.getRoom(room.insertId).then(data => {
+                console.log('data',data[0]);
+                const roomName = data[0].name
+                const roomType = data[0].type
+                //console.log(data[0]);
+                res.json(data[0])
+            }).catch(error => {
+                console.log(error);
+            })
+            
+            
         }).catch(error => {
             if (error ===3) {
                 res.json(3)
@@ -121,6 +132,45 @@ app.post('/dashboard', (req, res) => {
     }
     
 });
+
+// app.post('/dashboard', (req, res) => {
+//     console.log(req.body);
+//         const roomName = req.body.roomName
+//         const roomType = req.body.roomType
+//         if (roomName && roomType) {
+//             dataModule.addRoom(roomName,roomType).then(room => {
+//                 //console.log(room.insertId);
+//                 dataModule.getAllRooms().then(rooms => {
+//                     res.json(rooms)
+//                 }).catch(error => {
+//                     res.json(2)
+//                 })
+                
+                
+//             }).catch(error => {
+//                 if (error ===3) {
+//                     res.json(3)
+//                 } else {
+//                     res.json(4)
+//                 }
+                
+//             })
+//         } else {
+//             res.json(2)
+//         }
+        
+    
+// });
+// app.get('/dashboard', (req, res) => {
+//     dataModule.getRoom(16).then(data => {
+//         console.log(data[0]);
+//         const roomName = data[0].name
+//         const roomType = data[0].type
+//         res.send(data[0])
+//     }).catch(error => {
+//         console.log(error);
+//     })
+// });
 
 
 app.use('/', (req, res, next) => {

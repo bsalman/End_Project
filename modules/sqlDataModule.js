@@ -135,8 +135,64 @@ function addRoom(roomName,roomType) {
     })
 }
 
+//========================================//
+function getRoom(roomId) {
+    return new Promise((resolve, reject) => {
+        runQuery(`SELECT * FROM rooms WHERE id = ${roomId}`).then(room => {
+           // runQuery(`SELECT * FROM rooms `).then(results => {
+          // console.log(room);
+           // if (room.roomId) {
+               resolve(room)
+            //} else {
+            //     reject(new Error('can not find a room with this id : ' + roomId))
+            //}
+        }).catch(error => {
+            console.log(error);
+            reject(error)
+        })
+    })
+}
+
+//========================================//
+function getAllRooms() {
+    return new Promise((resolve, reject) => {
+        runQuery(`SELECT * FROM rooms`).then(results => {
+            console.log(results);
+            // const rooms = []
+            // results.forEach(result => {
+            //     // search if the book has been added to books array
+            //     let book = books.find(element => element.id === result.bookid)
+            //     if (book){
+            //         // if the book is added before, we need  only to append the imgs property with the new imgurl
+            //         book.imgs.push(result.imgUrl)
+            //     } else {
+            //         // if the book is not added to books, 
+            //         // we need to add it to books and set imgs as new array with one element imgurl
+            //         books.push({
+            //             _id: result.bookid,
+            //             id: result.bookid,
+            //             title: result.title,
+            //             description: result.description,
+            //             pdfUrl: result.pdfUrl,
+            //             userid: result.userid,
+            //             imgs: [result.imgUrl]
+            //         })
+            //     }
+            // })
+            resolve(results)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+
+
+
 module.exports = {
     checkUser,
     changeUser,
-    addRoom
+    addRoom,
+    getRoom,
+    getAllRooms
 }
