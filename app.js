@@ -89,17 +89,8 @@ app.post('/settings', (req, res) => {
 });
 
 
-// app.get('/dashboard', (req, res) => {
-//     const arr = [{roomName:'bed',
-// roomType:'a'},
-// {roomName:'bed1',
-// roomType:'b'}]
-//     dataModule.addRoom(arr).then(result => {
-//         console.log(result);
-//     }).catch(error => {
-//         console.log(error);
-//     })
-// });
+
+
 
 app.post('/dashboard', (req, res) => {
     console.log(req.body);
@@ -107,18 +98,7 @@ app.post('/dashboard', (req, res) => {
     const roomType = req.body.roomType
     if (roomName && roomType) {
         dataModule.addRoom(roomName,roomType).then(room => {
-            //console.log(room.insertId);
-            dataModule.getRoom(room.insertId).then(data => {
-                console.log('data',data[0]);
-                const roomName = data[0].name
-                const roomType = data[0].type
-                //console.log(data[0]);
-                res.json(data[0])
-            }).catch(error => {
-                console.log(error);
-            })
-            
-            
+            res.json(1)
         }).catch(error => {
             if (error ===3) {
                 res.json(3)
@@ -132,6 +112,60 @@ app.post('/dashboard', (req, res) => {
     }
     
 });
+//==================Your Rooms post ======================//
+app.post('/dashboard/yourroom',(req,res)=>{
+    dataModule.getAllRooms().then(rooms=>{
+        
+        res.json(rooms)
+    }).catch(error=>{
+        res.json(2)
+    })
+})
+
+
+// app.get('/dashboard', (req, res) => {
+//     const arr = [{roomName:'bed',
+// roomType:'a'},
+// {roomName:'bed1',
+// roomType:'b'}]
+//     dataModule.addRoom(arr).then(result => {
+//         console.log(result);
+//     }).catch(error => {
+//         console.log(error);
+//     })
+// });
+
+// app.post('/dashboard', (req, res) => {
+//     console.log(req.body);
+//     const roomName = req.body.roomName
+//     const roomType = req.body.roomType
+//     if (roomName && roomType) {
+//         dataModule.addRoom(roomName,roomType).then(room => {
+//             //console.log(room.insertId);
+//             dataModule.getRoom(room.insertId).then(data => {
+//                 console.log('data',data[0]);
+//                 const roomName = data[0].name
+//                 const roomType = data[0].type
+//                 //console.log(data[0]);
+//                 res.json(data[0])
+//             }).catch(error => {
+//                 console.log(error);
+//             })
+            
+            
+//         }).catch(error => {
+//             if (error ===3) {
+//                 res.json(3)
+//             } else {
+//                 res.json(4)
+//             }
+            
+//         })
+//     } else {
+//         res.json(2)
+//     }
+    
+// });
 
 // app.post('/dashboard', (req, res) => {
 //     console.log(req.body);
