@@ -84,6 +84,14 @@ class AddRooms extends React.Component{
 		}
 		
 	}
+
+	componentDidMount() {
+		this.setState({
+		...this.state
+		})
+		console.log('state',this.state.room);
+	}
+
 	closeModal = () => {
 		this.setState({showErrorModal: false})
 	  }

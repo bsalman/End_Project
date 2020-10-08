@@ -15,15 +15,32 @@ const AddDevices = () => {
 		modalElement:null,
 		showModal:false,
 		modalTitle:'',
-		modalClass: 'bg-primary'
+		modalClass: 'bg-primary',
+		devicesElement : []
 	  }
 	
 	  const [state,setState] = useState(initialState)
+	  const arr = []
+
 
 	  const getDeviceValue = (e) => {
-		  e.preventDefault()
+		  //e.preventDefault()
+		  console.log(e.target.checked)
 		  console.log(e.currentTarget.parentElement.parentElement.children[1].innerHTML);
+		  
+		 const deviceTitle =e.currentTarget.parentElement.parentElement.children[1].innerHTML
+		  if (arr.indexOf(deviceTitle) === -1) {
+			  arr.push(deviceTitle)
+			  console.log('arr',arr);
+		  }
+		
+		
+		 
+
 	  }
+	  
+	//   console.log('arr2' ,arr);
+	  
 
 	  const devicesSaveBtnClick = (e) => {
 		e.preventDefault()
@@ -64,18 +81,25 @@ const AddDevices = () => {
                             <div className="row">
                                 {/* <!-- Add Devices   START --> */}
 
-                            <div className="col-sm-12 col-md-6 col-xl-4">
+                            <div className="col-sm-12 col-md-12">
 								{/* <!-- Exterior lights  START --> */}
 								
-								<div className="card" data-unit="switch-light-6">
+								<div className="card" data-unit="switch-light-1 switch-light-2">
 									<div className="card-body d-flex flex-row justify-content-start">
 										<svg className="icon-sprite">
-											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
-											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
+											<use className="glow" fill="url(#radial-glow)" xlinkHref="/images/icons-sprite.svg#glow"/>
+											<use xlinkHref="/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Front doors</h5>
+										<h5>Lights</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-6" onClick={getDeviceValue}/>
+											<div htmlFor="switch-light-1"  className="ml-auto">Sensors</div>
+											<div className="col-12">
+												<input className="" type="checkbox" id="switch-light-1" onChange={getDeviceValue}/>
+											</div>
+											
+										</label>
+										<label className="switch ml-auto">
+											<input type="checkbox" id="switch-light-2" onChange={getDeviceValue}/>
 										</label>
 									</div>
 								</div>
@@ -84,56 +108,65 @@ const AddDevices = () => {
 
 
 
-								<div className="card" data-unit="switch-light-7">
+								<div className="card" data-unit="switch-light-3 switch-light-4">
 									<div className="card-body d-flex">
 										<svg className="icon-sprite">
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
 											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Back doors</h5>
+										<h5>Temperature</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-7"/>
+											<input type="checkbox" id="switch-light-3"  onChange={getDeviceValue}/>
+										</label>
+										<label className="switch ml-auto">
+											<input type="checkbox" id="switch-light-4"  onChange={getDeviceValue}/>
 										</label>
 									</div>
 								</div>
-								<div className="card" data-unit="switch-light-8">
+								<div className="card" data-unit="switch-light-5 switch-light-6">
 									<div className="card-body d-flex">
 										<svg className="icon-sprite">
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
 											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Pool</h5>
+										<h5>Movement</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-8"/>
+											<input type="checkbox" id="switch-light-5"  onChange={getDeviceValue}/>
+										</label>
+										<label className="switch ml-auto">
+											<input type="checkbox" id="switch-light-6"  onChange={getDeviceValue}/>
 										</label>
 									</div>
 								</div>
-								<div className="card" data-unit="switch-light-9">
+								<div className="card" data-unit="switch-light-7 switch-light-8">
 									<div className="card-body d-flex">
 										<svg className="icon-sprite">
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
 											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Garage</h5>
+										<h5>TV</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-9"/>
+											<input type="checkbox" id="switch-light-7"  onChange={getDeviceValue}/>
+										</label>
+										<label className="switch ml-auto">
+											<input type="checkbox" id="switch-light-8"  onChange={getDeviceValue}/>
 										</label>
 									</div>
 								</div>
 								{/* <!-- Exterior lights  END --> */}
 							</div>
                             {/* second one */}
-                            <div className="col-sm-12 col-md-6 col-xl-4">
+                            {/* <div className="col-sm-12 col-md-6 col-xl-4">
 								{/* <!-- Exterior lights  START --> */}
-								<div className="card" data-unit="switch-light-10">
+								{/* <div className="card" data-unit="switch-light-10">
 									<div className="card-body d-flex flex-row justify-content-start">
 										<svg className="icon-sprite">
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
 											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Front doors</h5>
+										<h5>Washing machine</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-10"/>
+											<input type="checkbox" id="switch-light-10"  onChange={getDeviceValue}/>
 										</label>
 									</div>
 								</div>
@@ -143,9 +176,9 @@ const AddDevices = () => {
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
 											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Back doors</h5>
+										<h5>Fridge</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-11"/>
+											<input type="checkbox" id="switch-light-11"  onChange={getDeviceValue}/>
 										</label>
 									</div>
 								</div>
@@ -155,13 +188,13 @@ const AddDevices = () => {
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
 											<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
 										</svg>
-										<h5>Pool</h5>
+										<h5>doors</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-12"/>
+											<input type="checkbox" id="switch-light-12"  onChange={getDeviceValue}/>
 										</label>
-									</div>
-								</div>
-								<div className="card" data-unit="switch-light-13">
+									</div> */}
+								{/* </div> */}
+								{/* <div className="card" data-unit="switch-light-13">
 									<div className="card-body d-flex">
 										<svg className="icon-sprite">
 											<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
@@ -169,12 +202,12 @@ const AddDevices = () => {
 										</svg>
 										<h5>Garage</h5>
 										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-light-13"/>
+											<input type="checkbox" id="switch-light-13"  onClick={getDeviceValue}/>
 										</label>
 									</div>
-								</div>
+								</div> */}
 								{/* <!-- Exterior lights  END --> */}
-							</div>
+							{/* </div> */}
                             </div>
 
                             {/* <!-- Add Devices   END --> */}
