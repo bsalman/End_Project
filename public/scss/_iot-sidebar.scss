@@ -1,0 +1,125 @@
+/* ------------------------------
+   Sidebar add-ons
+------------------------------ */
+
+// Wrapper and base settings
+.wrapper-offcanvas {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.row-offcanvas {
+  height: calc(100vh - #{$fixed-top-height});
+  .cover-offcanvas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+    background-color: rgba($gray-dark, 0.5);
+    z-index: 4;
+  }
+  @include media-breakpoint-down(md) {
+    width:calc(100% + #{$sidebar-width});
+    position: relative;
+    will-change: transform;
+    transition: transform 0.25s ease-out;
+    &.active .cover-offcanvas {
+      display: block;
+    }
+  }
+}
+
+#main {
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+  box-shadow: inset 0 0 4rem rgba(theme-color("primary"), 0.25);
+  >.container-fluid {
+    padding: 2rem 3rem 3rem 3rem;
+  }
+  @include media-breakpoint-down(md) {
+    width:calc(100% - #{$sidebar-width});
+    margin-left: $sidebar-width;
+    padding: 1rem 0;
+    >.container-fluid {
+      padding: 1rem;
+    }
+  }
+}
+
+.sidebar-offcanvas {
+  width: $sidebar-width;
+  background-color: rgba(theme-color("primary"), 0.25);
+  float: left;
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  will-change: width;
+  transition: width 0.25s ease-out;
+  box-shadow: inset 0 0 2rem rgba(theme-color("primary"), 0.25), inset 0 0 0 1px rgba(theme-color("primary"), 0.15);
+  z-index: 5;
+  &.mini {
+    width: $sidebar-width-mini;
+    .nav-link {
+      font-size: 0;
+    }
+  }
+  @include media-breakpoint-down(md) {
+    position: absolute;
+    top: 0;
+    &.mini {
+      min-width: $sidebar-width;
+      max-width: $sidebar-width;
+      .nav-link {
+        font-size: inherit;
+      }
+    }
+  }
+}
+
+.nav-sidebar {
+  width: $sidebar-width;
+  .nav-link {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.15rem;
+    line-height: 2rem;
+    vertical-align: middle;
+    color: theme-color("primary");
+    @include clearfix;
+    &.active {
+      color: lighten(theme-color("primary"), 35%);
+      background-color: rgba(theme-color("primary"), 0.25);
+      box-shadow: inset 0 0 2rem rgba(theme-color("primary"), 0.45), 0 0 1rem rgba(theme-color("primary"), 0.15);
+    }
+    &.disabled {
+      color: rgba(theme-color("primary"), 0.45);
+      @include hover {
+        color: rgba(theme-color("primary"), 0.45);
+      }
+    }
+    @include hover {
+      color: lighten(theme-color("primary"), 35%);
+    }
+    .icon-sprite {
+      float: left;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .row-offcanvas-left {
+    transform: translate(-$sidebar-width);
+  }
+  .row-offcanvas-left.active {
+    transform: translate(0);
+  }
+}

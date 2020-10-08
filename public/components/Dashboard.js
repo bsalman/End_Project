@@ -1,12 +1,17 @@
+// import dependencies
 import React from 'react'
-//===========================//
+// import SideNav from './SideNav'
 import AddRooms from './AddRooms'
 
-class DashBoard extends React.Component{
+// create a setting classNameName
+class Dashboard extends React.Component {
     render(){
         return(
-            <AddRooms/>     
+            <div>
+               <AddRooms/>
+            </div>
         )
     }
 }
-export default DashBoard
+
+export default Dashboard

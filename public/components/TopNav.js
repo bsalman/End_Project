@@ -7,7 +7,6 @@ class TopNav extends React.Component {
     return (
 
       <React.Fragment>
-
         <nav
           className="navbar navbar-expand fixed-top d-flex flex-row justify-content-start">
           <div className="d-none d-lg-block">
@@ -80,7 +79,7 @@ class TopNav extends React.Component {
             </div>
           </div>
         </nav>
-
+       
       </React.Fragment>
     )
   }

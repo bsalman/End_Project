@@ -1,19 +1,24 @@
 // import dependencies
 import React from 'react'
-import {Link, withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
+
+
 import {connect} from 'react-redux'
 // import the components
-import {changeUserPost} from '../services/api'
 import CustomModal from './CustomModal'
-import SideNav from './SideNav'
-import TopNav from './TopNav'
+// import SideNav from './SideNav'
+// import TopNav from './TopNav'
+
+import {changeUserPost} from '../services/api'
 
 // create a setting classNameName
 class Settings extends React.Component {
+  
 
+    
   // create a state
   state = {
-    username: '',
+    name: '',
     password: '',
     repassword: '',
     oldPassword: '',
@@ -24,12 +29,14 @@ class Settings extends React.Component {
  
   onRegisterBtnClick = (e) => {
     e.preventDefault()
-    if (this.state.username.trim() === ''|| this.state.oldPassword.trim() === '' || this.state.password === '' || this.state.password !== this.state.repassword) {
+    if (this.state.name.trim() === '' || this.state.oldPassword.trim() === '' || this.state.password === '' || this.state.password !== this.state.repassword) {
       const errorsElement = (
 
         <ul>
           {this
-            .state.username.trim() === ''
+            .state
+            .name
+            .trim() === ''
             ? <div>Name should not be empty</div>
             : null}
             {this
@@ -37,10 +44,10 @@ class Settings extends React.Component {
             ? <div>Old Password should not be empty</div>
             : null}
           {this.state.password === ''
-            ? <div>Password should not be empty</div>
+            ? <div>password should not be empty</div>
             : null}
           {this.state.password !== this.state.repassword
-            ? <div>Password is not matching the Reconfirmation</div>
+            ? <div>password is not matching the repassword</div>
             : null}
         </ul>
 
@@ -48,47 +55,57 @@ class Settings extends React.Component {
 
       this.setState({errorComponent: errorsElement, showErrorModal: true})
     } else {
-      // console.log(this.state);
-      changeUserPost(this.state.username, this.state.password, this.state.repassword, this.state.oldPassword).then(data => {
-     console.log(data);
+      //console.log(this.state);
+      changeUserPost(this.state.name, this.state.password,this.state.repassword, this.state.oldPassword).then(data => {
+        console.log(data);
         let badgeClass = ''
         let badgeMessage =''
 
         switch (data) {
           case 1:
-            badgeClass = 'alert alert-success'
-            badgeMessage = 'You changed your Username and Password successfully, please go on'
-            this.props.history.push('/dashboard') 
+            // badgeClass = 'alert alert-success'
+            // badgeMessage = 'The changes are done successfully, you can login again now'
+            this.props.history.push('/dashboard')
             break;
           case 2:
           case 4:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'there was a server side error, please contact the administrator'
+            badgeMessage = 'there was a server side error, please contact the adminstrator'
             break;
           case 3:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'the old password is wrong, please try again'
+            badgeMessage = 'The old password is wrong, please try again'
             break;
           default:
             break;
         }
-        const badge = (
-          <div className={badgeClass} role="alert">
-                      {badgeMessage}
-          </div>
-        )
-        this.setState({errorComponent: badge, showErrorModal:true})
+        if(data!=1){
+          const badge = (
+            <div className={badgeClass} role="alert">
+               {badgeMessage}
+                         </div>
+            )
+            this.setState({
+            errorComponent: badge
+            })
+        }
         
 
+
       }).catch(error => {
+          console.log(error);
         const badge = (
           <div className="alert alert-danger" role="alert">
                       can not send the registration data to server
           </div>
         )
-        this.setState({errorComponent: badge, showErrorModal:true})
+        this.setState({
+          errorComponent: badge,
+          showErrorModal: true
+        })
       })
     }
+
   }
 
 
@@ -96,9 +113,9 @@ class Settings extends React.Component {
     this.setState({showErrorModal: false})
   }
 
-
+  
   render() {
-    console.log(this.state);
+    //   console.log('the props is:',this.props);
     return (
 
       <React.Fragment>
@@ -180,10 +197,9 @@ class Settings extends React.Component {
         </div>
 
         {/* <!-- Wrapper START --> */}
-        
         <div id="wrapper">
           {/* <!-- Top navbar START --> */}
-          <TopNav />
+          {/* <TopNav /> */}
           {/* <!-- Top navbar END --> */}
 
           {/* <!-- wrapper-offcanvas START --> */}
@@ -192,9 +208,8 @@ class Settings extends React.Component {
             <div className="row-offcanvas row-offcanvas-left">
 
               {/* <!-- Side menu START --> */}
-              <SideNav />
+              {/* <SideNav /> */}
               {/* <!-- Side menu END --> */}
-
               {/* <!-- Main content START --> */}
               <div id="main" className={this.props.loggedin === 'false' ? '' : 'd-none'}>
                 <div className="container-fluid">
@@ -218,16 +233,16 @@ class Settings extends React.Component {
                       <div className="tab-content px-4 px-sm-0 py-sm-4 mt-4">
 
                         {/* <!-- Password pane START --> */}
-                          <form>
+                        <form>
                             <div className="form-group row">
                               <label htmlFor="first-name" className="col-12 col-sm-3 col-form-label">New Username</label>
                               <div className="col-12 col-sm-9">
                                 <input
                                   className="form-control custom-focus"
                                   type="text"
-                                  value={this.state.username}
+                                  value={this.state.name}
                                   onChange={(e) => {
-                                   this.setState({username: e.target.value})
+                                   this.setState({name: e.target.value})
                                    }}
                                   id="first-name"/>
                               </div>
@@ -324,11 +339,11 @@ class Settings extends React.Component {
   }
 
 }
-const mapStateToProps = (state) => {
-  return({
-      user: state.user, 
-      loggedin: state.loggedin})
-}
 
+const mapStateToProps = (state) => {
+    return({
+        user: state.user, 
+        loggedin: state.loggedin})
+}
 
 export default connect(mapStateToProps)(withRouter(Settings))

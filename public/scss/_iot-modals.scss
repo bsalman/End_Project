@@ -1,0 +1,59 @@
+/* ------------------------------
+   Custom modals
+------------------------------ */
+
+.modal {
+  box-shadow: inset 0 0 4rem rgba(theme-color("primary"), 0.45);
+  .modal-content {
+    padding: 1rem 1.2rem;
+  }
+}
+
+// Alerts modal - NO background color
+.modal-nobg {
+  .modal-content {
+    padding: 0 1.2rem;
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    box-shadow: none;
+    .modal-body {
+      padding: 0 15px;
+    }
+  }
+}
+
+// Danger modal - Alarm
+.modal-danger {
+  .modal-content {
+    color: $white;
+    background-color: theme-color("danger");
+    border: none;
+    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.25), inset 0 0 1px rgba(255, 255, 255, 0.5), 0 0 25px rgba(theme-color("danger"), 0.75);
+    h3 {
+      margin-bottom: 0;
+      color: $white;
+    }
+  }
+}
+
+// Warning modal - Arming ... Exit now
+.modal-warning {
+  .modal-content {
+    color: $black;
+    background-color: theme-color("warning");
+    border: none;
+    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.25), inset 0 0 1px rgba(255, 255, 255, 0.5), 0 0 25px rgba(theme-color("warning"), 0.75);
+    h3 {
+      color: $black;
+      line-height: 1;
+      margin-bottom: 0;
+      span {
+        float: right;
+        display: inline-block;
+        margin-right: 0.5rem;
+        transform-origin: center;
+        transform: translateY(-2px) scale(1.5);
+      }
+    }
+  }
+}

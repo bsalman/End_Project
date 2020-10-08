@@ -1,0 +1,173 @@
+/* ------------------------------
+   Data-cards add-ons
+------------------------------ */
+
+.card {
+  margin: 0.75rem 0;
+  border: none;
+  background-color: rgba(theme-color("primary"), 0.05);
+  border: 1px solid rgba(theme-color("primary"), 0.35);
+  box-shadow: inset 0 0 25px rgba(theme-color("primary"), 0.25);
+  .card-img-top {
+    overflow: hidden;
+  }
+  h3,
+  .card-title {
+    margin: 0;
+    color: rgba(theme-color("primary"), 0.45);
+  }
+}
+
+[data-unit] {
+  .card-stream {
+    display: none;
+    &.off {
+      display: block;
+      background-color: rgba(theme-color("primary"), 0.05);
+      box-shadow: inset 0 0 4rem rgba(theme-color("primary"), 0.15);
+      h2 {
+        color: theme-color("danger");
+      }
+    }
+  }
+  .icon-sprite {
+    color: rgba(theme-color("primary"), 0.45);
+    .glow {
+      opacity: 0;
+    }
+    .subicon-unlocked {
+      opacity: 1;
+      color: theme-color("success");
+    }
+    .subicon-locked {
+      opacity: 0;
+      color: theme-color("danger");
+    }
+  }
+  .status {
+    color: rgba(theme-color("primary"), 0.45);
+    margin: 0.25rem;
+    line-height: 1.15;
+  }
+  .title-status {
+    padding: 0 0.25rem;
+    .status {
+      color: theme-color("success");
+      //            margin: 0.25rem 0.25rem 0.75rem 0.25rem;
+      //            line-height:1.15;
+      .arm:before {
+        content: "Disarmed";
+      }
+    }
+  }
+  h4 {
+    margin: 0.25rem;
+    color: theme-color("primary");
+  }
+  h5 {
+    margin: 0.25rem;
+    color: theme-color("primary");
+  }
+  .entry {
+    padding-left: 3.25rem;
+    margin-bottom: 0;
+    color: rgba(theme-color("primary"), 0.45);
+  }
+  .specs {
+    margin-bottom: 0;
+    text-align: left;
+    color: rgba(theme-color("primary"), 0.6);
+  }
+  .only-if-active {
+    display: none;
+  }
+  &.active {
+    .card-stream {
+      display: block;
+      &.off {
+        display: none;
+      }
+    }
+    .icon-sprite {
+      color: lighten(theme-color("primary"), 35%);
+      .glow {
+        opacity: 0.4;
+      }
+    }
+    .status {
+      color: theme-color("success");
+    }
+    .only-if-active {
+      display: block;
+    }
+    &.lock {
+      border: 1px solid theme-color("danger");
+      box-shadow: inset 0 0 25px theme-color("danger");
+      .icon-sprite {
+        color: rgba(theme-color("primary"), 0.45);
+        .subicon-unlocked {
+          opacity: 0;
+        }
+        .subicon-locked {
+          opacity: 1;
+        }
+      }
+      .title-status .status {
+        color: theme-color("danger");
+        .arm:before {
+          content: "Armed"
+        }
+      }
+    }
+  }
+  &.temp-range {
+
+    .icon-sprite {
+      color: rgba(theme-color("primary"), 0.45);
+      .glow {
+        opacity: 0;
+      }
+    }
+    .status {
+      color: theme-color("success");
+    }
+    
+    &.heating {
+    .icon-sprite {
+      color: lighten(theme-color("primary"), 35%);
+      .glow {
+        opacity: 0.4;
+      }
+    }
+    .status {
+      color: theme-color("danger");
+    }
+   }
+   &.cooling {
+    .icon-sprite {
+      color: lighten(theme-color("primary"), 35%);
+      .glow {
+        opacity: 0.4;
+      }
+    }
+    .status {
+      color: theme-color("primary");
+    }
+   }
+  }
+}
+
+.list-group-flush {
+  border-bottom: $list-group-border-width solid $list-group-border-color;
+}
+
+.list-group-item {
+  display: flex;
+  border-width: $list-group-border-width 0 0 0;
+  &.active {
+    z-index: inherit; // Don't place active items above their siblings for proper border styling
+  }
+}
+
+
+

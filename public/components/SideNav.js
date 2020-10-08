@@ -9,8 +9,7 @@ class SideNav extends React.Component{
     render(){
         return(
             <React.Fragment>
-          
-      
+             
                    {/* <!-- Side menu START --> */}
               <div id="sidebar" className="sidebar-offcanvas">
                 <ul className="nav flex-column nav-sidebar">
@@ -39,18 +38,34 @@ class SideNav extends React.Component{
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="#">
+                    <Link className="nav-link" to="/dashboard">
+                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/settings">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
                       Settings
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/allrooms">
+                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
+                      All Rooms
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/adddevices">
+                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
+                      Add Devices
                     </Link>
                   </li>
                 </ul>
               </div>
               {/* <!-- Side menu END --> */}
-            
-             
+              
             </React.Fragment>
-            
         )
     }
 

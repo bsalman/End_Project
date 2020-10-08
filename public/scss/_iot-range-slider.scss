@@ -1,0 +1,77 @@
+/* ------------------------------
+   Range slider styles - based on https://github.com/andreruffert/rangeslider.js
+------------------------------ */
+
+.rangeslider,
+.rangeslider__fill {
+  display: block;
+}
+
+.rangeslider {
+  background-color: $gray-dark;
+  position: relative;
+}
+
+.rangeslider--horizontal {
+  height: 8px;
+  width: 100%;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.rangeslider--vertical {
+  width: 8px;
+  min-height: 120px;
+  max-height: 100%;
+  margin-left: auto;
+}
+
+.rangeslider--disabled {
+  opacity: 0.4;
+}
+
+.rangeslider__fill {
+  position: absolute;
+  background-color: rgba(theme-color("primary"), 0.45);
+  box-shadow: 0 0 12px rgba(theme-color("primary"), 0.25);
+}
+
+.rangeslider--horizontal .rangeslider__fill {
+  top: 0;
+  height: 100%;
+}
+
+.rangeslider--vertical .rangeslider__fill {
+  bottom: 0;
+  width: 100%;
+}
+
+.rangeslider__handle {
+  background: theme-color("primary");
+  cursor: pointer;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+  position: absolute;
+  box-shadow: none;
+  border-radius: 0.25rem;
+}
+
+.rangeslider__handle:active,
+.rangeslider--active .rangeslider__handle {
+  box-shadow: 0 0 12px theme-color("primary"), inset 0 0 6px rgba($white, 0.25);
+}
+
+.rangeslider--horizontal .rangeslider__handle {
+  top: -6px;
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+}
+
+.rangeslider--vertical .rangeslider__handle {
+  width: 20px;
+  height: 30px;
+  left: -6px;
+  touch-action: pan-x;
+  -ms-touch-action: pan-x;
+}

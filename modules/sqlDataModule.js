@@ -55,41 +55,13 @@ function runQuery(queryString) {
         })
     })
 }
-//========================================//
-// function getConfig(value){
-//     return new Promise((resolve,reject)=>{
-//             runQuery(`SELECT * from configurations WHERE configuration.value=${value}`).then(results=>{
-//                 resolve(results)
-//             }).catch((error)=>{
-//                 reject(error)
-//             })
-//     })
-// }
-//=========================================//
-function changeUser (userName, newPassword,oldPassword) {
-    return new Promise( (resolve, reject) => {
-        runQuery(`SELECT * FROM configurations WHERE name LIKE 'userpassword'`).then(result=>{
-            const systemPassword = result.find(element => element.name === 'userpassword').value
-            if(passwordHash.verify(oldPassword,systemPassword)){
-                const hashedNewPassword = passwordHash.generate(newPassword)
-                runQuery(`UPDATE configurations  SET value = '${hashedNewPassword}' WHERE name LIKE 'userpassword'; UPDATE configurations  SET value = '${userName}' WHERE name LIKE 'username';`).then(()=>{
-                    resolve(result)
-                }).catch((error)=>{
-                    reject(error)
-                })
-            }else{
-                reject("not exist")
-            }
-        }).catch((error)=>{
-            reject(error)
-        })
-    })}
+
 //========================================//
 function checkUser(username, password) {
     return new Promise((resolve, reject) => {
         // any result from SELECT query will be return as an array (empty array or array with one element or array with many elements)
         runQuery(`SELECT * FROM configurations WHERE name LIKE 'username' OR name LIKE 'userpassword' OR name LIKE 'loggedin'`).then(result => {
-            console.log('the result', result)
+            
             const systemUserName = result.find(element => element.name === 'username').value
             const systemPassword = result.find(element => element.name === 'userpassword').value
             const systemCheckLogin = result.find(element => element.name === 'loggedin').value
@@ -106,6 +78,7 @@ function checkUser(username, password) {
                     } else {
                         resolve(systemCheckLogin)
                     }
+                    
                 } else {
                     reject(3)
                 }
@@ -117,7 +90,77 @@ function checkUser(username, password) {
     })
 }
 
+//========================================//
+function changeUser (userName, newPassword,oldPassword) {
+    return new Promise( (resolve, reject) => {
+        runQuery(`SELECT * FROM configurations WHERE name LIKE 'userpassword'`).then(result=>{
+            
+            const systemPassword = result.find(element => element.name === 'userpassword').value
+            if(passwordHash.verify(oldPassword,systemPassword)){
+                const hashedNewPassword = passwordHash.generate(newPassword)
+                runQuery(`UPDATE configurations  SET value = '${hashedNewPassword}' WHERE name LIKE 'userpassword'; UPDATE configurations  SET value = '${userName}' WHERE name LIKE 'username';`).then(()=>{
+                    resolve(result)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject("not exist")
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+
+    })
+}
+
+//========================================//
+function addRoom(roomName,roomType) {
+    return new Promise((resolve,reject) => {
+        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' ANd type LIKE '${roomType}'`).then((results)=>{
+            if(results.length!=0){
+                reject(3)
+            }else{
+                runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
+//=============================================//
+function getAllRooms(){
+    return new Promise((resolve, reject) =>{
+        runQuery(`SELECT * FROM rooms`).then(results=>{
+            const rooms = [];
+            results.forEach(result => {
+                rooms.push(result)
+            });
+
+            resolve(rooms)
+            
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+}
+//================================================//
+
+
+
 module.exports = {
     checkUser,
-    changeUser
+    changeUser,
+    addRoom,
+    getAllRooms
 }

@@ -11,8 +11,10 @@ import {setUserAction,setLoggedInAction} from '../actions'
 const Login = (props) => {
 
   useEffect(() => {
+    
     props.setUserAction(null)
     props.setLoggedInAction('false')
+    
   },[])
 
   const history = useHistory()
@@ -69,7 +71,7 @@ const Login = (props) => {
               break;
 
             case 4:
-              setMyState({...myState, entriesError:true, errorElement:<p>The username that you entered does exist</p>,errorTitle: 'Username not exist'})
+              setMyState({...myState, entriesError:true, errorElement:<p>The username that you enter is not exist</p>,errorTitle: 'Username not exist'})
               break;
             case 5:
               setMyState({...myState, entriesError:true, errorElement:<p>Server error, please contact the service provider</p>,errorTitle: 'Server Error'})
