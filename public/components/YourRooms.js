@@ -1,7 +1,5 @@
 import React,{useEffect,useState} from 'react'
-
-import { render } from 'react-dom'
-import {Link,location} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 //=========================================//
 import {allRoomsPost} from '../services/api'
 //================================//
@@ -9,29 +7,33 @@ const YourRooms =(props)=>{
     const initialState={
         rooms:[]
     }
-
     //console.log(props.newRoom)
     //================declaring set state=================//
     const [state, setState] = useState( initialState)
     
     //================== ussEffect to update the state ========================//
      useEffect(() => {
+       
         allRoomsPost().then(data => {
             if(data != 2){
                 setState({...state, rooms: data})
             } 
         });
-
-
+    
     },[state.rooms])
 
-
+    
     const roomElement =state.rooms.map(room=>{
         return(
             <div key={room.id} className="card" data-unit="switch-light-6">
                 <div className="card-body d-flex flex-row justify-content-start">
-                    <Link to="#">  <h5>{room.type}</h5></Link>
-      
+                <div className="col-auto mr-auto"><Link to="#">  <h5>{room.type}:{room.name}</h5></Link></div>
+                     
+                     <div className="col-auto ">
+                     {/* style={{color: "red"}} */}
+                      <button type="button" className="btn btn-primary" >Delete</button>
+                      
+                    </div>
                 </div>
             </div>
         )

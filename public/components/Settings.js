@@ -1,13 +1,13 @@
 // import dependencies
 import React from 'react'
-import {Link,withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
 
 import {connect} from 'react-redux'
 // import the components
 import CustomModal from './CustomModal'
-import SideNav from './SideNav'
-import TopNav from './TopNav'
+// import SideNav from './SideNav'
+// import TopNav from './TopNav'
 
 import {changeUserPost} from '../services/api'
 
@@ -199,7 +199,7 @@ class Settings extends React.Component {
         {/* <!-- Wrapper START --> */}
         <div id="wrapper">
           {/* <!-- Top navbar START --> */}
-          <TopNav />
+          {/* <TopNav /> */}
           {/* <!-- Top navbar END --> */}
 
           {/* <!-- wrapper-offcanvas START --> */}
@@ -208,7 +208,7 @@ class Settings extends React.Component {
             <div className="row-offcanvas row-offcanvas-left">
 
               {/* <!-- Side menu START --> */}
-              <SideNav />
+              {/* <SideNav /> */}
               {/* <!-- Side menu END --> */}
               {/* <!-- Main content START --> */}
               <div id="main" className={this.props.loggedin === 'false' ? '' : 'd-none'}>

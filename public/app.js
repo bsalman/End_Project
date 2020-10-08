@@ -12,7 +12,7 @@ import reducers from './reducers'
 class App extends React.Component {
     render(){
         return(
-            <MainRouter>Hi there!</MainRouter>
+            <MainRouter></MainRouter>
         )
     }
 }

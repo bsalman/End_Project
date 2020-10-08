@@ -31,20 +31,26 @@ class AddRooms extends React.Component{
 			this.setState({errorComponent: errorsElement, showErrorModal: true})
 		} else{
 			addRoomPost(this.state.roomName,this.state.roomType).then(data=>{
-			console.log(data);
+		
             let badgeClass = ''
             let badgeMessage =''
 			switch (data) {
           case 1:
-            badgeClass = 'alert alert-success'
-			badgeMessage = ' the adding is successful'
-			let ro = {roomType: this.state.roomName.trim(), roomName: this.state.roomType}
-			console.log(ro)
-			this.setState({...this.state, addedRoom: ro})
+            // badgeClass = 'alert alert-success'
+			// badgeMessage = ' the adding is successful'
+			this.setState({...this.state, roomName:'',
+			roomType :''})
+
             break;
           case 2:
 			badgeClass = 'alert alert-danger'
 			badgeMessage = 'You had an empty data, please fill your data '
+			break;
+			case 3:
+            badgeClass = 'alert alert-danger'
+			badgeMessage = 'this name is all ready exist, please change the name of the room '
+			this.setState({...this.state, roomName:'',
+			roomType :''})
             break;
           case 4:
             badgeClass = 'alert alert-danger'
@@ -52,8 +58,9 @@ class AddRooms extends React.Component{
             break;
           default:
             break;
-        }
-		 const badge = (
+		}
+		if(data!=1){
+			const badge = (
 			<div className={badgeClass} role="alert">
 						{badgeMessage}
 			</div>
@@ -62,6 +69,8 @@ class AddRooms extends React.Component{
 			errorComponent: badge,showErrorModal:true
 		  })
 
+		}
+		 
 		}).catch((error)=>{
 				console.log(error);
 
@@ -78,6 +87,14 @@ class AddRooms extends React.Component{
 		}
 		
 	}
+	componentDidMount() {
+		this.setState({
+			...this.state
+		  })
+		console.log('state',this.state.room);
+	}
+
+
 	closeModal = () => {
 		this.setState({showErrorModal: false})
 	  }
@@ -104,8 +121,9 @@ class AddRooms extends React.Component{
 								<h3 className="card-title">Add Room</h3>
 								<Form  className="p-2">
 									<FormGroup className="row">
+									<div className="col-12">
 										<Label  for="room_name" className="col-12 col-form-label">Room Name</Label >
-											<div className="col-12">
+											
 												<Input  className="form-control custom-focus" type="text" id="room_name"
 														onChange={e=>{
 														this.setState({roomName:e.target.value})
@@ -114,7 +132,7 @@ class AddRooms extends React.Component{
 														</div>
 									</FormGroup>
 										<FormGroup className="form-group row">
-											<div className="col-12">
+										<div className="col-12">
                                                 <Label for="room_type" className="col-12 col-form-label">Room Type</Label>
 													<Input className="form-control custom-focus" type="select" name="select" id="room_type" 
 															onChange={(e)=>{

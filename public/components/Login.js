@@ -11,8 +11,10 @@ import {setUserAction,setLoggedInAction} from '../actions'
 const Login = (props) => {
 
   useEffect(() => {
+    
     props.setUserAction(null)
     props.setLoggedInAction('false')
+    
   },[])
 
   const history = useHistory()

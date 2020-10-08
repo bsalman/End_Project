@@ -61,7 +61,7 @@ function checkUser(username, password) {
     return new Promise((resolve, reject) => {
         // any result from SELECT query will be return as an array (empty array or array with one element or array with many elements)
         runQuery(`SELECT * FROM configurations WHERE name LIKE 'username' OR name LIKE 'userpassword' OR name LIKE 'loggedin'`).then(result => {
-            console.log('the result', result)
+            
             const systemUserName = result.find(element => element.name === 'username').value
             const systemPassword = result.find(element => element.name === 'userpassword').value
             const systemCheckLogin = result.find(element => element.name === 'loggedin').value
@@ -116,22 +116,26 @@ function changeUser (userName, newPassword,oldPassword) {
 //========================================//
 function addRoom(roomName,roomType) {
     return new Promise((resolve,reject) => {
-        // let saveRoomsQuery = ''
-        // roomsArr.forEach(room => {
-        //     console.log(room);
-        //     saveRoomsQuery += `INSERT INTO rooms(name,type) VALUES ('${room.roomName}','${room.roomType}')`
-        // });
-        runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
-            resolve(result)
-        }).catch(error => {
-            console.log(error);
-            if (error.errno === 1054) {
+        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' ANd type LIKE '${roomType}'`).then((results)=>{
+            if(results.length!=0){
                 reject(3)
-            } else {
-                reject(error)
+            }else{
+                runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
             }
-            
+        }).catch(error=>{
+            reject(error)
         })
+        
     })
 }
 //=============================================//
@@ -142,13 +146,17 @@ function getAllRooms(){
             results.forEach(result => {
                 rooms.push(result)
             });
+
             resolve(rooms)
-            console.log(rooms);
+            
         }).catch((error)=>{
             reject(error)
         })
     })
 }
+//================================================//
+
+
 
 module.exports = {
     checkUser,

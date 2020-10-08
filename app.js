@@ -111,18 +111,18 @@ app.post('/dashboard', (req, res) => {
         }).catch(error => {
             if (error ===3) {
                 res.json(3)
-            } else {
+            } 
+            else {
                 res.json(4)
             }
-            
         })
     } else {
         res.json(2)
     }
     
 });
-//==================Your Rooms post ======================//
-app.post('/dashboard/yourroom',(req,res)=>{
+//==================get all Rooms  ======================//
+app.post('/dashboard/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
         
         res.json(rooms)
@@ -131,15 +131,24 @@ app.post('/dashboard/yourroom',(req,res)=>{
     })
 })
 
+//================== delete room=========================//
+app.post('/dashboard/deleteroom',(req,res)=>{
+    console.loge(body)
+    const roomid = req.body.bookid
+    dataModule.deleteRoom(roomid).then(() => {
+        res.json(1)
+    }).catch(error => {
+        console.log(error);
+        res.json(2)
+    })
+})
 
+//==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)
 });
-
-
-
-
+//===============================================================//
 app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
 });
