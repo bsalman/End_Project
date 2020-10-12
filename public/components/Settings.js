@@ -6,8 +6,7 @@ import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 // import the components
 import CustomModal from './CustomModal'
-// import SideNav from './SideNav'
-// import TopNav from './TopNav'
+
 
 import {changeUserPost} from '../services/api'
 
@@ -58,23 +57,23 @@ class Settings extends React.Component {
       //console.log(this.state);
       changeUserPost(this.state.name, this.state.password,this.state.repassword, this.state.oldPassword).then(data => {
         
-        let badgClass = ''
-        let badgMessage =''
+        let badgeClass = ''
+        let badgeMessage =''
 
         switch (data) {
           case 1:
             // badgeClass = 'alert alert-success'
             // badgeMessage = 'The changes are done successfully, you can login again now'
-            this.props.history.push('/dashboard')
+            this.props.history.push('/rooms')
             break;
           case 2:
           case 4:
-            badgClass = 'alert alert-danger'
-            badgMessage = 'there was a server side error, please contact the adminstrator'
+            badgeClass = 'alert alert-danger'
+            badgeMessage = 'there was a server side error, please contact the adminstrator'
             break;
           case 3:
-            badgClass = 'alert alert-danger'
-            badgMessage = 'The old password is wrong, please try again'
+            badgeClass = 'alert alert-danger'
+            badgeMessage = 'The old password is wrong, please try again'
             break;
           default:
             break;
@@ -127,89 +126,7 @@ class Settings extends React.Component {
           title="Error with Your Entries">
           {this.state.errorComponent}
     </CustomModal>
-        {/* <!-- Preloader --> */}
-        {/* <div id="iot-preloader">
-          <div className="center-preloader d-flex align-items-center">
-            <div className="spinners">
-              <div className="spinner01"></div>
-              <div className="spinner02"></div>
-            </div>
-          </div>
-        </div> */}
 
-        {/* <!-- Alerts Modal --> */}
-        <div
-          className="modal modal-nobg centered fade"
-          id="alertsModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-label="Alerts"
-          aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-body">
-                <div
-                  className="alert alert-danger alert-dismissible fade show border-0"
-                  role="alert">
-                  <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  Security SW update available
-                </div>
-                <div
-                  className="alert alert-warning alert-dismissible fade show border-0"
-                  role="alert">
-                  <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                  New device recognized
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            type="button"
-            className="close close-modal"
-            data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-        {/* <!-- Alarm Modal --> */}
-        <div
-          className="modal modal-danger centered fade"
-          id="alarmModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-label="ALARM"
-          aria-hidden="true"
-          data-backdrop="static">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content" data-dismiss="modal">
-              <div className="modal-body d-flex">
-                <svg className="icon-sprite icon-2x icon-pulse"><use xlinkHref="images/icons-sprite.svg#alarm"/></svg>
-                <h3 className="text-right font-weight-bold ml-auto align-self-center">MOTION DETECTED!</h3>
-              </div>
-            </div>
-            <p className="mt-2 text-center text-danger">Click the red area to accept/close message</p>
-          </div>
-        </div>
-
-        {/* <!-- Wrapper START --> */}
-        <div id="wrapper">
-          {/* <!-- Top navbar START --> */}
-          {/* <TopNav /> */}
-          {/* <!-- Top navbar END --> */}
-
-          {/* <!-- wrapper-offcanvas START --> */}
-          <div className="wrapper-offcanvas">
-            {/* <!-- row-offcanvas START --> */}
-            <div className="row-offcanvas row-offcanvas-left">
-
-              {/* <!-- Side menu START --> */}
-              {/* <SideNav /> */}
-              {/* <!-- Side menu END --> */}
               {/* <!-- Main content START --> */}
               <div id="main" className={this.props.loggedin === 'false' ? '' : 'd-none'}>
                 <div className="container-fluid">
@@ -303,11 +220,11 @@ class Settings extends React.Component {
                 <div className="cover-offcanvas" data-toggle="offcanvas"></div>
               </div>
               {/* <!-- Main content END --> */}
-            </div>
+            
             {/* <!-- row-offcanvas END --> */}
-          </div>
+         
           {/* <!-- wrapper-offcanvas END --> */}
-        </div>
+      
         {/* <!-- Wrapper END --> */}
         {/*
   <!-- FAB button - bottom right on large screens --> */}
@@ -334,6 +251,7 @@ class Settings extends React.Component {
             </radialGradient>
           </defs>
         </svg>
+        
       </React.Fragment>
     )
   }
@@ -343,7 +261,8 @@ class Settings extends React.Component {
 const mapStateToProps = (state) => {
     return({
         user: state.user, 
-        loggedin: state.loggedin})
+        loggedin: state.loggedin
+      })
 }
 
 export default connect(mapStateToProps)(withRouter(Settings))

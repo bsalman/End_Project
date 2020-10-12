@@ -106,8 +106,8 @@ app.post('/rooms', (req, res) => {
     const roomName = req.body.roomName
     const roomType = req.body.roomType
     if (roomName && roomType) {
-        dataModule.addRoom(roomName,roomType).then(room => {
-            res.json(1)
+        dataModule.addRoom(roomName,roomType).then(rooms => {
+            res.json(rooms)
         }).catch(error => {
             if (error ===3) {
                 res.json(3)

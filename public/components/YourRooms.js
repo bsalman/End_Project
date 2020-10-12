@@ -64,10 +64,6 @@ const YourRooms =(props)=>{
                 </div>
             </div>
 
-
-
-           
-            
         )
     })
     
@@ -78,7 +74,7 @@ const YourRooms =(props)=>{
         return(
 
             <React.Fragment>
-            {roomElement}
+                {roomElement}
             </React.Fragment>
         )
     

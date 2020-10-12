@@ -1,11 +1,15 @@
 import React from 'react'
 import {Link, withRouter} from 'react-router-dom'
+import { Collapse, Button, CardBody, Card } from 'reactstrap';
 
 
 
 
 class SideNav extends React.Component{
- 
+
+  state={isOpen:false}
+
+  toggle = () => {this.setState({isOpen:!this.state.isOpen})};
     render(){
         return(
             <React.Fragment>
@@ -42,6 +46,8 @@ class SideNav extends React.Component{
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
                       Settings
                     </Link>
+                    
+   
                   </li>
                 </ul>
               </div>

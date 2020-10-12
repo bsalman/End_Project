@@ -109,8 +109,7 @@ class AddRooms extends React.Component{
 								<Form  className="p-2">
 									<FormGroup className="row">
 									<div className="col-12" modal-content>
-										<Label  for="room_name" className="col-12 col-form-label modal-font">Room Name</Label >
-											
+										<Label  for="room_name" className="col-12 col-form-label modal-font">Room Name</Label>
 												<Input  className="form-control custom-focus" type="text" id="room_name"
 														onChange={e=>{
 														this.setState({roomName:e.target.value})
@@ -167,7 +166,6 @@ class AddRooms extends React.Component{
 					</div>
 					{/* add rooms card end  */}
 					{/* ===========================rooms element====================================== */}
-					<YourRooms/>
 				</div>
 				
 					

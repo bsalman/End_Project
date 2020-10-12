@@ -121,7 +121,12 @@ function addRoom(roomName,roomType) {
                 reject(3)
             }else{
                 runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
-                    resolve(result)
+                    getAllRooms().then(rooms => {
+                        resolve(rooms)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    
                 }).catch(error => {
                     console.log(error);
                     if (error.errno === 1054) {
@@ -157,8 +162,12 @@ function getAllRooms(){
 //================================================//
 function getRoom(roomId) {
     return new Promise((resolve, reject) => {
-        runQuery(`SELECT * FROM rooms WHERE id = ${roomId}`).then(room => {
-           if(room){
+        runQuery(`SELECT rooms.*,devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId}`).then(results => {
+           if(results.length){
+               const room={}
+               results.forEach(result => {
+                   room.devices.push()
+               });
                 resolve(room)
             }
         else {
