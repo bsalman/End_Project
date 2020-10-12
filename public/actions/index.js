@@ -10,3 +10,10 @@ export const setLoggedInAction = (loggedin) => {
         payload: loggedin
     }
 }
+
+export const setRoomsAction = (rooms) => {
+    return {
+        type: 'SET_ROOMS',
+        payload: rooms
+    }
+}

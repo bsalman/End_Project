@@ -61,7 +61,7 @@ function checkUser(username, password) {
     return new Promise((resolve, reject) => {
         // any result from SELECT query will be return as an array (empty array or array with one element or array with many elements)
         runQuery(`SELECT * FROM configurations WHERE name LIKE 'username' OR name LIKE 'userpassword' OR name LIKE 'loggedin'`).then(result => {
-            console.log('the result', result)
+            
             const systemUserName = result.find(element => element.name === 'username').value
             const systemPassword = result.find(element => element.name === 'userpassword').value
             const systemCheckLogin = result.find(element => element.name === 'loggedin').value
@@ -116,76 +116,70 @@ function changeUser (userName, newPassword,oldPassword) {
 //========================================//
 function addRoom(roomName,roomType) {
     return new Promise((resolve,reject) => {
-        // let saveRoomsQuery = ''
-        // roomsArr.forEach(room => {
-        //     console.log(room);
-        //     saveRoomsQuery += `INSERT INTO rooms(name,type) VALUES ('${room.roomName}','${room.roomType}')`
-        // });
-        runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
-            resolve(result)
-        }).catch(error => {
-            console.log(error);
-            if (error.errno === 1054) {
+        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' ANd type LIKE '${roomType}'`).then((results)=>{
+            if(results.length!=0){
                 reject(3)
-            } else {
-                reject(error)
+            }else{
+                runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
+                    getAllRooms().then(rooms => {
+                        resolve(rooms)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
             }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
+//=============================================//
+function getAllRooms(){
+    return new Promise((resolve, reject) =>{
+        runQuery(`SELECT * FROM rooms`).then(results=>{
+            const rooms = [];
+            results.forEach(result => {
+                rooms.push(result)
+            });
+
+            resolve(rooms)
             
+        }).catch((error)=>{
+            reject(error)
         })
     })
 }
-
-//========================================//
+//================================================//
 function getRoom(roomId) {
     return new Promise((resolve, reject) => {
-        runQuery(`SELECT * FROM rooms WHERE id = ${roomId}`).then(room => {
-           // runQuery(`SELECT * FROM rooms `).then(results => {
-          // console.log(room);
-           // if (room.roomId) {
-               resolve(room)
-            //} else {
-            //     reject(new Error('can not find a room with this id : ' + roomId))
-            //}
+        runQuery(`SELECT rooms.*,devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId}`).then(results => {
+           if(results.length){
+               const room={}
+               results.forEach(result => {
+                   room.devices.push()
+               });
+                resolve(room)
+            }
+        else {
+                reject(new Error('can not find a room with this id : ' + roomId))
+            }
         }).catch(error => {
             console.log(error);
             reject(error)
         })
     })
 }
-
-//========================================//
-function getAllRooms() {
-    return new Promise((resolve, reject) => {
-        runQuery(`SELECT * FROM rooms`).then(results => {
-            console.log(results);
-            // const rooms = []
-            // results.forEach(result => {
-            //     // search if the book has been added to books array
-            //     let book = books.find(element => element.id === result.bookid)
-            //     if (book){
-            //         // if the book is added before, we need  only to append the imgs property with the new imgurl
-            //         book.imgs.push(result.imgUrl)
-            //     } else {
-            //         // if the book is not added to books, 
-            //         // we need to add it to books and set imgs as new array with one element imgurl
-            //         books.push({
-            //             _id: result.bookid,
-            //             id: result.bookid,
-            //             title: result.title,
-            //             description: result.description,
-            //             pdfUrl: result.pdfUrl,
-            //             userid: result.userid,
-            //             imgs: [result.imgUrl]
-            //         })
-            //     }
-            // })
-            resolve(results)
-        }).catch(error => {
-            reject(error)
-        })
-    })
-}
-
+//=========================================================//
 
 
 
@@ -193,6 +187,6 @@ module.exports = {
     checkUser,
     changeUser,
     addRoom,
-    getRoom,
-    getAllRooms
+    getAllRooms,
+    getRoom
 }

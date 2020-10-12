@@ -89,40 +89,6 @@ app.post('/settings', (req, res) => {
 });
 
 
-
-
-
-app.post('/dashboard', (req, res) => {
-    console.log(req.body);
-    const roomName = req.body.roomName
-    const roomType = req.body.roomType
-    if (roomName && roomType) {
-        dataModule.addRoom(roomName,roomType).then(room => {
-            res.json(1)
-        }).catch(error => {
-            if (error ===3) {
-                res.json(3)
-            } else {
-                res.json(4)
-            }
-            
-        })
-    } else {
-        res.json(2)
-    }
-    
-});
-//==================Your Rooms post ======================//
-app.post('/dashboard/yourroom',(req,res)=>{
-    dataModule.getAllRooms().then(rooms=>{
-        
-        res.json(rooms)
-    }).catch(error=>{
-        res.json(2)
-    })
-})
-
-
 // app.get('/dashboard', (req, res) => {
 //     const arr = [{roomName:'bed',
 // roomType:'a'},
@@ -135,86 +101,54 @@ app.post('/dashboard/yourroom',(req,res)=>{
 //     })
 // });
 
-// app.post('/dashboard', (req, res) => {
-//     console.log(req.body);
-//     const roomName = req.body.roomName
-//     const roomType = req.body.roomType
-//     if (roomName && roomType) {
-//         dataModule.addRoom(roomName,roomType).then(room => {
-//             //console.log(room.insertId);
-//             dataModule.getRoom(room.insertId).then(data => {
-//                 console.log('data',data[0]);
-//                 const roomName = data[0].name
-//                 const roomType = data[0].type
-//                 //console.log(data[0]);
-//                 res.json(data[0])
-//             }).catch(error => {
-//                 console.log(error);
-//             })
-            
-            
-//         }).catch(error => {
-//             if (error ===3) {
-//                 res.json(3)
-//             } else {
-//                 res.json(4)
-//             }
-            
-//         })
-//     } else {
-//         res.json(2)
-//     }
+app.post('/rooms', (req, res) => {
+    console.log(req.body);
+    const roomName = req.body.roomName
+    const roomType = req.body.roomType
+    if (roomName && roomType) {
+        dataModule.addRoom(roomName,roomType).then(rooms => {
+            res.json(rooms)
+        }).catch(error => {
+            if (error ===3) {
+                res.json(3)
+            } 
+            else {
+                res.json(4)
+            }
+        })
+    } else {
+        res.json(2)
+    }
     
-// });
-
-// app.post('/dashboard', (req, res) => {
-//     console.log(req.body);
-//         const roomName = req.body.roomName
-//         const roomType = req.body.roomType
-//         if (roomName && roomType) {
-//             dataModule.addRoom(roomName,roomType).then(room => {
-//                 //console.log(room.insertId);
-//                 dataModule.getAllRooms().then(rooms => {
-//                     res.json(rooms)
-//                 }).catch(error => {
-//                     res.json(2)
-//                 })
-                
-                
-//             }).catch(error => {
-//                 if (error ===3) {
-//                     res.json(3)
-//                 } else {
-//                     res.json(4)
-//                 }
-                
-//             })
-//         } else {
-//             res.json(2)
-//         }
+});
+//==================get all Rooms  ======================//
+app.post('/rooms/allrooms',(req,res)=>{
+    dataModule.getAllRooms().then(rooms=>{
         
-    
-// });
-// app.get('/dashboard', (req, res) => {
-//     dataModule.getRoom(16).then(data => {
-//         console.log(data[0]);
-//         const roomName = data[0].name
-//         const roomType = data[0].type
-//         res.send(data[0])
-//     }).catch(error => {
-//         console.log(error);
-//     })
-// });
+        res.json(rooms)
+    }).catch(error=>{
+        res.json(2)
+    })
+})
 
+//================== delete room=========================//
+app.post('/rooms/deleteroom',(req,res)=>{
+    console.loge(body)
+    const roomid = req.body.bookid
+    dataModule.deleteRoom(roomid).then(() => {
+        res.json(1)
+    }).catch(error => {
+        console.log(error);
+        res.json(2)
+    })
+})
 
+//==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)
 });
-
-
-
-
+//===============================================================//
 app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
 });
