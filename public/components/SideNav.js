@@ -26,9 +26,9 @@ class SideNav extends React.Component{
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard">
+                    <Link className="nav-link" to="/rooms">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#camera"/></svg>
-                      Cameras
+                     Rooms
                     </Link>
                   </li>
                   <li className="nav-item">

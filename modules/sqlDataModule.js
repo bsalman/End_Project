@@ -155,6 +155,22 @@ function getAllRooms(){
     })
 }
 //================================================//
+function getRoom(roomId) {
+    return new Promise((resolve, reject) => {
+        runQuery(`SELECT * FROM rooms WHERE id = ${roomId}`).then(room => {
+           if(room){
+                resolve(room)
+            }
+        else {
+                reject(new Error('can not find a room with this id : ' + roomId))
+            }
+        }).catch(error => {
+            console.log(error);
+            reject(error)
+        })
+    })
+}
+//=========================================================//
 
 
 
@@ -162,5 +178,6 @@ module.exports = {
     checkUser,
     changeUser,
     addRoom,
-    getAllRooms
+    getAllRooms,
+    getRoom
 }

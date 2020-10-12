@@ -57,7 +57,7 @@ class Settings extends React.Component {
     } else {
       //console.log(this.state);
       changeUserPost(this.state.name, this.state.password,this.state.repassword, this.state.oldPassword).then(data => {
-        console.log(data);
+        
         let badgClass = ''
         let badgMessage =''
 
@@ -108,6 +108,7 @@ class Settings extends React.Component {
 
   }
 
+  
 
   closeModal = () => {
     this.setState({showErrorModal: false})
@@ -120,8 +121,7 @@ class Settings extends React.Component {
 
       <React.Fragment>
 
-    <CustomModal
-          show={this.state.showErrorModal}
+    <CustomModal show={this.state.showErrorModal}
           close={this.closeModal}
           className="bg-danger"
           title="Error with Your Entries">

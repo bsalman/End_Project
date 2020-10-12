@@ -101,7 +101,7 @@ app.post('/settings', (req, res) => {
 //     })
 // });
 
-app.post('/dashboard', (req, res) => {
+app.post('/rooms', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
@@ -122,7 +122,7 @@ app.post('/dashboard', (req, res) => {
     
 });
 //==================get all Rooms  ======================//
-app.post('/dashboard/allrooms',(req,res)=>{
+app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
         
         res.json(rooms)
@@ -132,7 +132,7 @@ app.post('/dashboard/allrooms',(req,res)=>{
 })
 
 //================== delete room=========================//
-app.post('/dashboard/deleteroom',(req,res)=>{
+app.post('/rooms/deleteroom',(req,res)=>{
     console.loge(body)
     const roomid = req.body.bookid
     dataModule.deleteRoom(roomid).then(() => {

@@ -12,10 +12,10 @@ class MainRouter extends React.Component {
         return (
             <BrowserRouter>
                 <div>
-                    <Switch>
-                        <Route path="/login" exact component={Login} />
+                    <Switch> <Route path="/login" exact component={Login} />
+                       
                         {/* <Route path="/settings" exact component={Settings} /> */}
-                        {/* <Route default path="/" exact component={SupRouter}/>   */}
+                       
                         <SupRouter/>
                     </Switch>                   
                 </div>

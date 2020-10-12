@@ -4,7 +4,7 @@ import React from 'react'
 import AddRooms from './AddRooms'
 
 // create a setting classNameName
-class Dashboard extends React.Component {
+class Rooms extends React.Component {
     render(){
         return(
             <div>
@@ -14,4 +14,4 @@ class Dashboard extends React.Component {
     }
 }
 
-export default Dashboard
+export default Rooms

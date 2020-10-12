@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import {Link} from 'react-router-dom'
+import {Button,Label  } from 'reactstrap';
 //=========================================//
 import {allRoomsPost} from '../services/api'
 //================================//
@@ -25,17 +26,48 @@ const YourRooms =(props)=>{
     
     const roomElement =state.rooms.map(room=>{
         return(
-            <div key={room.id} className="card" data-unit="switch-light-6">
-                <div className="card-body d-flex flex-row justify-content-start">
-                <div className="col-auto mr-auto"><Link to="#">  <h5>{room.type}:{room.name}</h5></Link></div>
-                     
-                     <div className="col-auto ">
-                     {/* style={{color: "red"}} */}
-                      <button type="button" className="btn btn-primary" >Delete</button>
-                      
+           
+            <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
+                <div className="card active">
+                    {/* <svg className="icon-sprite">
+						<use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
+						<use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
+					</svg> */}
+                    <div className="card-body d-flex flex-row justify-content-center">
+                         <Link to={"/adddevices/"+room.type.replace(/ /g, '_')+"/"+room.id}>  <h4 className="card-title">{room.type}: {room.name}</h4>
+                         </Link>
                     </div>
+                    
+                     {/* style={{color: "red"}} */}
+                      
+                   
+                    <hr className="my-0"/>
+                    <ul className="list-group borderless px-1">
+                        <li className="list-group-item">
+							<p className="specs">Device1</p>
+							<p className="ml-auto mb-0 text-success">connected</p>
+						</li>
+                        <li className="list-group-item pt-0">
+						<p className="specs">Device1</p>
+						<p className="ml-auto mb-0">connected</p>
+						</li>
+                        <li className="list-group-item pt-0 pb-4">
+						    <p className="specs">Device2</p>
+							<p className="ml-auto mb-0">connected</p>
+						</li>
+                    </ul>
+                    <hr className="my-0"/>
+                   
+                    <Button type="button" className="btn btn-primary" >Delete</Button>
+                    {/* device element */}
+                    
                 </div>
             </div>
+
+
+
+           
+            
         )
     })
     
@@ -46,18 +78,8 @@ const YourRooms =(props)=>{
         return(
 
             <React.Fragment>
-                
-            <div className="col-sm-12 col-md-6 pb-3 ct-chart">
-                <div className="card" data-unit-group="switch-lights">
-                    <div className="card-body">
-                        <h3 className="card-title">Your Room</h3>
-                        <hr className="my-0"/>
-                        {roomElement}
-                        {/* {console.log(props)} */}
-                    </div> 
-                </div>
-            </div>
-                </React.Fragment>
+            {roomElement}
+            </React.Fragment>
         )
     
         
