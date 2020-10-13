@@ -67,7 +67,7 @@ export const addRoomPost =(roomName,roomType)=>{
         roomType:roomType
     }
     return new Promise((resolve,reject)=>{
-        fetch('/rooms',{
+        fetch('/addroom',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

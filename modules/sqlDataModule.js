@@ -146,13 +146,61 @@ function addRoom(roomName,roomType) {
 //=============================================//
 function getAllRooms(){
     return new Promise((resolve, reject) =>{
-        runQuery(`SELECT * FROM rooms`).then(results=>{
+        runQuery(`SELECT rooms.* FROM rooms; SELECT devices.* FROM devices;`).then(results=>{
+            if(results.length > 0){
+                
             const rooms = [];
-            results.forEach(result => {
-                rooms.push(result)
-            });
+            // const room ={
+            //     roomId:'',
+            //     roomName:'',
+            //     roomType:'',
+            //     devices:[]
+            // }
+            results[0].forEach(room=>{
+                let roomObj = {
+                    id: room.id,
+                    name: room.name,
+                    type: room.type,
+                    devices:[]
+                }
+                rooms.push(roomObj);
+            })
+            results[1].forEach(device=>{
+                rooms.forEach(room=>{
+                    if(device.room_id === room.id){
+                        let deviceObj = {
+                            id: device.id,
+                            name: device.name,
+                            number: device.number,
+                            category_id: device.category_id,
+                            room_id: room.id
+                        }
+                        room.devices.push(deviceObj)
+                    }
+                })
+                
+            })
+            /**rooms[{
+             * roomId:10
+             * roomName: bed,
+             * type: 2,
+             * devices:[{},{}]
+             * }] */
+            // const device={
+            //     deviceId:'',
+            //     deviceName:'',
+            //     deviceNumber:''
+            // }
+            // results.forEach(result => {
 
+            //     rooms.push(result)
+                
+            // });
+                console.log(rooms)
             resolve(rooms)
+            }else{
+                reject("no data found")
+            }
             
         }).catch((error)=>{
             reject(error)

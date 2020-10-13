@@ -101,12 +101,35 @@ app.post('/settings', (req, res) => {
 //     })
 // });
 
-app.post('/rooms', (req, res) => {
+app.post('/addroom', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
     if (roomName && roomType) {
         dataModule.addRoom(roomName,roomType).then(rooms => {
+            res.json(rooms)
+        }).catch(error => {
+            if (error ===3) {
+                res.json(3)
+            } 
+            else {
+                res.json(4)
+            }
+        })
+    } else {
+        res.json(2)
+    }
+    
+});
+
+app.post('/adddevice', (req, res) => {
+    console.log(req.body);
+    const deviceName = req.body.deviceNme
+    const categoryId = req.body.typeId
+    const deviceSn = req.body.deviceSn
+    const roomId = req.body.roomId
+    if (roomName && roomType) {
+        dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
             res.json(rooms)
         }).catch(error => {
             if (error ===3) {

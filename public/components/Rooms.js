@@ -1,5 +1,5 @@
 // import dependencies
-import React, { useEffect, useState } from 'react'
+import React, {Fragment, useState } from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter  } from 'reactstrap';
@@ -19,15 +19,36 @@ const Rooms = (props) => {
             title: '',
             content: null
         },
+        //add data for the room
         roomModalShow: false,
         newRoomName: '',
-        newRoomType: ''
+        newRoomType: '',
+         // add data for the device
+         deviceName: '',
+         deviceType : '',
+         deviceSerialNumType : '',
+         deviceModalShow : false
     }
     const [state, setState] = useState(intialState)
+    const deviceModaltoggle = () => {
+        // console.log('hi');
+        setState({...state, deviceModalShow: !state.deviceModalShow})
+    }
+    console.log(props.rooms);
     const roomElement = props.rooms.map(room => {
+            //mapping the devices inside room  
+        const devices = room.devices.map(device=>{
+            return(
+        <li key={device.id} className="list-group-item">
+        <p className="specs">{device.name}</p>
+                <p className="ml-auto mb-0 text-success">connected</p>
+            </li>
+            )
+            })
+            //return the rooms 
         return (
             <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
-                <div className="card active">
+                <div className="card ">
                     {/* <svg className="icon-sprite">
                             <use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
                             <use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
@@ -36,28 +57,19 @@ const Rooms = (props) => {
                         <Link to={"/adddevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>  <h4 className="card-title">{room.type}: {room.name}</h4>
                         </Link>
                     </div>
-
-                    {/* style={{color: "red"}} */}
-
-
                     <hr className="my-0" />
                     <ul className="list-group borderless px-1">
-                        <li className="list-group-item">
-                            <p className="specs">Device1</p>
-                            <p className="ml-auto mb-0 text-success">connected</p>
-                        </li>
-                        <li className="list-group-item pt-0">
-                            <p className="specs">Device1</p>
-                            <p className="ml-auto mb-0">connected</p>
-                        </li>
-                        <li className="list-group-item pt-0 pb-4">
-                            <p className="specs">Device2</p>
-                            <p className="ml-auto mb-0">connected</p>
-                        </li>
+                        {devices}
                     </ul>
                     <hr className="my-0" />
-
+                    <div class="card-body">
+                    <div class="lights-controls" data-controls="switch-lights-in">
+                      
+                     <Button type="button" className="btn btn-primary" onClick={deviceModaltoggle}>Edt Room</Button>
                     <Button type="button" className="btn btn-primary" >Delete</Button>
+                    </div>
+                  </div>
+                    
                     {/* device element */}
 
                 </div>
@@ -65,7 +77,7 @@ const Rooms = (props) => {
 
         )
     })
-const errorModalClose = () => {
+    const errorModalClose = () => {
     const newState = {...state }
     newState.errorModal.show = false
     setState(newState)
@@ -149,6 +161,34 @@ const onAddRoomClick = e => {
 
 }
 }
+const onAddDeviceClick = (e) => {
+    e.preventDefault();
+    if(state.deviceName.trim()===''||state.deviceType ===''||state.deviceSerialNumType ===''){
+        const errorsElement=(
+            <ul>
+                  {state.deviceName.trim() === ''? <div>Device Name should not be empty</div>: null}
+                  {state.deviceType ===''? <div>select one of the type Options</div>: null}
+                  {state.deviceSerialNumType ===''? <div>select one of the serial number Options</div>: null}
+              </ul>
+        )
+        const newState = {...state}
+        newState.errorModal.show = true
+        newState.errorModal.title = "Entries Error"
+        newState.errorModal.content = errorsElement
+        // hide addroom modal because we need to show error modal and we can not show two modals on the same time
+        newState.deviceModalShow = false
+        setState(newState)
+    }else{
+        console.log('device added');
+        const newState = {...state}
+        newState.deviceName = ''
+        newState.deviceType = ''
+        newState.deviceSerialNumType = ''
+        newState.deviceModalShow = false
+        setState(newState)
+
+    }
+}
     return (
         <React.Fragment>
             <div>
@@ -224,6 +264,68 @@ const onAddRoomClick = e => {
                     <Button color="secondary" onClick={roomModaltoggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
+                 {/* ------------------------------- */}
+                 <Modal isOpen={state.deviceModalShow} toggle={deviceModaltoggle}>
+                {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
+                <ModalBody  >
+					<h3 className="card-title modal-font">Add Device</h3>
+						<Form  className="p-2">
+							<FormGroup className="row">
+								<div className="col-12" modal-content="true">
+									<Label  for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
+									<Input  className="form-control custom-focus" type="text" id="device_name"
+									    onChange={e=>{
+                                            setState({...state, deviceName:e.target.value})
+                                        }}
+                                        value={state.deviceName}/>
+								</div>
+							</FormGroup>
+
+							<FormGroup className="form-group row">
+								<div className="col-12">
+                                    <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
+									<Input className="form-control custom-focus" type="select" name="select" id="room_type" 
+										onChange={(e)=>{
+                                            setState({...state, deviceType:e.target.value})
+                                        }}
+                                        value={state.deviceType}>   
+										<option></option>
+										<option>1</option>
+										<option>2</option>
+										<option>3</option>
+										<option>4</option>
+										<option>5</option>
+									</Input>
+								</div>
+							</FormGroup>
+
+                            <FormGroup className="form-group row">
+								<div className="col-12">
+                                    <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label>
+									<Input className="form-control custom-focus" type="select" name="select" id="device_seralNum" 
+										onChange={(e)=>{
+                                            setState({...state, deviceSerialNumType:e.target.value})
+                                        }}
+                                        value={state.deviceSerialNumType}>   
+										<option></option>
+										<option>1122575214213</option>
+										<option>257464313</option>
+										<option>354676431</option>
+										<option>434+74+43</option>
+										<option>5534643</option>
+									</Input>
+								</div>
+							</FormGroup>
+						</Form>
+				
+						</ModalBody>
+							<ModalFooter>
+								<Button color="primary" onClick={onAddDeviceClick}>save</Button>
+                                <Button color="secondary" onClick={deviceModaltoggle}>Cancel</Button>
+								{/* <Button color="secondary" onClick={toggle}>Cancel</Button> */}
+						</ModalFooter>
+                    </Modal>
+                {/* --------------------------------------------------------- */}
         </React.Fragment>
     )
 
