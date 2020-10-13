@@ -7,14 +7,16 @@ import Login from './Login'
 import SupRouter from './SupRouter'
 // import Settings from './Settings'
 
-import {setRoomsAction} from '../actions'
+import {setRoomsAction,setDevicesAction} from '../actions'
 import {allRoomsPost} from '../services/api'
 
 
 class MainRouter extends React.Component {
+    //bring the data from the main state(local database for react)
     componentDidMount(){
         allRoomsPost().then(rooms=>{
             this.props.setRoomsAction(rooms)
+            
         })
     }
     render() {
@@ -34,5 +36,5 @@ class MainRouter extends React.Component {
     }
 }
 
-
+//i dont want to change the main state so i write null hier
 export default connect(null,{setRoomsAction})(MainRouter)

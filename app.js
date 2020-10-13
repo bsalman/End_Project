@@ -101,12 +101,13 @@ app.post('/settings', (req, res) => {
 //     })
 // });
 
-app.post('/rooms', (req, res) => {
-    console.log(req.body);
+app.post('/addrooms', (req, res) => {
+    // console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
     if (roomName && roomType) {
         dataModule.addRoom(roomName,roomType).then(rooms => {
+            // console.log(rooms);
             res.json(rooms)
         }).catch(error => {
             if (error ===3) {
@@ -119,6 +120,31 @@ app.post('/rooms', (req, res) => {
     } else {
         res.json(2)
     }
+    
+    
+});
+
+
+app.post('/adddevice', (req, res) => {
+    console.log('request is',req.body);
+    const deviceName = req.body.deviceName
+    const categoryId = req.body.typeId
+    const deviceSn = req.body.deviceSn
+    const roomId = req.body.roomId
+    // if (deviceName && categoryId && deviceSn) {
+    //     dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
+    //         res.json(rooms)
+    //     }).catch(error => {
+    //         if (error ===3) {
+    //             res.json(3)
+    //         } 
+    //         else {
+    //             res.json(4)
+    //         }
+    //     })
+    // } else {
+    //     res.json(2)
+    // }
     
 });
 //==================get all Rooms  ======================//

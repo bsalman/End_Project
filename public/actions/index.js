@@ -17,3 +17,10 @@ export const setRoomsAction = (rooms) => {
         payload: rooms
     }
 }
+
+export const setDevicesAction = (devices) => {
+    return {
+        type: 'SET_DEVICES',
+        payload: devices
+    }
+}

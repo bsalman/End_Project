@@ -67,12 +67,42 @@ export const addRoomPost =(roomName,roomType)=>{
         roomType:roomType
     }
     return new Promise((resolve,reject)=>{
-        fetch('/rooms',{
+        fetch('/addrooms',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body:JSON.stringify(roomObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//============================================//
+export const addDevicePost =(deviceName,typeId,deviceSn,roomId)=>{
+    const deviceObj={
+        deviceName,
+        typeId,
+        deviceSn,
+        roomId
+    }
+    return new Promise((resolve,reject)=>{
+        fetch('/adddevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(deviceObj)
         }).then(response=>{
             if (response.status===200) {
                 response.json().then((data)=>{
@@ -112,32 +142,32 @@ export const allRoomsPost = () => {
     })
 }
 //===========================================//
-export const getRoomPost = (roomId) => {
-        return new Promise((resolve, reject) => {
-            const data = {
-                id: roomId
-            }
-            fetch("/adddevices", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
+// export const getRoomPost = (roomId) => {
+//         return new Promise((resolve, reject) => {
+//             const data = {
+//                 id: roomId
+//             }
+//             fetch("/adddevice", {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json'
                     
-                },
-                body: JSON.stringify(data)
-            }).then(response => {
-                if (response.status == 200) {
-                    response.json().then(data => {
-                        resolve(data)
-                    }).catch(error => {
-                        reject(error)
-                    })
-                }else{
-                    reject(new Error('can not send data to server. response number is: ' + response.status))
-                }
-            }).catch(error => {
-                reject(error)
-            })
-        })}
+//                 },
+//                 body: JSON.stringify(data)
+//             }).then(response => {
+//                 if (response.status == 200) {
+//                     response.json().then(data => {
+//                         resolve(data)
+//                     }).catch(error => {
+//                         reject(error)
+//                     })
+//                 }else{
+//                     reject(new Error('can not send data to server. response number is: ' + response.status))
+//                 }
+//             }).catch(error => {
+//                 reject(error)
+//             })
+//         })}
     
 
 //============================================//

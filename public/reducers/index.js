@@ -28,8 +28,18 @@ const roomsReducer = (rooms = [], action) => {
     return rooms
 }
 
+const devicesReducer = (devices = [], action) => {
+    if (action.type === 'SET_DEVICES') {
+        return action.payload
+    }
+
+
+    return devices
+}
+
 export default combineReducers({
     user: userReducer,
     loggedin: loggedinReducer,
-    rooms: roomsReducer
+    rooms: roomsReducer,
+    devices : devicesReducer
 })

@@ -1,7 +1,7 @@
 // import dependencies
 import React, {useState } from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter  } from 'reactstrap';
 
 
@@ -13,6 +13,8 @@ import {setRoomsAction} from '../actions'
 // create a setting classNameName
 const Rooms = (props) => {
 
+    const history = useHistory()
+    
     let intialState = {
         //add data for the modal error
         errorModal:{
@@ -26,17 +28,28 @@ const Rooms = (props) => {
         newRoomType: '',
         // add data for the device
         deviceName: '',
-        deviceType : '',
+        categoryID : '',
         deviceSerialNumType : '',
         deviceModalShow : false
     }
     const [state, setState] = useState(intialState)
-    // console.log(props);
+    console.log(props);
     const deviceModaltoggle = () => {
         // console.log('hi');
         setState({...state, deviceModalShow: !state.deviceModalShow})
     }
     const roomElement = props.rooms.map(room => {
+        // console.log('rooms',room);
+        //mapping the devices inside room  
+        const devices = room.devices.map(device=>{
+            return(
+                <li key={device.id} className="list-group-item">
+                    <p className="specs">{device.name}</p>
+                    <p className="ml-auto mb-0 text-success">connected</p>
+                </li>
+            )
+        })
+            //return the rooms 
         return (
             <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
                 <div className="card active">
@@ -51,16 +64,29 @@ const Rooms = (props) => {
 
                     {/* style={{color: "red"}} */}
 
+
+                    <hr className="my-0" />
+                    <ul className="list-group borderless px-1">
+                        {devices}
+                    </ul>
+                    <hr className="my-0" />
+                    <div className="card-body">
+                    <div className="lights-controls" data-controls="switch-lights-in">
+
+
+                   
                     <Button type="button" className="btn btn-primary" onClick={deviceModaltoggle}>Add device</Button>
                     <Button type="button" className="btn btn-primary" >Delete</Button>
                     {/* device element */}
-
+                    </div>
+                    </div>
                 </div>
             </div>
 
         )
     })
 
+    
 
 const errorModalClose = () => {
     const newState = {...state }
@@ -116,6 +142,8 @@ const onAddRoomClick = e => {
             newState.newRoomType = ''
             newState.roomModalShow = false
             setState(newState)
+            //adding data to the main state using action
+            //reducers is only to make a connection between action and main state
             props.setRoomsAction(data)
             break;
         }
@@ -151,11 +179,11 @@ const onAddRoomClick = e => {
 
 const onAddDeviceClick = (e) => {
     e.preventDefault();
-    if(state.deviceName.trim()===''||state.deviceType ===''||state.deviceSerialNumType ===''){
+    if(state.deviceName.trim()===''||state.categoryID ===''||state.deviceSerialNumType ===''){
         const errorsElement=(
             <ul>
                   {state.deviceName.trim() === ''? <div>Device Name should not be empty</div>: null}
-                  {state.deviceType ===''? <div>select one of the type Options</div>: null}
+                  {state.categoryID ===''? <div>select one of the type Options</div>: null}
                   {state.deviceSerialNumType ===''? <div>select one of the serial number Options</div>: null}
               </ul>
         )
@@ -168,11 +196,13 @@ const onAddDeviceClick = (e) => {
         setState(newState)
     }else{
         console.log('device added');
+        console.log(state.deviceName,state.categoryID,state.deviceSerialNumType);
         const newState = {...state}
         newState.deviceName = ''
-        newState.deviceType = ''
+        newState.categoryID = ''
         newState.deviceSerialNumType = ''
         newState.deviceModalShow = false
+        history.push('/adddevice')
         setState(newState)
 
     }
@@ -288,34 +318,25 @@ const onAddDeviceClick = (e) => {
                                     <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
 									<Input className="form-control custom-focus" type="select" name="select" id="room_type" 
 										onChange={(e)=>{
-                                            setState({...state, deviceType:e.target.value})
+                                            setState({...state, categoryID:e.target.value})
                                         }}
-                                        value={state.deviceType}>   
+                                        value={state.categoryID}>   
 										<option></option>
-										<option>1</option>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
+										<option>Light</option>
+										<option>Temperature</option>
+										<option>Motion</option>
 									</Input>
 								</div>
 							</FormGroup>
 
-                            <FormGroup className="form-group row">
-								<div className="col-12">
-                                    <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label>
-									<Input className="form-control custom-focus" type="select" name="select" id="device_seralNum" 
-										onChange={(e)=>{
+                            <FormGroup className="row">
+                            <div className="col-12" modal-content="true">
+									<Label  for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label >
+									<Input  className="form-control custom-focus" type="text" id="device_seralNum"
+									    onChange={e=>{
                                             setState({...state, deviceSerialNumType:e.target.value})
                                         }}
-                                        value={state.deviceSerialNumType}>   
-										<option></option>
-										<option>1122575214213</option>
-										<option>257464313</option>
-										<option>354676431</option>
-										<option>434+74+43</option>
-										<option>5534643</option>
-									</Input>
+                                        value={state.deviceSerialNumType}/>
 								</div>
 							</FormGroup>
 						</Form>
@@ -334,10 +355,16 @@ const onAddDeviceClick = (e) => {
     )
 
 }
+
+//changing our state(initial state) to props
+//what we changed in rooms we put it to state and sent it to main state
+//
 const setStateToProps = (state) => {
     return ({
         rooms: state.rooms
     })
 }
 
+//when we want to use redux and export this connection come with react redux to change main state which is inside redux
+//on main oute i dont want to change mmain state so i write null but when i want to change the main state i dont write null
 export default connect(setStateToProps, {setRoomsAction})(Rooms)
