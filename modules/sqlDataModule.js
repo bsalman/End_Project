@@ -121,7 +121,12 @@ function addRoom(roomName,roomType) {
                 reject(3)
             }else{
                 runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
-                    resolve(result)
+                    getAllRooms().then(rooms =>{
+                        resolve(rooms)
+                    }).catch(error=>{
+                        reject(error)
+                    })
+                
                 }).catch(error => {
                     console.log(error);
                     if (error.errno === 1054) {
@@ -156,11 +161,36 @@ function getAllRooms(){
 }
 //================================================//
 
+function getRoom(id) {
+    return new Promise((resolve, reject) => {
+        runQuery(`SELECT rooms.* , devices.* FROM devices INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id= ${id}`).then(results => {
+            if (results.length) {
+                const rooms = {}
+                results.forEach(result => {
+                    if(rooms.id) {
+                        rooms.id.push(result.rooms)
+                    } else {
+                        rooms._id = result.room_id
+                        rooms.id = result.room.id
+                      
+                    }
+                })
+                resolve(rooms)
+            } else {
+                reject(new Error('can not find a room with this id : ' + id))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
 
 
 module.exports = {
     checkUser,
     changeUser,
     addRoom,
-    getAllRooms
+    getAllRooms,
+    getRoom
 }

@@ -19,7 +19,18 @@ const loggedinReducer = (loggedin = null, action) => {
     return loggedin
 }
 
+
+const roomsReducer = (rooms = [], action) => {
+    if (action.type === 'SET_ROOMS') {
+        return action.payload
+    }
+
+
+    return rooms
+}
+
 export default combineReducers({
     user: userReducer,
-    loggedin: loggedinReducer
+    loggedin: loggedinReducer,
+    rooms: roomsReducer
 })

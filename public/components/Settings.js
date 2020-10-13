@@ -6,8 +6,6 @@ import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 // import the components
 import CustomModal from './CustomModal'
-// import SideNav from './SideNav'
-// import TopNav from './TopNav'
 
 import {changeUserPost} from '../services/api'
 
@@ -65,12 +63,12 @@ class Settings extends React.Component {
           case 1:
             // badgeClass = 'alert alert-success'
             // badgeMessage = 'The changes are done successfully, you can login again now'
-            this.props.history.push('/dashboard')
+            this.props.history.push('/rooms')
             break;
           case 2:
           case 4:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'there was a server side error, please contact the adminstrator'
+            badgeMessage = 'there was a server side error, please contact the administrator'
             break;
           case 3:
             badgeClass = 'alert alert-danger'
@@ -334,6 +332,7 @@ class Settings extends React.Component {
             </radialGradient>
           </defs>
         </svg>
+      
       </React.Fragment>
     )
   }

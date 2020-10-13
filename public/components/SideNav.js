@@ -5,6 +5,10 @@ import {Link, withRouter} from 'react-router-dom'
 
 
 class SideNav extends React.Component{
+
+  state={isOpen:false}
+
+  toggle = () => {this.setState({isOpen:!this.state.isOpen})};
  
     render(){
         return(
@@ -50,9 +54,9 @@ class SideNav extends React.Component{
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/allrooms">
+                    <Link className="nav-link" to="/rooms">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
-                      All Rooms
+                      Rooms
                     </Link>
                   </li>
                   <li className="nav-item">

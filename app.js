@@ -89,25 +89,36 @@ app.post('/settings', (req, res) => {
 });
 
 
-// app.get('/dashboard', (req, res) => {
-//     const arr = [{roomName:'bed',
-// roomType:'a'},
-// {roomName:'bed1',
-// roomType:'b'}]
-//     dataModule.addRoom(arr).then(result => {
-//         console.log(result);
-//     }).catch(error => {
-//         console.log(error);
-//     })
-// });
 
-app.post('/dashboard', (req, res) => {
+
+// post handler for adding rooms and their devices
+// app.post('/dashboard', (req, res) => {
+//     console.log(req.body);
+//     const roomName = req.body.roomName
+//     const roomType = req.body.roomType
+//     if (roomName && roomType) {
+//         dataModule.addRoom(roomName,roomType).then(rooms => {
+//             res.json(rooms)
+//         }).catch(error => {
+//             if (error ===3) {
+//                 res.json(3)
+//             } 
+//             else {
+//                 res.json(4)
+//             }
+//         })
+//     } else {
+//         res.json(2)
+//     }
+    
+// });
+app.post('/rooms', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
     if (roomName && roomType) {
-        dataModule.addRoom(roomName,roomType).then(room => {
-            res.json(1)
+        dataModule.addRoom(roomName,roomType).then(rooms => {
+            res.json(rooms)
         }).catch(error => {
             if (error ===3) {
                 res.json(3)
@@ -122,7 +133,7 @@ app.post('/dashboard', (req, res) => {
     
 });
 //==================get all Rooms  ======================//
-app.post('/dashboard/allrooms',(req,res)=>{
+app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
         
         res.json(rooms)
@@ -134,14 +145,24 @@ app.post('/dashboard/allrooms',(req,res)=>{
 //================== delete room=========================//
 app.post('/dashboard/deleteroom',(req,res)=>{
     console.loge(body)
-    const roomid = req.body.bookid
-    dataModule.deleteRoom(roomid).then(() => {
+    const roomId = req.body.roomId
+    dataModule.deleteRoom(roomId).then(() => {
         res.json(1)
     }).catch(error => {
         console.log(error);
         res.json(2)
     })
 })
+
+// ============= all rooms with devices app =================//
+app.post('/rooms', (req,res)=>{
+    const arr = [{}]
+
+    
+})
+
+
+
 
 //==============================================================//
 app.use('/', (req, res, next) => {

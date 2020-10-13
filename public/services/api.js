@@ -61,13 +61,15 @@ export const changeUserPost =(newUsername,newPassword,repassword,oldPassword) =>
     })
 }
 
+
+// function to add a single room to the component
 export const addRoomPost =(roomName,roomType)=>{
     const roomObj={
         roomName:roomName,
         roomType:roomType
     }
     return new Promise((resolve,reject)=>{
-        fetch('/dashboard',{
+        fetch('/rooms',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -89,9 +91,11 @@ export const addRoomPost =(roomName,roomType)=>{
 
 }
 //============================================//
+
+// function to show all rooms that were added to the component
 export const allRoomsPost = () => {
     return new Promise((resolve, reject) => {
-        fetch('/dashboard/allrooms', {
+        fetch('/rooms/allrooms', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -111,11 +115,13 @@ export const allRoomsPost = () => {
         })
     })
 }
+
+
 //============================================//
 export const deleteRoomPost=(roomId)=>{
     return new Promise ((resolve,reject)=>{
         const data={roomId}
-        fetch('/dashboard/deleteroom',{
+        fetch('/rooms/deleteroom',{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -132,6 +138,35 @@ export const deleteRoomPost=(roomId)=>{
                 reject(new Error('can not get the data, response number is: ' + response.status))
             }
         }).catch((error)=>{
+            reject(error)
+        })
+    })
+}
+// =========================================== // 
+
+// function to get the saved rooms
+export const getRoomsPost = (roomId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            id: roomId
+        }
+        fetch('/adddevices', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status === 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            } else {
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch(error => {
             reject(error)
         })
     })
