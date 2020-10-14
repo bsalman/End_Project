@@ -121,16 +121,26 @@ app.post('/addroom', (req, res) => {
     }
     
 });
-
-app.post('/adddevice', (req, res) => {
+//==============================================//
+app.post('/rooms/adddevices', (req, res) => {
     console.log(req.body);
-    const deviceName = req.body.deviceNme
-    const category = req.body.type
+    const deviceName = req.body.deviceName
+    const categoryId = req.body.type
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
-    if (roomName && roomType) {
-        dataModule.addDevice(deviceName, category, deviceSn, roomId).then(rooms => {
-            res.json(rooms)
+    if (deviceName && categoryId && deviceSn) {
+        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId).then(device => {
+
+            let deviceObj = {
+                id: device.insertId,
+                name: deviceName,
+                number: deviceSn,
+                category: categoryId, 
+                room_id: roomId
+            }
+
+            res.json(deviceObj)
+
         }).catch(error => {
             if (error ===3) {
                 res.json(3)
@@ -147,7 +157,6 @@ app.post('/adddevice', (req, res) => {
 //==================get all Rooms  ======================//
 app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
-        
         res.json(rooms)
     }).catch(error=>{
         res.json(2)
@@ -156,7 +165,6 @@ app.post('/rooms/allrooms',(req,res)=>{
 
 //================== delete room=========================//
 app.post('/rooms/deleteroom',(req,res)=>{
-    console.loge(body)
     const roomid = req.body.bookid
     dataModule.deleteRoom(roomid).then(() => {
         res.json(1)

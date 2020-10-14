@@ -8,7 +8,7 @@ import TopNav from './TopNav'
 import Page404 from './Page404'
 import Settings from './Settings'
 import Rooms from './Rooms'
-import AddDevices from './AddDevices'
+import ShowDevices from './ShowDevices'
 
 
 class SupRouter extends React.Component {
@@ -30,7 +30,7 @@ class SupRouter extends React.Component {
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
-                                                <Route path="/showdevices/:roomtype/:id"exact component={AddDevices} />
+                                                <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} />
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>

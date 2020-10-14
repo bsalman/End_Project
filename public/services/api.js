@@ -112,33 +112,37 @@ export const allRoomsPost = () => {
     })
 }
 //===========================================//
-export const addDevices = (roomId) => {
-        return new Promise((resolve, reject) => {
-            const data = {
-                id: roomId
-            }
-            fetch("/adddevices", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                    
-                },
-                body: JSON.stringify(data)
-            }).then(response => {
-                if (response.status == 200) {
-                    response.json().then(data => {
-                        resolve(data)
-                    }).catch(error => {
-                        reject(error)
-                    })
-                }else{
-                    reject(new Error('can not send data to server. response number is: ' + response.status))
-                }
-            }).catch(error => {
-                reject(error)
-            })
-        })}
-    
+
+export const addDevicePost =(deviceName,type,deviceSn,roomId)=>{
+    return new Promise((resolve,reject)=>{
+        const deviceObj={
+            deviceName:deviceName,
+            deviceSn:deviceSn,
+            type:type,
+            roomId:roomId
+        }
+        //console.log(deviceObj);
+        fetch('/rooms/adddevices',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(deviceObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
 
 //============================================//
 export const deleteRoomPost=(roomId)=>{

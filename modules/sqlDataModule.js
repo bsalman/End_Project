@@ -148,14 +148,7 @@ function getAllRooms(){
     return new Promise((resolve, reject) =>{
         runQuery(`SELECT rooms.* FROM rooms; SELECT devices.* FROM devices;`).then(results=>{
             if(results.length > 0){
-                
             const rooms = [];
-            // const room ={
-            //     roomId:'',
-            //     roomName:'',
-            //     roomType:'',
-            //     devices:[]
-            // }
             results[0].forEach(room=>{
                 let roomObj = {
                     id: room.id,
@@ -180,23 +173,6 @@ function getAllRooms(){
                 })
                 
             })
-            /**rooms[{
-             * roomId:10
-             * roomName: bed,
-             * type: 2,
-             * devices:[{},{}]
-             * }] */
-            // const device={
-            //     deviceId:'',
-            //     deviceName:'',
-            //     deviceNumber:''
-            // }
-            // results.forEach(result => {
-
-            //     rooms.push(result)
-                
-            // });
-                console.log(rooms)
             resolve(rooms)
             }else{
                 reject("no data found")
@@ -227,6 +203,32 @@ function getRoom(roomId) {
         })
     })
 }
+//============================================//
+function addDevice(deviceName,deviceNumber,category, roomId) {
+    return new Promise((resolve,reject) => {
+        runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
+            // console.log('resules',results);
+            if(results.length!=0){
+                reject(3)
+            }else{
+                runQuery(`INSERT INTO devices(name,number,category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then( result => {
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
 //=========================================================//
 
 
@@ -236,5 +238,6 @@ module.exports = {
     changeUser,
     addRoom,
     getAllRooms,
-    getRoom
+    getRoom,
+    addDevice
 }
