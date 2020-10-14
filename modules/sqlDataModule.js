@@ -215,15 +215,15 @@ function addDevice(deviceName,deviceNumber,categoryId, roomId) {
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name,number,category_id, room_id) VALUES ('${deviceName}','${deviceNumber}','${categoryId}','${roomId}')`).then( result => {
+                runQuery(`INSERT INTO devices(name,number,category, room_id) VALUES ('${deviceName}','${deviceNumber}','${categoryId}','${roomId}')`).then( result => {
                     // console.log(result);
-                    getRooms().then(rooms => {
-                        // console.log('get room',rooms);
-                        resolve(rooms)
-                    }).catch(error => {
-                        reject(error)
-                    })
-                    
+                    // getAllRooms().then(rooms => {
+                    //     // console.log('get room',rooms);
+                    //     resolve(rooms)
+                    // }).catch(error => {
+                    //     reject(error)
+                    // })
+                    resolve(result)
                 }).catch(error => {
                     console.log(error);
                     if (error.errno === 1054) {

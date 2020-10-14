@@ -125,26 +125,27 @@ app.post('/addrooms', (req, res) => {
 });
 
 
-app.post('/adddevice', (req, res) => {
+app.post('/addrooms/adddevice', (req, res) => {
     console.log('request is',req.body);
+    // res.json(1)
     const deviceName = req.body.deviceName
     const categoryId = req.body.typeId
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
-    // if (deviceName && categoryId && deviceSn) {
-    //     dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
-    //         res.json(rooms)
-    //     }).catch(error => {
-    //         if (error ===3) {
-    //             res.json(3)
-    //         } 
-    //         else {
-    //             res.json(4)
-    //         }
-    //     })
-    // } else {
-    //     res.json(2)
-    // }
+    if (deviceName && categoryId && deviceSn) {
+        dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
+            res.json(rooms)
+        }).catch(error => {
+            if (error ===3) {
+                res.json(3)
+            } 
+            else {
+                res.json(4)
+            }
+        })
+    } else {
+        res.json(2)
+    }
     
 });
 //==================get all Rooms  ======================//

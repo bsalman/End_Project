@@ -30,7 +30,7 @@ class SupRouter extends React.Component {
                                                 <Route path="/addrooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
-                                                <Route path="/adddevice"exact component={Rooms} />
+                                                <Route path="/addrooms/adddevice"exact component={()=><Rooms/>} />
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>

@@ -1,12 +1,12 @@
 // import dependencies
-import React, {useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import {connect} from 'react-redux'
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useHistory, useParams} from 'react-router-dom'
 import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter  } from 'reactstrap';
 
 
 import CustomModal from './CustomModal'
-import {addRoomPost} from '../services/api'
+import {addRoomPost, addDevicePost} from '../services/api'
 import {setRoomsAction} from '../actions'
 // import SideNav from './SideNav'
 
@@ -14,6 +14,7 @@ import {setRoomsAction} from '../actions'
 const Rooms = (props) => {
 
     const history = useHistory()
+    const params = useParams()
     
     let intialState = {
         //add data for the modal error
@@ -30,13 +31,21 @@ const Rooms = (props) => {
         deviceName: '',
         categoryID : '',
         deviceSerialNumType : '',
-        deviceModalShow : false
+        deviceModalShow : false,
+        selectedRoomId: '',
+        selectedRoomTitle: ''
     }
     const [state, setState] = useState(intialState)
-    console.log(props);
-    const deviceModaltoggle = () => {
+    console.log(params);
+    
+    const deviceModaltoggle = (roomID,roomType) => {
         // console.log('hi');
-        setState({...state, deviceModalShow: !state.deviceModalShow})
+        // console.log(params);
+        setState({...state, 
+            deviceModalShow: !state.deviceModalShow,
+            selectedRoomId: roomID,
+            selectedRoomTitle: roomType
+        })
     }
     const roomElement = props.rooms.map(room => {
         // console.log('rooms',room);
@@ -52,14 +61,25 @@ const Rooms = (props) => {
             //return the rooms 
         return (
             <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
-                <div className="card active">
+                <div className="card">
                     {/* <svg className="icon-sprite">
                             <use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
                             <use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
                         </svg> */}
-                    <div className="card-body d-flex flex-row justify-content-center">
-                        <Link to={"/adddevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>  <h4 className="card-title">{room.type}: {room.name}</h4>
-                        </Link>
+                    <div className="card-body">
+                    <div className="row">
+                        <div className="col-auto mr-auto">
+                        <h5 className="card-title">{room.type}: {room.name}</h5>
+                        </div>
+                        <div className="col-auto ">
+                        <Link to={"/adddevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>
+                            <Button type="button" className="btn btn-primary"data-toggle="tooltip"data-placement="right"
+                          title="View Room">
+                              <i className="far fa-eye"></i>
+                              </Button>
+                              </Link>
+                        </div>
+                    </div>
                     </div>
 
                     {/* style={{color: "red"}} */}
@@ -71,13 +91,31 @@ const Rooms = (props) => {
                     </ul>
                     <hr className="my-0" />
                     <div className="card-body">
-                    <div className="lights-controls" data-controls="switch-lights-in">
+                    <div className="row">
+                    <div className="col-auto mr-auto">
+                    
+
+                     <Button type="button" className="btn btn-primary"
+                      data-toggle="tooltip"
+                      data-placement="right"
+                       title="Add Devices"
+                     onClick={()=>{deviceModaltoggle(room.id,room.type)}}><i className="fas fa-plus"></i></Button>
+                     
+                     &nbsp;&nbsp;</div>
+                     <div className="col-auto">
 
 
                    
-                    <Button type="button" className="btn btn-primary" onClick={deviceModaltoggle}>Add device</Button>
-                    <Button type="button" className="btn btn-primary" >Delete</Button>
+                     <Button type="button" className="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit Room"><i className="fas fa-tools"></i></Button>
+                    &nbsp;&nbsp;
+                    
+                    <Button type="button"
+                     className="btn btn-primary" 
+                    data-toggle="tooltip"
+                     data-placement="right"
+                      title="Delete Room"><i className="far fa-trash-alt"></i></Button>
                     {/* device element */}
+                    </div>
                     </div>
                     </div>
                 </div>
@@ -196,14 +234,23 @@ const onAddDeviceClick = (e) => {
         setState(newState)
     }else{
         console.log('device added');
+        console.log(props);
         console.log(state.deviceName,state.categoryID,state.deviceSerialNumType);
         const newState = {...state}
         newState.deviceName = ''
         newState.categoryID = ''
         newState.deviceSerialNumType = ''
         newState.deviceModalShow = false
-        history.push('/adddevice')
-        setState(newState)
+        // props.history.push('/addrooms/adddevice')
+        // props.match.url='/addrooms/adddevice'
+        console.log('params',state.selectedRoomId);
+        addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId).then(device => {
+            console.log('device',device);
+            setState(newState)
+        }).catch(error=> {
+            console.log(error);
+        })
+        
 
     }
 }

@@ -97,7 +97,7 @@ export const addDevicePost =(deviceName,typeId,deviceSn,roomId)=>{
         roomId
     }
     return new Promise((resolve,reject)=>{
-        fetch('/adddevice',{
+        fetch('/addrooms/adddevice',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
