@@ -112,7 +112,7 @@ export const allRoomsPost = () => {
     })
 }
 //===========================================//
-export const getRoomPost = (roomId) => {
+export const addDevices = (roomId) => {
         return new Promise((resolve, reject) => {
             const data = {
                 id: roomId

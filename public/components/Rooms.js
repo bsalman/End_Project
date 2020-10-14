@@ -1,8 +1,8 @@
 // import dependencies
-import React, {Fragment, useState } from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter  } from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input,Modal,ModalBody,ModalFooter  } from 'reactstrap';
 
 
 import CustomModal from './CustomModal'
@@ -53,20 +53,50 @@ const Rooms = (props) => {
                             <use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
                             <use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
                         </svg> */}
-                    <div className="card-body d-flex flex-row justify-content-center">
-                        <Link to={"/adddevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>  <h4 className="card-title">{room.type}: {room.name}</h4>
-                        </Link>
+                    <div className="card-body">
+                    <div className="row">
+                        <div className="col-auto mr-auto">
+                        <h5 className="card-title">{room.type}: {room.name}</h5>
+                        </div>
+                        <div className="col-auto ">
+                        <Link to={"/adddevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>
+                            <Button type="button" className="btn btn-primary"data-toggle="tooltip"data-placement="right"
+                          title="View Room">
+                              <i className="far fa-eye"></i>
+                              </Button>
+                              </Link>
+                        </div>
+                    </div>
+                        
+                       
                     </div>
                     <hr className="my-0" />
                     <ul className="list-group borderless px-1">
                         {devices}
                     </ul>
                     <hr className="my-0" />
-                    <div class="card-body">
-                    <div class="lights-controls" data-controls="switch-lights-in">
-                      
-                     <Button type="button" className="btn btn-primary" onClick={deviceModaltoggle}>Edt Room</Button>
-                    <Button type="button" className="btn btn-primary" >Delete</Button>
+                    <div className="card-body">
+                    <div className="row">
+                    <div className="col-auto mr-auto">
+                     <Button type="button" className="btn btn-primary"
+                      data-toggle="tooltip"
+                      data-placement="right"
+                       title="Add Devices"
+                     onClick={deviceModaltoggle}><i className="fas fa-plus"></i></Button>
+                     &nbsp;&nbsp;</div>
+                     <div className="col-auto">
+                     
+                    <Button type="button" className="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit Room"><i className="fas fa-tools"></i></Button>
+                    &nbsp;&nbsp;
+                    
+                    <Button type="button"
+                     className="btn btn-primary" 
+                    data-toggle="tooltip"
+                     data-placement="right"
+                      title="Delete Room"><i className="far fa-trash-alt"></i></Button>
+                    
+                    
+                    </div>
                     </div>
                   </div>
                     

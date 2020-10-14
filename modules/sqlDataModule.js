@@ -172,7 +172,7 @@ function getAllRooms(){
                             id: device.id,
                             name: device.name,
                             number: device.number,
-                            category_id: device.category_id,
+                            category: device.category,
                             room_id: room.id
                         }
                         room.devices.push(deviceObj)

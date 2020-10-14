@@ -125,11 +125,11 @@ app.post('/addroom', (req, res) => {
 app.post('/adddevice', (req, res) => {
     console.log(req.body);
     const deviceName = req.body.deviceNme
-    const categoryId = req.body.typeId
+    const category = req.body.type
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
     if (roomName && roomType) {
-        dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
+        dataModule.addDevice(deviceName, category, deviceSn, roomId).then(rooms => {
             res.json(rooms)
         }).catch(error => {
             if (error ===3) {
