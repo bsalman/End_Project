@@ -144,35 +144,162 @@ function addRoom(roomName,roomType) {
     })
 }
 //=============================================//
+ //* function to get ALL ROOMS & DEVICES !!
 function getAllRooms(){
     return new Promise((resolve, reject) =>{
-        runQuery(`SELECT * FROM rooms`).then(results=>{
+        runQuery(`SELECT rooms.* FROM rooms; SELECT devices.* FROM devices;`).then(results=>{
+            if(results.length > 0){
+                
             const rooms = [];
-            results.forEach(result => {
-                rooms.push(result)
-            });
+            // const room ={
+            //     roomId:'',
+            //     roomName:'',
+            //     roomType:'',
+            //     devices:[]
+            // }
+            results[0].forEach(room=>{
+                let roomObj = {
+                    id: room.id,
+                    name: room.name,
+                    type: room.type,
+                    devices:[]
+                }
+                rooms.push(roomObj);
+            })
+            results[1].forEach(device=>{
+                rooms.forEach(room=>{
+                    if(device.room_id === room.id){
+                        let deviceObj = {
+                            id: device.id,
+                            name: device.name,
+                            number: device.number,
+                            category_id: device.category_id,
+                            room_id: room.id
+                        }
+                        room.devices.push(deviceObj)
+                    }
+                })
+                
+            })
+            /**rooms[{
+             * roomId:10
+             * roomName: bed,
+             * type: 2,
+             * devices:[{},{}]
+             * }] */
+            // const device={
+            //     deviceId:'',
+            //     deviceName:'',
+            //     deviceNumber:''
+            // }
+            // results.forEach(result => {
 
+            //     rooms.push(result)
+                
+            // });
+                console.log(rooms)
             resolve(rooms)
+            }else{
+                reject("no data found")
+            }
             
         }).catch((error)=>{
             reject(error)
         })
     })
 }
+
+
+//* first version
+// function getAllRooms(){
+//     return new Promise((resolve, reject) =>{
+//         runQuery(`SELECT * FROM rooms`).then(results=>{
+//             const rooms = [];
+//             results.forEach(result => {
+//                 rooms.push(result)
+//             });
+
+//             resolve(rooms)
+            
+//         }).catch((error)=>{
+//             reject(error)
+//         })
+//     })
+// }
+
+//========================================//
+// add devices to the room component 
+
+function addDevice(deviceName,deviceNumber,categoryId, roomId) {
+    return new Promise((resolve,reject) => {
+        runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
+            // console.log('resules',results);
+            if(results.length!=0){
+                reject(3)
+            }else{
+                runQuery(`INSERT INTO devices(name,number,category_id, room_id) VALUES ('${deviceName}','${deviceNumber}','${categoryId}','${roomId}')`).then( result => {
+                    // console.log(result);
+                    getRooms().then(rooms => {
+                        // console.log('get room',rooms);
+                        resolve(rooms)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                    
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
+//=============================================//
+// function getRooms() {
+//     return new Promise((resolve, reject) => {
+//         runQuery(`SELECT rooms.* , devices.* FROM rooms INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id = rooms.id`).then(results => {
+//             if (results.length) {
+//                 const rooms = {}
+//                 results.forEach(result => {
+                  
+//                         console.log(result)
+//                         rooms.push(result)
+                    
+//                 })
+//                 resolve(rooms)
+//             } else {
+//                 reject(new Error('can not find a room with this id : ' + id))
+//             }
+//         }).catch(error => {
+//             reject(error)
+//         })
+//     })
+// }
+
+
+
 //================================================//
 
-function getRoom(id) {
+function getRoom(roomId) {
     return new Promise((resolve, reject) => {
-        runQuery(`SELECT rooms.* , devices.* FROM devices INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id= ${id}`).then(results => {
+        runQuery(`SELECT rooms.* , devices.* FROM rooms INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id= ${roomId}`).then(results => {
             if (results.length) {
                 const rooms = {}
                 results.forEach(result => {
                     if(rooms.id) {
+                        console.log(result)
                         rooms.id.push(result.rooms)
                     } else {
                         rooms._id = result.room_id
                         rooms.id = result.room.id
-                      
                     }
                 })
                 resolve(rooms)
@@ -192,5 +319,9 @@ module.exports = {
     changeUser,
     addRoom,
     getAllRooms,
-    getRoom
+    addDevice,
+   // getRooms,
+
+    getRoom,
+    
 }

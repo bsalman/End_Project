@@ -6,9 +6,9 @@ import {Link, withRouter} from 'react-router-dom'
 
 class SideNav extends React.Component{
 
-  state={isOpen:false}
+  // state={isOpen:false}
 
-  toggle = () => {this.setState({isOpen:!this.state.isOpen})};
+  // toggle = () => {this.setState({isOpen:!this.state.isOpen})};
  
     render(){
         return(

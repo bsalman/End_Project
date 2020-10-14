@@ -26,6 +26,7 @@ app.get('/dummy', (req, res) => {
 
 })
 
+// =================== LOGIN ==============//
 
 app.post('/login', (req, res) => {
     console.log(req.body);
@@ -56,6 +57,8 @@ app.post('/login', (req, res) => {
     }
 
 });
+
+//================= SETTINGS ============ //
 
 app.post('/settings', (req, res) => {
     console.log(req.body);
@@ -89,35 +92,41 @@ app.post('/settings', (req, res) => {
 });
 
 
+//======================== ROOMS ====================== //
 
-
-// post handler for adding rooms and their devices
-// app.post('/dashboard', (req, res) => {
-//     console.log(req.body);
-//     const roomName = req.body.roomName
-//     const roomType = req.body.roomType
-//     if (roomName && roomType) {
-//         dataModule.addRoom(roomName,roomType).then(rooms => {
-//             res.json(rooms)
-//         }).catch(error => {
-//             if (error ===3) {
-//                 res.json(3)
-//             } 
-//             else {
-//                 res.json(4)
-//             }
-//         })
-//     } else {
-//         res.json(2)
-//     }
+// get the devices 
+app.post('/adddevice', (req, res) => {
+    console.log('request is',req.body);
+    const deviceName = req.body.deviceName
+    const categoryId = req.body.typeId
+    const deviceSn = req.body.deviceSn
+    const roomId = req.body.roomId
+    // if (deviceName && categoryId && deviceSn) {
+    //     dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
+    //         res.json(rooms)
+    //     }).catch(error => {
+    //         if (error ===3) {
+    //             res.json(3)
+    //         } 
+    //         else {
+    //             res.json(4)
+    //         }
+    //     })
+    // } else {
+    //     res.json(2)
+    // }
     
-// });
-app.post('/rooms', (req, res) => {
+});
+
+//* add rooms to the component 
+app.post('/addrooms', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
+
     if (roomName && roomType) {
         dataModule.addRoom(roomName,roomType).then(rooms => {
+            console.log(rooms);
             res.json(rooms)
         }).catch(error => {
             if (error ===3) {
@@ -132,6 +141,8 @@ app.post('/rooms', (req, res) => {
     }
     
 });
+
+
 //==================get all Rooms  ======================//
 app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
@@ -143,7 +154,7 @@ app.post('/rooms/allrooms',(req,res)=>{
 })
 
 //================== delete room=========================//
-app.post('/dashboard/deleteroom',(req,res)=>{
+app.post('/rooms/deleteroom',(req,res)=>{
     console.loge(body)
     const roomId = req.body.roomId
     dataModule.deleteRoom(roomId).then(() => {
@@ -155,11 +166,15 @@ app.post('/dashboard/deleteroom',(req,res)=>{
 })
 
 // ============= all rooms with devices app =================//
-app.post('/rooms', (req,res)=>{
-    const arr = [{}]
+//! trying to get dummy data to see if the sql function get Room is working 
 
-    
-})
+// app.post('/rooms', (req,res)=>{
+//    dataModule.getRoom().then(rooms =>{
+//     console.log(rooms);
+//    }).catch(error =>{
+//        console.log(error);
+//    }) 
+// })
 
 
 
