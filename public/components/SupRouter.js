@@ -5,12 +5,14 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import SideNav from './SideNav'
 import TopNav from './TopNav'
 import Page404 from './Page404'
-// import YourRooms from './YourRooms'
-import Rooms from './Rooms'
+
 import Settings from './Settings'
-import AddDevices from './AddDevices'
-import AllRooms from './AllRooms'
-import Dashboard from './Dashboard'
+import Rooms from './Rooms'
+import ShowDevices from './ShowDevices'
+import SingleRoomOv from './SingleRoomOv'
+
+// import AllRooms from './AllRooms'
+// import Dashboard from './Dashboard'
 
 class SupRouter extends React.Component {
     render() {
@@ -31,8 +33,10 @@ class SupRouter extends React.Component {
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
-                                                {/* <Route path="/rooms" exact component={AllRooms} /> */}
-                                                <Route path="/adddevices" exact component={AddDevices} /> 
+                                                {/* <Route path="/allrooms" exact component={AllRooms} /> */}
+                                          
+                                                <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} />
+                                                <Route path="/room" exact component={SingleRoomOv} />
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>

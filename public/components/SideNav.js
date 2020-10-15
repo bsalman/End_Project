@@ -42,12 +42,6 @@ class SideNav extends React.Component{
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to="/dashboard">
-                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li className="nav-item">
                     <Link className="nav-link" to="/settings">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
                       Settings
@@ -59,12 +53,7 @@ class SideNav extends React.Component{
                       Rooms
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/adddevices">
-                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
-                      Add Devices
-                    </Link>
-                  </li>
+            
                 </ul>
               </div>
               {/* <!-- Side menu END --> */}

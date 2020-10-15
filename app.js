@@ -94,32 +94,8 @@ app.post('/settings', (req, res) => {
 
 //======================== ROOMS ====================== //
 
-// get the devices 
-app.post('/adddevice', (req, res) => {
-    console.log('request is',req.body);
-    const deviceName = req.body.deviceName
-    const categoryId = req.body.typeId
-    const deviceSn = req.body.deviceSn
-    const roomId = req.body.roomId
-    // if (deviceName && categoryId && deviceSn) {
-    //     dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
-    //         res.json(rooms)
-    //     }).catch(error => {
-    //         if (error ===3) {
-    //             res.json(3)
-    //         } 
-    //         else {
-    //             res.json(4)
-    //         }
-    //     })
-    // } else {
-    //     res.json(2)
-    // }
-    
-});
-
 //* add rooms to the component 
-app.post('/addrooms', (req, res) => {
+app.post('/addroom', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
@@ -143,15 +119,50 @@ app.post('/addrooms', (req, res) => {
 });
 
 
+
+// get the devices 
+app.post('/rooms/adddevices', (req, res) => {
+    console.log(req.body);
+    const deviceName = req.body.deviceName
+    const categoryId = req.body.type
+    const deviceSn = req.body.deviceSn
+    const roomId = req.body.roomId
+    if (deviceName && categoryId && deviceSn) {
+        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId).then(device => {
+
+            let deviceObj = {
+                id: device.insertId,
+                name: deviceName,
+                number: deviceSn,
+                category: categoryId, 
+                room_id: roomId
+            }
+console.log(deviceObj);
+            res.json(deviceObj)
+
+        }).catch(error => {
+            if (error === 3) {
+                res.json(3)
+            } 
+            else {
+                res.json(4)
+            }
+        })
+    } else {
+        res.json(2)
+    }
+    
+});
+
 //==================get all Rooms  ======================//
 app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
-        
         res.json(rooms)
     }).catch(error=>{
         res.json(2)
     })
 })
+
 
 //================== delete room=========================//
 app.post('/rooms/deleteroom',(req,res)=>{

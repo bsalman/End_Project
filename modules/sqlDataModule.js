@@ -173,7 +173,8 @@ function getAllRooms(){
                             id: device.id,
                             name: device.name,
                             number: device.number,
-                            category_id: device.category_id,
+                            category: device.category,
+                            // category_id: device.category_id,
                             room_id: room.id
                         }
                         room.devices.push(deviceObj)
@@ -230,22 +231,15 @@ function getAllRooms(){
 //========================================//
 // add devices to the room component 
 
-function addDevice(deviceName,deviceNumber,categoryId, roomId) {
+function addDevice(deviceName, deviceNumber, category, roomId) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
             // console.log('resules',results);
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name,number,category_id, room_id) VALUES ('${deviceName}','${deviceNumber}','${categoryId}','${roomId}')`).then( result => {
-                    // console.log(result);
-                    getRooms().then(rooms => {
-                        // console.log('get room',rooms);
-                        resolve(rooms)
-                    }).catch(error => {
-                        reject(error)
-                    })
-                    
+                runQuery(`INSERT INTO devices(name, number, category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then(result => {
+                    resolve(result)
                 }).catch(error => {
                     console.log(error);
                     if (error.errno === 1054) {
@@ -287,30 +281,50 @@ function addDevice(deviceName,deviceNumber,categoryId, roomId) {
 
 
 //================================================//
-
+ 
 function getRoom(roomId) {
     return new Promise((resolve, reject) => {
-        runQuery(`SELECT rooms.* , devices.* FROM rooms INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id= ${roomId}`).then(results => {
-            if (results.length) {
-                const rooms = {}
-                results.forEach(result => {
-                    if(rooms.id) {
-                        console.log(result)
-                        rooms.id.push(result.rooms)
-                    } else {
-                        rooms._id = result.room_id
-                        rooms.id = result.room.id
-                    }
-                })
-                resolve(rooms)
-            } else {
-                reject(new Error('can not find a room with this id : ' + id))
+        runQuery(`SELECT rooms.*,devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId}`).then(results => {
+           if(results.length){
+               const room={}
+               results.forEach(result => {
+                   room.devices.push()
+               });
+                resolve(room)
+            }
+        else {
+                reject(new Error('can not find a room with this id : ' + roomId))
             }
         }).catch(error => {
+            console.log(error);
             reject(error)
         })
     })
 }
+
+// function getRoom(roomId) {
+//     return new Promise((resolve, reject) => {
+//         runQuery(`SELECT rooms.* , devices.* FROM rooms INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id= ${roomId}`).then(results => {
+//             if (results.length) {
+//                 const rooms = {}
+//                 results.forEach(result => {
+//                     if(rooms.id) {
+//                         console.log(result)
+//                         rooms.id.push(result.rooms)
+//                     } else {
+//                         rooms._id = result.room_id
+//                         rooms.id = result.room.id
+//                     }
+//                 })
+//                 resolve(rooms)
+//             } else {
+//                 reject(new Error('can not find a room with this id : ' + id))
+//             }
+//         }).catch(error => {
+//             reject(error)
+//         })
+//     })
+// }
 
 
 

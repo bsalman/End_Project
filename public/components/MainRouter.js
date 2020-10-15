@@ -16,7 +16,7 @@ class MainRouter extends React.Component {
     //from the main state in the moment the first page(main page) is loaded.
     componentDidMount(){
         allRoomsPost().then(rooms=>{
-            this.props.setRoomsAction(rooms)
+            this.props.setRoomsAction(rooms,null,1)
         })
     }
     

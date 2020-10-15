@@ -2,14 +2,13 @@
 import React, {Fragment, useState } from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter  } from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter, UncontrolledTooltip  } from 'reactstrap';
 
 
 import CustomModal from './CustomModal'
 import {addRoomPost} from '../services/api'
 import {setRoomsAction} from '../actions'
-
-
+import {addDevicePost} from '../services/api'
 // create a setting className
 const Rooms = (props) => {
 
@@ -25,36 +24,40 @@ const Rooms = (props) => {
      newRoomType: '',
       // add data for the device
       deviceName: '',
-      deviceType : '',
-      deviceSerialNumType : '',
-      deviceModalShow : false
+      categoryID: '',
+      deviceSerialNumType: '',
+      deviceModalShow: false,
+      selectedRoomId: '',
+      selectedRoomTitle: ''
     }
-
+   
     const [state, setState] = useState(initialState)
-
+  
     // console.log(props);
 
 
     // modal toggle for the devices 
-    const deviceModaltoggle = () => {
-        // console.log('hi');
-        setState({...state, deviceModalShow: !state.deviceModalShow})
-    }
+    //======================================//
+    const deviceModaltoggle = (roomID,roomType) => {
+        setState({...state,deviceModalShow: !state.deviceModalShow,
+            selectedRoomId: roomID,
+            selectedRoomTitle: roomType})
+      }
+      //=========================================//
     console.log(props.rooms);
 
-    const roomElement = props.rooms.map(room => {
-
-        // to map through the devices inside the room
-        const devices = room.devices.map(device=>{
-            return(
-        <li key={device.id} className="list-group-item">
-        <p className="specs">{device.name}</p>
+     //map rooms element
+     const roomElement = props.rooms.map(room => {
+    //mapping the devices inside room
+        const devices = room.devices.map(device => {
+            return (
+              <li key={device.id} className="list-group-item">
+                <p className="specs">{device.name}</p>
                 <p className="ml-auto mb-0 text-success">connected</p>
-            </li>
+              </li>
             )
-            })
- 
-            // return the mapped rooms
+          })
+      // return the mapped rooms
             return (
                 <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
                     <div className="card ">
@@ -65,15 +68,17 @@ const Rooms = (props) => {
                         <div className="card-body">
                         <div className="row">
                             <div className="col-auto mr-auto">
-                            <h5 className="card-title">{room.type}: {room.name}</h5>
+                            <h5 className="card-title">{room.type} : {room.name}</h5>
                             </div>
                             <div className="col-auto ">
-                            <Link to={"/adddevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>
-                                <Button type="button" className="btn btn-primary"data-toggle="tooltip"data-placement="right"
-                              title="View Room">
+                              <Link to={"/showdevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>
+                                  <Button type="button" className="btn btn-primary" id="tooltip1">
                                   <i className="far fa-eye"></i>
                                   </Button>
-                                  </Link>
+                                  <UncontrolledTooltip placement="right" target="tooltip1">
+                                      Please click to view your room and it's added devices
+                                 </UncontrolledTooltip>
+                              </Link>
                             </div>
                         </div>
                             
@@ -86,28 +91,42 @@ const Rooms = (props) => {
                         <hr className="my-0" />
                         <div className="card-body">
                         <div className="row">
-                        <div className="col-auto mr-auto">
-                         <Button type="button" className="btn btn-primary"
-                          data-toggle="tooltip"
-                          data-placement="right"
-                           title="Add Devices"
-                         onClick={deviceModaltoggle}><i className="fas fa-plus"></i></Button>
-                         &nbsp;&nbsp;</div>
-                         <div className="col-auto">
+                     <div className="col-auto mr-auto">
+                         <Button type="button" 
+                         className="btn btn-primary"
+                        //  onClick={deviceModaltoggle}
+                         onClick={()=>{deviceModaltoggle(room.id,room.type)}}
+                         id="tooltip4">
+                         <i className="fas fa-plus"></i>
+                         </Button>
+                        <UncontrolledTooltip placement="bottom" target="tooltip4">
+                            Please click here to add devices to your room
+                        </UncontrolledTooltip>
+                        &nbsp;&nbsp;
+                    </div>
+                    <div className="col-auto">
                          
-                        <Button type="button" className="btn btn-primary" data-toggle="tooltip" data-placement="left" title="Edit Room"><i className="fas fa-tools"></i></Button>
+                        <Button type="button" 
+                        className="btn btn-primary" 
+                        id="tooltip2">
+                        <i className="fas fa-tools"></i>
+                        </Button>
+                        <UncontrolledTooltip placement="bottom" target="tooltip2">
+                            Please click here to edit your room and devices
+                        </UncontrolledTooltip>
                         &nbsp;&nbsp;
                         
                         <Button type="button"
                          className="btn btn-primary" 
-                        data-toggle="tooltip"
-                         data-placement="right"
-                          title="Delete Room"><i className="far fa-trash-alt"></i></Button>
-                        
-                        
-                        </div>
-                        </div>
+                          id="tooltip3">
+                          <i className="far fa-trash-alt"></i>
+                        </Button>
+                        <UncontrolledTooltip placement="right" target="tooltip3">
+                             Please click here to delete the entire component
+                        </UncontrolledTooltip>
+                         </div>
                       </div>
+                  </div>
                         
                         {/* device element */}
     
@@ -143,7 +162,8 @@ const onAddRoomClick = e => {
         newState.errorModal.show = true
         newState.errorModal.title = "Entries Error"
         newState.errorModal.content = errorsElement
-        // hide addroom modal because we need to show error modal and we can not show two modals on the same time
+        // hide addroom modal because we need to show error modal and we 
+        //can not show two modals on the same time
         newState.roomModalShow = false
         setState(newState)
     }else{
@@ -174,7 +194,7 @@ const onAddRoomClick = e => {
             newState.newRoomName = ''
             newState.newRoomType = ''
             setState(newState)
-            props.setRoomsAction(data)
+            props.setRoomsAction(data,null,1) //saving all the rooms
             break;
         }
         if(!isNaN(data)){
@@ -187,7 +207,8 @@ const onAddRoomClick = e => {
         newState.errorModal.show = true
         newState.errorModal.title = badgeTitle
         newState.errorModal.content = <p>{badgeMessage}</p>
-        // hide addroom modal because we need to show error modal and we can not show two modals on the same time
+        // hide addroom modal because we need to show error modal and we can not show 
+        //two modals on the same time
         newState.roomModalShow = false
         setState(newState)
 
@@ -196,180 +217,211 @@ const onAddRoomClick = e => {
         console.log(error);
         const badge = (
             <div className="alert alert-danger" role="alert">
-                        can not send the registration data to server
+                can not send the registration data to server
             </div>
           )
-          this.setState({
-            errorComponent: badge
-          })
+          // this.setState({ errorComponent: badge })
+         setState({ errorComponent: badge })
     })
-}
+  }
 }
 
 // to add a device to the room when clicked 
 const onAddDeviceClick = (e) => {
     e.preventDefault();
-    if(state.deviceName.trim()===''||state.deviceType ===''||state.deviceSerialNumType ===''){
+    if(state.deviceName.trim()===''||state.categoryID ===''||state.deviceSerialNumType ===''){
         const errorsElement=(
             <ul>
                   {state.deviceName.trim() === ''? <div>Device Name should not be empty</div>: null}
-                  {state.deviceType ===''? <div>select one of the type Options</div>: null}
+                  {state.categoryID ===''? <div>select one of the type Options</div>: null}
                   {state.deviceSerialNumType ===''? <div>select one of the serial number Options</div>: null}
-              </ul>
-        )
+              </ul>  )
         const newState = {...state}
         newState.errorModal.show = true
         newState.errorModal.title = "Entries Error"
         newState.errorModal.content = errorsElement
-        // hide add room modal because we need to show error modal and we can not show two modals on the same time
+        // hide addroom modal because we need to show error modal and we can not show two modals on the same time
         newState.deviceModalShow = false
         setState(newState)
     }else{
-        console.log('device added');
         const newState = {...state}
         newState.deviceName = ''
-        newState.deviceType = ''
+        newState.categoryID = ''
         newState.deviceSerialNumType = ''
         newState.deviceModalShow = false
-        setState(newState)
+        addDevicePost(state.deviceName, state.categoryID, state.deviceSerialNumType, state.selectedRoomId).then(device => {
+            console.log('device',device);
+
+            props.setRoomsAction(null,device,2) //2 is the secondType that  means we are just adding a new device.
+            setState(newState)
+        }).catch(error=> {
+            console.log(error);
+        })
+        
 
     }
 }
 
-
-
     return (
         <React.Fragment>
-            <div>
-                <div className="row" >
-                    {/* add rooms card start  */}
-                    <div className="col-sm-12 col-md-6 col-xl-4">
-                        <div className="card">
-                            <div className="card-body d-flex flex-row justify-content-center">
-                                <h2 className="card-title">Rooms</h2>
-                            </div>
-                            <hr className="my-0" />
-                            <div className="card-body d-flex flex-row justify-content-center">
-                                <Button data-action=""
-
-                                    className="btn btn-primary btn-lg  "
-                                    onClick={roomModaltoggle}
-                                >
-                                    <strong>Add New Room</strong></Button>
-                            </div>
-                        </div>
-                    </div>
-                    {roomElement}
-                    {/* add rooms card end  */}
-                    {/* ===========================rooms element====================================== */}
+        <div>
+          <div className="row">
+            {/* add rooms card start  */}
+            <div className="col-sm-12 col-md-6 col-xl-4">
+              <div className="card">
+                <div className="card-body d-flex flex-row justify-content-center">
+                  <h2 className="card-title">Rooms</h2>
                 </div>
+                <hr className="my-0"/>
+                <div className="card-body d-flex flex-row justify-content-center">
+                  <Button
+                    data-action=""
+                    className="btn btn-primary btn-lg  "
+                    onClick={roomModaltoggle}>
+                    <strong>Add New Room</strong>
+                  </Button>
+                </div>
+              </div>
             </div>
+            {roomElement}
+            {/* add rooms card end  */}
+            {/* ===========================rooms element====================================== */}
+          </div>
+        </div>
 
-            <CustomModal
-                show={state.errorModal.show}
-                close={errorModalClose}
-                className="bg-danger"
-                title={state.errorModal.title}>
-                {state.errorModal.content}
-            </CustomModal>
+        <CustomModal
+        show={state.errorModal.show}
+        close={errorModalClose}
+        className="bg-danger"
+        title={state.errorModal.title}>
+        {state.errorModal.content}
+      </CustomModal>
+      <Modal isOpen={state.roomModalShow} toggle={roomModaltoggle}>
+        {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
+        <ModalBody >
 
-            <Modal isOpen={state.roomModalShow} toggle={roomModaltoggle} >
-                {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
-                <ModalBody  >
+          <h3 className="card-title modal-font">Add Room</h3>
+          <Form className="p-2">
+            <FormGroup className="row">
+              <div className="col-12" modal-content="true">
+                <Label for="room_name" className="col-12 col-form-label modal-font">Room Name</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="text"
+                  id="room_name"
+                  onChange={e => {
+                  setState({
+                    ...state,newRoomName: e.target.value
+                  })
+                }}
+                  value={state.newRoomName}/>
+              </div>
+            </FormGroup>
+            <FormGroup className="form-group row">
+              <div className="col-12">
+                <Label for="room_type" className="col-12 col-form-label modal-font">Room Type</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="select"
+                  name="select"
+                  id="room_type"
+                  onChange={(e) => {
+                  setState({
+                    ...state,
+                    newRoomType: e.target.value
+                  })
+                }}
+                  value={state.newRoomType}>
+                  <option></option>
+                  <option>Kitchen</option>
+                  <option>Dining room</option>
+                  <option>Living room</option>
+                  <option>Sleep room</option>
+                  <option>Bath room</option>
+                  <option>Garage</option>
+                </Input>
+              </div>
+            </FormGroup>
+          </Form>
 
-                    <h3 className="card-title modal-font">Add Room</h3>
-                    <Form className="p-2">
-                        <FormGroup className="row">
-                            <div className="col-12" modal-content>
-                                <Label for="room_name" className="col-12 col-form-label modal-font">Room Name</Label>
-                                <Input className="form-control custom-focus" type="text" id="room_name"
-                                    onChange={e => {
-                                        setState({ ...state, newRoomName: e.target.value })
-                                    }}
-                                    value={state.newRoomName} />
-                            </div>
-                        </FormGroup>
-                        <FormGroup className="form-group row">
-                            <div className="col-12">
-                                <Label for="room_type" className="col-12 col-form-label modal-font">Room Type</Label>
-                                <Input className="form-control custom-focus" type="select" name="select" id="room_type"
-                                    onChange={(e) => {
-                                        setState({...state, newRoomType: e.target.value })
-                                    }}
-                                    value={state.newRoomType}>
-                                    <option></option>
-                                    <option>Kitchen</option>
-                                    <option>Dining room</option>
-                                    <option>Living room</option>
-                                    <option>Bath room</option>
-                                    <option>Garage</option>
-                                </Input>
-                            </div>
-                        </FormGroup>
-                    </Form>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={onAddRoomClick}>save</Button>
+          <Button color="secondary" onClick={roomModaltoggle}>Cancel</Button>
+        </ModalFooter>
+      </Modal>
+      {/* ------------------------------- */}
+      <Modal isOpen={state.deviceModalShow} toggle={deviceModaltoggle}>
+        {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
+        <ModalBody >
+          <h3 className="card-title modal-font">Add Device</h3>
+          <Form className="p-2">
+            <FormGroup className="row">
+              <div className="col-12" modal-content="true">
+                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="text"
+                  id="device_name"
+                  onChange={e => {
+                  setState({
+                    ...state,
+                    deviceName: e.target.value
+                  })
+                }}
+                  value={state.deviceName}/>
+              </div>
+            </FormGroup>
 
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={onAddRoomClick} >save</Button>
-                    <Button color="secondary" onClick={roomModaltoggle}>Cancel</Button>
-                </ModalFooter>
-            </Modal>
+            <FormGroup className="form-group row">
+              <div className="col-12">
+                <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="select"
+                  name="select"
+                  id="room_type"
+                  onChange={(e) => {
+                  setState({
+                    ...state,
+                    categoryID: e.target.value
+                  })
+                }}
+                  value={state.categoryID}>
+                  <option></option>
+                  <option>Light</option>
+                  <option>Temperature</option>
+                  <option>Motion</option>
+                </Input>
+              </div>
+            </FormGroup>
 
-                {/* ------------------------------- */}
-                <Modal isOpen={state.deviceModalShow} toggle={deviceModaltoggle}>
-                {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
-                <ModalBody  >
-					<h3 className="card-title modal-font">Add Device</h3>
-						<Form  className="p-2">
-							<FormGroup className="row">
-								<div className="col-12" modal-content="true">
-									<Label  for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
-									<Input  className="form-control custom-focus" type="text" id="device_name"
-									    onChange={e=>{
-                                            setState({...state, deviceName:e.target.value})
-                                        }}
-                                        value={state.deviceName}/>
-								</div>
-							</FormGroup>
-                            
-                            <FormGroup className="form-group row">
-								<div className="col-12">
-                                    <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
-									<Input className="form-control custom-focus" type="select" name="select" id="room_type" 
-										onChange={(e)=>{
-                                            setState({...state, categoryID:e.target.value})
-                                        }}
-                                        value={state.categoryID}>   
-										<option></option>
-										<option>Light</option>
-										<option>Temperature</option>
-										<option>Motion</option>
-									</Input>
-								</div>
-							</FormGroup>
+            <FormGroup className="row">
+              <div className="col-12" modal-content="true">
+                <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label >
+                <Input
+                  className="form-control custom-focus"
+                  type="text"
+                  id="device_seralNum"
+                  onChange={e => {
+                  setState({
+                    ...state,
+                    deviceSerialNumType: e.target.value
+                  })
+                }}
+                  value={state.deviceSerialNumType}/>
+              </div>
+            </FormGroup>
+          </Form>
 
-                            <FormGroup className="row">
-                            <div className="col-12" modal-content="true">
-									<Label  for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label >
-									<Input  className="form-control custom-focus" type="text" id="device_seralNum"
-									    onChange={e=>{
-                                            setState({...state, deviceSerialNumType:e.target.value})
-                                        }}
-                                        value={state.deviceSerialNumType}/>
-								</div>
-							</FormGroup>
-						</Form>
-				
-				
-						</ModalBody>
-							<ModalFooter>
-								<Button color="primary" onClick={onAddDeviceClick}>save</Button>
-                                <Button color="secondary" onClick={deviceModaltoggle}>Cancel</Button>
-								{/* <Button color="secondary" onClick={toggle}>Cancel</Button> */}
-						</ModalFooter>
-                    </Modal>
-                {/* --------------------------------------------------------- */}
-
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={onAddDeviceClick}>save</Button>
+          <Button color="secondary" onClick={deviceModaltoggle}>Cancel</Button>
+          {/* <Button color="secondary" onClick={toggle}>Cancel</Button> */}
+        </ModalFooter>
+      </Modal>
+      {/* --------------------------------------------------------- */}
             
         </React.Fragment>
     )
@@ -381,6 +433,8 @@ const onAddDeviceClick = (e) => {
 // when you see this.state....  it is touching the initial state
 
 // here we change our initial state to props to be able to send it to the main state
+
+//! this is to ge5t the state of redux and save it in the props of this component
 const setStateToProps = (state) => {
     return ({
         rooms: state.rooms

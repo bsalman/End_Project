@@ -1,5 +1,3 @@
- 
-
     $(document).ready(function() {
 
 
@@ -28,7 +26,16 @@
         // Contract/expand side menu on click. (only large screens)
         $('#minifier').click(function() {
   
-          $('#sidebar,#menu-minifier').toggleClass('mini');
+          // $('#sidebar,#menu-minifier').toggleClass('mini');
+
+          //* copied the if statement here
+          if ($('#minifier').is(':checked')) {
+            $('#sidebar,#menu-minifier').addClass('mini');
+            $('#minifier').prop('checked', true);
+          } else {
+            $('#sidebar,#menu-minifier').removeClass('mini');
+            $('#minifier').prop('checked', false);
+          }
   
           // Save side menu status to localStorage if available (IE)
           if (localStorage) {

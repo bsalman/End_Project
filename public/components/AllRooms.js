@@ -1,8 +1,7 @@
 
 import React, {useEffect, useState} from 'react'
 // import {Link, withRouter} from 'react-router-dom'
-import { Label, Input } from 'reactstrap';
-import { ListGroup, ListGroupItem, Button } from 'reactstrap';
+import { ListGroup, ListGroupItem, Button, Label, Input } from 'reactstrap';
 
 
 //import the components
@@ -91,7 +90,7 @@ const roomElement = state.rooms.map(room =>{
             {/* <use xlinkHref="images/icons-sprite.svg#bulb-eco"/> 
                </svg> */}
 
-              <h5 className="card-title">{room.type}: {room.name}</h5>
+              <h5 className="card-title">{room.type} : {room.name}</h5>
                       
             </div>
 
