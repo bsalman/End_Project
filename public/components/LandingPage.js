@@ -1,4 +1,6 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
+
 
 import LandNav from './LandNav'
 
@@ -23,7 +25,9 @@ render(){
                                                     <p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi accusantium fuga cumque libero. Eligendi minima, itaque, odio earum doloribus expedita dolor harum numquam qui a reprehenderit molestiae, rerum quidem?</p>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                    <button type="button" className="btn btn-lg btn-primary btn1">Get Stated</button>
+                                                    <Link to="/login">
+                                                        <button type="button" className="btn btn-lg btn-primary btn1">Get started</button>
+                                                    </Link>
                                                 </div>
                                         </div>
                                         <div className="col houseContainer">
