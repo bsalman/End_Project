@@ -63,7 +63,7 @@ const Rooms = (props) => {
       //return the rooms
       return (
         <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
-          <div className="card ">
+          <div className="card">
             {/* <svg className="icon-sprite">
                             <use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
                             <use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
@@ -85,12 +85,14 @@ const Rooms = (props) => {
                   </Link>
                 </div>
               </div>
-
+           
             </div>
-            <hr className="my-0"/>
-            <ul className="list-group borderless px-1">
-              {devices}
-            </ul>
+             <hr className="my-0"/>
+            <div className="overflow">
+                <ul className="list-group borderless px-1">
+                  {devices}
+                </ul>
+            </div>
             <hr className="my-0"/>
             <div className="card-body">
               <div className="row">
@@ -221,7 +223,7 @@ const Rooms = (props) => {
             can not send the registration data to server
           </div>
         )
-        this.setState({errorComponent: badge})
+        setState({errorComponent: badge})
       })
 
     }
@@ -304,7 +306,7 @@ const Rooms = (props) => {
           <h3 className="card-title modal-font">Add Room</h3>
           <Form className="p-2">
             <FormGroup className="row">
-              <div className="col-12" modal-content>
+              <div className="col-12" modal-content="true">
                 <Label for="room_name" className="col-12 col-form-label modal-font">Room Name</Label>
                 <Input
                   className="form-control custom-focus"

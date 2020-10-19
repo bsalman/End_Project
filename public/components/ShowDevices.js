@@ -9,16 +9,8 @@ import { useParams } from 'react-router-dom'
 const ShowDevices = () => { 
 	const params = useParams()
 
-	const initialState = {
-		roomTitle : '',
-		modalElement:null,
-		showModal:false,
-		modalTitle:'',
-		modalClass: 'bg-primary',
-		devicesElement : []
-	  }
 	
-	  const [state,setState] = useState(initialState)
+	 
 	
         return(
             // <!-- Interior lights  START -->

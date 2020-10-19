@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 
 import Login from './Login'
 import SupRouter from './SupRouter'
+import LandingPage from './LandingPage'
 // import Settings from './Settings'
 
 import {setRoomsAction} from '../actions'
@@ -21,10 +22,10 @@ class MainRouter extends React.Component {
         return (
             <BrowserRouter>
                 <div>
-                    <Switch> <Route path="/login" exact component={Login} />
-                       
-                        {/* <Route path="/settings" exact component={Settings} /> */}
-                       
+                 
+                <Switch> 
+                    <Route path="/" exact component={LandingPage}/>
+                    <Route path="/login" exact component={Login} />
                         <SupRouter/>
                     </Switch>                   
                 </div>

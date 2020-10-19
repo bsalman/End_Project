@@ -89,17 +89,7 @@ app.post('/settings', (req, res) => {
 });
 
 
-// app.get('/dashboard', (req, res) => {
-//     const arr = [{roomName:'bed',
-// roomType:'a'},
-// {roomName:'bed1',
-// roomType:'b'}]
-//     dataModule.addRoom(arr).then(result => {
-//         console.log(result);
-//     }).catch(error => {
-//         console.log(error);
-//     })
-// });
+
 
 app.post('/addroom', (req, res) => {
     console.log(req.body);

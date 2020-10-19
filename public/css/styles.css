@@ -22,5 +22,190 @@
     .modal2-container{
         background-color:#0c2742 ;
     }
+    /* ============overFlow =========== */
     
+    .overflow{
+        width: 100%;
+        height: 200px;
+        overflow: auto; 
+    }
+    .overflow::-webkit-scrollbar{
+        width: 11px;
+    }
+    .overflow{
+        scrollbar-width: thin;
+        scrollbar-color:#0c2742
+    }
+    .overflow::-webkit-scrollbar-track {
+        background:#233e58
+    }
+
+    .overflow::-webkit-scrollbar-thumb{
+        background-color:#3f80a3;
+        border-radius:5px;
+
+    }
+    /* ====================color-change animation========================= */
+    .color-change-2x {
+      -webkit-animation: color-change-2x 2s linear infinite alternate both;
+              animation: color-change-2x 2s linear infinite alternate both;
+  }
+    /* ================landPage ====================== */
+   
+    .cont{
+      background:linear-gradient(to left top,   rgba(92, 176, 233, 0.911),rgba(10, 26, 56, 0.795))
+    }
+    .landPage-container{
+        position: relative;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        
+    }
+    .textsContainer{
+        top:100px;
+        
+    }
+   
+    .houseContainer{
+        top:70px;
+        
+    }
+    
+
+    .houseContainer>div>div{
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+        animation:2s pulse  infinite;  
+        border: 3px solid  rgba(92, 176, 233, 0.911); 
+        width: 400px;
+        height: 400px;
+        border-radius: 50%; 
+    }
+     .iconCon{
+      animation:2s pulse2  infinite; 
+      position: absolute;
+      border: 3px solid  rgba(92, 176, 233, 0.911);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size:2em ;
+    }
+    .iconCon>i{
+      position: absolute;;
+      top: 10px;
+      left:10px; 
+    
+    }
+    .light>i{
+      left:15px;
+    }
+    .lock>i{
+      left:12px;
+    }
+    .elk>i{
+      left:15px;
+    }
+
+  
+    .laptop{
+      
+      position: absolute;
+      top:150px;
+      font-size: 7em;
+      top:140px;
+      left:220px
+    }
+    .light{
+     
+      top:30px;
+     
+    }
+    .tv{
+      
+      top:100px;
+      left:140px;
+      
+    }
+    .lock{
+     
+      top:100px;
+      right:130px;
+      
+    }
+    .video{
+     
+      bottom:30px;
+      
+    }
+    .elk{
+      position: absolute;
+      top:250px;
+      left:140px;
+      
+    }
+    .home{
+      position: absolute;
+      top:250px;
+      right:130px;
+     
+    }
+     
+
+    /* ========================= animation======================== */
+    /* @-webkit-keyframes color-change-2x {
+        0% {
+          background:rgba(92, 176, 233, 0.911);
+        }
+        100% {
+          background:rgba(10, 26, 56, 0.795);
+        }
+      }
+      @keyframes color-change-2x {
+        0% {
+          background: rgba(92, 176, 233, 0.911);
+        }
+        100% {
+          background: rgba(10, 26, 56, 0.795);
+        }
+      } */
+      /* ============pulse animation 2========== */
+      @keyFrames pulse {
+        0% {
+          transition:scale(0,9);
+           box-shadow: 0 0 0 0  rgba(92, 176, 233, 0.911);
+          }
+          70% {
+            transition:scale(1);
+            box-shadow: 0 0 0 30px  rgba(92, 176, 233, 0);
+         }
+      100% {
+        transition:scale(0,9);
+      }  
+    }
+    @keyFrames pulse2 {
+      0% {
+        transition:scale(0,9);
+         box-shadow: 0 0 0 0  rgba(92, 176, 233, 0.911);
+        }
+        70% {
+          transition:scale(1);
+          box-shadow: 0 0 0 10px  rgba(92, 176, 233, 0);
+       }
+    100% {
+      transition:scale(0,9);
+    }  
+  }
+    /* ============================================== */
+    @media only screen and (max-width: 576px){
+      .houseContainer>div>div{
+        
+      }
+   
+  };
+  @media (min-width: 768px) {  };
+
+  @media (min-width: 992px) {  };
+  
       
