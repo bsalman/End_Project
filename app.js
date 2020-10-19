@@ -101,13 +101,13 @@ app.post('/settings', (req, res) => {
 //     })
 // });
 
-app.post('/addrooms', (req, res) => {
-    // console.log(req.body);
+app.post('/addroom', (req, res) => {
+    console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
     if (roomName && roomType) {
         dataModule.addRoom(roomName,roomType).then(rooms => {
-            // console.log(rooms);
+            console.log('rooms',rooms);
             res.json(rooms)
         }).catch(error => {
             if (error ===3) {
@@ -121,20 +121,28 @@ app.post('/addrooms', (req, res) => {
         res.json(2)
     }
     
-    
 });
-
-
-app.post('/addrooms/adddevice', (req, res) => {
-    console.log('request is',req.body);
-    // res.json(1)
+//==============================================//
+app.post('/rooms/adddevices', (req, res) => {
+    console.log(req.body);
     const deviceName = req.body.deviceName
-    const categoryId = req.body.typeId
+    const categoryId = req.body.type
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
     if (deviceName && categoryId && deviceSn) {
-        dataModule.addDevice(deviceName, categoryId, deviceSn, roomId).then(rooms => {
-            res.json(rooms)
+        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId).then(device => {
+
+            console.log('device',device);
+            let deviceObj = {
+                id: device.insertId,
+                name: deviceName,
+                number: deviceSn,
+                category: categoryId, 
+                room_id: roomId
+            }
+
+            res.json(deviceObj)
+
         }).catch(error => {
             if (error ===3) {
                 res.json(3)
@@ -151,7 +159,6 @@ app.post('/addrooms/adddevice', (req, res) => {
 //==================get all Rooms  ======================//
 app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
-        
         res.json(rooms)
     }).catch(error=>{
         res.json(2)
@@ -160,16 +167,54 @@ app.post('/rooms/allrooms',(req,res)=>{
 
 //================== delete room=========================//
 app.post('/rooms/deleteroom',(req,res)=>{
-    console.loge(body)
-    const roomid = req.body.bookid
-    dataModule.deleteRoom(roomid).then(() => {
+    //1 success
+    //2 can not find a room with this id
+    //3 server error
+    console.log(req.body)
+    // res.json(1)
+    const roomId = req.body.roomId
+    dataModule.deleteRoom(roomId).then(() => {
         res.json(1)
     }).catch(error => {
-        console.log(error);
-        res.json(2)
+        if (error === 3) {
+            res.json(3)
+        } else {
+            console.log(error);
+            res.json(2)
+        }
+        
     })
 })
 
+
+//================== edit room=========================//
+app.post('/rooms/editroom',(req,res)=>{
+    //1 success
+    //2 can not find a room with this id
+    //3 server error
+    // console.log(req.body)
+    // res.json(1)
+    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId, req.body.newDeviceArr).then((room) => {
+        console.log('room',room.roomDevice);
+        let roomObj = {
+                name: req.body.newRoomName,
+                type: req.body.newRoomType,
+                id: req.body.id,
+                device : room.roomDevice[0]
+            
+        }
+        console.log('roomObj',roomObj);
+        res.json(roomObj)
+    }).catch(error => {
+        if (error === 2) {
+            res.json(2)
+        } else {
+            console.log(error);
+            res.json(3)
+        }
+        
+    })
+})
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
