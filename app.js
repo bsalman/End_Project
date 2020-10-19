@@ -90,7 +90,7 @@ app.post('/settings', (req, res) => {
 
 
 
-
+//======================================//
 app.post('/addroom', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
@@ -155,15 +155,50 @@ app.post('/rooms/allrooms',(req,res)=>{
 
 //================== delete room=========================//
 app.post('/rooms/deleteroom',(req,res)=>{
-    const roomid = req.body.bookid
-    dataModule.deleteRoom(roomid).then(() => {
+    //1 success
+    //2 can not find a room with this id
+    //3 server error
+    console.log(req.body)
+    // res.json(1)
+    const roomId = req.body.roomId
+    dataModule.deleteRoom(roomId).then(() => {
         res.json(1)
     }).catch(error => {
-        console.log(error);
-        res.json(2)
+        if (error === 3) {
+            res.json(3)
+        } else {
+            console.log(error);
+            res.json(2)
+        }
+        
     })
 })
-
+//===================================================//
+app.post('/rooms/editroom',(req,res)=>{
+    //1 success
+    //2 can not find a room with this id
+    //3 server error
+    // console.log(req.body)
+    // res.json(1)
+    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId, req.body.newDeviceArr).then((room) => {
+        console.log('room',room);
+        // let roomObj = {
+        //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
+        //         device : room.roomDevice[0]
+            
+        // }
+        // console.log('roomObj',roomObj);
+        res.json(room)
+    }).catch(error => {
+        if (error === 2) {
+            res.json(2)
+        } else {
+            console.log(error);
+            res.json(3)
+        }
+        
+    })
+})
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
