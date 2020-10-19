@@ -149,8 +149,67 @@ export const addDevicePost =(deviceName,type,deviceSn,roomId)=>{
 
 }
 
+//============================================//
+export const deleteRoomPost=(roomId)=>{
+    return new Promise ((resolve,reject)=>{
+        const data={roomId}
+        fetch('/rooms/deleteroom',{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(data)
+        }).then((response)=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })              
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+}
 
 
+//=============================================//
+
+export const editRoomPost = (newRoomName, newRoomType, roomId, newDeviceArr) => {
+    return new Promise((resolve, reject) => {
+        //collect the data to be send to the server side
+
+        const newRoomObj = {
+            newRoomName,
+            newRoomType,
+            roomId,
+            newDeviceArr
+        }
+        fetch("/rooms/editroom", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newRoomObj)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+//=============================================//
 
 // function to get the saved rooms
 export const getRoomPost = (roomId) => {
@@ -180,31 +239,5 @@ export const getRoomPost = (roomId) => {
     })
 }
 
-//============================================//
-export const deleteRoomPost=(roomId)=>{
-    return new Promise ((resolve,reject)=>{
-        const data={roomId}
-        fetch('/rooms/deleteroom',{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify(data)
-        }).then((response)=>{
-            if (response.status===200) {
-                response.json().then((data)=>{
-                    resolve(data)
-                }).catch((error)=>{
-                    reject(error)
-                })              
-            }else{
-                reject(new Error('can not get the data, response number is: ' + response.status))
-            }
-        }).catch((error)=>{
-            reject(error)
-        })
-    })
-}
+
 // =========================================== // 
-
-

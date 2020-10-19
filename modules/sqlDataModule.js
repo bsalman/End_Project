@@ -228,17 +228,48 @@ function getAllRooms(){
 //     })
 // }
 
+
+function getRoom(roomId) {
+    return new Promise((resolve, reject) => {
+        runQuery(`SELECT rooms.*,devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId};
+                    SELECT * FROM rooms WHERE rooms.id = ${roomId}`).then(roomDevice => {
+                        console.log('roomDevice',roomDevice);
+            if(roomDevice[0].length){
+                let selectedRoom = {
+                    num: 1,
+                    roomDevice
+                }
+                resolve(selectedRoom)
+            }
+            else {
+                runQuery(`SELECT * FROM rooms WHERE rooms.id = ${roomId}`).then(room => {
+                    let selectedRoom = {
+                        num: 2,
+                        room
+                    }
+                    resolve(selectedRoom)
+                }).catch(error => {
+                    reject(3)
+                })
+               
+            }
+        }).catch(error => {
+            console.log(error);
+            reject(error)
+        })
+    })
+}
+
 //========================================//
 // add devices to the room component 
-
-function addDevice(deviceName, deviceNumber, category, roomId) {
+function addDevice(deviceName,deviceNumber,category, roomId) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
             // console.log('resules',results);
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name, number, category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then(result => {
+                runQuery(`INSERT INTO devices(name,number,category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then( result => {
                     resolve(result)
                 }).catch(error => {
                     console.log(error);
@@ -256,76 +287,119 @@ function addDevice(deviceName, deviceNumber, category, roomId) {
         
     })
 }
-//=============================================//
-// function getRooms() {
-//     return new Promise((resolve, reject) => {
-//         runQuery(`SELECT rooms.* , devices.* FROM rooms INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id = rooms.id`).then(results => {
-//             if (results.length) {
-//                 const rooms = {}
-//                 results.forEach(result => {
-                  
-//                         console.log(result)
-//                         rooms.push(result)
-                    
-//                 })
-//                 resolve(rooms)
-//             } else {
-//                 reject(new Error('can not find a room with this id : ' + id))
-//             }
-//         }).catch(error => {
-//             reject(error)
-//         })
-//     })
-// }
-
 
 
 //================================================//
- 
-function getRoom(roomId) {
+function deleteRoom(roomid) {
     return new Promise((resolve, reject) => {
-        runQuery(`SELECT rooms.*,devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId}`).then(results => {
-           if(results.length){
-               const room={}
-               results.forEach(result => {
-                   room.devices.push()
-               });
-                resolve(room)
+        //get the room clicked from the data base
+        getRoom(roomid).then(data => {
+            // 1 means we have a book with devices so we will delete it from the devices table
+            // 2 means we have a book without a devices so we will delete the book from books table
+            // 3 (others) we dont have a such book in both tables
+            // console.log('deleted roo',data);
+            if (data.num === 1) {
+                runQuery(`DELETE FROM devices WHERE devices.room_id = ${roomid};`).then(room => {
+                    console.log('delete',room);
+                    resolve(room)
+                 
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1146) {
+                        reject(3)
+                    } else {
+                       reject(error) 
+                    }
+                })
+            } else if (data.num === 2) {
+                runQuery(`DELETE FROM rooms WHERE rooms.id = ${roomid};`).then(room => {
+                    resolve(room)
+                }).catch(error => {
+                    if (error.errno === 1146) {
+                        reject(3)
+                    } else {
+                       reject(error) 
+                    }
+                    
+                })
+                 
+            } else {
+                reject(2)
             }
-        else {
-                reject(new Error('can not find a room with this id : ' + roomId))
-            }
+
         }).catch(error => {
-            console.log(error);
-            reject(error)
+            if (error.errno === 1051) {
+                reject(3)
+            } else {
+               reject(error) 
+            }
         })
     })
+
+}
+// getRoom(180)
+
+
+//=========================================================//
+function editRoom(newRoomName, newRoomType, roomId, newDeviceArr) {
+    return new Promise((resolve, reject) => {
+        try {
+            (async () => {
+                let oldRoomData = await getRoom(roomId)
+                
+
+                let updateRoomDataQuery = ''
+                if(oldRoomData.num === 1){
+                    // if (oldRoomData.roomDevice[1].name.indexOf(newRoomName) >= 0 || oldRoomData.roomDevice[1].type.indexOf(newRoomType) >= 0) {
+                    //     updateRoomDataQuery += `UPDATE rooms SET name = ${newRoomName}' , type = ${newRoomType} WHERE id = ${roomId};`
+                    // } else {
+                    //     updateRoomDataQuery += ''
+                    // }
+    
+                    newDeviceArr.forEach((element) => {
+                        updateRoomDataQuery += `UPDATE devices SET name = '${element.name}', number = '${element.number}',category = '${element.category}' WHERE id = ${element.id};`
+                    })
+
+                    console.log('updateRoomDataQuery',updateRoomDataQuery);
+                    await runQuery(`UPDATE rooms SET name = '${newRoomName}',type = '${newRoomType}' WHERE id = ${roomId};`+updateRoomDataQuery)
+
+                    getAllRooms().then(room => {
+                        resolve(room)
+                    }).catch(error => {
+                        reject(error)
+                    })
+
+
+
+                }else if (oldRoomData.num === 2) {
+                    // if (oldRoomData.room[0].name.indexOf(newRoomName) >= 0 || oldRoomData.room[0].type.indexOf(newRoomType) >= 0) {
+                    //     updateRoomDataQuery += `UPDATE rooms SET name = ${newRoomName}' , type = ${newRoomType} WHERE id = ${roomId};`
+                    // } else {
+                    // updateRoomDataQuery += ''
+                    // }
+
+                    await runQuery(`UPDATE rooms SET name = '${newRoomName}' , type = '${newRoomType}' WHERE id = ${roomId};`)
+                    getAllRooms().then(room => {
+                        resolve(room)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                }
+
+
+                else {
+                    reject(2)
+                }
+
+            })()
+        } catch (error) {
+            reject(error)
+        }
+    })
+
 }
 
-// function getRoom(roomId) {
-//     return new Promise((resolve, reject) => {
-//         runQuery(`SELECT rooms.* , devices.* FROM rooms INNER JOIN devices ON devices.room_id = room.id WHERE devices.room_id= ${roomId}`).then(results => {
-//             if (results.length) {
-//                 const rooms = {}
-//                 results.forEach(result => {
-//                     if(rooms.id) {
-//                         console.log(result)
-//                         rooms.id.push(result.rooms)
-//                     } else {
-//                         rooms._id = result.room_id
-//                         rooms.id = result.room.id
-//                     }
-//                 })
-//                 resolve(rooms)
-//             } else {
-//                 reject(new Error('can not find a room with this id : ' + id))
-//             }
-//         }).catch(error => {
-//             reject(error)
-//         })
-//     })
-// }
-
+ 
 
 
 module.exports = {
@@ -333,9 +407,8 @@ module.exports = {
     changeUser,
     addRoom,
     getAllRooms,
-    addDevice,
-   // getRooms,
-
     getRoom,
-    
+    addDevice,
+    deleteRoom,
+    editRoom
 }

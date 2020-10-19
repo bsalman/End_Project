@@ -2,191 +2,303 @@
 import React, {Fragment, useState } from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {Button, Form, FormGroup, Label, Input,Modal,ModalHeader,ModalBody,ModalFooter, UncontrolledTooltip  } from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input,Modal,ModalBody,ModalFooter, UncontrolledTooltip  } from 'reactstrap';
 
 
 import CustomModal from './CustomModal'
+import ConfirmModal from './ConfirmModal'
 import {addRoomPost} from '../services/api'
 import {setRoomsAction} from '../actions'
-import {addDevicePost} from '../services/api'
-// create a setting className
+import {addDevicePost, deleteRoomPost, editRoomPost} from '../services/api'
+
+// create a rooms className
 const Rooms = (props) => {
 
-    let initialState = {
-        errorModal:{
-            show: false,
-            title: '',
-            content: null
-        },
-     //add data for the room
-     roomModalShow: false,
-     newRoomName: '',
-     newRoomType: '',
-      // add data for the device
-      deviceName: '',
-      categoryID: '',
-      deviceSerialNumType: '',
-      deviceModalShow: false,
-      selectedRoomId: '',
-      selectedRoomTitle: ''
-    }
-   
-    const [state, setState] = useState(initialState)
-  
-    // console.log(props);
-
-
-    // modal toggle for the devices 
+  let intialState = {
+    errorModal: {
+      show: false,
+      title: '',
+      content: null
+    },
+    confirmModal: {
+        confirmModalShow: false,
+        confirmModalElement: null,
+        confirmModalPayLoad: null
+    },
+    //add data for the room
+    roomModalShow: false,
+    newRoomName: '',
+    newRoomType: '',
+    newRoomName1: '',
+    newRoomType1: '',
+    // add data for the device
+    deviceName: '',
+    categoryID: '',
+    deviceSerialNumType: '',
+    deviceName1: '',
+    categoryID1: '',
+    deviceSerialNumType1: '',
+    deviceModalShow: false,
+    // edit data for the room and device
+    deviceName: '',
+    categoryID: '',
+    deviceSerialNumType: '',
+    roomDeviceModalShow: false,
+    //selected data for the clicked room
+    selectedRoomId: '',
+    selectedRoomTitle: '',
+    // selectedDeviceId : '',
+    selectarr:''
+  }
+  const [state,
+    setState] = useState(intialState)
     //======================================//
-    const deviceModaltoggle = (roomID,roomType) => {
-        setState({...state,deviceModalShow: !state.deviceModalShow,
-            selectedRoomId: roomID,
-            selectedRoomTitle: roomType})
-      }
-      //=========================================//
-    console.log(props.rooms);
+  const deviceModaltoggle = (roomID,roomType) => {
+    setState({...state,deviceModalShow: !state.deviceModalShow,
+        selectedRoomId: roomID,
+        selectedRoomTitle: roomType})
+  }
 
-     //map rooms element
-     const roomElement = props.rooms.map(room => {
-    //mapping the devices inside room
-        const devices = room.devices.map(device => {
-            return (
-              <li key={device.id} className="list-group-item">
-                <p className="specs">{device.name}</p>
-                <p className="ml-auto mb-0 text-success">connected</p>
-              </li>
-            )
-          })
-      // return the mapped rooms
-            return (
-                <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
-                    <div className="card ">
-                        {/* <svg className="icon-sprite">
-                                <use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
-                                <use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
-                            </svg> */}
-                        <div className="card-body">
-                        <div className="row">
-                            <div className="col-auto mr-auto">
-                            <h5 className="card-title">{room.type} : {room.name}</h5>
-                            </div>
-                            <div className="col-auto ">
-                              <Link to={"/showdevices/" + room.type.replace(/ /g, '_') + "/" + room.id}>
-                                  <Button type="button" className="btn btn-primary" id="tooltip1">
-                                  <i className="far fa-eye"></i>
-                                  </Button>
-                                  <UncontrolledTooltip placement="right" target="tooltip1">
-                                      Please click to view your room and it's added devices
-                                 </UncontrolledTooltip>
-                              </Link>
-                            </div>
-                        </div>
-                            
-                           
-                        </div>
-                        <hr className="my-0" />
-                        <ul className="list-group borderless px-1">
-                            {devices}
-                        </ul>
-                        <hr className="my-0" />
-                        <div className="card-body">
-                        <div className="row">
-                     <div className="col-auto mr-auto">
-                         <Button type="button" 
-                         className="btn btn-primary"
-                        //  onClick={deviceModaltoggle}
-                         onClick={()=>{deviceModaltoggle(room.id,room.type)}}
-                         id="tooltip4">
-                         <i className="fas fa-plus"></i>
-                         </Button>
-                        <UncontrolledTooltip placement="bottom" target="tooltip4">
-                            Please click here to add devices to your room
-                        </UncontrolledTooltip>
-                        &nbsp;&nbsp;
-                    </div>
-                    <div className="col-auto">
-                         
-                        <Button type="button" 
-                        className="btn btn-primary" 
-                        id="tooltip2">
-                        <i className="fas fa-tools"></i>
-                        </Button>
-                        <UncontrolledTooltip placement="bottom" target="tooltip2">
-                            Please click here to edit your room and devices
-                        </UncontrolledTooltip>
-                        &nbsp;&nbsp;
-                        
-                        <Button type="button"
-                         className="btn btn-primary" 
-                          id="tooltip3">
-                          <i className="far fa-trash-alt"></i>
-                        </Button>
-                        <UncontrolledTooltip placement="right" target="tooltip3">
-                             Please click here to delete the entire component
-                        </UncontrolledTooltip>
-                         </div>
-                      </div>
-                  </div>
-                        
-                        {/* device element */}
+  const deviceRoomModaltoggle = () => {
+    setState({...state,
+      roomDeviceModalShow: !state.roomDeviceModalShow})
+  }
+ const arr = []
+  // console.log('state',state);
+  console.log('selectarr',state.selectarr);
+  for (let i = 0; i < state.selectarr.length; i++) {
+    const x = (<FormGroup key={i} className="row">
+              <div className="col-4" modal-content="true">
+                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
+                <Input
+                  className="form-control custom-focus"
+                  type="text"
+                  id="device_name"
+                  onChange={e => {
+                    const newState = {...state}
+                    newState.selectarr[i].name = e.target.value
+                  setState(newState)
+                }}
+                  value={state.selectarr[i].name}/>
+              </div>
+
+              <div className="col-4 form-group">
+                <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="select"
+                  name="select"
+                  id="room_type"
+                  onChange={(e) => {
+                    const newState = {...state}
+                    newState.selectarr[i].category = e.target.value
+                  setState(newState)
+                }}
+                  value={state.selectarr[i].category}>
+                  <option></option>
+                  <option>Light</option>
+                  <option>Temperature</option>
+                  <option>Motion</option>
+                </Input>
+              </div>
+
+              <div className="col-4" modal-content="true">
+                <Label for="device_seralNum" className="col-12 col-form-label modal-font">Serial Number</Label >
+                <Input
+                  className="form-control custom-focus"
+                  type="text"
+                  id="device_seralNum"
+                  onChange={e => {
+                    const newState = {...state}
+                    newState.selectarr[i].number = e.target.value
+                  setState(newState)
+                }}
+                  value={state.selectarr[i].number}/>
+              </div>
+            </FormGroup>
+    )
+    arr.push(x)
     
-                    </div>
+  }
+  const editModaltoggle = (roomId,roomName,roomType,roomDevice) => {
+    const obj = {
+      roomId,
+      roomName,
+      roomType,
+      roomDevice
+    }
+    console.log('roomData',obj);
+  
+    setState({...state,
+              roomDeviceModalShow: !state.roomDeviceModalShow,
+              selectedRoomId: roomId,
+              newRoomName: obj.roomName,
+              newRoomType: obj.roomType,
+              selectarr : obj.roomDevice
+      })
+        
+  }
+  console.log('selectedRoomId:',state.selectedRoomId);
+  //=========================================//
+  //map rooms element
+  // console.log('propsroom',props.rooms);
+  const roomElement = props.rooms.map(room => {
+    // console.log('room',room);
+      //mapping the devices inside room
+      const devices = room
+        .devices
+        .map(device => {
+          return (
+            <li key={device.id} className="list-group-item">
+              <p className="specs">{device.name}</p>
+              <p className="ml-auto mb-0 text-success">connected</p>
+            </li>
+          )
+        })
+      //return the rooms
+      return (
+        
+        <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
+          <div className="card ">
+            {/* <svg className="icon-sprite">
+                            <use className="glow" fill="url(#radial-glow)" xlinkHref="assets/images/icons-sprite.svg#glow"/>
+                            <use xlinkHref="assets/images/icons-sprite.svg#bulb-eco"/>
+                        </svg> */}
+            <div className="card-body">
+              <div className="row">
+                <div className="col-auto mr-auto">
+                  <h5 className="card-title">{room.type}: {room.name}</h5>
                 </div>
-    
-            )
-    })
+                <div className="col-auto ">
+                  <Link to={"/room/" + room.type.replace(/ /g, '_') + "/" + room.id}><Button
+                      type="button"
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                      data-placement="right"
+                      title="View Room">
+                      <i className="far fa-eye"></i>
+                    </Button>
+                  </Link>
+                </div>
+              </div>
 
-// to close the error modal     
-const errorModalClose = () => {
-    const newState = {...state }
+            </div>
+            <hr className="my-0"/>
+            <div className="overflow">
+            <ul className="list-group borderless px-1">
+              {devices}
+            </ul>
+            </div>                                  
+            <hr className="my-0"/>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-auto mr-auto">
+                  <Button
+                    type="button"
+                    className="btn btn-primary"
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    title="Add Devices"
+                    onClick={()=>{deviceModaltoggle(room.id,room.type)}}>
+                    <i className="fas fa-plus"></i>
+                  </Button>
+                  &nbsp;&nbsp;</div>
+                <div className="col-auto">
+
+                  <Button
+                    type="button"
+                    className="btn btn-primary"
+                    data-toggle="tooltip"
+                    data-placement="left"
+                    title="Edit Room"
+                    onClick={()=>{editModaltoggle(room.id,room.name,room.type,room.devices)}}>
+                    <i className="fas fa-tools"></i>
+                  </Button>
+                  &nbsp;&nbsp;
+
+                  <Button
+                    type="button"
+                    className="btn btn-primary"
+                    data-toggle="tooltip"
+                    data-placement="right"
+                    title="Delete Room"
+                    onClick={()=>{deleteBtnClick(room.id)}}>
+                    <i className="far fa-trash-alt"></i>
+                  </Button>
+
+                </div>
+              </div>
+            </div>
+
+            {/* device element */}
+
+          </div>
+        </div>
+
+      )
+    })
+  
+  
+    const errorModalClose = () => {
+    const newState = {
+      ...state
+    }
     newState.errorModal.show = false
     setState(newState)
-}
+  }
 
-   // modal toggle for showing the room
-const roomModaltoggle = () => {
-    setState({...state, roomModalShow: !state.roomModalShow})
-}
-
-// adding a room to the component by clicking add
-const onAddRoomClick = e => {
-    e.preventDefault();
-    if(state.newRoomName.trim()===''||state.newRoomType ===''){
-        const errorsElement=(
-            <ul>
-                  {state.newRoomName.trim() === ''? <div>Room Name should not be empty</div>: null}
-                  {state.newRoomType ===''? <div> Please select one of the Options</div>: null}
-              </ul>
-        )
-        const newState = {...state}
-        newState.errorModal.show = true
-        newState.errorModal.title = "Entries Error"
-        newState.errorModal.content = errorsElement
-        // hide addroom modal because we need to show error modal and we 
-        //can not show two modals on the same time
-        newState.roomModalShow = false
-        setState(newState)
-    }else{
-        addRoomPost(state.newRoomName, state.newRoomType).then(data => {
+  const closeConfirmModal = () => {
+    const newState = {...state }
+    newState.confirmModal.confirmModalShow = false
+    setState(newState)
     
-            let badgeClass = ''
-            let badgeMessage =''
-            let badgeTitle =''
-            switch (data) {
-            
+  }
+
+
+  const roomModaltoggle = () => {
+    setState({
+      ...state,
+      roomModalShow: !state.roomModalShow
+    })
+  }
+  const onAddRoomClick = e => {
+    e.preventDefault();
+    if (state.newRoomName.trim() === '' || state.newRoomType === '') {
+      const errorsElement = (
+        <ul>
+          {state.newRoomName.trim() === ''? <div>Room Name should not be empty</div>: null}
+          {state.newRoomType === ''? <div>select one of the Options</div>: null}
+        </ul>
+      )
+      const newState = {...state}
+      newState.errorModal.show = true
+      newState.errorModal.title = "Entries Error"
+      newState.errorModal.content = errorsElement
+      // hide addroom modal because we need to show error modal and we can not show
+      // two modals on the same time
+      newState.roomModalShow = false
+      setState(newState)
+    } else {
+      addRoomPost(state.newRoomName, state.newRoomType).then(data => {
+console.log(data);
+        let badgeClass = ''
+        let badgeMessage = ''
+        let badgeTitle = ''
+        switch (data) {
+
           case 2:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'You are missing entries, please fill out your data '
+            badgeMessage = 'You had an empty data, please fill your data '
             badgeTitle = 'Empty Entries'
             break;
-            case 3:
+          case 3:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'this name already exists, please change the name of the room '
-            badgeTitle = 'Room Name exists'
+            badgeMessage = 'this name is all ready exist, please change the name of the room '
+            badgeTitle = 'Room Name is exist'
             break;
           case 4:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'There was a server side error, please contact the administrator'
+            badgeMessage = 'There was a server side error, please contact the adminstrator'
             badgeTitle = 'Server side error'
             break;
           default:
@@ -197,37 +309,38 @@ const onAddRoomClick = e => {
             props.setRoomsAction(data,null,1) //saving all the rooms
             break;
         }
-        if(!isNaN(data)){
-            const badge = (
+        if (!isNaN(data)) {
+          const badge = (
             <div className={badgeClass} role="alert">
-                        {badgeMessage}
+              {badgeMessage}
             </div>
           )
           const newState = {...state}
-        newState.errorModal.show = true
-        newState.errorModal.title = badgeTitle
-        newState.errorModal.content = <p>{badgeMessage}</p>
-        // hide addroom modal because we need to show error modal and we can not show 
-        //two modals on the same time
-        newState.roomModalShow = false
-        setState(newState)
+          newState.errorModal.show = true
+          newState.errorModal.title = badgeTitle
+          newState.errorModal.content = <p>{badgeMessage}</p>
+          // hide addroom modal because we need to show error modal and we can not show
+          // two modals on the same time
+          newState.roomModalShow = false
+          setState(newState)
 
         }
-    }).catch((error)=>{
+      }).catch((error) => {
         console.log(error);
         const badge = (
-            <div className="alert alert-danger" role="alert">
-                can not send the registration data to server
-            </div>
-          )
-          // this.setState({ errorComponent: badge })
-         setState({ errorComponent: badge })
-    })
-  }
-}
+          <div className="alert alert-danger" role="alert">
+            can not send the registration data to server
+          </div>
+        )
+        const newState = {...state}
+      newState.errorModal.content= badge
+      setState(newState)
+      })
 
-// to add a device to the room when clicked 
-const onAddDeviceClick = (e) => {
+    }
+  }
+  //=====================================================//
+  const onAddDeviceClick = (e) => {
     e.preventDefault();
     if(state.deviceName.trim()===''||state.categoryID ===''||state.deviceSerialNumType ===''){
         const errorsElement=(
@@ -235,7 +348,8 @@ const onAddDeviceClick = (e) => {
                   {state.deviceName.trim() === ''? <div>Device Name should not be empty</div>: null}
                   {state.categoryID ===''? <div>select one of the type Options</div>: null}
                   {state.deviceSerialNumType ===''? <div>select one of the serial number Options</div>: null}
-              </ul>  )
+              </ul>
+        )
         const newState = {...state}
         newState.errorModal.show = true
         newState.errorModal.title = "Entries Error"
@@ -249,9 +363,9 @@ const onAddDeviceClick = (e) => {
         newState.categoryID = ''
         newState.deviceSerialNumType = ''
         newState.deviceModalShow = false
-        addDevicePost(state.deviceName, state.categoryID, state.deviceSerialNumType, state.selectedRoomId).then(device => {
-            console.log('device',device);
-
+        addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId).then(device => {
+            // console.log('device',device);
+            console.log('propsessen3',props.setRoomsAction);
             props.setRoomsAction(null,device,2) //2 is the secondType that  means we are just adding a new device.
             setState(newState)
         }).catch(error=> {
@@ -262,40 +376,212 @@ const onAddDeviceClick = (e) => {
     }
 }
 
-    return (
-        <React.Fragment>
-        <div>
-          <div className="row">
-            {/* add rooms card start  */}
-            <div className="col-sm-12 col-md-6 col-xl-4">
-              <div className="card">
-                <div className="card-body d-flex flex-row justify-content-center">
-                  <h2 className="card-title">Rooms</h2>
-                </div>
-                <hr className="my-0"/>
-                <div className="card-body d-flex flex-row justify-content-center">
-                  <Button
-                    data-action=""
-                    className="btn btn-primary btn-lg  "
-                    onClick={roomModaltoggle}>
-                    <strong>Add New Room</strong>
-                  </Button>
-                </div>
+  //================================================//
+
+  const deleteBtnClick = (roomId) => {
+    // console.log('showmodal',state);
+    
+        const newState = {...state}
+        newState.confirmModal.confirmModalShow= true,
+        newState.confirmModal.confirmModalPayLoad= roomId,
+        newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this book gonna be deleted for ever</p>
+        setState(newState)
+}
+
+const deleteConfirm = roomid => {
+    console.log(roomid)
+    deleteRoomPost(roomid).then(data=> {
+        // console.log('data',data);
+        // console.log('props',props.rooms);
+        let badgeClass = ''
+        let badgeMessage = ''
+        let badgeTitle = ''
+      switch (data) {
+        case 10:
+          history.push('/login')
+          break;
+        case 2:
+          // console.log('server error');
+          badgeClass = 'alert alert-danger'
+          badgeMessage = 'Can not find a room with this id, contact the administrator'
+          badgeTitle = 'Room not found'
+          break;
+      
+        case 3:
+          console.log('server error');
+          badgeClass = 'alert alert-danger'
+          badgeMessage = 'There was a server side error, please contact the adminstrator'
+          badgeTitle = 'Server side error'
+          break;
+        default:
+          // console.log('state',state);
+          // const newRooms = [...props.rooms]
+          props.rooms.splice(props.rooms.indexOf(props.rooms.find(element => element.id === roomid)),1)
+          const newState = {...state}
+          newState.confirmModal.confirmModalShow = false
+          setState(newState)
+          break;
+      }
+      if (data !== 1) {
+        const badge = (
+          <div className={badgeClass} role="alert">
+            {badgeMessage}
+          </div>
+        )
+        const newState = {...state}
+        newState.errorModal.show = true
+        newState.errorModal.title = badgeTitle
+        newState.errorModal.content = <p>{badgeMessage}</p>
+        // hide addroom modal because we need to show error modal and we can not show
+        // two modals on the same time
+        newState.confirmModal.confirmModalShow = false
+        setState(newState)
+
+      }
+    }).catch((error) => {
+      // console.log(error);
+      const badge = (
+        <div className="alert alert-danger" role="alert">
+          can not send the registration data to server
+        </div>
+      )
+      const newState = {...state}
+      newState.errorModal.content= badge
+      setState(newState)
+    })
+}
+
+const onEditRoomClick = (e) => {
+  e.preventDefault()
+  // console.log(state);
+        editRoomPost(state.newRoomName, state.newRoomType, state.selectedRoomId, state.selectarr).then((data) => {
+          console.log('change',data);
+          switch (data) {
+          
+            case 2:
+              const newState = {...state}
+              newState.errorModal.show = true
+              newState.errorModal.title = 'updates failed'
+              newState.errorModal.content = <p>Can not update the room, because it can not find the room with this id</p>
+              // hide addroom modal because we need to show error modal and we can not show
+              // two modals on the same time
+              newState.roomDeviceModalShow = false
+              setState(newState)
+            break;
+
+            case 3:
+              const newState1 = {...state}
+              newState1.errorModal.show = true
+              newState1.errorModal.title = 'Server Side Error'
+              newState1.errorModal.content = <p>There was a server side error, please contact the adminstrator</p>
+              // hide addroom modal because we need to show error modal and we can not show
+              // two modals on the same time
+              newState1.roomDeviceModalShow = false
+              setState(newState1)
+            break;
+
+            // case 10:
+            //   history.push('/login')
+            // break;
+        
+          default:
+            const newState2 = {...state}
+            newState2.roomDeviceModalShow = false
+            setState(newState2)
+            console.log('propsessen',props.setRoomsAction);
+            
+            props.setRoomsAction(data,null,1)
+            // props.setRoomsAction(null,data.device,3)
+            break;
+           }
+        }).catch(error => {
+          console.log(error);
+          const badge = (
+            <div className="alert alert-danger" role="alert">
+              can not send the registration data to server
+            </div>
+          )
+          const newState = {...state}
+          newState.errorModal.content= badge
+          setState(newState)
+        })
+
+    // }
+  
+}
+// const editModaltoggle = (roomid,devices, roomType, roomName) => {
+//   const editRoomObj = {
+//     roomid,
+//     devices,
+//     roomType,
+//     roomName
+//   }
+
+//   console.log('editRoomObj',editRoomObj);
+//   // console.log('roomid',roomid);
+//   // console.log('devices',devices);
+//   // console.log('state',state);
+  
+//   // setState({...state,
+//   //   selectedRoomId: roomid,
+//   //   selectedRoomTitle: roomType,
+//   //   selectedRoomName: roomName,
+//   //   selectedDeviceArr: devices
+//   // })
+//   editRoomPost(editRoomObj.roomType,editRoomObj.devices, state.roomid).then( (data) => {
+//     console.log(data);
+//   }).catch(error => {
+//     console.log(error);
+//   })
+// }
+  return (
+    <React.Fragment>
+      <div>
+        <div className="row">
+          {/* add rooms card start  */}
+          <div className="col-sm-12 col-md-6 col-xl-4">
+            <div className="card">
+              <div className="card-body d-flex flex-row justify-content-center">
+                <h2 className="card-title">Rooms</h2>
+              </div>
+              <hr className="my-0"/>
+              <div className="card-body d-flex flex-row justify-content-center">
+                <Button
+                  data-action=""
+                  className="btn btn-primary btn-lg  "
+                  onClick={roomModaltoggle}>
+                  <strong>Add New Room</strong>
+                </Button>
               </div>
             </div>
-            {roomElement}
-            {/* add rooms card end  */}
-            {/* ===========================rooms element====================================== */}
           </div>
+          {roomElement}
+          {/* add rooms card end  */}
+          {/* ===========================rooms element====================================== */}
         </div>
+      </div>
 
-        <CustomModal
+      <CustomModal
         show={state.errorModal.show}
         close={errorModalClose}
         className="bg-danger"
         title={state.errorModal.title}>
         {state.errorModal.content}
       </CustomModal>
+
+      <ConfirmModal
+        className="bg-danger"
+        show={state.confirmModal.confirmModalShow}
+        close={closeConfirmModal}
+        title="Confirm Delete"
+        payload={state.confirmModal.confirmModalPayLoad}
+        onConfirm={deleteConfirm}>
+        {state.confirmModal.confirmModalElement}
+      </ConfirmModal>
+
+
+    {/* /*==================== MODAL FOR ADDING ROOM ==========================*/ }
+
       <Modal isOpen={state.roomModalShow} toggle={roomModaltoggle}>
         {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
         <ModalBody >
@@ -350,7 +636,13 @@ const onAddDeviceClick = (e) => {
           <Button color="secondary" onClick={roomModaltoggle}>Cancel</Button>
         </ModalFooter>
       </Modal>
+      
       {/* ------------------------------- */}
+
+
+
+      {/* /*==================== MODAL FOR ADDING DEVICE ==========================*/ }
+
       <Modal isOpen={state.deviceModalShow} toggle={deviceModaltoggle}>
         {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
         <ModalBody >
@@ -358,7 +650,7 @@ const onAddDeviceClick = (e) => {
           <Form className="p-2">
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
-                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label>
+                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
                 <Input
                   className="form-control custom-focus"
                   type="text"
@@ -421,20 +713,83 @@ const onAddDeviceClick = (e) => {
           {/* <Button color="secondary" onClick={toggle}>Cancel</Button> */}
         </ModalFooter>
       </Modal>
+      
       {/* --------------------------------------------------------- */}
+
+
+
+
+      {/* /*==================== MODAL FOR UPDATING ROOM ==========================*/ }
+
+      <Modal isOpen={state.roomDeviceModalShow} toggle={deviceRoomModaltoggle}>
+        {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
+        <ModalBody >
+          <h3 className="card-title modal-font">Update Room and Devices</h3>
+          <Form className="p-2">
+            <FormGroup className="row">
+              <div className="col-6" modal-content="true">
+                <Label for="room_name" className="col-12 col-form-label modal-font">Room Name</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="text"
+                  id="room_name"
+                  onChange={e => {
+                  setState({
+                    ...state,newRoomName: e.target.value
+                  })
+                }}
+                  value={state.newRoomName}/>
+              </div>
+              <div className="col-6 form-group">
+                <Label for="room_type" className="col-12 col-form-label modal-font">Room Type</Label>
+                <Input
+                  className="form-control custom-focus"
+                  type="select"
+                  name="select"
+                  id="room_type"
+                  onChange={(e) => {
+                  setState({
+                    ...state,
+                    newRoomType: e.target.value
+                  })
+                }}
+                  value={state.newRoomType}>
+                  <option></option>
+                  <option>Kitchen</option>
+                  <option>Dining room</option>
+                  <option>Living room</option>
+                  <option>Sleep room</option>
+                  <option>Bath room</option>
+                  <option>Garage</option>
+                </Input>
+              </div>
+            </FormGroup>
             
-        </React.Fragment>
-    )
+            
+            {arr}
+
+          </Form>
+
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={onEditRoomClick}>save</Button>
+          <Button color="secondary" onClick={deviceRoomModaltoggle}>Cancel</Button>
+          {/* <Button color="secondary" onClick={toggle}>Cancel</Button> */}
+        </ModalFooter>
+      </Modal>
+      
+      {/* --------------------------------------------------------- */}
+    </React.Fragment>
+  )
 
 }
 
-
-// when you see props.room. ..... is touching the main state
+// when you see props.room. ..... is touching the main state ( the redux state)
 // when you see this.state....  it is touching the initial state
 
 // here we change our initial state to props to be able to send it to the main state
 
-//! this is to ge5t the state of redux and save it in the props of this component
+//! this is to get the state of redux and save it in the props of this component
 const setStateToProps = (state) => {
     return ({
         rooms: state.rooms

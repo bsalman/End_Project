@@ -1,34 +1,85 @@
-import React, {Fragment, useState } from 'react'
+import React, {Fragment, useEffect, useState, useRef } from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {useParams, useHistory} from 'react-router-dom'
 import {ListGroup, ListGroupItem, Label, Input} from 'reactstrap';
 
 
-// importing the components 
-import {addRoomPost} from '../services/api'
+// importing the components
+import {getRoomPost} from '../services/api'
 // importing the action
 import {setRoomsAction} from '../actions'
 
-const SingleRoomOv =(props) =>{
-    console.log(props)
 
-    return( 
+
+const SingleRoomOv =(props) =>{
+
+//* for redux
+//console.log(props)
+//console.log('params',params)
+
+//const titleElement = (<div className="card p-2 mb-4" ><h5 className="mx-auto">{room.type} : {room.name}</h5></div>)
+
+//console.log(props.room);
+
+// copy a one room out of the array
+// const selectedRoom = props.rooms.splice(props.rooms.indexOf(props.rooms.find(element => element.id === params.id)),1)
+//console.log('selectedRoom',selectedRoom);
+//*redux end 
+
+
+
+
+
+// to the path of the chosen room and its devices
+const params = useParams()
+
+const initialState = {
+  room: null,
+  selectedRoom : ''
+}
+
+const [state, setState] = useState(initialState)
+
+console.log('params', params);
+
+useEffect(() => {
+    getRoomPost(params.id).then(data => {
+      // if(data != 2){
+      //   setState({
+      //   ...state,
+      //   room: data
+      // })
+      // }
+      console.log('data', data);
+      console.log('data1', data[1]);
+      console.log('data2', data[1][0]);
+   
+      setState({...state, selectedRoom: data[1][0]})
       
-            
+    })
+  }, [])
+  //console.log('state', state);
+  console.log('state', state);
+  console.log('props', props);
+    return(
+
+
         <React.Fragment>
-      
+
         {/* head component start */}
 	        <div className="row">
 		        <div className="col-sm-12">
 			      <div className="card p-2 mb-4" >
-			     	{/* <h5 className="mx-auto">{props.room.type} : {props.room.name}</h5> */}
-                    <h5 className="mx-auto">Chosen Room : Kitchen</h5>
+			     	{/* <h5 className="mx-auto">{room.type} : {room.name}</h5>  */}
+             	  <h5 className="mx-auto">
+                 {state.selectedRoom.type} : {state.selectedRoom.name}</h5>   
+                   {/* {titleElement} */}
 		  	      </div>
 		       </div>
 	         </div>
         {/* head component end */}
 
- 
+
         {/* <div className="col-sm-12 col-md-6 col-xl-4"> */}
     <div className="row">
         {/* <div className="card"> */}
@@ -51,8 +102,9 @@ const SingleRoomOv =(props) =>{
                   {/* <!-- Bulb details START --> */}
                   <ListGroup className="list-group borderless px-1">
                     <ListGroupItem className="list-group-item">
-                      <p className="specs">Connection</p>
-                      <p className="ml-auto mb-0 text-success">OK</p>
+             
+                      {/* <p className="specs">Connection</p>
+                      <p className="ml-auto mb-0 text-success">OK</p> */}
                     </ListGroupItem>
                     <ListGroupItem className="list-group-item pt-0">
                       <p className="specs">Power Consumption</p>
@@ -83,9 +135,9 @@ const SingleRoomOv =(props) =>{
                 </div>
                 {/* <!-- Light unit END --> */}
              </div>
-        
 
-      
+
+
             {/*  <!-- Appliances  START --> */}
               <div className="col-sm-12 col-md-6 col-xl-4">
                 {/* <!-- Living room temperature  START --> */}
@@ -113,19 +165,19 @@ const SingleRoomOv =(props) =>{
                         <span className="room-temp-F">71.6</span><sup>°F</sup>
                         </p>
                       </ListGroupItem>
-                    </ListGroup> 
+                    </ListGroup>
 
                     <div className="p-4" style={{position:'relative'}}>
                       <Input id="room-temp-02" className="room-temp" type="range" min="66.2" max="77" step="0.1" value="71.6" data-orientation="vertical" />
                     </div>
                   </div>
                   &nbsp;&nbsp;&nbsp;
-                 
+
                   <ListGroup className="list-group borderless">
                   <hr className="my-0" />
                     <ListGroupItem className="list-group-item align-items-center">
                     &nbsp;&nbsp;&nbsp;
-                     
+
                       <p className="specs">Device Serial Nr</p>
                       <p className="ml-auto mb-0">12761263921</p>
                       &nbsp;&nbsp;&nbsp;
@@ -133,9 +185,9 @@ const SingleRoomOv =(props) =>{
                   </ListGroup>
                 </div>
                 {/* <!-- Living room temperature  END --> */}
-               </div> 
-        
-         
+               </div>
+
+
                <div className="col-sm-12 col-md-6 col-xl-4">
                 {/* <!-- TV2  START --> */}
                 <div className="card active" data-unit="tv-lcd-2">
@@ -164,7 +216,7 @@ const SingleRoomOv =(props) =>{
                         <h5 className="specs">front room</h5>
                         <div className="btn-group btn-group-toggle ml-auto py-1" data-toggle="buttons">
                           <Label className="btn btn-label btn-sm mb-0">
-                            <Input type="radio" name="options" id="c1-nv-on" autoComplete="off" /> 
+                            <Input type="radio" name="options" id="c1-nv-on" autoComplete="off" />
 					              		ON
                           </Label>
                           <Label className="btn btn-label btn-sm mb-0 active">
@@ -180,7 +232,7 @@ const SingleRoomOv =(props) =>{
                         <h5 className="specs">back room</h5>
                         <div className="btn-group btn-group-toggle ml-auto py-1" data-toggle="buttons">
                           <Label className="btn btn-label btn-sm mb-0">
-                            <Input type="radio" name="options" id="c1-nv-on" autoComplete="off" /> 
+                            <Input type="radio" name="options" id="c1-nv-on" autoComplete="off" />
 					              		ON
                           </Label>
                           <Label className="btn btn-label btn-sm mb-0 active">
@@ -196,7 +248,7 @@ const SingleRoomOv =(props) =>{
                       <p className="ml-auto mb-0">12761263921</p>
                       &nbsp;&nbsp;&nbsp;
                       </ListGroupItem>
-                     
+
                     </ListGroup>
                     &nbsp;
                   </div>
@@ -207,13 +259,25 @@ const SingleRoomOv =(props) =>{
           </div>
         </React.Fragment>
     )
-}  
+ 
+// }) // from room Element map
+}
 
+// here we change our initial state to props to be able to send it to the main state
+// //! this is to get the state of redux and save it in the props of this component
 const setStateToProps = (state) => {
     return ({
-        room: state.rooms
+       // rooms: state.rooms
+        rooms: state.rooms
     })
 }
 
+// when you see props.room. ..... is touching the main state ( the redux state)
+// when you see this.state....  it is touching the initial state
+
+
+
+
 
 export default connect(setStateToProps, {setRoomsAction})(SingleRoomOv)
+//export default SingleRoomOv

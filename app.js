@@ -164,34 +164,74 @@ app.post('/rooms/allrooms',(req,res)=>{
 })
 
 
+
+// ============= ALL ROOMS WITH ALL DEVICES  =================//
+
+
+
 //================== delete room=========================//
 app.post('/rooms/deleteroom',(req,res)=>{
-    console.loge(body)
+    //1 success
+    //2 can not find a room with this id
+    //3 server error
+    console.log(req.body)
+    // res.json(1)
     const roomId = req.body.roomId
     dataModule.deleteRoom(roomId).then(() => {
         res.json(1)
     }).catch(error => {
-        console.log(error);
-        res.json(2)
+        if (error === 3) {
+            res.json(3)
+        } else {
+            console.log(error);
+            res.json(2)
+        }
+        
     })
 })
 
-// ============= all rooms with devices app =================//
-//! trying to get dummy data to see if the sql function get Room is working 
+//================== edit room=========================//
+app.post('/rooms/editroom',(req,res)=>{
+    //1 success
+    //2 can not find a room with this id
+    //3 server error
+    // console.log(req.body)
+    // res.json(1)
+    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId, req.body.newDeviceArr).then((room) => {
+        console.log('room',room);
+        // let roomObj = {
+        //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
+        //         device : room.roomDevice[0]
+            
+        // }
+        // console.log('roomObj',roomObj);
+        res.json(room)
+    }).catch(error => {
+        if (error === 2) {
+            res.json(2)
+        } else {
+            console.log(error);
+            res.json(3)
+        }
+        
+    })
+})
 
-// app.post('/rooms', (req,res)=>{
-//    dataModule.getRoom().then(rooms =>{
-//     console.log(rooms);
-//    }).catch(error =>{
-//        console.log(error);
-//    }) 
-// })
+///=============== get one room with its devices and show ============ // 
+app.post('/room',(req,res)=>{
+    dataModule.getRoom(req.body.id).then(data =>{
 
-
-
+     console.log('data',data);
+     console.log(data.roomDevice);
+     res.json(data.roomDevice)
+    }).catch(error =>{
+        console.log(error);
+    }) 
+   
+ })
 
 //==============================================================//
-app.use('/', (req, res, next) => {
+app.use('/',(req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)
 });
