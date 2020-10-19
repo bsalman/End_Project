@@ -494,8 +494,9 @@ const onEditRoomClick = (e) => {
             newState2.roomDeviceModalShow = false
             setState(newState2)
             console.log('propsessen',props.setRoomsAction);
-            // props.setRoomsAction({data.name,data.type},null,1)
-            props.setRoomsAction(null,data.device,3)
+            
+            props.setRoomsAction(data,null,1)
+            // props.setRoomsAction(null,data.device,3)
             break;
            }
         }).catch(error => {

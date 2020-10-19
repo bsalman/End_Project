@@ -195,16 +195,14 @@ app.post('/rooms/editroom',(req,res)=>{
     // console.log(req.body)
     // res.json(1)
     dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId, req.body.newDeviceArr).then((room) => {
-        console.log('room',room.roomDevice);
-        let roomObj = {
-                name: req.body.newRoomName,
-                type: req.body.newRoomType,
-                id: req.body.id,
-                device : room.roomDevice[0]
+        console.log('room',room);
+        // let roomObj = {
+        //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
+        //         device : room.roomDevice[0]
             
-        }
-        console.log('roomObj',roomObj);
-        res.json(roomObj)
+        // }
+        // console.log('roomObj',roomObj);
+        res.json(room)
     }).catch(error => {
         if (error === 2) {
             res.json(2)

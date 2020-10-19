@@ -49,28 +49,6 @@ console.log('device',device);
 
                 break;
 
-            // Editing a new room
-            case 3:
-
-                let newRooms1 = [...rooms]
-                let device1 = payload.device
-console.log('device',device1);
-                newRooms1 = newRooms1.map(room => {
-                    if(room.id === device1.room_id){
-
-                        room.devices=device1
-                    }
-                    return room;
-                });
-
-                console.log('newRoom',newRooms1);
-                return newRooms1
-
-                break;
-
-            default:
-                return rooms
-                break;
         }
         
     }

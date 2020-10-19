@@ -296,30 +296,7 @@ function editRoom(newRoomName, newRoomType, roomId, newDeviceArr) {
         try {
             (async () => {
                 let oldRoomData = await getRoom(roomId)
-                // console.log(oldRoomData);
-                // [
-                //     [
-                //       RowDataPacket {
-                //         id: 50,
-                //         name: 'dcd',
-                //         type: 'Dining room',
-                //         number: 'sdsad',
-                //         category: 'Temperature',
-                //         room_id: 180
-                //       },
-                //       RowDataPacket {
-                //         id: 51,
-                //         name: 'asdsad',
-                //         type: 'Dining room',
-                //         number: 'dafdaf',
-                //         category: 'Temperature',
-                //         room_id: 180
-                //       }
-                //     ],
-                //     [ RowDataPacket { id: 180, name: '58', type: 'Dining room' } ]
-                //   ]
-
-                // console.log(oldRoomData.roomDevice[1]);  //[ RowDataPacket { id: 180, name: '58', type: 'Dining room' } ]
+                
 
                 let updateRoomDataQuery = ''
                 if(oldRoomData.num === 1){
@@ -336,7 +313,7 @@ function editRoom(newRoomName, newRoomType, roomId, newDeviceArr) {
                     console.log('updateRoomDataQuery',updateRoomDataQuery);
                     await runQuery(`UPDATE rooms SET name = '${newRoomName}',type = '${newRoomType}' WHERE id = ${roomId};`+updateRoomDataQuery)
 
-                    getRoom(roomId).then(room => {
+                    getAllRooms().then(room => {
                         resolve(room)
                     }).catch(error => {
                         reject(error)
@@ -352,7 +329,7 @@ function editRoom(newRoomName, newRoomType, roomId, newDeviceArr) {
                     // }
 
                     await runQuery(`UPDATE rooms SET name = '${newRoomName}' , type = '${newRoomType}' WHERE id = ${roomId};`)
-                    getRoom(roomId).then(room => {
+                    getAllRooms().then(room => {
                         resolve(room)
                     }).catch(error => {
                         reject(error)
