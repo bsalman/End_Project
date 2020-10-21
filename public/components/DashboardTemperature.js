@@ -3,7 +3,7 @@ import React from 'react'
 
 const DashboardTemperature = (props)=>{
     
-    const rooms=props.param
+    const rooms=props.parameter
         
     const TempElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
         

@@ -83,13 +83,13 @@ const Dashboard =(props)=> {
 					{/* lights temp motion aria started */}
 					<div className="row">
 						{/* Lights system start  */}
-						<DashboardLights param={props.rooms}/>
+						<DashboardLights parameter={props.rooms}/>
 						{/* Lights system end  */}
 						{/* Temperature system start  */}
-						<DashboardTemperature param={props.rooms}/>
+						<DashboardTemperature parameter={props.rooms}/>
 						{/* Temperature system end  */}
 						{/* Motion system start  */}
-						<DashboardMotion param={props.rooms}/>
+						<DashboardMotion parameter={props.rooms}/>
 						{/* Motion system end  */}	
 					</div>	
 				</React.Fragment>

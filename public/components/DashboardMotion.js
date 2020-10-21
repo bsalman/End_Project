@@ -3,7 +3,7 @@ import React from 'react'
 
 const DashboardMotion = (props)=>{
    
-    const rooms=props.param
+    const rooms=props.parameter
     const MotionElement=rooms.filter(room => room.devices.find(device => device.category ==='Motion')).map((room)=>{
             
         return(

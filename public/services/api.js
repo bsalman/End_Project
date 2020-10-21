@@ -169,7 +169,7 @@ export const deleteRoomPost=(roomId)=>{
     })
 }
 //===================================//
-export const editRoomPost = (newRoomName, newRoomType, roomId, newDeviceArr) => {
+export const editRoomPost = (newRoomName, newRoomType, roomId) => {
     return new Promise((resolve, reject) => {
         //collect the data to be send to the server side
 
@@ -177,7 +177,7 @@ export const editRoomPost = (newRoomName, newRoomType, roomId, newDeviceArr) => 
             newRoomName,
             newRoomType,
             roomId,
-            newDeviceArr
+            
         }
         fetch("/rooms/editroom", {
             method: 'POST',

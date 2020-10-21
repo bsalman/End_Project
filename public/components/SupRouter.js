@@ -9,8 +9,8 @@ import Page404 from './Page404'
 import Dashboard from './Dashboard'
 import Settings from './Settings'
 import Rooms from './Rooms'
-import Room from './Room'
-
+import SingleRoomOv from './SingleRoomOv'
+import LightDev from './LightDev'
 
 class SupRouter extends React.Component {
     render() {
@@ -31,8 +31,9 @@ class SupRouter extends React.Component {
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
-                                                <Route path="/room/:roomtype/:id"exact component={Room} />
+                                                <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
+                                                <Route path="/light" exact component={LightDev} />
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

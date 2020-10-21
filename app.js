@@ -180,8 +180,8 @@ app.post('/rooms/editroom',(req,res)=>{
     //3 server error
     // console.log(req.body)
     // res.json(1)
-    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId, req.body.newDeviceArr).then((room) => {
-        console.log('room',room);
+    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId).then((room) => {
+        // console.log('room',room);
         // let roomObj = {
         //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
         //         device : room.roomDevice[0]
@@ -200,13 +200,15 @@ app.post('/rooms/editroom',(req,res)=>{
     })
 })
 //===============================================//
-app.post('/room',(req,res)=>{
-    dataModule.getRoom(req.body.id).then(room=>{
-        
-        res.json(room)
-    }).catch((error)=>{console.log(error);})
-
-})
+app.post('/room', (req, res) => {
+    console.log(req.body);
+    dataModule.getRoom(req.body.id).then(data => {
+        console.log(data.roomDevice);
+        res.json(data.roomDevice)
+    }).catch(error => {
+        res.json(2)
+    })
+});
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

@@ -3,7 +3,7 @@ import React from 'react'
 
 const DashboardLights = (props)=>{
     
-    const rooms=props.param
+    const rooms=props.parameter
         
     const LightElement=rooms.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
         
