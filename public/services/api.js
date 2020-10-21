@@ -172,15 +172,14 @@ export const deleteRoomPost=(roomId)=>{
 
 //=============================================//
 
-export const editRoomPost = (newRoomName, newRoomType, roomId, newDeviceArr) => {
+export const editRoomPost = (newRoomName, newRoomType, roomId) => {
     return new Promise((resolve, reject) => {
         //collect the data to be send to the server side
 
         const newRoomObj = {
             newRoomName,
             newRoomType,
-            roomId,
-            newDeviceArr
+            roomId
         }
         fetch("/rooms/editroom", {
             method: 'POST',
@@ -188,6 +187,63 @@ export const editRoomPost = (newRoomName, newRoomType, roomId, newDeviceArr) => 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(newRoomObj)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+
+// export const deleteDevicePost = (roomId, deviceId) => {
+//     return new Promise ((resolve,reject)=>{
+//         const data={roomId, deviceId}
+//         fetch('/room/deletedevice',{
+//             method:'POST',
+//             headers:{
+//                 'Content-Type':'application/json'
+//             },
+//             body:JSON.stringify(data)
+//         }).then((response)=>{
+//             if (response.status===200) {
+//                 response.json().then((data)=>{
+//                     resolve(data)
+//                 }).catch((error)=>{
+//                     reject(error)
+//                 })              
+//             }else{
+//                 reject(new Error('can not get the data, response number is: ' + response.status))
+//             }
+//         }).catch((error)=>{
+//             reject(error)
+//         })
+//     })
+    
+// }
+
+
+export const getRoomPost = (roomId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            id: roomId
+        }
+        fetch("/room", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
         }).then(response => {
             if (response.status == 200) {
                 response.json().then(data => {
