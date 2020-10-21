@@ -167,7 +167,7 @@ const Rooms = (props) => {
                   <h5 className="card-title">{room.type}: {room.name}</h5>
                 </div>
                 <div className="col-auto ">
-                  <Link to={"/showdevices/" + room.type.replace(/ /g, '_') + "/" + room.id}><Button
+                  <Link to={"/room/" + room.type.replace(/ /g, '_') + "/" + room.id}><Button
                       type="button"
                       className="btn btn-primary"
                       data-toggle="tooltip"

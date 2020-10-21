@@ -127,8 +127,8 @@ class Settings extends React.Component {
           {this.state.errorComponent}
     </CustomModal>
 
-              {/* <!-- Main content START --> */}
-              <div id="main" className={this.props.loggedin === 'false' ? '' : 'd-none'}>
+              {/* <!-- Main content START --> className={this.props.loggedin === 'false' ? '' : 'd-none'}*/}
+              <div id="main" >
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-12 col-sm-10 offset-sm-1">

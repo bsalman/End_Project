@@ -205,6 +205,7 @@ function getRoom(roomId) {
                     resolve(selectedRoom)
                 }).catch(error => {
                     reject(3)
+                    console.log(error);
                 })
                
             }

@@ -10,29 +10,30 @@ class SideNav extends React.Component{
               <div id="sidebar" className="sidebar-offcanvas">
                 <ul className="nav flex-column nav-sidebar">
                   <li className="nav-item">
-                    <Link className="nav-link" to="index.html">
-                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
-                      Home
+                    <Link className="nav-link" to="/dashboard">
+                    {/* <i class="fas fa-columns icon-sprite"></i> */}
+                    <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
+                      Dashboard
                     </Link>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <Link className="nav-link" to="lights.html">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#bulb-eco"/></svg>
                       Lights
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="nav-item">
                     <Link className="nav-link" to="/rooms">
-                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#camera"/></svg>
+                    <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
                      Rooms
                     </Link>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <Link className="nav-link" to="appliances.html">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#appliances"/></svg>
                       Appliances
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="nav-item">
                     <Link className="nav-link" to="/settings">
                       <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>

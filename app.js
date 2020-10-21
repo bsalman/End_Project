@@ -199,6 +199,14 @@ app.post('/rooms/editroom',(req,res)=>{
         
     })
 })
+//===============================================//
+app.post('/room',(req,res)=>{
+    dataModule.getRoom(req.body.id).then(room=>{
+        
+        res.json(room)
+    }).catch((error)=>{console.log(error);})
+
+})
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
