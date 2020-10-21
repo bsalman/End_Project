@@ -33,7 +33,9 @@ const LightSetting = (props) => {
       <div className="row">
         <div className="col-sm-12">
           <div className="card p-2 mb-4">
-            <h5 className="mx-auto">setting:Device name</h5>
+              <div className="card-body d-flex flex-row justify-content-center">
+            <h3 className="card-title">setting:Device name</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -44,7 +46,7 @@ const LightSetting = (props) => {
                 <li className="list-group-item align-items-center">
                     <i className="fas fa-stopwatch"></i>
                     &nbsp;
-                    <h5>Light:Set Time</h5>
+                    <h5 >Light:Set Time</h5>
                     <div className=" ml-auto ">
                         <div>{state.timeNow}</div>
                     </div>
@@ -181,7 +183,7 @@ const LightSetting = (props) => {
                     <Form>
                         <FormGroup row>
                             <Label for="serialNumber" sm={2}>Serial Number</Label>
-                            <Col sm={9}>
+                            <Col sm={8}>
                             <Input type="text" name="serial-number" id="serialNumber" placeholder="insert new Serial Number" />
                             </Col>
                              <Button>Save</Button>
