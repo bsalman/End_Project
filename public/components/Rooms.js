@@ -175,7 +175,7 @@ const Rooms = (props) => {
                       className="btn btn-primary"
                       data-toggle="tooltip"
                       data-placement="right"
-                      title="View Room">
+                      title="click to view Room">
                       <i className="far fa-eye"></i>
                     </Button>
                   </Link>

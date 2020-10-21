@@ -24,6 +24,18 @@
             background-color:#0c2742 ;
         }
 
+    /* ============ List group Item Temp ====== */
+
+    .list-group-item1{
+      padding: 0.75rem
+    }
+     /* ============ List group Item Motion ====== */
+    .list-group-item2{
+      padding-top: 1.75rem
+    }
+    /* .room-temp-C{
+      font-size: large;
+    } */
          /* ============overFlow =========== */
     
     .overflow{

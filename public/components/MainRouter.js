@@ -16,6 +16,7 @@ class MainRouter extends React.Component {
     // this automatically starts the main state, and loads the rooms (on the frontend) 
     //from the main state in the moment the first page(main page) is loaded.
     componentDidMount(){
+        console.log('hi');
         allRoomsPost().then(rooms=>{
             this.props.setRoomsAction(rooms,null,1)
         })

@@ -10,10 +10,11 @@ import Settings from './Settings'
 import Rooms from './Rooms'
 import ShowDevices from './ShowDevices'
 import SingleRoomOv from './SingleRoomOv'
-
 // import AllRooms from './AllRooms'
 // import Dashboard from './Dashboard'
-
+import LightDev from './LightDev'
+import TempDev from './TempDev'
+import Motions from './Motions'
 class SupRouter extends React.Component {
     render() {
         return (
@@ -29,7 +30,13 @@ class SupRouter extends React.Component {
                                         <div className="container-fluid"> 
                                 
                                             <Switch>
-                                                
+                                                {/* dummy route start */}
+                                                <Route path="/light" exact component={LightDev} />
+                                                <Route path="/temp" exact component={TempDev} />
+                                                <Route path="/mo" exact component={Motions} />
+                                                {/* dummy route  end*/}
+
+
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
