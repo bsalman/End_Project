@@ -11,6 +11,7 @@ import Settings from './Settings'
 import Rooms from './Rooms'
 import SingleRoomOv from './SingleRoomOv'
 import LightDev from './LightDev'
+import LightSetting from './LightSetting'
 
 class SupRouter extends React.Component {
     render() {
@@ -34,6 +35,7 @@ class SupRouter extends React.Component {
                                                 <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/light" exact component={LightDev} />
+                                                <Route path="/lightSetting" exact component={LightSetting} />
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 
