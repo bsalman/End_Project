@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
-//import {useParams, useHistory} from 'react-router-dom'
+
 import {ListGroup,Link, ListGroupItem, Label, Input, Button} from 'reactstrap';
 
 // import action 
@@ -22,7 +22,7 @@ const Motion = (props) =>{
       return(
  
         <div key={device.id} className="card active" data-unit="tv-lcd-2">
-        {/* <!-- TV2 switch START --> */}
+        {/* <!--  switch START --> */}
         <ListGroup className="list-group borderless">
           <ListGroupItem className="list-group-item align-items-center">
             <svg className="icon-sprite icon-1x">
@@ -36,7 +36,7 @@ const Motion = (props) =>{
             </Label>
           </ListGroupItem>
         </ListGroup>
-        {/* <!-- TV2 switch END --> */}
+        {/* <!-- switch END --> */}
         
          
          <div className="only-if-active">

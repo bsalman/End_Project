@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
-//import {useParams, useHistory} from 'react-router-dom'
+
 import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 
-
-// importing the components
 
 // importing the action
 import {setRoomsAction} from '../actions'
@@ -12,11 +10,12 @@ import {setRoomsAction} from '../actions'
 const Light = (props) =>{
 
   const lightInfo={
+
     lightElementArr:[]
+
   }
 
   
-
   if(props.rooms.length > 0) {
      
     const lightElement = props.lightDevices.map(device =>{
@@ -118,7 +117,7 @@ return(
 
 const setStateToProps = (state) => {
   return ({
-     // rooms: state.rooms
+    
       rooms: state.rooms
   })
 }

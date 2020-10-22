@@ -14,7 +14,7 @@ import SingleRoomOv from './SingleRoomOv'
 // import Dashboard from './Dashboard'
 import LightDev from './LightDev'
 import TempDev from './TempDev'
-import Motions from './Motions'
+import MotionsDev from './MotionsDev'
 class SupRouter extends React.Component {
     render() {
         return (
@@ -33,7 +33,7 @@ class SupRouter extends React.Component {
                                                 {/* dummy route start */}
                                                 <Route path="/light" exact component={LightDev} />
                                                 <Route path="/temp" exact component={TempDev} />
-                                                <Route path="/mo" exact component={Motions} />
+                                                <Route path="/mo" exact component={MotionsDev} />
                                                 {/* dummy route  end*/}
 
 

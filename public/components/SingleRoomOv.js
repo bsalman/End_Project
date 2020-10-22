@@ -7,7 +7,7 @@ import {useParams} from 'react-router-dom'
 // importing the components
 import LightDev from './LightDev'
 import TempDev from './TempDev'
-import Motions from './Motions'
+import MotionsDev from './MotionsDev'
 // importing the action
 import {setRoomsAction} from '../actions'
 
@@ -19,17 +19,10 @@ const params = useParams()
 
 
 
-console.log('params',params)
+//console.log('params',params)
+//console.log(props.rooms);
+//console.log('props', props);
 
-//const titleElement = (<div className="card p-2 mb-4" ><h5 className="mx-auto">{room.type} : {room.name}</h5></div>)
-
-console.log(props.rooms);
-
-
-  //console.log('state', state);
-  //console.log('state', state);
-  console.log('props', props);
-  console.log('rooms',props.rooms[0]);
   
   let roomInfo = {
       roomType: '',
@@ -39,17 +32,11 @@ console.log(props.rooms);
      lightArr:[],
      tempArr:[],
      motionArr:[],
-    // type:'',
-    // name:''
-
-     
-
-
+ 
   }
 
   if(props.rooms.length > 0) {
-     // console.log('roomInfo.rooms',props.rooms)
-    //  console.log('roomParams',props.roomParams);
+
 
     // select the rooms
      roomInfo.rooms = props.rooms  //* array of rooms
@@ -69,18 +56,15 @@ console.log(props.rooms);
      roomInfo.motionArr = selectedDevice.filter(device => device.category == 'Motion')
      const motionDevices = roomInfo.motionArr
 
-     //selectedRoom.type = roomInfo.selectedRoom.type
-     //selectedRoom.name
-     //  console.log('props.roomsArr',props.roomsArr)
-       console.log('selectedRoom',selectedRoom);
-       console.log('selectedDevice',selectedDevice);
-       console.log('roomType',selectedRoom.type); 
-       console.log('roomName',selectedRoom.name); 
-       console.log('motion',motionDevices );
-    // roomInfo.roomName = props.rooms[0].name
-    // roomInfo.roomType = props.rooms[0].type
-    // roomInfo.devices = props.rooms[0].devices
-    // console.log('roomInfo.devices', roomInfo.rooms[0].devices);
+  
+
+      //  console.log('props.roomsArr',props.roomsArr)
+      //  console.log('selectedRoom',selectedRoom);
+      //  console.log('selectedDevice',selectedDevice);
+      //  console.log('roomType',selectedRoom.type); 
+      //  console.log('roomName',selectedRoom.name); 
+      //  console.log('motion',motionDevices );
+
       
 }
 
@@ -90,9 +74,7 @@ console.log('lightArr', roomInfo.lightArr);
 
     return(
 
-
         <React.Fragment>
-
         {/* head component start */}
 	        <div className="row">
 		        <div className="col-sm-12">
@@ -128,7 +110,7 @@ console.log('lightArr', roomInfo.lightArr);
             <div className="card-body">
               <h4 className="card-title"> Motion </h4>
               </div>
-                <Motions motionDevices={roomInfo.motionArr}/>
+                <MotionsDev motionDevices={roomInfo.motionArr}/>
             </div>
             </div>
             {/* Motion component end */}
@@ -160,9 +142,6 @@ const setStateToProps = (state) => {
         rooms: state.rooms
     })
 }
-
-
-
 
 
 export default connect(setStateToProps, {setRoomsAction})(SingleRoomOv)

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
 
-//import {useParams, useHistory} from 'react-router-dom'
 import {ListGroup, ListGroupItem, Button} from 'reactstrap';
 import {setRoomsAction} from '../actions' 
 
@@ -9,9 +8,6 @@ const Temperature = (props) =>{
 
 // const roomsArr= props.roomsArr
 // const roomId = props.roomParams.id
-
-
-//console.log('roomInfo.devices', roomInfo.rooms[0].devices)
 
 
 const tempInfo={
@@ -22,17 +18,13 @@ const tempInfo={
    
 if(props.rooms.length > 0) {
 
-// const selectedRoom = roomsArr.find(room => room.id == roomId) 
-// console.log('props.roomsArr',props.roomsArr)
-// console.log('selectedRoom',selectedRoom);
-// console.log('roomParams',props.roomParams);
-//console.log('lightArrTempDev', props.lightDevices);
-console.log('tempArrTempDev', props.tempDevices);
+
+//console.log('tempArrTempDev', props.tempDevices);
 
 
 
  const tempElement = props.tempDevices.map(device=>{
-   console.log('temp',device);
+  // console.log('temp',device);
    return(
  
     <div key={device.id} className="card temp-range heating" data-unit="room-temp-02">
