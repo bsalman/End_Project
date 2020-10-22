@@ -1,26 +1,48 @@
-import React, {Fragment, useEffect, useState, useRef } from 'react'
-//import {connect} from 'react-redux'
+import React, { useState } from 'react'
+import {connect} from 'react-redux'
+
 //import {useParams, useHistory} from 'react-router-dom'
-import {ListGroup, ListGroupItem, Label, Input, Button} from 'reactstrap';
+import {ListGroup, ListGroupItem, Button} from 'reactstrap';
+import {setRoomsAction} from '../actions' 
 
-const Temperature = () =>{
+const Temperature = (props) =>{
+
+// const roomsArr= props.roomsArr
+// const roomId = props.roomParams.id
 
 
-    return(
-    
-        <React.Fragment>
-    
-    {/*  <!-- Appliances  START --> */}
-    <div className="col-sm-12 col-md-6 col-xl-4">
-                {/* <!-- Living room temperature  START --> */}
-                <div className="card temp-range heating" data-unit="room-temp-02">
+//console.log('roomInfo.devices', roomInfo.rooms[0].devices)
+
+
+const tempInfo={
+  
+  tempElementArr:[]
+ 
+ }
+   
+if(props.rooms.length > 0) {
+
+// const selectedRoom = roomsArr.find(room => room.id == roomId) 
+// console.log('props.roomsArr',props.roomsArr)
+// console.log('selectedRoom',selectedRoom);
+// console.log('roomParams',props.roomParams);
+//console.log('lightArrTempDev', props.lightDevices);
+console.log('tempArrTempDev', props.tempDevices);
+
+
+
+ const tempElement = props.tempDevices.map(device=>{
+   console.log('temp',device);
+   return(
+ 
+    <div key={device.id} className="card temp-range heating" data-unit="room-temp-02">
                   <ListGroup className="list-group borderless">
                     <ListGroupItem className="list-group-item align-items-center">
                       <svg className="icon-sprite icon-1x">
                         <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
                       	</svg>
-                      <h5>Temperature</h5>
-                      <h5 className="ml-auto status">22<sup>°C</sup></h5>
+                      <h5>{device.name}</h5>
+                    
                     </ListGroupItem>
                   </ListGroup>
                   <hr className="my-0" />
@@ -48,26 +70,14 @@ const Temperature = () =>{
                     <ListGroupItem className="list-group-item list-group-item2 align-items-center">
                       <p className="specs">Serial Nr</p>
                       &nbsp;&nbsp;&nbsp;
-                      <p className="ml-auto mb-0">12761263921</p>
+                      <p className="ml-auto mb-0">{device.number}</p>
                       &nbsp;&nbsp;&nbsp;
                     </ListGroupItem>
                   </ListGroup>
                   <div className="card-body">
               <div className="row">
                 <div className="col-auto mr-auto">
-                  <Button
-                    type="button"
-                    className="btn btn-primary"
-                    data-toggle="tooltip"
-                    data-placement="right"
-                    title="Add Devices"
-                    onClick={()=>{deviceModaltoggle(room.id,room.type)}}>
-                    <i className="fas fa-plus"></i>
-                  </Button>
-                  &nbsp;&nbsp;</div>
-                <div className="col-auto">
-
-                  <Button
+                <Button
                     type="button"
                     className="btn btn-primary"
                     data-toggle="tooltip"
@@ -76,6 +86,10 @@ const Temperature = () =>{
                     onClick={()=>{editModaltoggle(room.id,room.name,room.type,room.devices)}}>
                     <i className="fas fa-tools"></i>
                   </Button>
+                  &nbsp;&nbsp;</div>
+                <div className="col-auto">
+
+            
                   &nbsp;&nbsp;
 
                   <Button
@@ -91,18 +105,42 @@ const Temperature = () =>{
                 </div>
               </div>
             </div>
-                </div>
+         </div>
+    )
+
+ })
+
+
+ tempInfo.tempElementArr = tempElement
+ 
+}
+
+    return(
+    
+        <React.Fragment>
+    
+    {/*  <!-- Appliances  START --> */}
+    <div className="col-12">
+                {/* <!-- Living room temperature  START --> */}
+                {tempInfo.tempElementArr}
                 {/* <!-- Living room temperature  END --> */}
                </div>
 
     
         </React.Fragment>
     )
-    
-    // when you see props.room. ..... is touching the main state ( the redux state)
-    // when you see this.state....  it is touching the initial state
-    
-    
+  
     }
+  
+const setStateToProps = (state) => {
+  return ({
     
-    export default Temperature
+      rooms: state.rooms
+  })
+}
+
+
+
+export default connect(setStateToProps, {setRoomsAction})(Temperature)
+
+    

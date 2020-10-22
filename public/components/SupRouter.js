@@ -8,7 +8,7 @@ import Page404 from './Page404'
 
 import Settings from './Settings'
 import Rooms from './Rooms'
-import ShowDevices from './ShowDevices'
+
 import SingleRoomOv from './SingleRoomOv'
 // import AllRooms from './AllRooms'
 // import Dashboard from './Dashboard'
