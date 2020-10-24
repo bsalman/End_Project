@@ -8,7 +8,14 @@ import TopNav from './TopNav'
 import Page404 from './Page404'
 import Settings from './Settings'
 import Rooms from './Rooms'
-import ShowDevices from './ShowDevices'
+
+
+
+
+import SingleRoomOv from './SingleRoomOv'
+import TempSettings from './TemperatureSettings'
+import MotionSettings from './MotionSettings'
+// import LightSetting from './LightSettings'
 
 
 class SupRouter extends React.Component {
@@ -31,9 +38,12 @@ class SupRouter extends React.Component {
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
                                                 {/* <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} /> */}
-                                                <Route path="/room/:roomtype/:id"exact component={ShowDevices} />
+                                                <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
                                                 {/* <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} /> */}
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
+                                                <Route path="/tempSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={TempSettings} />
+                                                <Route path="/motionSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={MotionSettings} />
+                                                {/* <Route path="/lightSetting/:deviceCategory/:deviceName/:roomId/:id" exact component={LightSetting} /> */}
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

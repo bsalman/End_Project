@@ -190,6 +190,7 @@ function getAllRooms(){
 //================================================//
 function getRoom(roomId) {
     return new Promise((resolve, reject) => {
+        // SELECT rooms.id as roomid, rooms.name as roomname, ..., devices.id as deviceid, devices.name as devicename.. from
         runQuery(`SELECT rooms.* FROM rooms WHERE rooms.id = ${roomId}; SELECT devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId}`).then(results => {
             // console.log(results);
             if(results.length > 0){
