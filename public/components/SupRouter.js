@@ -35,7 +35,7 @@ class SupRouter extends React.Component {
                                                 <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/light" exact component={LightDev} />
-                                                <Route path="/lightSetting" exact component={LightSetting} />
+                                                <Route path="/lightSetting/:deviceCategory/:deviceName/:roomId/:id" exact component={LightSetting} />
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

@@ -1,76 +1,64 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {useParams, useHistory} from 'react-router-dom'
-import {ListGroup, ListGroupItem, Label, Input} from 'reactstrap';
+import {useParams} from 'react-router-dom'
 
 
+//=====================================//
 // importing the components
-import {getRoomPost} from '../services/api'
 import LightDev from './LightDev'
 import TempDev from './TempDev'
-import Motions from './Motions'
+import MotionsDev from './MotionsDev'
 // importing the action
 import {setRoomsAction} from '../actions'
 
 
 
 const SingleRoomOv =(props) =>{
-
-//* for redux
-
-console.log('params',params)
-
-//const titleElement = (<div className="card p-2 mb-4" ><h5 className="mx-auto">{room.type} : {room.name}</h5></div>)
-
-console.log(props.rooms);
-
-// copy a one room out of the array
-// const selectedRoom = props.rooms.splice(props.rooms.indexOf(props.rooms.find(element => element.id === params.id)),1)
-//console.log('selectedRoom',selectedRoom);
-//*redux end 
-
-
-  //console.log('state', state);
-  //console.log('state', state);
-  console.log('props', props);
-  console.log('rooms',props.rooms[0]);
-  
+// to the path of the chosen room and its devices
+const params = useParams()
   let roomInfo = {
+      roomType: '',
       roomName: '',
-      roomTitle: '',
-      devices: []
-
+    // devices: [],
+     params:'',
+     lightArr:[],
+     tempArr:[],
+     motionArr:[],
+ 
   }
 
   if(props.rooms.length > 0) {
-      console.log('rooms2',props.rooms[0].devices[0])
-      roomInfo.roomName = props.rooms[0].name
-      roomInfo.roomType = props.rooms[0].type
-      roomInfo.devices = props.rooms[0].devices[0]
-  }
-  
-//   deviceElement = roomInfo.devices.map(devices => {
-//     return (device[0])  
-//   })
-
-// to the path of the chosen room and its devices
-const params = useParams()
 
 
-  
+    // select the rooms
+     roomInfo.rooms = props.rooms  //* array of rooms
+     roomInfo.params = params
+     const selectedRoom = roomInfo.rooms.find(room => room.id == roomInfo.params.id) 
+     roomInfo.roomType = selectedRoom.type
+     roomInfo.roomName = selectedRoom.name
+     // select the devices
+     //light
+     const selectedDevice = selectedRoom.devices
+     roomInfo.lightArr = selectedDevice.filter(device => device.category == 'Light')
+     const lightDevices = roomInfo.lightArr
+     // temperature
+     roomInfo.tempArr = selectedDevice.filter(device => device.category == 'Temperature')
+     const  tempDevices = roomInfo.tempArr
+     //motion 
+     roomInfo.motionArr = selectedDevice.filter(device => device.category == 'Motion')
+     const motionDevices = roomInfo.motionArr    
+}
 
     return(
 
-
         <React.Fragment>
-
         {/* head component start */}
 	        <div className="row">
 		        <div className="col-sm-12">
 			      <div className="card p-2 mb-4" >
              	   {/* <h5 className="mx-auto">
                    {rooms.type}: {rooms.name}</h5> */}
-                   <h5 className="mx-auto">{roomInfo.roomName} : {roomInfo.roomType}</h5>
+                   <h5 className="mx-auto">{roomInfo.roomType} : {roomInfo.roomName}</h5>
                     {/* {titleElement}  */}
 		  	      </div>
 		       </div>
@@ -82,15 +70,37 @@ const params = useParams()
         <div className="row">
       
            {/* Temp component start */}
-               <TempDev />
+            <div className="col-sm-12 col-md-6 col-xl-4">
+            <div className="card text-center" data-unit="room-temp-02">
+            <div className="card-body">
+              <h4 className="card-title"> Temperature </h4>
+              </div>
+               <TempDev tempDevices={roomInfo.tempArr}/> 
+             
+            </div>
+            </div>
             {/* Temp component end */}
 
             {/* Motion component start */}
-                <Motions />
+            <div className="col-sm-12 col-md-6 col-xl-4">
+            <div className="card text-center" data-unit="room-temp-02">
+            <div className="card-body">
+              <h4 className="card-title"> Motion </h4>
+              </div>
+                <MotionsDev motionDevices={roomInfo.motionArr}/>
+            </div>
+            </div>
             {/* Motion component end */}
 
             {/* light component start */}
-                <LightDev />
+            <div className="col-sm-12 col-md-6 col-xl-4">
+            <div className="card text-center" data-unit="room-temp-02">
+            <div className="card-body">
+              <h4 className="card-title"> Light </h4>
+              </div>
+                <LightDev lightDevices={roomInfo.lightArr}/>
+            </div>
+            </div>
             {/* light component end */}
 
             
@@ -101,21 +111,12 @@ const params = useParams()
  
 
 }
-
-// here we change our initial state to props to be able to send it to the main state
-// //! this is to get the state of redux and save it in the props of this component
 const setStateToProps = (state) => {
     return ({
        // rooms: state.rooms
         rooms: state.rooms
     })
 }
-
-// when you see props.room. ..... is touching the main state ( the redux state)
-// when you see this.state....  it is touching the initial state
-
-
-
 
 
 export default connect(setStateToProps, {setRoomsAction})(SingleRoomOv)

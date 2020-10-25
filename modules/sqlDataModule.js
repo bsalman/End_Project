@@ -310,10 +310,10 @@ function editRoom(newRoomName, newRoomType, roomId) {
                     if (oldRoomData[0].type.localeCompare(newRoomType) != 0) {
                         updateRoomDataQuery +=`UPDATE rooms SET type = '${newRoomType}' WHERE id = ${roomId};`
                     }
-                    runQuery(updateRoomDataQuery)
+                    runQuery(updateRoomDataQuery);
                    
                     getAllRooms().then(room => {
-                        console.log(room);
+                        // console.log(room);
                         resolve(room)
                     }).catch(error => {
                         reject(error)
@@ -329,6 +329,29 @@ function editRoom(newRoomName, newRoomType, roomId) {
 
 }
 //=================================================//
+function editDevice (deviceId,serialNumber){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        runQuery(`UPDATE devices SET number = '${serialNumber}' WHERE id = ${deviceId}`);
+        runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`).then((device=>{
+            if(device[0]){
+                resolve(device[0])
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+//=================================================//
 
 
 
@@ -340,5 +363,6 @@ module.exports = {
     getRoom,
     addDevice,
     deleteRoom,
-    editRoom
+    editRoom,
+    editDevice
 }

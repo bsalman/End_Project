@@ -22,36 +22,54 @@ const loggedinReducer = (loggedin = null, action) => {
 const roomsReducer = (rooms = [], action) => {
 
     if (action.type === 'SET_ROOMS') {
+        console.log("payload action: ", action.payload);
+        return action.payload
 
-        let payload = action.payload
-        switch (payload.secondType) {
-            // Saving all the rooms
-            case 1:
-                    return payload.rooms
-                break;
+        // let payload = action.payload
+        // let newRooms = [...rooms]
+        // let device = payload.device
+        // switch (payload.secondType) {
+        //     // Saving all the rooms
+        //     case 1:
+        //             return payload.rooms
+        //         break;
         
-            // Adding a new device
-            case 2:
+        //     // Adding a new device
+        //     case 2:
 
-                let newRooms = [...rooms]
-                let device = payload.device
+               
 
-                newRooms = newRooms.map(room => {
-                    if(room.id === device.room_id){
+        //         newRooms = newRooms.map(room => {
+        //             if(room.id === device.room_id){
 
-                        room.devices.push(device)
-                    }
-                    return room;
-                });
+        //                 room.devices.push(device)
+        //             }
+        //             return room;
+        //         });
 
-                return newRooms
+        //         return newRooms
 
-                break;
+        //         break;
+        //         case 3:
 
-            default:
-                return rooms
-                break;
-        }
+                
+
+        //          newRooms = rooms.forEach(room => {
+        //             if(room.id === device.room_id){
+        //                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
+        //                 // room.devices.push(device)
+        //             }
+        //             //return room;
+        //         });
+
+        //         return newRooms
+
+        //         break;
+
+        //     default:
+        //         return rooms
+        //         break;
+        // }
         
     }
 

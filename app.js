@@ -20,13 +20,13 @@ app.use(express.json())
 const port = process.env.PORT || 3000
 
 
-app.get('/dummy', (req, res) => {
+// app.get('/dummy', (req, res) => {
 
-    res.json(passwordHash.generate('admin'))
+//     res.json(passwordHash.generate('admin'))
 
-})
+// })
 
-
+//=============================================//
 app.post('/login', (req, res) => {
     console.log(req.body);
 
@@ -56,7 +56,7 @@ app.post('/login', (req, res) => {
     }
 
 });
-
+//==============================================//
 app.post('/settings', (req, res) => {
     console.log(req.body);
 
@@ -87,9 +87,6 @@ app.post('/settings', (req, res) => {
 
 
 });
-
-
-
 //======================================//
 app.post('/addroom', (req, res) => {
     console.log(req.body);
@@ -209,6 +206,27 @@ app.post('/room', (req, res) => {
         res.json(2)
     })
 });
+//=======================================================//
+app.post('/editDevice',(req,res)=>{
+   //1 success
+    //2 error  entries 
+    //3 server error
+    // console.log(req.body)
+    
+    const deviceId=req.body.deviceId;
+    const serialNumber=req.body.serialNumber
+    if(deviceId&&serialNumber){
+    dataModule.editDevice(deviceId,serialNumber).then((device)=>{
+        console.log(device);
+        res.json(device)
+    }).catch(error=>{
+        console.log(error);
+        res.json(3)
+    })
+    }else{
+        res.json(2)
+    }
+})
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
