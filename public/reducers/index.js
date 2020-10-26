@@ -22,7 +22,7 @@ const loggedinReducer = (loggedin = null, action) => {
 const roomsReducer = (rooms = [], action) => {
 
     if (action.type === 'SET_ROOMS') {
-        console.log("payload action: ", action.payload);
+        // console.log("payload action: ", action.payload);
         return action.payload
 
         // let payload = action.payload

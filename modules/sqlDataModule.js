@@ -363,48 +363,50 @@ function editDevice (deviceId,serialNumber){
 }
 //=================================================//
 
-function deleteDevice(roomid, deviceid) {
+function deleteDevice(deviceId,roomId) {
     return new Promise((resolve, reject) => {
         //get the room clicked from the data base
-        getRoom(roomid).then(data => {
-            // 1 means we have a book with devices so we will delete it from the devices table
-            // 2 means we have a book without a devices so we will delete the book from books table
-            // 3 (others) we dont have a such book in both tables
-            // console.log('deleted roo',data);
-            if (data.num === 1) {
-                runQuery(`DELETE FROM devices WHERE devices.id = ${deviceid};`).then(room => {
-                    // console.log('delete',room);
-                    getAllRooms().then(rooms => {
-                        resolve(rooms)
-                    }).catch(error => {
-                        reject(error)
+        runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`).then(device=>{
+            // console.log(device);
+            if(device[0]){
+                runQuery(`DELETE FROM devices WHERE devices.id = ${deviceId};`).then(room => {
+                    // console.log('room',room);
+                    runQuery(`SELECT * FROM devices WHERE devices.room_id = ${roomId};`).then(device=>{
+                        if(device){
+                            resolve(device)
+                        }else{
+                            reject(3)
+                        }     
+                        
+                        // console.log('device',device);
                     })
-                 
+                    // getAllRooms().then(rooms => {
+                    //     resolve(rooms)
+                    // }).catch(error => {
+                    //     reject(error)
+                    // })
+                             
                 }).catch(error => {
                     console.log(error);
                     if (error.errno === 1146) {
                         reject(3)
                     } else {
-                       reject(error) 
+                        reject(error) 
                     }
                 })
-                 
-            } else {
-                reject(2)
-            }
-
-        }).catch(error => {
-            if (error.errno === 1051) {
+            }else{
                 reject(3)
-            } else {
-               reject(error) 
-            }
+            }     
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
         })
+
     })
 
 }
 
-// deleteDevice(180, 52)
+// deleteDevice(92)
 //=========================================================//
 
 
@@ -418,5 +420,6 @@ module.exports = {
     addDevice,
     deleteRoom,
     editRoom,
-    editDevice
+    editDevice,
+    deleteDevice
 }

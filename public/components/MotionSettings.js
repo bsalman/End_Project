@@ -132,7 +132,7 @@ for (let i = 0; i <= state.x.length; i++) {
   //add new time on + btn click function
   const addNewTimeBoxBtn = (e) => {
     e.preventDefault()
-    console.log('hi');
+    // console.log('hi');
     setState({...state,x:y})
   }
 

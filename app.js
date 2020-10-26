@@ -106,21 +106,20 @@ app.post('/addroom', (req, res) => {
     const roomName = req.body.roomName
     const roomType = req.body.roomType
     if (roomName && roomType) {
-        dataModule.addRoom(roomName,roomType).then(rooms => {
-            console.log('rooms',rooms);
+        dataModule.addRoom(roomName, roomType).then(rooms => {
+            console.log('rooms', rooms);
             res.json(rooms)
         }).catch(error => {
-            if (error ===3) {
+            if (error === 3) {
                 res.json(3)
-            } 
-            else {
+            } else {
                 res.json(4)
             }
         })
     } else {
         res.json(2)
     }
-    
+
 });
 //==============================================//
 app.post('/rooms/adddevices', (req, res) => {
@@ -130,44 +129,43 @@ app.post('/rooms/adddevices', (req, res) => {
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
     if (deviceName && categoryId && deviceSn) {
-        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId).then(device => {
+        dataModule.addDevice(deviceName, deviceSn, categoryId, roomId).then(device => {
 
-            console.log('device',device);
+            console.log('device', device);
             let deviceObj = {
                 id: device.insertId,
                 name: deviceName,
                 number: deviceSn,
-                category: categoryId, 
+                category: categoryId,
                 room_id: roomId
             }
-console.log(deviceObj);
+            console.log(deviceObj);
             res.json(deviceObj)
 
-            
+
         }).catch(error => {
-            if (error ===3) {
+            if (error === 3) {
                 res.json(3)
-            } 
-            else {
+            } else {
                 res.json(4)
             }
         })
     } else {
         res.json(2)
     }
-    
+
 });
 //==================get all Rooms  ======================//
-app.post('/rooms/allrooms',(req,res)=>{
-    dataModule.getAllRooms().then(rooms=>{
+app.post('/rooms/allrooms', (req, res) => {
+    dataModule.getAllRooms().then(rooms => {
         res.json(rooms)
-    }).catch(error=>{
+    }).catch(error => {
         res.json(2)
     })
 })
 
 //================== delete room=========================//
-app.post('/rooms/deleteroom',(req,res)=>{
+app.post('/rooms/deleteroom', (req, res) => {
     //1 success
     //2 can not find a room with this id
     //3 server error
@@ -183,13 +181,13 @@ app.post('/rooms/deleteroom',(req,res)=>{
             console.log(error);
             res.json(2)
         }
-        
+
     })
 })
 
 
 //================== edit room=========================//
-app.post('/rooms/editroom',(req,res)=>{
+app.post('/rooms/editroom', (req, res) => {
     //1 success
     //2 can not find a room with this id
     //3 server error
@@ -200,7 +198,7 @@ app.post('/rooms/editroom',(req,res)=>{
         // let roomObj = {
         //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
         //         device : room.roomDevice[0]
-            
+
         // }
         // console.log('roomObj',roomObj);
         res.json(room)
@@ -211,7 +209,7 @@ app.post('/rooms/editroom',(req,res)=>{
             console.log(error);
             res.json(3)
         }
-        
+
     })
 })
 
@@ -227,7 +225,7 @@ app.post('/rooms/editroom',(req,res)=>{
 //             console.log(error);
 //             res.json(2)
 //         }
-        
+
 //     })
 // });
 
@@ -244,26 +242,56 @@ app.post('/room', (req, res) => {
 
 
 //=======================================================//
-app.post('/editDevice',(req,res)=>{
+app.post('/editDevice', (req, res) => {
     //1 success
-     //2 error  entries 
-     //3 server error
-     // console.log(req.body)
-     
-     const deviceId=req.body.deviceId;
-     const serialNumber=req.body.serialNumber
-     if(deviceId&&serialNumber){
-     dataModule.editDevice(deviceId,serialNumber).then((device)=>{
-         console.log(device);
-         res.json(device)
-     }).catch(error=>{
-         console.log(error);
-         res.json(3)
-     })
-     }else{
-         res.json(2)
-     }
- })
+    //2 error  entries 
+    //3 server error
+    // console.log(req.body)
+
+    const deviceId = req.body.deviceId;
+    const serialNumber = req.body.serialNumber
+    if (deviceId && serialNumber) {
+        dataModule.editDevice(deviceId, serialNumber).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            res.json(3)
+        })
+    } else {
+        res.json(2)
+    }
+})
+
+//deleteDevice(deviceId)
+app.post('/deleteDevice', (req, res) => {
+    //data success
+    //3 this device id doesnt exist
+    //2 kein devices
+    //4 server error
+    console.log(req.body)
+
+
+    const deviceId = req.body.deviceId;
+    const roomId = req.body.roomId;
+
+    if (deviceId) {
+        dataModule.deleteDevice(deviceId,roomId).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            if (error == 3) {
+                res.json(3)
+            } else {
+                res.json(4)
+            }
+            
+        })
+    } else {
+        res.json(2)
+    }
+})
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

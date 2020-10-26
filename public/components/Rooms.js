@@ -318,7 +318,7 @@ const onAddRoomClick = e => {
       const newState = {...state}
       newState.confirmModal.confirmModalShow= true,
       newState.confirmModal.confirmModalPayLoad= roomId,
-      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this book gonna be deleted for ever</p>
+      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this room gonna be deleted for ever</p>
       setState(newState)
   }
 
@@ -365,7 +365,7 @@ const onAddRoomClick = e => {
       const newState = {...state}
       newState.errorModal.show = true
       newState.errorModal.title = badgeTitle
-      newState.errorModal.content = <p>{badgeMessage}</p>
+      newState.errorModal.content = badge
       // hide addroom modal because we need to show error modal and we can not show
       // two modals on the same time
       newState.confirmModal.confirmModalShow = false
