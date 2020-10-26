@@ -222,7 +222,8 @@ const onAddRoomClick = e => {
           newState.newRoomName = ''
           newState.newRoomType = ''
           setState(newState)
-          props.setRoomsAction(data,null,1) //saving all the rooms
+          // props.setRoomsAction(data,null,1) //saving all the rooms
+          props.setRoomsAction(data) 
           break;
       }
       if (!isNaN(data)) {
@@ -291,8 +292,16 @@ const onAddRoomClick = e => {
         addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId).then(device => {
             // console.log('device',device);
             // console.log('propsessen3',props.setRoomsAction);
-            props.setRoomsAction(null,device,2) //2 is the secondType that  means we are just adding a new device.
-            setState(newState)
+            const newRooms = props.rooms.map(room => {
+              if(room.id === device.room_id){
+
+                  room.devices.push(device)
+              }
+              return room;
+          });
+          props.setRoomsAction(newRooms) //2 is the secondType that  means we are just adding a new device.
+          setState(newState)
+
         }).catch(error=> {
             console.log(error);
         })
@@ -470,7 +479,7 @@ const onEditRoomClick = (e) => {
             setState(newState2)
             console.log('propsessen',props.setRoomsAction);
             
-            props.setRoomsAction(data,null,1)
+            props.setRoomsAction(data)
             // props.setRoomsAction(null,data.device,3)
             break;
            }

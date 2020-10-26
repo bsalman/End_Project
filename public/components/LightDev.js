@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 
@@ -50,13 +50,14 @@ const Light = (props) =>{
      <div className="card-body">
     <div className="row">
       <div className="col-auto mr-auto">
-      <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
+        <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
       <Button
           type="button"
           className="btn btn-primary"
           data-toggle="tooltip"
           data-placement="left"
-          title="Edit Room">
+          title="Edit Room"
+          >
           <i className="fas fa-tools"></i>
         </Button></Link>
         &nbsp;&nbsp;</div>
@@ -85,7 +86,7 @@ const Light = (props) =>{
     })
       
     lightInfo.lightElementArr = lightElement
-    console.log('lightArrLightDev', props.lightDevices);
+   
   }
 
 

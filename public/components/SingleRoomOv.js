@@ -7,10 +7,12 @@ import {useParams} from 'react-router-dom'
 // importing the components
 import LightDev from './LightDev'
 import TempDev from './TempDev'
+import Motions from './MotionSettings'
 import MotionsDev from './MotionsDev'
 // importing the action
 import {setRoomsAction} from '../actions'
 
+import {getRoomPost} from '../services/api'
 
 
 const SingleRoomOv =(props) =>{

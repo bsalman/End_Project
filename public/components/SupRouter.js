@@ -6,6 +6,7 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import SideNav from './SideNav'
 import TopNav from './TopNav'
 import Page404 from './Page404'
+import Dashboard from './Dashboard'
 import Settings from './Settings'
 import Rooms from './Rooms'
 
@@ -15,7 +16,7 @@ import Rooms from './Rooms'
 import SingleRoomOv from './SingleRoomOv'
 import TempSettings from './TemperatureSettings'
 import MotionSettings from './MotionSettings'
-// import LightSetting from './LightSettings'
+import LightSetting from './LightSettings'
 
 
 class SupRouter extends React.Component {
@@ -33,7 +34,7 @@ class SupRouter extends React.Component {
                                         <div className="container-fluid"> 
                                 
                                             <Switch>
-                                                
+                                            <Route path="/dashboard" exact component={Dashboard}/>
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
@@ -43,7 +44,7 @@ class SupRouter extends React.Component {
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/tempSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={TempSettings} />
                                                 <Route path="/motionSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={MotionSettings} />
-                                                {/* <Route path="/lightSetting/:deviceCategory/:deviceName/:roomId/:id" exact component={LightSetting} /> */}
+                                                <Route path="/lightSetting/:deviceCategory/:deviceName/:roomId/:id" exact component={LightSetting} />
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

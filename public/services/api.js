@@ -261,3 +261,35 @@ export const getRoomPost = (roomId) => {
 
 
 }
+
+
+//===================================================================//
+export const editDevicePost =(deviceId,serialNumber)=>{
+    return new Promise((resolve, reject) =>{
+        const dataObj={
+            deviceId:deviceId,
+            serialNumber:serialNumber
+        }
+        fetch('/editDevice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataObj)
+        }).then(response=>{
+            console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+}

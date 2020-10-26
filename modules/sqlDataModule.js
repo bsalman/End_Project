@@ -336,49 +336,73 @@ function editRoom(newRoomName, newRoomType, roomId) {
     })
 
 }
-// editRoom('child152', 'Dining room', 190)
+
 //=========================================================//
 
-// function deleteDevice(roomid, deviceid) {
-//     return new Promise((resolve, reject) => {
-//         //get the room clicked from the data base
-//         getRoom(roomid).then(data => {
-//             // 1 means we have a book with devices so we will delete it from the devices table
-//             // 2 means we have a book without a devices so we will delete the book from books table
-//             // 3 (others) we dont have a such book in both tables
-//             // console.log('deleted roo',data);
-//             if (data.num === 1) {
-//                 runQuery(`DELETE FROM devices WHERE devices.id = ${deviceid};`).then(room => {
-//                     // console.log('delete',room);
-//                     getAllRooms().then(rooms => {
-//                         resolve(rooms)
-//                     }).catch(error => {
-//                         reject(error)
-//                     })
-                 
-//                 }).catch(error => {
-//                     console.log(error);
-//                     if (error.errno === 1146) {
-//                         reject(3)
-//                     } else {
-//                        reject(error) 
-//                     }
-//                 })
-                 
-//             } else {
-//                 reject(2)
-//             }
+function editDevice (deviceId,serialNumber){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        runQuery(`UPDATE devices SET number = '${serialNumber}' WHERE id = ${deviceId}`);
+        runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`).then((device=>{
+            if(device[0]){
+                resolve(device[0])
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
 
-//         }).catch(error => {
-//             if (error.errno === 1051) {
-//                 reject(3)
-//             } else {
-//                reject(error) 
-//             }
-//         })
-//     })
+       
+        
+    })
 
-// }
+}
+//=================================================//
+
+function deleteDevice(roomid, deviceid) {
+    return new Promise((resolve, reject) => {
+        //get the room clicked from the data base
+        getRoom(roomid).then(data => {
+            // 1 means we have a book with devices so we will delete it from the devices table
+            // 2 means we have a book without a devices so we will delete the book from books table
+            // 3 (others) we dont have a such book in both tables
+            // console.log('deleted roo',data);
+            if (data.num === 1) {
+                runQuery(`DELETE FROM devices WHERE devices.id = ${deviceid};`).then(room => {
+                    // console.log('delete',room);
+                    getAllRooms().then(rooms => {
+                        resolve(rooms)
+                    }).catch(error => {
+                        reject(error)
+                    })
+                 
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1146) {
+                        reject(3)
+                    } else {
+                       reject(error) 
+                    }
+                })
+                 
+            } else {
+                reject(2)
+            }
+
+        }).catch(error => {
+            if (error.errno === 1051) {
+                reject(3)
+            } else {
+               reject(error) 
+            }
+        })
+    })
+
+}
 
 // deleteDevice(180, 52)
 //=========================================================//
@@ -393,5 +417,6 @@ module.exports = {
     getRoom,
     addDevice,
     deleteRoom,
-    editRoom
+    editRoom,
+    editDevice
 }

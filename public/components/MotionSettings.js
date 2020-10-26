@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect, useState, useRef} from 'react'
 // import {connect} from 'react-redux' import {useParams, useHistory} from
 // 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {
   ListGroup,
   ListGroupItem,
@@ -18,6 +19,11 @@ import {getRoomPost} from '../services/api'
 // importing the action
 import {setRoomsAction} from '../actions'
 import { useParams } from 'react-router-dom';
+import CustomModal from './CustomModal'
+import TimeNow from './TimeNow'
+import {editDevicePost} from '../services/api'
+
+
 
 const MotionSettings = (props) => {
 
@@ -31,6 +37,25 @@ const MotionSettings = (props) => {
     // console.log('props', props);
     // console.log('rooms', props);
   
+    const initialState = {
+      errorModal: {
+        show: false,
+        title: '',
+        content: null
+      },
+      
+      x : [],
+      showdownTime:"",
+      ternOnTim:"",
+      classChecked:"",
+      serialNumber:"",
+      checked : false
+    }
+  //=======================================//
+    const [state,
+      setState] = useState(initialState)
+
+
     let roomInfo = {
       roomType : '',
       deviceCategory : '',
@@ -48,12 +73,7 @@ const MotionSettings = (props) => {
       roomInfo.deviceName = params.deviceName
     }
 
-  const initialState = {
-    x : []
-  }
 
-//=======================================//
-const [state,setState] = useState(initialState)
 const y = []
 for (let i = 0; i <= state.x.length; i++) {
   const newTime = (
@@ -116,9 +136,77 @@ for (let i = 0; i <= state.x.length; i++) {
     setState({...state,x:y})
   }
 
+  const showAddTimeBox = (e) => {
+    e.preventDefault()
+    console.log('click');
+    setState({...state,
+      checked: !state.checked})
+  }
+
+  //============== edit serial number function  ========================//
+  const editSerialNumberOnClick =(e)=>{
+   
+    if (state.serialNumber.trim() === '') {
+      const errorsElement = (
+        <ul>
+          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
+        </ul>
+      )
+      const newState = {...state}
+      newState.errorModal.show = true
+      newState.errorModal.title = "Entries Error"
+      newState.errorModal.content = errorsElement
+      // hide addroom modal because we need to show error modal and we can not show
+      // two modals on the same time
+      newState.roomModalShow = false
+      setState(newState)
+    }else{
+      editDevicePost(params.id,state.serialNumber).then((device)=>{
+       
+         const  devices=props.rooms.find(room=>room.id==device.room_id)
+       
+        if(device){
+console.log("device", device);
+          const newRooms = props.rooms.map(room => {
+            if(room.id === device.room_id){
+                room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
+                // room.devices.push(device)
+            }
+            return room;
+        });
+          // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
+        props.setRoomsAction(newRooms)
+           setState(
+          {...state,serialNumber:""}
+        
+         )}
+        
+      })
+
+    }
+  }
+  //==========================================//
+  const errorModalClose = () => {
+    const newState = {
+      ...state
+    }
+    newState.errorModal.show = false
+    setState(newState)
+  }
+  //=================================================
+
   return (
 
     <React.Fragment>
+
+<CustomModal
+        show={state.errorModal.show}
+        close={errorModalClose}
+        className="bg-danger"
+        title={state.errorModal.title}>
+        {state.errorModal.content}
+      </CustomModal>
+
 
       <div className="row">
         <div className="col-12">
@@ -141,7 +229,7 @@ for (let i = 0; i <= state.x.length; i++) {
                 <h5 className="card-title ml-4">Motion On
                 </h5>
                 <div className="d-flex ml-auto align-items-center ">
-                  <Label className="switch ml-auto !checked">
+                  <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={showAddTimeBox}>
                     <Input type="checkbox" id="tv-lcd-2" />
                   </Label>
                 </div>
@@ -152,7 +240,7 @@ for (let i = 0; i <= state.x.length; i++) {
 
 
             {/* <!-- time from to input START --> */}
-            <div className="only-if-active">
+            <div className={`${state.checked === false  ? 'd-none' : 'd-block' }`}>
               <hr className="my-0"/>
               <FormGroup className="row">
                 {/* //from to with + button */}
@@ -236,7 +324,9 @@ for (let i = 0; i <= state.x.length; i++) {
                       type="text"
                       name="serial-number"
                       id="serialNumber"
-                      placeholder="insert new Serial Number"/>
+                      placeholder="insert new Serial Number"
+                      value={state.serialNumber}
+                      onChange={(e)=>{setState({...state,serialNumber: e.target.value})}}/>
                   </Col>
                 </FormGroup>
                 ​
@@ -250,6 +340,7 @@ for (let i = 0; i <= state.x.length; i++) {
             {/* <!-- button Save START --> */}
             <div className="row">
               <div className="col-auto mr-auto ml-4">
+              <Link to={"/room/" + roomInfo.roomType.replace(/ /g, '_') + "/" + params.roomId}>
               <Button
                   type="button"
                   className="btn btn-primary"
@@ -258,6 +349,7 @@ for (let i = 0; i <= state.x.length; i++) {
                   title="Save changes">
                   BACK
                 </Button>
+                </Link>
               </div>
               <div className="col-auto mr-4 mb-2">
 
@@ -268,7 +360,8 @@ for (let i = 0; i <= state.x.length; i++) {
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="right"
-                  title="Save changes">
+                  title="Save changes"
+                  onClick={editSerialNumberOnClick}>
                   SAVE
                 </Button>
 

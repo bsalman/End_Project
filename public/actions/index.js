@@ -11,14 +11,11 @@ export const setLoggedInAction = (loggedin) => {
     }
 }
 
-export const setRoomsAction = (rooms,device,secondType) => {
+export const setRoomsAction = (rooms) => {
     return {
         type: 'SET_ROOMS',
-        payload: {
-            rooms,
-            device,
-            secondType
-        }
+        payload: rooms
+        
     }
 }
 

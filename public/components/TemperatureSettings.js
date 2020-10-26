@@ -1,14 +1,19 @@
 import React, {Fragment, useEffect, useState, useRef} from 'react'
 // import {connect} from 'react-redux' import {useParams, useHistory} from
 // 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {ListGroup, ListGroupItem, Label, Input, Button} from 'reactstrap';
 import {connect} from 'react-redux'
 
 // importing the components
-import {getRoomPost} from '../services/api'
 // importing the action
 import {setRoomsAction} from '../actions'
 import { useParams } from 'react-router-dom';
+
+import CustomModal from './CustomModal'
+import TimeNow from './TimeNow'
+import {editDevicePost} from '../services/api'
+
 
 const TempSettings = (props) => {
 
@@ -21,6 +26,24 @@ console.log('paramsRoomId:',params.roomId);
 console.log('paramsId:',params.id);
   // console.log('props', props);
   // console.log('rooms', props);
+
+  const initialState = {
+    errorModal: {
+      show: false,
+      title: '',
+      content: null
+    },
+    
+    showdownTime:"",
+    ternOnTim:"",
+    classChecked:"",
+    serialNumber:""
+  }
+//=======================================//
+  const [state,
+    setState] = useState(initialState)
+
+
 
   let roomInfo = {
     roomType : '',
@@ -41,10 +64,70 @@ console.log('paramsId:',params.id);
 
   // console.log('selectedRoom',state.selectedRoom,'/',state.selectedDevice);
 
+  //============== edit serial number function  ========================//
+  const editSerialNumberOnClick =(e)=>{
+   
+    if (state.serialNumber.trim() === '') {
+      const errorsElement = (
+        <ul>
+          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
+        </ul>
+      )
+      const newState = {...state}
+      newState.errorModal.show = true
+      newState.errorModal.title = "Entries Error"
+      newState.errorModal.content = errorsElement
+      // hide addroom modal because we need to show error modal and we can not show
+      // two modals on the same time
+      newState.roomModalShow = false
+      setState(newState)
+    }else{
+      editDevicePost(params.id,state.serialNumber).then((device)=>{
+       
+         const  devices=props.rooms.find(room=>room.id==device.room_id)
+       
+        if(device){
+console.log("device", device);
+          const newRooms = props.rooms.map(room => {
+            if(room.id === device.room_id){
+                room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
+                // room.devices.push(device)
+            }
+            return room;
+        });
+          // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
+        props.setRoomsAction(newRooms)
+           setState(
+          {...state,serialNumber:""}
+        
+         )}
+        
+      })
+
+    }
+  }
+  //==========================================//
+  const errorModalClose = () => {
+    const newState = {
+      ...state
+    }
+    newState.errorModal.show = false
+    setState(newState)
+  }
+  //=================================================
+
+
   return (
 
     <React.Fragment>
 
+<CustomModal
+        show={state.errorModal.show}
+        close={errorModalClose}
+        className="bg-danger"
+        title={state.errorModal.title}>
+        {state.errorModal.content}
+      </CustomModal>
       {/*  <!-- Appliances  START --> */}
       <div className="row">
         <div className="col-12">
@@ -95,7 +178,10 @@ console.log('paramsId:',params.id);
                     <Input
                       className="form-control custom-focus col-9"
                       type="text"
-                      id="device_seralNum"/>
+                      id="device_seralNum"
+                      placeholder="insert new Serial Number"
+                      value={state.serialNumber}
+                     onChange={(e)=>{setState({...state,serialNumber: e.target.value})}}/>
 
                   </ListGroupItem>
                 </div>
@@ -103,10 +189,19 @@ console.log('paramsId:',params.id);
 
               <div className="card-body">
                 <div className="row">
-                  <div className="col-auto mr-auto">
-
-                    &nbsp;&nbsp;</div>
-                  <div className="col-auto">
+                <div className="col-auto mr-auto ml-4">
+              <Link to={"/room/" + roomInfo.roomType.replace(/ /g, '_') + "/" + params.roomId}>
+              <Button
+                  type="button"
+                  className="btn btn-primary"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  title="Save changes">
+                  BACK
+                </Button>
+                </Link>
+              </div>
+                  <div className="col-auto mr-4 mb-2">
 
                     &nbsp;&nbsp;
 
@@ -116,9 +211,7 @@ console.log('paramsId:',params.id);
                       data-toggle="tooltip"
                       data-placement="right"
                       title="Save changes"
-                      onClick={() => {
-                      deleteBtnClick(room.id)
-                    }}>
+                      onClick={editSerialNumberOnClick}>
                       Save
                     </Button>
 
