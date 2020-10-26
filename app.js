@@ -227,6 +227,35 @@ app.post('/editDevice',(req,res)=>{
         res.json(2)
     }
 })
+//==================================================//
+app.post('/deleteDevice', (req, res) => {
+    //data success
+    //3 this device id doesnt exist
+    //2 kein devices
+    //4 server error
+    console.log(req.body)
+
+
+    const deviceId = req.body.deviceId;
+    const roomId = req.body.roomId;
+
+    if (deviceId) {
+        dataModule.deleteDevice(deviceId,roomId).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            if (error == 3) {
+                res.json(3)
+            } else {
+                res.json(4)
+            }
+            
+        })
+    } else {
+        res.json(2)
+    }
+})
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

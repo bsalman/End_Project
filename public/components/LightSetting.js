@@ -35,7 +35,8 @@ const LightSetting = (props) => {
     showdownTime:"",
     ternOnTim:"",
     classChecked:"",
-    serialNumber:""
+    serialNumber:"",
+    checked : false
   }
 //=======================================//
   const [state,
@@ -62,25 +63,32 @@ const LightSetting = (props) => {
   }
 
   //=======================================//
-  const ternOffOnLight=(e)=>{
-    if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
-      const errorsElement = (
-        <ul>
-          {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
-          {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
-        </ul>
-      )
-      const newState = {...state}
-      newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
-      newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
-      newState.roomModalShow = false
-      setState(newState)
-    }
+  // const setTimeTurnOffOnLight=(e)=>{
+  //   if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
+  //     const errorsElement = (
+  //       <ul>
+  //         {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
+  //         {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
+  //       </ul>
+  //     )
+  //     const newState = {...state}
+  //     newState.errorModal.show = true
+  //     newState.errorModal.title = "Entries Error"
+  //     newState.errorModal.content = errorsElement
+  //     // hide addroom modal because we need to show error modal and we can not show
+  //     // two modals on the same time
+  //     newState.roomModalShow = false
+  //     setState(newState)
+  //   }
     
+  // }
+  //==========================================//
+  const turnOnOffLight=(e)=> {
+    e.preventDefault()
+    setState({...state,
+      checked: !state.checked})
   }
+
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
@@ -104,7 +112,7 @@ const LightSetting = (props) => {
          const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-console.log("device", device);
+
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -167,9 +175,9 @@ console.log("device", device);
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <label className="switch ml-auto">
-							<input type="checkbox" id="switch-house-lock"  />
-						</label>
+              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOffLight}>
+							<Input type="checkbox" id="switch-house-lock"/>
+						</Label>
             &nbsp;
                 
               </div>
@@ -210,7 +218,7 @@ console.log("device", device);
                 />
             </div>
             <div className="col justify-content-end ">
-              <Button onClick={ternOffOnLight}>Save</Button>
+              <Button >Save</Button>
             </div>
           </div>
           &nbsp;
@@ -279,7 +287,7 @@ console.log("device", device);
                        className="btn btn-primary"
                         data-toggle="tooltip"
                         data-placement="right"
-                        title="Save changes">
+                        title="go Back">
                        BACK
                       </Button>
                 </Link>

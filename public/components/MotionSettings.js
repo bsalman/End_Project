@@ -78,7 +78,7 @@ const y = []
 for (let i = 0; i <= state.x.length; i++) {
   const newTime = (
     <React.Fragment key={i}>
-                                  <FormGroup className="row">
+          <FormGroup className="row">
                 {/* //from to with + button */}
                 <div className="row col-xl-6 col-sm-12">
                   {/* //from */}
