@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 
@@ -8,26 +8,26 @@ import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 // importing the action
 import {setRoomsAction} from '../actions'
 
-const Light = (props) =>{
+const AppliancesDiv = (props) =>{
 
-  const lightInfo={
+  const AppliancesInfo={
 
-    lightElementArr:[]
+    AppliancesArr:[]
 
   }
 
   
   if(props.rooms.length > 0) {
-     
-    const lightElement = props.lightDevices.map(device =>{
+    console.log(props,"props");
+     console.log("props.AppliancesDevice",props.AppliancesDevice);
+    const AppliancesElement = props.AppliancesDevice.map(device =>{
 
       return(
         
         <div key={device.id} className="card active" data-unit="switch-light-1">
         {/* <!-- Light switch START --> */}
-        
         <div className="card-body d-flex flex-row justify-content-start">
-        <i class="fab fa-medapps" style={{fontSize: "30px"}}></i>
+         
           <h5>{device.name}</h5>
           <Label className="switch ml-auto checked">
             <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
@@ -48,7 +48,7 @@ const Light = (props) =>{
      <div className="card-body">
     <div className="row">
       <div className="col-auto mr-auto">
-        <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
+        <Link  to={"/appliancesSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
       <Button
           type="button"
           className="btn btn-primary"
@@ -60,10 +60,7 @@ const Light = (props) =>{
         </Button></Link>
         &nbsp;&nbsp;</div>
       <div className="col-auto">
-
-      
         &nbsp;&nbsp;
-       
         <Button
           type="button"
           className="btn btn-primary"
@@ -80,47 +77,25 @@ const Light = (props) =>{
 </div>
 
       )
-
     })
-      
-    lightInfo.lightElementArr = lightElement
+    AppliancesInfo.AppliancesArr = AppliancesElement
    
   }
-
-
-
-  
-
 return(
 
     <React.Fragment>
-
-
-     
-   
-     
         <div className="col-12">
                 {/* <!-- Light unit START --> */}
-                 {lightInfo.lightElementArr }
+                 {AppliancesInfo.AppliancesArr }
                 {/* <!-- Light unit END --> */}
-              
-           
         </div>
-  
-
     </React.Fragment>
 )
-
-
-
 }
 
 const setStateToProps = (state) => {
   return ({
-    
       rooms: state.rooms
   })
 }
-
-
-export default connect(setStateToProps, {setRoomsAction})(Light)
+export default connect(setStateToProps, {setRoomsAction})(AppliancesDiv)

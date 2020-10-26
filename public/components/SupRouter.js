@@ -12,6 +12,10 @@ import Rooms from './Rooms'
 import SingleRoomOv from './SingleRoomOv'
 import LightDev from './LightDev'
 import LightSetting from './LightSetting'
+import MotionSettings from './MotionSettings'
+import TempSettings from './TemperatureSettings'
+import AppliancesSetting from './AppliancesSetting'
+
 
 class SupRouter extends React.Component {
     render() {
@@ -36,6 +40,9 @@ class SupRouter extends React.Component {
                                                 {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/light" exact component={LightDev} />
                                                 <Route path="/lightSetting/:deviceCategory/:deviceName/:roomId/:id" exact component={LightSetting} />
+                                                <Route path="/motionSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={MotionSettings} />
+                                                <Route path="/tempSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={TempSettings} />
+                                                <Route path="/appliancesSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={AppliancesSetting}/>
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

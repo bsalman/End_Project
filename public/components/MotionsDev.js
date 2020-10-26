@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
-import {ListGroup,Link, ListGroupItem, Label, Input, Button} from 'reactstrap';
+import {ListGroup,ListGroupItem, Label, Input, Button} from 'reactstrap';
 
 // import action 
 import {setRoomsAction} from '../actions'
@@ -81,15 +82,15 @@ const Motion = (props) =>{
         <div className="card-body">
     <div className="row">
       <div className="col-auto mr-auto">
+      <Link  to={"/motionSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
       <Button
           type="button"
           className="btn btn-primary"
           data-toggle="tooltip"
           data-placement="left"
-          title="Edit Room"
-          onClick={()=>{editModaltoggle(room.id,room.name,room.type,room.devices)}}>
+          title="Edit Room">
           <i className="fas fa-tools"></i>
-        </Button>
+        </Button></Link>
         &nbsp;&nbsp;</div>
 
       <div className="col-auto">
@@ -145,4 +146,3 @@ const setStateToProps = (state) => {
 }
 
 export default connect(setStateToProps, {setRoomsAction})(Motion)
-

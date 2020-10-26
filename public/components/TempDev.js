@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 import {ListGroup, ListGroupItem, Button} from 'reactstrap';
 import {setRoomsAction} from '../actions' 
@@ -69,15 +70,15 @@ if(props.rooms.length > 0) {
                   <div className="card-body">
               <div className="row">
                 <div className="col-auto mr-auto">
+                <Link  to={"/tempSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
                 <Button
                     type="button"
                     className="btn btn-primary"
                     data-toggle="tooltip"
                     data-placement="left"
-                    title="Edit Room"
-                    onClick={()=>{editModaltoggle(room.id,room.name,room.type,room.devices)}}>
+                    title="Edit Room">
                     <i className="fas fa-tools"></i>
-                  </Button>
+                  </Button></Link>
                   &nbsp;&nbsp;</div>
                 <div className="col-auto">
 
