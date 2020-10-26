@@ -25,7 +25,7 @@ const Light = (props) =>{
 
 
 let intialState = {
-
+   checked:false,
       //for the modal of errors
       errorModal: {
         show: false,
@@ -48,7 +48,11 @@ let intialState = {
     lightElementArr:[]
 
   }
-
+  const turnOnOff=(e)=> {
+    e.preventDefault()
+    setState({...state,
+      checked: !state.checked})
+  }
   
   if(props.rooms.length > 0) {
      
@@ -64,7 +68,7 @@ let intialState = {
             <use xlinkHref="images/icons-sprite.svg#bulb-eco"/>
           </svg>
           <h5>{device.name}</h5>
-          <Label className="switch ml-auto checked">
+          <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
             <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
           </Label>
         </div>

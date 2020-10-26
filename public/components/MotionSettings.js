@@ -20,7 +20,7 @@ import {getRoomPost} from '../services/api'
 import {setRoomsAction} from '../actions'
 import { useParams } from 'react-router-dom';
 import CustomModal from './CustomModal'
-import TimeNow from './TimeNow'
+
 import {editDevicePost} from '../services/api'
 
 

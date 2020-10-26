@@ -28,7 +28,8 @@ let intialState = {
       errorModal: {
         show: false,
         title: '',
-        content: null
+        content: null,
+        checked : false
       },
   
   //for the modal of confirmation of delete
@@ -46,9 +47,13 @@ let intialState = {
     motionElementArr:[]
 
   }
-
-
-
+//====================================//
+  const turnOnOff=(e)=> {
+    e.preventDefault()
+    setState({...state,
+      checked: !state.checked})
+  }
+//====================================//
   if(props.rooms.length > 0) {
   
    const motionElement = props.motionDevices.map(device =>{
@@ -63,7 +68,7 @@ let intialState = {
               <use xlinkHref="images/icons-sprite.svg#camera"/>
             </svg>
             <h5>{device.name}</h5>
-            <Label className="switch ml-auto checked">
+            <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
               <Input type="checkbox" id="tv-lcd-2"/>  {/* checked */}
             
             </Label>

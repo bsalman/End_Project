@@ -83,7 +83,7 @@ const LightSetting = (props) => {
     
   // }
   //==========================================//
-  const turnOnOffLight=(e)=> {
+  const turnOnOff=(e)=> {
     e.preventDefault()
     setState({...state,
       checked: !state.checked})
@@ -175,7 +175,7 @@ const LightSetting = (props) => {
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOffLight}>
+              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
 							<Input type="checkbox" id="switch-house-lock"/>
 						</Label>
             &nbsp;

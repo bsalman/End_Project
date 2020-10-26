@@ -17,12 +17,13 @@ const AppliancesDiv = (props) =>{
 
   const params = useParams()
   let intialState = {
-
+    checked:false,
     //for the modal of errors
     errorModal: {
       show: false,
       title: '',
-      content: null
+      content: null,
+     
     },
 
 //for the modal of confirmation of delete
@@ -39,7 +40,11 @@ const [state,setState] = useState(intialState)
 
   }
 
-  
+  const turnOnOff=(e)=> {
+    e.preventDefault()
+    setState({...state,
+      checked: !state.checked})
+  }
   if(props.rooms.length > 0) {
    
      
@@ -52,7 +57,7 @@ const [state,setState] = useState(intialState)
         <div className="card-body d-flex flex-row justify-content-start">
          
           <h5>{device.name}</h5>
-          <Label className="switch ml-auto checked">
+          <Label  className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
             <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
           </Label>
         </div>
