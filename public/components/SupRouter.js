@@ -5,16 +5,19 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import SideNav from './SideNav'
 import TopNav from './TopNav'
 import Page404 from './Page404'
-
+import Dashboard from './Dashboard'
 import Settings from './Settings'
 import Rooms from './Rooms'
 
 import SingleRoomOv from './SingleRoomOv'
-// import AllRooms from './AllRooms'
-// import Dashboard from './Dashboard'
-import LightDev from './LightDev'
-import TempDev from './TempDev'
-import MotionsDev from './MotionsDev'
+import TempSettings from './TemperatureSettings'
+import MotionSettings from './MotionSettings'
+import LightSetting from './LightSettings'
+import AppliancesSetting from './AppliancesSetting'
+
+// import LightDev from './LightDev'
+// import TempDev from './TempDev'
+// import MotionsDev from './MotionsDev'
 class SupRouter extends React.Component {
     render() {
         return (
@@ -31,25 +34,22 @@ class SupRouter extends React.Component {
                                 
                                             <Switch>
                                                 {/* dummy route start */}
-                                                <Route path="/light" exact component={LightDev} />
+                                                {/* <Route path="/light" exact component={LightDev} />
                                                 <Route path="/temp" exact component={TempDev} />
-                                                <Route path="/mo" exact component={MotionsDev} />
+                                                <Route path="/mo" exact component={MotionsDev} /> */}
                                                 {/* dummy route  end*/}
 
-
+                                                <Route path="/dashboard" exact component={Dashboard}/>
                                                 <Route path="/rooms" exact component={Rooms} />
-                                                {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
-                                                {/* <Route path="/allrooms" exact component={AllRooms} /> */}
-                                          
-                                                {/* <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} /> */}
-                                                
+                                              
                                                 {/* <Route path="/room/:roomtype/:id"exact component={ShowDevices} /> */}
                                                 <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
-
-
+                                                <Route path="/tempSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={TempSettings} />
+                                                <Route path="/motionSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={MotionSettings} />
+                                                <Route path="/lightSetting/:deviceCategory/:deviceName/:roomId/:id" exact component={LightSetting} />
+                                                <Route path="/appliancesSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={AppliancesSetting}/>
                                                 {/* <Route path="/room" exact component={SingleRoomOv} /> */}
-                                                {/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

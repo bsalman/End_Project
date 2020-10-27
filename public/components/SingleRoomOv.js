@@ -8,6 +8,8 @@ import {useParams} from 'react-router-dom'
 import LightDev from './LightDev'
 import TempDev from './TempDev'
 import MotionsDev from './MotionsDev'
+import  AppliancesDiv from './AppliancesDiv'
+
 // importing the action
 import {setRoomsAction} from '../actions'
 
@@ -32,7 +34,7 @@ const params = useParams()
      lightArr:[],
      tempArr:[],
      motionArr:[],
- 
+     AppliancesArr:[]
   }
 
   if(props.rooms.length > 0) {
@@ -56,6 +58,7 @@ const params = useParams()
      roomInfo.motionArr = selectedDevice.filter(device => device.category == 'Motion')
      const motionDevices = roomInfo.motionArr
 
+     roomInfo.AppliancesArr = selectedDevice.filter(device => device.category == 'Appliance')
   
 
       //  console.log('props.roomsArr',props.roomsArr)
@@ -95,11 +98,12 @@ console.log('lightArr', roomInfo.lightArr);
            {/* Temp component start */}
             <div className="col-sm-12 col-md-6 col-xl-4">
             <div className="card text-center" data-unit="room-temp-02">
-            <div className="card-body">
+            <div className="card-body ">
               <h4 className="card-title"> Temperature </h4>
               </div>
+              <div className="overflow2">
                <TempDev tempDevices={roomInfo.tempArr}/> 
-             
+               </div>
             </div>
             </div>
             {/* Temp component end */}
@@ -110,7 +114,9 @@ console.log('lightArr', roomInfo.lightArr);
             <div className="card-body">
               <h4 className="card-title"> Motion </h4>
               </div>
+              <div className="overflow2">
                 <MotionsDev motionDevices={roomInfo.motionArr}/>
+                </div>
             </div>
             </div>
             {/* Motion component end */}
@@ -121,7 +127,9 @@ console.log('lightArr', roomInfo.lightArr);
             <div className="card-body">
               <h4 className="card-title"> Light </h4>
               </div>
+              <div className="overflow2">
                 <LightDev lightDevices={roomInfo.lightArr}/>
+                </div>
             </div>
             </div>
             {/* light component end */}
@@ -129,6 +137,19 @@ console.log('lightArr', roomInfo.lightArr);
             
              {/* row and card div */}
          </div>
+
+         <div className="row">
+		        <div className="col-sm-12">
+			      <div className="card p-2 mb-4" >
+            <div className="card-body">
+            <h4 className="card-title"> Appliances </h4>
+            </div>
+            <div className="overflow3">
+              <AppliancesDiv  AppliancesDevice={roomInfo.AppliancesArr}/>
+		  	      </div>
+              </div>
+		       </div>
+	         </div>
         </React.Fragment>
     )
  

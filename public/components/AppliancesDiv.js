@@ -16,59 +16,54 @@ import { useParams } from 'react-router-dom';
 
 
 
-const Light = (props) =>{
-
+const AppliancesDiv = (props) =>{
 
   const params = useParams()
-  // console.log('params.id',params.id);
-// const roomsArr= props.roomsArr
-
-
-let initialState = {
-checked: false,
-      //for the modal of errors
-      errorModal: {
-        show: false,
-        title: '',
-        content: null
-      },
   
-  //for the modal of confirmation of delete
-  confirmModal: {
-      confirmModalShow: false,
-      confirmModalElement: null,
-      confirmModalPayLoad: null
-  }}
+  let initialState = {
+  checked:false,
+    //for the modal of errors
+    errorModal: {
+      show: false,
+      title: '',
+      content: null
+    },
 
-  const [state,setState] = useState(initialState)
+//for the modal of confirmation of delete
+confirmModal: {
+    confirmModalShow: false,
+    confirmModalElement: null,
+    confirmModalPayLoad: null
+}}
+
+const [state,setState] = useState(initialState)
 
 
-  const lightInfo={
 
-    lightElementArr:[]
+  const AppliancesInfo={
+
+    AppliancesArr:[]
 
   }
-
   const turnOnOff=(e)=>{
     e.preventDefault()
     setState({...state,
     checked: !state.checked })
   }
 
+
   
   if(props.rooms.length > 0) {
-     
-    const lightElement = props.lightDevices.map(device =>{
+    console.log(props,"props");
+     console.log("props.AppliancesDevice",props.AppliancesDevice);
+    const AppliancesElement = props.AppliancesDevice.map(device =>{
 
       return(
         
         <div key={device.id} className="card active" data-unit="switch-light-1">
         {/* <!-- Light switch START --> */}
         <div className="card-body d-flex flex-row justify-content-start">
-          <svg className="icon-sprite">
-            <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
-            <use xlinkHref="images/icons-sprite.svg#bulb-eco"/>
-          </svg>
+         
           <h5>{device.name}</h5>
           <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
             <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
@@ -85,11 +80,11 @@ checked: false,
           </ListGroupItem>
         </ListGroup>
         {/* <!-- Bulb details END --> */}
-       
+        <hr className="my-0"/>
      <div className="card-body">
     <div className="row">
       <div className="col-auto mr-auto">
-        <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
+        <Link  to={"/appliancesSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
       <Button
           type="button"
           className="btn btn-primary"
@@ -101,10 +96,7 @@ checked: false,
         </Button></Link>
         &nbsp;&nbsp;</div>
       <div className="col-auto">
-
-      
         &nbsp;&nbsp;
-
         <Button
           type="button"
           className="btn btn-primary"
@@ -121,17 +113,14 @@ checked: false,
 </div>
 
       )
-
     })
-      
-    lightInfo.lightElementArr = lightElement
+    AppliancesInfo.AppliancesArr = AppliancesElement
    
   }
 
-
 //deleteDevicePost=(deviceId)
 const deleteBtnClick = (deviceId) => {
-  // console.log('showmodal',state);
+  // console.log('showModal',state);
   
   const newState = {...state}
   newState.confirmModal.confirmModalShow= true,
@@ -253,7 +242,7 @@ const deleteConfirm = deviceId => {
 
 return(
 
-    <React.Fragment>
+<React.Fragment>
 
 <CustomModal
         show={state.errorModal.show}
@@ -276,14 +265,11 @@ return(
      
    
      
-        <div className="col-12">
-                {/* <!-- Light unit START --> */}
-                 {lightInfo.lightElementArr }
-                {/* <!-- Light unit END --> */}
-              
-           
-        </div>
-  
+      <div className="col-12">
+              {/* <!-- Light unit START --> */}
+               {AppliancesInfo.AppliancesArr }
+              {/* <!-- Light unit END --> */}
+      </div>
 
     </React.Fragment>
 )
@@ -292,12 +278,10 @@ return(
 
 }
 
+
 const setStateToProps = (state) => {
   return ({
-    
       rooms: state.rooms
   })
 }
-
-
-export default connect(setStateToProps, {setRoomsAction})(Light)
+export default connect(setStateToProps, {setRoomsAction})(AppliancesDiv)

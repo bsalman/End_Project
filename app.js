@@ -1,7 +1,6 @@
 const express = require('express')
 const fs = require('fs')
 const session = require('express-session')
-const fileupload = require('express-fileupload')
 const passwordHash = require('password-hash')
 
 //include data module
@@ -94,7 +93,7 @@ app.post('/settings', (req, res) => {
 
 //======================== ROOMS ====================== //
 
-//* add rooms to the component 
+//======== add rooms to the component ===========//
 app.post('/addroom', (req, res) => {
     console.log(req.body);
     const roomName = req.body.roomName
@@ -120,7 +119,7 @@ app.post('/addroom', (req, res) => {
 
 
 
-// get the devices 
+//  ======== get the devices ========//
 app.post('/rooms/adddevices', (req, res) => {
     console.log(req.body);
     const deviceName = req.body.deviceName
@@ -154,6 +153,8 @@ console.log(deviceObj);
     
 });
 
+// ============= ALL ROOMS WITH ALL DEVICES  =================//
+
 //==================get all Rooms  ======================//
 app.post('/rooms/allrooms',(req,res)=>{
     dataModule.getAllRooms().then(rooms=>{
@@ -162,12 +163,6 @@ app.post('/rooms/allrooms',(req,res)=>{
         res.json(2)
     })
 })
-
-
-
-// ============= ALL ROOMS WITH ALL DEVICES  =================//
-
-
 
 //================== delete room=========================//
 app.post('/rooms/deleteroom',(req,res)=>{
@@ -197,8 +192,8 @@ app.post('/rooms/editroom',(req,res)=>{
     //3 server error
     // console.log(req.body)
     // res.json(1)
-    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId, req.body.newDeviceArr).then((room) => {
-        console.log('room',room);
+    dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId).then((room) => {
+        // console.log('room',room);
         // let roomObj = {
         //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
         //         device : room.roomDevice[0]
@@ -217,19 +212,72 @@ app.post('/rooms/editroom',(req,res)=>{
     })
 })
 
+
 ///=============== get one room with its devices and show ============ // 
 app.post('/room',(req,res)=>{
     dataModule.getRoom(req.body.id).then(data =>{
-
-     console.log('data',data);
+    // console.log('data',data);
      console.log(data.roomDevice);
      res.json(data.roomDevice)
     }).catch(error =>{
-        console.log(error);
+        //console.log(error);
+        res.json(2)
     }) 
    
  })
+ //====================  edit the devices within the room ================//
+ 
+ app.post('/editDevice',(req,res)=>{
+    //1 success
+     //2 error  entries 
+     //3 server error
+     // console.log(req.body)
+     
+     const deviceId=req.body.deviceId;
+     const serialNumber=req.body.serialNumber
+     if(deviceId&&serialNumber){
+     dataModule.editDevice(deviceId,serialNumber).then((device)=>{
+         console.log(device);
+         res.json(device)
+     }).catch(error=>{
+         console.log(error);
+         res.json(3)
+     })
+     }else{
+         res.json(2)
+     }
+ })
 
+//==============================================================//
+//deleteDevice(deviceId)
+app.post('/deletedevice', (req, res) => {
+    //data success
+    //3 this device id doesnt exist
+    //2 kein devices
+    //4 server error
+    console.log(req.body)
+
+
+    const deviceId = req.body.deviceId;
+    const roomId = req.body.roomId;
+
+    if (deviceId) {
+        dataModule.deleteDevice(deviceId,roomId).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            if (error == 3) {
+                res.json(3)
+            } else {
+                res.json(4)
+            }
+            
+        })
+    } else {
+        res.json(2)
+    }
+})
 //==============================================================//
 app.use('/',(req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
