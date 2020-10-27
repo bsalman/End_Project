@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
+import DashboardAppliances from './DashboardAppliances'
 // import {setRoomsAction} from '../actions'
 
 
@@ -13,7 +14,7 @@ const Dashboard =(props)=> {
 		
 		
 			if(props.rooms.length>0){
-				console.log("redux",props.rooms);
+				
 			}
 		return(
 			
@@ -91,7 +92,11 @@ const Dashboard =(props)=> {
 						{/* Motion system start  */}
 						<DashboardMotion parameter={props.rooms}/>
 						{/* Motion system end  */}	
+					
 					</div>	
+					<div className="row">
+					<DashboardAppliances parameter={props.rooms}/>
+					</div>
 				</React.Fragment>
 			)
 		

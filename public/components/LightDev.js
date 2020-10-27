@@ -26,6 +26,7 @@ const Light = (props) =>{
 
 let intialState = {
    checked:false,
+   
       //for the modal of errors
       errorModal: {
         show: false,
@@ -48,28 +49,26 @@ let intialState = {
     lightElementArr:[]
 
   }
+  //============================//
   const turnOnOff=(e)=> {
-    e.preventDefault()
+     e.preventDefault()
     setState({...state,
       checked: !state.checked})
   }
-  
+  //=============================//
   if(props.rooms.length > 0) {
      
-    const lightElement = props.lightDevices.map(device =>{
+    const lightElement = props.lightDevices.map((device) =>{
 
       return(
         
         <div key={device.id} className="card active" data-unit="switch-light-1">
         {/* <!-- Light switch START --> */}
         <div className="card-body d-flex flex-row justify-content-start">
-          <svg className="icon-sprite">
-            <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
-            <use xlinkHref="images/icons-sprite.svg#bulb-eco"/>
-          </svg>
+        <img src="../images/light.png"></img>
           <h5>{device.name}</h5>
-          <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-            <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
+          <Label className={`switch ml-auto ${state.checked === true ? 'checked' : '' }`} onClick={turnOnOff} >
+            <Input type="checkbox" id={'switch-light-' + device.id} />  {/* checked/ */}
           </Label>
         </div>
         {/* <!-- Light switch END --> */}

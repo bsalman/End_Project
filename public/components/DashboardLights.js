@@ -4,20 +4,33 @@ import React from 'react'
 const DashboardLights = (props)=>{
     
     const rooms=props.parameter
-        
+
+    console.log(rooms);
     const LightElement=rooms.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
+    //     const devices = room.devices.filter(device=>device.category ==='Light').map(device => {
+    //   return (
+          
+    //     <li  key={device.id} className="list-group-item">
+    //       <p className="specs">{device.name}</p>
+          
+    //     </li>
         
+    //   )
+    // })
         return(
+            
             <li key={room.id} className="list-group-item d-flex active " data-unit="switch-light-1">
-                <svg className="icon-sprite">
-                    <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
-                    <use xlinkHref="images/icons-sprite.svg#bulb-eco"/>
-                </svg>
+                <img src="../images/light.png"></img>
                 <h5>{room.type}</h5>
+                
                 <label className="switch ml-auto ">
                     <input type="checkbox" id="switch-light-1"/>
                 </label>
+               
             </li>
+           
+          
+         
         )
     })
 
@@ -28,9 +41,9 @@ const DashboardLights = (props)=>{
                 <div className="card" data-unit-group="switch-lights">
                     <div className="card-body">
                         <h4 className="card-title">Lights - interior</h4>
-                            </div>
+                    </div>
                                 <hr className="my-0"/>
-                                    <ul className="list-group list-group-flush">
+                                    <ul className="list-group list-group-flush overflow">
                                         {LightElement}
                                     </ul>
                                     <hr className="my-0"/>
