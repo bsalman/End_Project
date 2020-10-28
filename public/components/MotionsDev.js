@@ -47,13 +47,24 @@ let initialState = {
 
   }
 
-  const turnOnOff=(e)=>{
-    e.preventDefault()
-    setState({...state,
-    checked: !state.checked })
-  }
-
+    //============================//
+    console.log('main state rooms ',props.rooms);
+    const turnOnOff=(e, deviceid, roomid)=> {
+       e.preventDefault()
+      // send data to be saved on database (light data / on / off) and make the light on or off
+      // if server side reply with success
+      const rooms = [...props.rooms]
+      let room = rooms.find(room => room.id == roomid)
+      let device = room.devices.find(device => device.id == deviceid)
+      device.data = device.data == true ? false : true
+      room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+      rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+      console.log('rooms after change', rooms);
+      props.setRoomsAction(rooms)
   
+  
+    }
+    //=============================//
 
   if(props.rooms.length > 0) {
   
@@ -64,15 +75,15 @@ let initialState = {
         {/* <!--  switch START --> */}
         <ListGroup className="list-group borderless">
           <ListGroupItem className="list-group-item align-items-center">
-            <svg className="icon-sprite icon-1x">
-              <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
-              <use xlinkHref="images/icons-sprite.svg#camera"/>
-            </svg>
-            <h5>{device.name}</h5>
-            <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-              <Input type="checkbox" id="tv-lcd-2"/>  {/* checked */}
-            
-            </Label>
+          <img src="/images/motion.png"></img>  
+            <h5> {device.name}</h5>
+            {/* <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
+              <Input type="checkbox" id="tv-lcd-2"/> 
+            </Label>   */}
+            <Label className={`switch ml-auto ${device.data === true ? 'checked' : false }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+           <Input type="checkbox" id={'tv-lcd-' + device.id} defaultChecked={device.data === true }/>  {/* checked/ */}
+         </Label> 
+
           </ListGroupItem>
         </ListGroup>
         {/* <!-- switch END --> */}

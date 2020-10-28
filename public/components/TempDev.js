@@ -59,10 +59,8 @@ if(props.rooms.length > 0) {
     <div key={device.id} className="card temp-range heating" data-unit="room-temp-02">
                   <ListGroup className="list-group borderless">
                     <ListGroupItem className="list-group-item align-items-center">
-                      <svg className="icon-sprite icon-1x">
-                        <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
-                      	</svg>
-                      <h5>{device.name}</h5>
+                    <img src="/images/temperature.png"></img>
+                        <h5>{device.name}</h5>
                     
                     </ListGroupItem>
                   </ListGroup>

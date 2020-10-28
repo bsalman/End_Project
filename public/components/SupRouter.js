@@ -15,6 +15,8 @@ import MotionSettings from './MotionSettings'
 import LightSetting from './LightSettings'
 import AppliancesSetting from './AppliancesSetting'
 
+
+
 // import LightDev from './LightDev'
 // import TempDev from './TempDev'
 // import MotionsDev from './MotionsDev'
@@ -37,12 +39,13 @@ class SupRouter extends React.Component {
                                                 {/* <Route path="/light" exact component={LightDev} />
                                                 <Route path="/temp" exact component={TempDev} />
                                                 <Route path="/mo" exact component={MotionsDev} /> */}
+                                               
                                                 {/* dummy route  end*/}
 
                                                 <Route path="/dashboard" exact component={Dashboard}/>
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 <Route path="/settings" exact component={Settings} />
-                                              
+                                             
                                                 {/* <Route path="/room/:roomtype/:id"exact component={ShowDevices} /> */}
                                                 <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
                                                 <Route path="/tempSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={TempSettings} />

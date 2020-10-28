@@ -11,10 +11,10 @@ const DashboardTemperature = (props)=>{
            
                 <div key={room.id}className="card">
 					<div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
-					    <svg className="icon-sprite">
+					    {/* <svg className="icon-sprite">
 						    <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
-					    </svg>
-						<h5>{room.type}</h5>
+					    </svg> */} 
+						<h5><img src="/images/temperature.png"></img> {room.type}</h5>
 						<h5 className="ml-auto status">22<sup>°C</sup></h5>
 					</div>
 				</div>

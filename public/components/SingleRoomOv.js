@@ -8,7 +8,7 @@ import {useParams} from 'react-router-dom'
 import LightDev from './LightDev'
 import TempDev from './TempDev'
 import MotionsDev from './MotionsDev'
-import  AppliancesDiv from './AppliancesDiv'
+import AppliancesDiv from './AppliancesDiv'
 
 // importing the action
 import {setRoomsAction} from '../actions'

@@ -1,5 +1,5 @@
 //------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     //////////////////
+///      IMPORT DEPENDENCIES    ///
 //------------------------------------------------------------//
 import React, {useRef, useState} from 'react'
 import {connect} from 'react-redux'
@@ -23,7 +23,7 @@ import {addDevicePost, deleteRoomPost, editRoomPost} from '../services/api'
 
 
 //------------------------------------------------------------//
-///////////////         CLASS COMPONENT       //////////////////
+///        CLASS COMPONENT     ///
 //------------------------------------------------------------//
 
 const Rooms = (props) => {
@@ -70,7 +70,7 @@ const Rooms = (props) => {
 
 
 //===================== Set the initial state ======================//
-console.log('props.rooms',props);
+
 const roomElement = props.rooms.map(room => {
   //mapping the devices inside room
   const devices = room
@@ -759,3 +759,4 @@ const setStateToProps = (state) => {
 }
 
 export default connect(setStateToProps, {setRoomsAction})(Rooms)
+

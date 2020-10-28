@@ -1,9 +1,17 @@
 import React from 'react'
 
+import {connect} from 'react-redux'
+import { Label, Input} from 'reactstrap';
+
+
+// importing the action
+import {setRoomsAction} from '../actions'
+
+
 
 const DashboardLights = (props)=>{
     
-    const rooms=props.parameter
+    const rooms = props.parameter
         
     const LightElement=rooms.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
         
