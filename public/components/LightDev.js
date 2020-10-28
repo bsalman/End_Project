@@ -50,14 +50,25 @@ let intialState = {
 
   }
   //============================//
-  const turnOnOff=(e)=> {
+  console.log('main state rooms ',props.rooms);
+  const turnOnOff=(e, deviceid, roomid)=> {
      e.preventDefault()
-    setState({...state,
-      checked: !state.checked})
+    // send data to be saved on database (light data / on / off) and make the light on or off
+    // if server side reply with success
+    const rooms = [...props.rooms]
+    let room = rooms.find(room => room.id == roomid)
+    let device = room.devices.find(device => device.id == deviceid)
+    device.data = device.data == 'on' ? 'off' : 'on'
+    room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+    rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+    console.log('rooms after change', rooms);
+    props.setRoomsAction(rooms)
+
+
   }
   //=============================//
   if(props.rooms.length > 0) {
-     
+     console.log(props.lightDevices);
     const lightElement = props.lightDevices.map((device) =>{
 
       return(
@@ -65,10 +76,10 @@ let intialState = {
         <div key={device.id} className="card active" data-unit="switch-light-1">
         {/* <!-- Light switch START --> */}
         <div className="card-body d-flex flex-row justify-content-start">
-        <img src="../images/light.png"></img>
-          <h5>{device.name}</h5>
-          <Label className={`switch ml-auto ${state.checked === true ? 'checked' : '' }`} onClick={turnOnOff} >
-            <Input type="checkbox" id={'switch-light-' + device.id} />  {/* checked/ */}
+        
+          <h5><img src="/images/light.png"></img>   {device.name}</h5>
+          <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+            <Input type="checkbox" id={'switch-light-' + device.id} checked={device.data === 'on' }/>  {/* checked/ */}
           </Label>
         </div>
         {/* <!-- Light switch END --> */}

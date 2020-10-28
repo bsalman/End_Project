@@ -36,7 +36,7 @@ render(){
                                                     <i className="fas fa-laptop laptop"></i>
                                                     <div className="iconCon light justify-content-center"><i className="fas fa-lightbulb "></i></div>
                                                     <div className="iconCon tv"><i className="fas fa-desktop "></i></div>
-                                                    <div className="iconCon lock"><i className="fab fa-expeditedssl "></i></div>
+                                                    <div className="iconCon lockIcon"><i className="fab fa-expeditedssl "></i></div>
                                                     <div className="iconCon video"><i className="fas fa-video "></i></div>
                                                     <div className="iconCon elk"><i className="fas fa-plug "></i></div>
                                                     <div className="iconCon home"><i className="fas fa-house-user  "></i></div>

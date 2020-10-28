@@ -159,14 +159,38 @@ function getAllRooms(){
                 rooms.push(roomObj);
             })
             results[1].forEach(device=>{
+                // data types for devices :
+                // 1 motion: [true, false]
+                // 2 temperature: number
+                // 3 Light / Appliance: ['on', 'off']
                 rooms.forEach(room=>{
                     if(device.room_id === room.id){
+                        let data;
+                        switch (device.category) {
+                            case 'Temperature':
+                                data = device.data ? parseInt(device.data) : 0
+                                break;
+                            case 'Motion':
+                                data = device.data ? true : false
+                                break;
+                            case 'Light':
+                            case 'Appliance':
+                                data = device.data ? 'on' : 'off'
+                                break;
+                        
+                            default:
+                                data = null
+                                break;
+                        }
                         let deviceObj = {
                             id: device.id,
                             name: device.name,
                             number: device.number,
                             category: device.category,
-                            room_id: room.id
+                            room_id: room.id,
+                            connected: device.connected === 1 ? true : false,
+                            data: data,
+                            imgUrl: device.img_url
                         }
                         room.devices.push(deviceObj)
                     }

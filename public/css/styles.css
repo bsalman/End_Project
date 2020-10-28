@@ -196,7 +196,7 @@
       left:140px;
       
     }
-    .lock{
+    .lockIcon{
      
       top:100px;
       right:130px;
@@ -219,7 +219,10 @@
       right:130px;
      
     }
-     
+    /* //==================================================// */
+     .securityActive{
+       background-color: red;
+     }
 
     /* ========================= animation======================== */
     /* @-webkit-keyframes color-change-2x {
