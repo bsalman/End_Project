@@ -264,7 +264,7 @@ app.post('/editDevice', (req, res) => {
 })
 
 //deleteDevice(deviceId)
-app.post('/deleteDevice', (req, res) => {
+app.post('/deletedevice', (req, res) => {
     //data success
     //3 this device id doesnt exist
     //2 kein devices
@@ -277,7 +277,7 @@ app.post('/deleteDevice', (req, res) => {
 
     if (deviceId) {
         dataModule.deleteDevice(deviceId,roomId).then((device) => {
-            console.log(device);
+            console.log('hi',device);
             res.json(device)
         }).catch(error => {
             console.log(error);
@@ -292,6 +292,33 @@ app.post('/deleteDevice', (req, res) => {
         res.json(2)
     }
 })
+
+//==============================================================//
+app.post('/editdata', (req, res) => {
+    console.log(req.body)
+    const deviceId = req.body.deviceId;
+    const data = req.body.data
+    if (deviceId && data) {
+        dataModule.editData(deviceId, data).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            res.json(3)
+        })
+    } else {
+        res.json(2)
+    }
+});
+
+app.post('/getdevices', (req, res) => {
+    dataModule.getDevices(req.body.roomId).then((devices) => {
+        res.json(devices)
+        
+    }).catch(error => {
+        res.json(error)
+    })
+});
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

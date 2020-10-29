@@ -163,12 +163,32 @@ function getAllRooms(){
             results[1].forEach(device=>{
                 rooms.forEach(room=>{
                     if(device.room_id === room.id){
+                        let data;
+                        switch (device.category) {
+                            case 'Temperature':
+                                data = device.data ? parseInt(device.data) : 0
+                                break;
+                            case 'Motion':
+                                data = device.data ? true : false
+                                break;
+                            case 'Light':
+                            case 'Appliance':
+                                data = device.data == 'on' ? 'on' : 'off'
+                                break;
+                        
+                            default:
+                                data = null
+                                break;
+                        }
                         let deviceObj = {
                             id: device.id,
                             name: device.name,
                             number: device.number,
                             category: device.category,
-                            room_id: room.id
+                            room_id: room.id,
+                            connected: device.connected === 1 ? true : false,
+                            data: data,
+                            imgUrl: device.img_url
                         }
                         room.devices.push(deviceObj)
                     }
@@ -186,7 +206,7 @@ function getAllRooms(){
         })
     })
 }
-// getAllRooms()
+
 //================================================//
 function getRoom(roomId) {
     return new Promise((resolve, reject) => {
@@ -406,9 +426,33 @@ function deleteDevice(deviceId,roomId) {
 
 }
 
-// deleteDevice(92)
+
 //=========================================================//
 
+function editData(deviceId,data){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        runQuery(`UPDATE devices SET data = '${data}' WHERE id = ${deviceId}`).then(() => {
+            runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`).then((device=>{
+                if(device[0]){
+                    resolve(device[0])
+                }else{
+                    reject(3)
+                }     
+                }
+            )).catch((error)=>{
+                console.log(error);
+                reject(error)
+               })
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+    })
+
+}
+//=================================================//
 
 
 module.exports = {
@@ -421,5 +465,6 @@ module.exports = {
     deleteRoom,
     editRoom,
     editDevice,
-    deleteDevice
+    deleteDevice,
+    editData
 }

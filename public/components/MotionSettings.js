@@ -29,11 +29,11 @@ const MotionSettings = (props) => {
 
   const params = useParams()
 
-  console.log('params:',params);
-  console.log('paramsDeviceCategory:',params.deviceCategory);
-  console.log('paramsDeviceName:',params.deviceName);
-  console.log('paramsRoomId:',params.roomId);
-  console.log('paramsId:',params.id);
+  // console.log('params:',params);
+  // console.log('paramsDeviceCategory:',params.deviceCategory);
+  // console.log('paramsDeviceName:',params.deviceName);
+  // console.log('paramsRoomId:',params.roomId);
+  // console.log('paramsId:',params.id);
     // console.log('props', props);
     // console.log('rooms', props);
   
@@ -65,8 +65,8 @@ const MotionSettings = (props) => {
     if (props.rooms.length > 0) {
       const selectedRoom = props.rooms.find(room => room.id == params.roomId) 
       const selectedDevices = selectedRoom.devices.find(device => device.id == params.id) 
-      console.log('selectedRoom', selectedRoom)
-      console.log('selectedDevices', selectedDevices)
+      // console.log('selectedRoom', selectedRoom)
+      // console.log('selectedDevices', selectedDevices)
   
       roomInfo.roomType = selectedRoom.type
       roomInfo.deviceCategory = params.deviceCategory
@@ -77,8 +77,8 @@ const MotionSettings = (props) => {
 const y = []
 for (let i = 0; i <= state.x.length; i++) {
   const newTime = (
-    <React.Fragment key={i}>
-                                  <FormGroup className="row">
+            <React.Fragment key={i}>
+              <FormGroup className="row">
                 {/* //from to with + button */}
                 <div className="row col-xl-6 col-sm-12">
                   {/* //from */}
@@ -117,15 +117,23 @@ for (let i = 0; i <= state.x.length; i++) {
                       <option>Light3</option>
                     </Input>
                   </div>
+                  <a href="#" onClick={e => {deviceDeleteClick(e)}}>X</a>
                 </div>
               </FormGroup>
-                    </React.Fragment>  
+            </React.Fragment>  
 
   )
   y.push(newTime)
 }
 
-  
+
+//////////////////////////////////////////
+  const deviceDeleteClick = (e) => {
+    // e.preventDefault()
+    console.log('hi',e.target);
+    e.target.parentElement.parentElement.remove()
+  }
+////////////////////////////////////////////
  
   
 
@@ -138,7 +146,7 @@ for (let i = 0; i <= state.x.length; i++) {
 
   const showAddTimeBox = (e) => {
     e.preventDefault()
-    console.log('click');
+    // console.log('click');
     setState({...state,
       checked: !state.checked})
   }

@@ -1,12 +1,13 @@
-import React, {useState,useEffect} from 'react'
-import {useParams} from 'react-router-dom'
+import React, {useState} from 'react'
+import {Link,useParams} from 'react-router-dom'
 import {
   Col,
   Button,
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Alert
 } from 'reactstrap';
 //==============================================//
 import {connect} from 'react-redux'
@@ -18,7 +19,7 @@ import TimeNow from './TimeNow'
 import {editDevicePost} from '../services/api'
 
 //==============functionalComponent start==============================//
-const LightSetting = (props) => {
+const AppliancesSetting = (props) => {
   const params = useParams()
   const deviceCategory=params.deviceCategory;
   const deviceId=params.id
@@ -104,7 +105,8 @@ const LightSetting = (props) => {
          const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-console.log("device", device);
+            alert("SN changed successfully")
+                console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -165,7 +167,7 @@ console.log("device", device);
             <li className="list-group-item align-items-center">
               <i className="fas fa-stopwatch"></i>
               &nbsp;
-              <h5 className="card-title">Light:Set Time</h5>
+              <h5 className="card-title">{deviceName}: Set Time to ternOn </h5>
               <div className="d-flex ml-auto align-items-center ">
               <label className="switch ml-auto">
 							<input type="checkbox" id="switch-house-lock"  />
@@ -214,44 +216,7 @@ console.log("device", device);
             </div>
           </div>
           &nbsp;
-          <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
-              &nbsp;
-              <h5 className="card-title">Motion:Set Time</h5>
-              <div className=" ml-auto ">
-                <div></div>
-              </div>
-            </li>
-          </ul>
-          <hr className="my-0"/>
-          &nbsp;
-          <div className="row d-flex justify-content-center">
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">From</h5>
-            </div>
-            <div className="col justify-content-center ">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-                placeholder="HH : MM : SS"/>
-            </div>
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">To</h5>
-            </div>
-            <div className="col justify-content-center">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-               />
-            </div>
-            <div className="col justify-content-end ">
-              <Button >Save</Button>
-            </div>
-          </div>
-          &nbsp;
-          <hr className="my-0"/>
+          {/* <hr className="my-0"/> */}
         </div>
         <div className="card temp-range heating" data-unit="room-temp-02">
 
@@ -279,7 +244,7 @@ console.log("device", device);
                        className="btn btn-primary"
                         data-toggle="tooltip"
                         data-placement="right"
-                        title="Go Back">
+                        title="Save changes">
                        BACK
                       </Button>
                 </Link>
@@ -305,5 +270,5 @@ const setStateToProps = (state) => {
     rooms: state.rooms
   })
 }
-export default connect(setStateToProps, {setRoomsAction})(LightSetting)
+export default connect(setStateToProps, {setRoomsAction})(AppliancesSetting)
 //export default SingleRoomOv
