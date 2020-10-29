@@ -186,7 +186,8 @@ class Settings extends React.Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content" data-dismiss="modal">
               <div className="modal-body d-flex">
-                <svg className="icon-sprite icon-2x icon-pulse"><use xlinkHref="images/icons-sprite.svg#alarm"/></svg>
+              <img src="/images/services-32.png"></img> 
+                {/* <svg className="icon-sprite icon-2x icon-pulse"><use xlinkHref="images/icons-sprite.svg#alarm"/></svg> */}
                 <h3 className="text-right font-weight-bold ml-auto align-self-center">MOTION DETECTED!</h3>
               </div>
             </div>

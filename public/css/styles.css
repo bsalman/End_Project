@@ -42,6 +42,13 @@
       font-size: 1.25rem; 
     font-weight: 300;
     }
+
+    /* ============ side bar icon position ============= */
+
+    .sidebar-offcanvas.mini {
+      width: 88px !important;
+  }
+
   /* ============overFlow =========== */
     
   .overflow{

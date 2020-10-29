@@ -65,7 +65,7 @@ const Dashboard =(props)=> {
 							<div className="card" data-unit="garage-doors-1">
 								<div className="card-body">
 									<div className="d-flex flex-wrap mb-2">
-										<img src="../images/garage.png" style={{width:"32px",height:"32px"}}></img>
+										<img src="/images/garage.png" style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
 											<h5>Garage doors</h5>
 											<p className="status text-danger">Close</p>

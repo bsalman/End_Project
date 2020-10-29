@@ -160,8 +160,8 @@ const deleteConfirm = deviceId => {
       let badgeMessage = ''
       let badgeTitle = ''
     //data success
-    //2 this device id doesnt exist
-    //3 kein devices
+    //2 this device id doesn't exist
+    //3 no devices
     //4 server error
     switch (data) {
       case 10:

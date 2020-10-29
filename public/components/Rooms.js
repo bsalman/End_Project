@@ -31,7 +31,7 @@ const Rooms = (props) => {
   const deviceLiRef = useRef()
   
   //===================== Set the initial state ======================//
-  let intialState = {
+  let initialState = {
 
     //for the modal of errors
     errorModal: {
@@ -66,7 +66,7 @@ const Rooms = (props) => {
     selectedRoomTitle: '',
   }
 
-  const [state,setState] = useState(intialState)
+  const [state,setState] = useState(initialState)
 
 
 //===================== Set the initial state ======================//
