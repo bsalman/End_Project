@@ -649,6 +649,7 @@ const onEditRoomClick = (e) => {
                   <option>Light</option>
                   <option>Temperature</option>
                   <option>Motion</option>
+                  <option>Appliance</option>
                 </Input>
               </div>
             </FormGroup>

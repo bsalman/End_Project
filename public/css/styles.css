@@ -23,7 +23,22 @@
         background-color:#0c2742 ;
     }
     
+/* ============ List group Item Temp ====== */
 
+.list-group-item1{
+    padding: 0.75rem
+  }
+   /* ============ List group Item Motion ====== */
+  /* .list-group-item2{
+    padding-top: 1.75rem
+  } */
+  /* .room-temp-C{
+    font-size: large;
+  } */
+  .sup1 {
+    font-size: 1.25rem;
+    font-weight: 300;
+  }
 
      /* ============overFlow =========== */
     
@@ -47,5 +62,58 @@
         background-color:#3f80a3;
         border-radius:5px;
 
+    }
+
+        /*========================== overFlow2========================*/
+   
+
+        .overflow2{
+            width: 100%;
+            height: 385px;
+            overflow: auto; 
+        }
+        .overflow2::-webkit-scrollbar{
+            width: 11px;
+        }
+        .overflow2{
+            scrollbar-width: thin;
+            scrollbar-color:#0c2742
+        }
+        .overflow2::-webkit-scrollbar-track {
+            background:#233e58
+        }
+      
+        .overflow2::-webkit-scrollbar-thumb{
+            background-color:#3f80a3;
+            border-radius:5px;
+      
+        } 
+        /* =============================== */
+        .overflow3{
+          width: 100%;
+          height: 245px;
+          overflow: auto; 
+      }
+      .overflow3::-webkit-scrollbar{
+          width: 11px;
+      }
+      .overflow3{
+          scrollbar-width: thin;
+          scrollbar-color:#0c2742
+      }
+      .overflow3::-webkit-scrollbar-track {
+          background:#233e58
+      }
+      
+      .overflow3::-webkit-scrollbar-thumb{
+          background-color:#3f80a3;
+          border-radius:5px;
+      
+      } 
+
+          /* ====================color-change animation========================= */
+    .color-change-2x {
+        -webkit-animation: color-change-2x 2s linear infinite alternate both;
+                animation: color-change-2x 2s linear infinite alternate both;
     }
       
