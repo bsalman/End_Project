@@ -15,7 +15,7 @@ import {allRoomsPost} from '../services/api'
 class MainRouter extends React.Component {
     componentDidMount(){
         allRoomsPost().then(rooms=>{
-            this.props.setRoomsAction(rooms,null,1)
+            this.props.setRoomsAction(rooms)
         })
     }
     render() {

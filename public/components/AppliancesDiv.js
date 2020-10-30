@@ -1,4 +1,4 @@
-import React,{ useState } from 'react'
+import React, { useState } from 'react'
 import {connect} from 'react-redux'
 import { Link } from 'react-router-dom';
 
@@ -7,23 +7,26 @@ import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 
 // importing the action
 import {setRoomsAction} from '../actions'
+
 import {deleteDevicePost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
+
 import { useParams } from 'react-router-dom';
-//===============================//
+
+
 
 const AppliancesDiv = (props) =>{
 
   const params = useParams()
-  let intialState = {
-    checked:false,
+  
+  let initialState = {
+  checked:false,
     //for the modal of errors
     errorModal: {
       show: false,
       title: '',
-      content: null,
-     
+      content: null
     },
 
 //for the modal of confirmation of delete
@@ -33,21 +36,38 @@ confirmModal: {
     confirmModalPayLoad: null
 }}
 
-const [state,setState] = useState(intialState)
+const [state,setState] = useState(initialState)
+
+
+
   const AppliancesInfo={
 
     AppliancesArr:[]
 
   }
+   //============================//
+  
+   const turnOnOff=(e, deviceid, roomid)=> {
+      e.preventDefault()
+     // send data to be saved on database (light data / on / off) and make the light on or off
+     // if server side reply with success
+     const rooms = [...props.rooms]
+     let room = rooms.find(room => room.id == roomid)
+     let device = room.devices.find(device => device.id == deviceid)
+     device.data = device.data == 'on' ? 'off' : 'on'
+     room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+     rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+     console.log('rooms after change', rooms);
+     props.setRoomsAction(rooms)
+ 
+ 
+   }
+   //=============================//
 
-  const turnOnOff=(e)=> {
-    e.preventDefault()
-    setState({...state,
-      checked: !state.checked})
-  }
+  
   if(props.rooms.length > 0) {
-   
-     
+    console.log(props,"props");
+     console.log("props.AppliancesDevice",props.AppliancesDevice);
     const AppliancesElement = props.AppliancesDevice.map(device =>{
 
       return(
@@ -56,10 +76,11 @@ const [state,setState] = useState(intialState)
         {/* <!-- Light switch START --> */}
         <div className="card-body d-flex flex-row justify-content-start">
          
-          <h5>{device.name}</h5>
-          <Label  className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-            <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
-          </Label>
+          <h5><img src="/images/appliance.png"></img> {device.name}</h5>
+          <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+           <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
+         </Label>
+            {/* id="switch-light-1" */}
         </div>
         {/* <!-- Light switch END --> */}
         <hr className="my-0" />
@@ -109,9 +130,10 @@ const [state,setState] = useState(intialState)
     AppliancesInfo.AppliancesArr = AppliancesElement
    
   }
-  //deleteDevicePost=(deviceId)
+
+//deleteDevicePost=(deviceId)
 const deleteBtnClick = (deviceId) => {
-  // console.log('showmodal',state);
+  // console.log('showModal',state);
   
   const newState = {...state}
   newState.confirmModal.confirmModalShow= true,
@@ -119,6 +141,7 @@ const deleteBtnClick = (deviceId) => {
   newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device gonna be deleted for ever</p>
   setState(newState)
 }
+
 const deleteConfirm = deviceId => {
   // console.log('deviceId',deviceId)
   deleteDevicePost(deviceId,params.id).then(data=> {
@@ -228,10 +251,13 @@ const deleteConfirm = deviceId => {
     newState.errorModal.show = false
     setState(newState)
   }
+  
+
 return(
 
-    <React.Fragment>
-      <CustomModal
+<React.Fragment>
+
+<CustomModal
         show={state.errorModal.show}
         close={errorModalClose}
         className="bg-danger"
@@ -250,14 +276,21 @@ return(
         {state.confirmModal.confirmModalElement}
       </ConfirmModal>
      
-        <div className="col-12">
-                {/* <!-- Light unit START --> */}
-                 {AppliancesInfo.AppliancesArr }
-                {/* <!-- Light unit END --> */}
-        </div>
+   
+     
+      <div className="col-12">
+              {/* <!-- Light unit START --> */}
+               {AppliancesInfo.AppliancesArr }
+              {/* <!-- Light unit END --> */}
+      </div>
+
     </React.Fragment>
 )
+
+
+
 }
+
 
 const setStateToProps = (state) => {
   return ({

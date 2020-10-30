@@ -11,8 +11,8 @@ class SideNav extends React.Component{
                 <ul className="nav flex-column nav-sidebar">
                   <li className="nav-item">
                     <Link className="nav-link" to="/dashboard">
-                    {/* <i class="fas fa-columns icon-sprite"></i> */}
-                    <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
+                    <img src="/images/dashboard-10-24.png"></img> 
+                    &nbsp;
                       Dashboard
                     </Link>
                   </li>
@@ -24,7 +24,9 @@ class SideNav extends React.Component{
                   </li> */}
                   <li className="nav-item">
                     <Link className="nav-link" to="/rooms">
-                    <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg>
+                    <img src="/images/home-24.png"></img> 
+                    &nbsp;
+                    &nbsp;
                      Rooms
                     </Link>
                   </li>
@@ -36,7 +38,8 @@ class SideNav extends React.Component{
                   </li> */}
                   <li className="nav-item">
                     <Link className="nav-link" to="/settings">
-                      <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#settings"/></svg>
+                    <img src="/images/services-32.png"></img> 
+                    &nbsp;
                       Settings
                     </Link>
                   </li>

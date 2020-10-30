@@ -154,7 +154,8 @@ function getAllRooms(){
                     id: room.id,
                     name: room.name,
                     type: room.type,
-                    devices:[]
+                    devices:[],
+                    selected:room.selected
                 }
                 rooms.push(roomObj);
             })
@@ -232,7 +233,10 @@ function getRoom(roomId) {
                                     name: device.name,
                                     number: device.number,
                                     category: device.category,
-                                    room_id: room.id
+                                    room_id: room.id,
+                                    connected: device.connected === 1 ? true : false,
+                                    data: data,
+                                    imgUrl: device.img_url
                                 }
                                 room.devices.push(deviceObj)
                             

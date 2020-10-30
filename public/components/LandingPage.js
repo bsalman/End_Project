@@ -25,7 +25,7 @@ render(){
                                                     <p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi accusantium fuga cumque libero. Eligendi minima, itaque, odio earum doloribus expedita dolor harum numquam qui a reprehenderit molestiae, rerum quidem?</p>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                    <Link to="/login">
+                                                    <Link to="/dashboard">
                                                         <button type="button" className="btn btn-lg btn-primary btn1">Get started</button>
                                                     </Link>
                                                 </div>

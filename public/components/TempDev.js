@@ -5,21 +5,22 @@ import {Link} from 'react-router-dom'
 import {ListGroup, ListGroupItem, Button} from 'reactstrap';
 import {setRoomsAction} from '../actions' 
 
+
 import {deleteDevicePost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
 
 import { useParams } from 'react-router-dom';
 
-const Temperature = (props) =>{
 
+const Temperature = (props) =>{
   const params = useParams()
   // console.log('params.id',params.id);
 // const roomsArr= props.roomsArr
 
 
-let intialState = {
-
+let initialState = {
+checked: false,
       //for the modal of errors
       errorModal: {
         show: false,
@@ -34,7 +35,9 @@ let intialState = {
       confirmModalPayLoad: null
   }}
 
-  const [state,setState] = useState(intialState)
+  const [state,setState] = useState(initialState)
+
+
 
 const tempInfo={
   
@@ -56,24 +59,25 @@ if(props.rooms.length > 0) {
     <div key={device.id} className="card temp-range heating" data-unit="room-temp-02">
                   <ListGroup className="list-group borderless">
                     <ListGroupItem className="list-group-item align-items-center">
-                      <svg className="icon-sprite icon-1x">
-                        <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
-                      	</svg>
-                      <h5>{device.name}</h5>
+                    <img src="/images/temperature.png"></img>
+                        <h5>{device.name}</h5>
                     
                     </ListGroupItem>
                   </ListGroup>
                   <hr className="my-0" />
                   <div className="d-flex justify-content-between" data-rangeslider="room-temp-02">
                     <ListGroup className="list-group borderless px-1 align-items-stretch">
+                    <br />
+                    
                       <ListGroupItem className="list-group-item list-group-item1">
                       &nbsp;
+                    
                         <h5 className="specs mr-auto mb-auto">Desired temperature</h5>
                       </ListGroupItem>
                     </ListGroup>
                     <div className="p-4" style={{position:'relative'}}>
-                    <p className="mr-auto mt-2 mb-0 display-5">
-                        <span className="room-temp-C">22</span><sup>°C</sup>
+                    <p className="mr-auto mt-2 mb-0 display-5 lead">
+                        <span className="room-temp-C">22</span><sup className="sup1">°C</sup>
                         </p>
                     <p className="mr-auto mt-2 mb-0 lead text-primary">
                         <span className="room-temp-F">71.6</span><sup>°F</sup>
@@ -132,7 +136,6 @@ if(props.rooms.length > 0) {
  tempInfo.tempElementArr = tempElement
  
 }
-
 //deleteDevicePost=(deviceId)
 const deleteBtnClick = (deviceId) => {
   // console.log('showmodal',state);
@@ -193,7 +196,7 @@ const deleteConfirm = deviceId => {
                       console.log('data.room_id',data[0]);
                       if(room.id === data[0].room_id){
                         //room.devices[room.devices.map(data => data.id).indexOf(data.id)] = data
-                      // //     // room.devices.push(device)
+                      //   room.devices.push(device)
                       console.log('room',room);
                       room.devices.splice(room.devices.indexOf(room.devices.find(element => element.id === deviceId)),1)
                       }
@@ -289,6 +292,7 @@ const deleteConfirm = deviceId => {
     )
   
     }
+  
   
 const setStateToProps = (state) => {
   return ({

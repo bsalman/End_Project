@@ -8,7 +8,7 @@ import {useParams} from 'react-router-dom'
 import LightDev from './LightDev'
 import TempDev from './TempDev'
 import MotionsDev from './MotionsDev'
-import  AppliancesDiv from './AppliancesDiv'
+import AppliancesDiv from './AppliancesDiv'
 // importing the action
 import {setRoomsAction} from '../actions'
 
@@ -116,7 +116,7 @@ const params = useParams()
              {/* row and card div */}
          </div>
          <div className="row">
-		        <div className="col-sm-12">
+		        <div className="col-sm-12 appliancesContainer">
 			      <div className="card p-2 mb-4" >
             <div className="card-body">
             <h4 className="card-title"> Appliances </h4>

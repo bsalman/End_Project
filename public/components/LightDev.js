@@ -24,9 +24,8 @@ const Light = (props) =>{
 // const roomsArr= props.roomsArr
 
 
-let intialState = {
-   checked:false,
-   
+let initialState = {
+checked: false,
       //for the modal of errors
       errorModal: {
         show: false,
@@ -41,7 +40,7 @@ let intialState = {
       confirmModalPayLoad: null
   }}
 
-  const [state,setState] = useState(intialState)
+  const [state,setState] = useState(initialState)
 
 
   const lightInfo={
@@ -49,97 +48,99 @@ let intialState = {
     lightElementArr:[]
 
   }
-  //============================//
-  console.log('main state rooms ',props.rooms);
-  const turnOnOff=(e, deviceid, roomid)=> {
-     e.preventDefault()
-    // send data to be saved on database (light data / on / off) and make the light on or off
-    // if server side reply with success
-    const rooms = [...props.rooms]
-    let room = rooms.find(room => room.id == roomid)
-    let device = room.devices.find(device => device.id == deviceid)
-    device.data = device.data == 'on' ? 'off' : 'on'
-    room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
-    rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-    console.log('rooms after change', rooms);
-    props.setRoomsAction(rooms)
+
+   //============================//
+   console.log('main state rooms ',props.rooms);
+   const turnOnOff=(e, deviceid, roomid)=> {
+      e.preventDefault()
+     // send data to be saved on database (light data / on / off) and make the light on or off
+     // if server side reply with success
+     const rooms = [...props.rooms]
+     let room = rooms.find(room => room.id == roomid)
+     let device = room.devices.find(device => device.id == deviceid)
+     device.data = device.data == 'on' ? 'off' : 'on'
+     room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+     rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+     console.log('rooms after change', rooms);
+     props.setRoomsAction(rooms)
+ 
+ 
+   }
+   //=============================//
 
 
-  }
-  //=============================//
   if(props.rooms.length > 0) {
-     console.log(props.lightDevices);
-    const lightElement = props.lightDevices.map((device) =>{
+    console.log(props.lightDevices);
+   const lightElement = props.lightDevices.map((device) =>{
 
-      return(
-        
-        <div key={device.id} className="card active" data-unit="switch-light-1">
-        {/* <!-- Light switch START --> */}
-        <div className="card-body d-flex flex-row justify-content-start">
-        
-          <h5><img src="/images/light.png"></img>   {device.name}</h5>
-          <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
-            <Input type="checkbox" id={'switch-light-' + device.id} checked={device.data === 'on' }/>  {/* checked/ */}
-          </Label>
-        </div>
-        {/* <!-- Light switch END --> */}
-        <hr className="my-0" />
-        {/* <!-- Bulb details START --> */}
-        &nbsp;&nbsp;&nbsp;
-        <ListGroup className="list-group borderless px-1">
-          <ListGroupItem className="list-group-item pt-0 pb-4">
-            <p className="specs">Serial Nr</p>
-            <p className="ml-auto mb-0">{device.number}</p>
-          </ListGroupItem>
-        </ListGroup>
-        {/* <!-- Bulb details END --> */}
+     return(
        
-     <div className="card-body">
-    <div className="row">
-      <div className="col-auto mr-auto">
-        <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
-      <Button
-          type="button"
-          className="btn btn-primary"
-          data-toggle="tooltip"
-          data-placement="left"
-          title="Edit Room"
-          >
-          <i className="fas fa-tools"></i>
-        </Button></Link>
-        &nbsp;&nbsp;</div>
-      <div className="col-auto">
-
+       <div key={device.id} className="card active" data-unit="switch-light-1">
+       {/* <!-- Light switch START --> */}
+       <div className="card-body d-flex flex-row justify-content-start">
+       
+         <h5><img src="/images/light.png"></img>   {device.name}</h5>
+         <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+           <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/>  {/* checked/ */}
+         </Label>
+       </div>
+       {/* <!-- Light switch END --> */}
+       <hr className="my-0" />
+       {/* <!-- Bulb details START --> */}
+       &nbsp;&nbsp;&nbsp;
+       <ListGroup className="list-group borderless px-1">
+         <ListGroupItem className="list-group-item pt-0 pb-4">
+           <p className="specs">Serial Nr</p>
+           <p className="ml-auto mb-0">{device.number}</p>
+         </ListGroupItem>
+       </ListGroup>
+       {/* <!-- Bulb details END --> */}
       
-        &nbsp;&nbsp;
+    <div className="card-body">
+   <div className="row">
+     <div className="col-auto mr-auto">
+       <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
+     <Button
+         type="button"
+         className="btn btn-primary"
+         data-toggle="tooltip"
+         data-placement="left"
+         title="Edit Room"
+         >
+         <i className="fas fa-tools"></i>
+       </Button></Link>
+       &nbsp;&nbsp;</div>
+     <div className="col-auto">
 
-        <Button
-          type="button"
-          className="btn btn-primary"
-          data-toggle="tooltip"
-          data-placement="right"
-          title="Delete Room"
-          onClick={()=>{deleteBtnClick(device.id)}}>
-          <i className="far fa-trash-alt"></i>
-        </Button>
+     
+       &nbsp;&nbsp;
 
-      </div>
-    </div>
-  </div>
+       <Button
+         type="button"
+         className="btn btn-primary"
+         data-toggle="tooltip"
+         data-placement="right"
+         title="Delete Room"
+         onClick={()=>{deleteBtnClick(device.id)}}>
+         <i className="far fa-trash-alt"></i>
+       </Button>
+
+     </div>
+   </div>
+ </div>
 </div>
 
-      )
+     )
 
-    })
-      
-    lightInfo.lightElementArr = lightElement
-   
-  }
-
+   })
+     
+   lightInfo.lightElementArr = lightElement
+  
+ }
 
 //deleteDevicePost=(deviceId)
 const deleteBtnClick = (deviceId) => {
-  // console.log('showmodal',state);
+  // console.log('show modal',state);
   
   const newState = {...state}
   newState.confirmModal.confirmModalShow= true,
@@ -159,8 +160,8 @@ const deleteConfirm = deviceId => {
       let badgeMessage = ''
       let badgeTitle = ''
     //data success
-    //2 this device id doesnt exist
-    //3 kein devices
+    //2 this device id doesn't exist
+    //3 no devices
     //4 server error
     switch (data) {
       case 10:

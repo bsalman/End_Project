@@ -1,34 +1,75 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import { Label, Input} from 'reactstrap';
+
+
+// importing the action
+import {setRoomsAction} from '../actions'
+
 //===============================//
-const DashboardAppliance = (props) =>{
-    const rooms=props.parameter
-    console.log("props",rooms);
-    const ApplianceElement=rooms.filter(room => room.devices.find(device => device.category ==='Appliance')).map((room)=>{
-        const devices = room.devices.filter(device=>device.category ==='Appliance').map(device => {
+
+const DashboardAppliance = (props) =>{ 
+
+  const dashApplianceInfo={
+
+    dashApplianceElementArr:[]
+
+  } 
+     //============================//
+     console.log('main state rooms ',props.rooms);
+     const turnOnOff=(e, deviceid, roomid)=> {
+        e.preventDefault()
+       // send data to be saved on database (light data / on / off) and make the light on or off
+       // if server side reply with success
+       const rooms = [...props.rooms]
+       let room = rooms.find(room => room.id == roomid)
+       let device = room.devices.find(device => device.id == deviceid)
+       device.data = device.data == 'on' ? 'off' : 'on'
+       room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+       rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+       console.log('rooms after change', rooms);
+       props.setRoomsAction(rooms)
+   
+   
+     }
+     //=============================//
+
+
+
+ if(props.rooms.length > 0) {
+
+ const rooms = props.parameter //* parameter = applianceDevices in the father: dashboard
+    console.log("rooms", props.rooms);
+    const applianceElement = rooms.filter(room => room.devices.find(device => device.category ==='Appliance')).map((room)=>{
+        const devices = room.devices.filter(device => device.category ==='Appliance').map(device => {
           console.log("device",device);
       return (
         <React.Fragment>
         <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
-            <img src={`${device.name==="washing-machine"?'../images/washing-machine.png':''}`}></img>
-            <img src={`${device.name==="tv"?'../images/tv.png':''}`}></img>
-            <img src={`${device.name==="fridge"?'../images/fridge1.png':''}`}></img>
+            <img src={`${device.name==="washing-machine"?'/images/washing-machine.png':''}`}></img>
+            <img src={`${device.name==="tv"?'/images/tv.png':''}`}></img>
+            <img src={`${device.name==="fridge"?'/images/fridge1.png':''}`}></img>
                  <h5>{device.name}</h5>
-                 <label className="switch ml-auto ">
-                    <input type="checkbox" id={"switch-light-"+device.id}/>
-                </label>
+                 <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+                  <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/>  {/* checked/ */}
+                 </Label>
             </div>
         </div>
+      &nbsp;
       &nbsp;
       </React.Fragment>
         
       )
     })
-      return(
+    
+    return(
         <React.Fragment>
 							&nbsp;
-              <div key={room.id}>
-              <h5>{room.type}</h5>
+              <div>
+              &nbsp;
+              <h5>&nbsp;{room.type}</h5>
+
 							<div  className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
 			          	{devices}
 							</div>
@@ -36,20 +77,36 @@ const DashboardAppliance = (props) =>{
         </React.Fragment>
       )
     })
-    
-return(
 
-        <div className="col-12">
+    dashApplianceInfo.dashApplianceElementArr = applianceElement
+
+  }
+
+
+  return(
+
+        <div className="col-12">   {/* key={room.id} */}
+      
           	<div className="col col-sm-12 card ">
 							<div className="card-body">
-							<h4 className="card-title "><img src="../images/appliance.png"></img> Appliances</h4>
-              {ApplianceElement}
+							<h4 className="card-title "><img src="/images/appliance.png"></img> Appliances</h4>
+              {dashApplianceInfo.dashApplianceElementArr }
         </div>
         </div>
 					</div>
    
-)
+    )
+
 }
 
 
-export default (DashboardAppliance)
+const setStateToProps = (state) => {
+  return ({
+    
+      rooms: state.rooms
+  })
+}
+
+
+export default connect(setStateToProps, {setRoomsAction})(DashboardAppliance)
+

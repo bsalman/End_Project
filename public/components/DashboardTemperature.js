@@ -1,24 +1,21 @@
-import React from 'react';
+import React from 'react'
 
 
-//==============================//
 const DashboardTemperature = (props)=>{
-	
     
-	const rooms=props.parameter
+    const rooms=props.parameter
         
-	const roomTempElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
-		
-		
+    const TempElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
         
         return(
            
                 <div key={room.id}className="card">
 					<div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
-					    <img src="../images/temperature.png"></img>
-						<h5>{room.type}</h5>
+					    {/* <svg className="icon-sprite">
+						    <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
+					    </svg> */} 
+						<h5><img src="/images/temperature.png"></img> {room.type}</h5>
 						<h5 className="ml-auto status">22<sup>°C</sup></h5>
-
 					</div>
 				</div>
         )
@@ -30,9 +27,8 @@ const DashboardTemperature = (props)=>{
 								<div className="card-body">
 									<h4 className="card-title ">Temperature-Indictor</h4>
 									<div className="overflow">
-									{roomTempElement}
+									{TempElement}
 									</div>
-									
 									
 								</div>
 							</div>
