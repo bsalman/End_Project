@@ -454,7 +454,37 @@ function editData(deviceId,data){
 }
 //=================================================//
 
+function getDevices(){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM devices`).then((device=>{
+            if(device){
+                resolve(device)
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
 
+       
+        
+    })
+
+}
+function setDeviceConnection(sn, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
+            resolve(result)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
 module.exports = {
     checkUser,
     changeUser,
@@ -466,5 +496,7 @@ module.exports = {
     editRoom,
     editDevice,
     deleteDevice,
-    editData
+    editData,
+    getDevices,
+    setDeviceConnection
 }

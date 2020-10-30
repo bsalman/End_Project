@@ -64,6 +64,11 @@
 
     }
 
+        /* ============ side bar icon position ============= */
+
+        .sidebar-offcanvas.mini {
+            width: 88px !important;
+        }
         /*========================== overFlow2========================*/
    
 

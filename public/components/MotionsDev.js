@@ -9,7 +9,7 @@ import {ListGroup,ListGroupItem, Label, Input, Button} from 'reactstrap';
 // import action 
 import {setRoomsAction} from '../actions'
 
-import {deleteDevicePost} from '../services/api'
+import {deleteDevicePost, editDataPost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
 
@@ -48,6 +48,30 @@ const Motion = (props) =>{
     motionElementArr:[]
   }
 
+      //============================//
+      // console.log('main state rooms ',props.rooms);
+
+
+      const turnOnOff=(e, deviceid, roomid)=> {
+         e.preventDefault()
+        // send data to be saved on database (light data / on / off) and make the light on or off
+        // if server side reply with success
+        const rooms = [...props.rooms]
+        let room = rooms.find(room => room.id == roomid)
+        let device = room.devices.find(device => device.id == deviceid)
+        device.data = device.data == true ? false : true
+editDataPost(deviceid,device.data).then(data1 => {
+        
+        
+        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+        // console.log('rooms after change', device.data);
+        props.setRoomsAction(rooms)
+       })
+    
+    
+      }
+      //=============================//
 
  //Check if rooms inside props are loading or not to use the redux method
   if(props.rooms.length > 0) {
@@ -57,13 +81,13 @@ const Motion = (props) =>{
           {/* Show the name of the device */}
           <ListGroup className="list-group borderless">
             <ListGroupItem className="list-group-item align-items-center">
-              <svg className="icon-sprite icon-1x">
+              {/* <svg className="icon-sprite icon-1x">
                 <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
                 <use xlinkHref="images/icons-sprite.svg#camera"/>
-              </svg>
+              </svg> */}
               <h5>{device.name}</h5>
-              <Label className="switch ml-auto checked">
-                <Input type="checkbox" id="tv-lcd-2"/>  {/* checked */}
+              <Label className={`switch ml-auto ${device.data === true ? 'checked' : false }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+                <Input type="checkbox" id={'tv-lcd-' + device.id} defaultChecked={device.data === true }/>  {/* checked */}
               </Label>
             </ListGroupItem>
           </ListGroup>

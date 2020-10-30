@@ -10,7 +10,7 @@ import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 // importing the action
 import {setRoomsAction} from '../actions'
 
-import {deleteDevicePost} from '../services/api'
+import {deleteDevicePost, editDataPost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
 
@@ -50,6 +50,33 @@ const AppliancesDiv = (props) =>{
     AppliancesArr:[]
   }
 
+
+     //============================//
+  
+     const turnOnOff=(e, deviceid, roomid)=> {
+      e.preventDefault()
+     // send data to be saved on database (light data / on / off) and make the light on or off
+     // if server side reply with success
+     const rooms = [...props.rooms]
+     let room = rooms.find(room => room.id == roomid)
+     let device = room.devices.find(device => device.id == deviceid)
+     device.data = device.data == 'on' ? 'off' : 'on'
+
+
+       editDataPost(deviceid,device.data).then(data1 => {
+        
+        
+        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+        // console.log('rooms after change', device.data);
+        props.setRoomsAction(rooms)
+       })
+ 
+ 
+   }
+   //=============================//
+
+
   //Check if rooms inside props are loading or not to use the redux method
   if(props.rooms.length > 0) {
     const AppliancesElement = props.AppliancesDevice.map(device =>{
@@ -58,8 +85,8 @@ const AppliancesDiv = (props) =>{
           {/* Show the name of the device */}
           <div className="card-body d-flex flex-row justify-content-start">
             <h5>{device.name}</h5>
-            <Label className="switch ml-auto checked">
-              <Input type="checkbox" id="switch-light-1" />  {/* checked/ */}
+            <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
+           <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
             </Label>
           </div>
           {/* <!-- Light switch END --> */}

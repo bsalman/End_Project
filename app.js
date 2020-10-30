@@ -7,6 +7,9 @@ const passwordHash = require('password-hash')
 //include data module
 const dataModule = require('./modules/sqlDataModule')
 
+// transmitter to connect with iot devices
+const Radio = require('./modules/transmitter')
+
 
 const app = express()
 
@@ -276,8 +279,8 @@ app.post('/deletedevice', (req, res) => {
     const roomId = req.body.roomId;
 
     if (deviceId) {
-        dataModule.deleteDevice(deviceId,roomId).then((device) => {
-            console.log('hi',device);
+        dataModule.deleteDevice(deviceId, roomId).then((device) => {
+            console.log('hi', device);
             res.json(device)
         }).catch(error => {
             console.log(error);
@@ -286,7 +289,7 @@ app.post('/deletedevice', (req, res) => {
             } else {
                 res.json(4)
             }
-            
+
         })
     } else {
         res.json(2)
@@ -314,7 +317,7 @@ app.post('/editdata', (req, res) => {
 app.post('/getdevices', (req, res) => {
     dataModule.getDevices(req.body.roomId).then((devices) => {
         res.json(devices)
-        
+
     }).catch(error => {
         res.json(error)
     })
@@ -325,6 +328,110 @@ app.use('/', (req, res, next) => {
     res.send(html)
 });
 //===============================================================//
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
 });
+
+const io = require('socket.io')(server)
+
+io.on('connection', socket => {
+    console.log('user is connected');
+
+    socket.join('home')
+
+    socket.on('device_connect', sn => {
+        socket.broadcast.to('home').emit('device_connect', sn)
+    })
+    socket.on('device_disconnect', sn => {
+        socket.broadcast.to('home').emit('device_disconnect', sn)
+    })
+})
+
+    const ioClient = require('socket.io-client')
+
+    const socketClient = ioClient('http://pi.local:3000')
+    socketClient.on('connect', () => {
+        console.log('house is connected');
+    })
+
+// get a list of devices from database
+dataModule.getDevices().then(devices => {
+    // connection to iot devices
+    const radio = new Radio()
+
+    radio.setReadingPipe('0xABCDABCD71')
+    radio.begin()
+    radio.read((data) => {
+        console.log(data);
+        const sn = data.substr(0, data.indexOf('-'))
+
+        console.log(sn);
+        const device = devices.find(device => device.number === sn)
+        if (device) {
+            // get the message and replace the empty hexa field with nothing
+            const message = data.substr(data.indexOf('-') + 1, data.length).replace(/\x00/gi, '')
+            if (message === 'hi') {
+                dataModule.setDeviceConnection(sn, true).then(() => {
+                    socketClient.emit('device_connect', sn)
+                }).catch(error => {
+                    console.log(error);
+                })
+            }
+        }
+    })
+
+    // radio.send('hi', 10, '0x744d52687C').then(() => {
+    //     console.log('sent');
+    // })
+
+
+    setInterval(() => {
+        recursiveSend(0)
+    }, 4 * 1000)
+
+
+    function recursiveSend(i){
+        if(i < devices.length){
+           const newPromise = checkConnected(devices[i]) 
+           i++
+           newPromise.then(() => {
+            recursiveSend(i)
+           }).catch(() => {
+            recursiveSend(i)
+           })
+        }
+    }
+
+    function checkConnected(device) {
+        return new Promise((resolve, reject) => {
+            radio.send('hi', 10, device.number).then(() => {
+                if(device.connected){
+                    resolve()
+                } else {
+                    dataModule.setDeviceConnection(device.number, true).then(() => {
+                        device.connected = true
+                        socketClient.emit('device_connect', device.number)
+                        resolve()
+                    }).catch(() => {
+                        reject()
+                    })
+                }
+            
+        }).catch(() => {
+            if(device.connected){
+                dataModule.setDeviceConnection(device.number, false).then(() => {
+                    device.connected = false
+                    socketClient.emit('device_disconnect', device.number)
+                    reject()
+                }).catch(() => {
+                    reject()
+                })
+            } else {
+                reject()
+            }
+            
+        })
+        })
+    }
+
+})

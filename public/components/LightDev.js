@@ -3,7 +3,7 @@
 //------------------------------------------------------------//
 import React, { useEffect, useState } from 'react'
 import {connect} from 'react-redux'
-import { Link, useParams } from 'react-router-dom';
+import {Link, useParams } from 'react-router-dom';
 import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 
 // importing the action
@@ -21,7 +21,7 @@ import CustomModal from './CustomModal'
 const Light = (props) =>{
 
   const params = useParams()
-console.log(params);
+// console.log(params);
   //===================== Set the initial state ======================//
 
   let intialState = {
@@ -37,7 +37,7 @@ console.log(params);
       confirmModalShow: false,
       confirmModalElement: null,
       confirmModalPayLoad: null
-    },
+    }
 
 
   }
@@ -51,7 +51,7 @@ console.log(params);
   }
 
   //Check if rooms inside props are loading or not to use the redux method
-  console.log('first load rooms', props.rooms);
+  // console.log('first load rooms', props.rooms);
   if(props.rooms.length > 0) {
       const lightElement = props.lightDevices.map(device =>{
         return(
@@ -161,7 +161,7 @@ console.log(params);
         
         room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
         rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-        console.log('rooms after change', device.data);
+        // console.log('rooms after change', device.data);
         props.setRoomsAction(rooms)
        })
  
