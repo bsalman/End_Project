@@ -113,13 +113,15 @@ export const allRoomsPost = () => {
 }
 //===========================================//
 
-export const addDevicePost =(deviceName,type,deviceSn,roomId)=>{
+export const addDevicePost =(deviceName,type,deviceSn,roomId,imgUrl)=>{
     return new Promise((resolve,reject)=>{
+      
         const deviceObj={
             deviceName:deviceName,
             deviceSn:deviceSn,
             type:type,
-            roomId:roomId
+            roomId:roomId,
+            imgUrl:imgUrl
         }
         //console.log(deviceObj);
         fetch('/rooms/adddevices',{

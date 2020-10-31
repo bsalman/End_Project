@@ -263,14 +263,14 @@ function getRoom(roomId) {
     })
 }
 //============================================//
-function addDevice(deviceName,deviceNumber,category, roomId) {
+function addDevice(deviceName,deviceNumber,category, roomId,imgUrl) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
             // console.log('resules',results);
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name,number,category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then( result => {
+                runQuery(`INSERT INTO devices(name,number,category, room_id,img_url) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}','${imgUrl}')`).then( result => {
                     resolve(result)
                 }).catch(error => {
                     console.log(error);

@@ -44,8 +44,8 @@ const initialStat={
     const LightElement=rooms2.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
         const devices = room.devices.filter(device=>device.category ==='Light').map(device => {
             return(
-                   <div key={device.id} className=" d-flex flex-row justify-content-start" >
-                       <h6 className="ml-auto">{device.name}</h6>
+                   <div key={device.id} className=" d-flex flex-row justify-content-start mb-3" >
+                       <h6 className="ml-4">{device.name}</h6>
                             
                         <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
                             <Input type="checkbox" id={'switch-light-' + device.id} checked={device.data === 'on' }/> 

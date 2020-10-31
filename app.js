@@ -115,15 +115,18 @@ app.post('/rooms/adddevices', (req, res) => {
     const categoryId = req.body.type
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
+    const imgUrl=req.body.imgUrl
     if (deviceName && categoryId && deviceSn) {
-        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId).then(device => {
+        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId,imgUrl).then(device => {
 
             let deviceObj = {
                 id: device.insertId,
                 name: deviceName,
                 number: deviceSn,
                 category: categoryId, 
-                room_id: roomId
+                room_id: roomId,
+                img_url:imgUrl
+
             }
 
             res.json(deviceObj)

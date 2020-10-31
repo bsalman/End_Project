@@ -120,6 +120,10 @@
 
 }
 
+/* ================ disabled==================== */
+input[type=text]:disabled {
+  background: #4b5358;
+}
     /* ====================color-change animation========================= */
     .color-change-2x {
       -webkit-animation: color-change-2x 2s linear infinite alternate both;
@@ -230,6 +234,10 @@
      .securityActive{
        background-color: red;
      }
+     /* ================================== */
+     /* .sidebar-offcanvas.mini {
+      width: 88px !important;
+  } */
 
     /* ========================= animation======================== */
     /* @-webkit-keyframes color-change-2x {
