@@ -63,10 +63,7 @@ let intialState = {
         {/* <!--  switch START --> */}
         <ListGroup className="list-group borderless">
           <ListGroupItem className="list-group-item align-items-center">
-            <svg className="icon-sprite icon-1x">
-              <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
-              <use xlinkHref="images/icons-sprite.svg#camera"/>
-            </svg>
+            <img src="/images/wave.png"></img>
             <h5>{device.name}</h5>
             <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
               <Input type="checkbox" id="tv-lcd-2"/>  {/* checked */}

@@ -1,9 +1,11 @@
 
-import React,{ useState } from 'react'
-import {connect} from 'react-redux'
-import {Label, Input,Collapse, Button, CardBody, Card } from 'reactstrap';
+import React,{ useState } from 'react';
+import {connect} from 'react-redux';
+import {Label, Input } from 'reactstrap';
 
-import {setRoomsAction} from '../actions'
+import {setRoomsAction} from '../actions';
+
+import {editDataPost} from '../services/api';
 
 const DashboardLights = (props)=>{
 //=======================================================//
@@ -32,11 +34,14 @@ const initialStat={
        let room = rooms.find(room => room.id == roomid)
        let device = room.devices.find(device => device.id == deviceid)
        device.data = device.data == 'on' ? 'off' : 'on'
-       room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
-       rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-       console.log('rooms after change', rooms);
-       props.setRoomsAction(rooms)
-   
+       editDataPost(deviceid,device.data).then(data1 => {
+        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+        console.log('rooms after change', rooms);
+        props.setRoomsAction(rooms)
+       })
+       
+
    
      }
  //===============================================//
@@ -66,7 +71,7 @@ const initialStat={
                    data-placement="top" 
                    title="show all lights in this room"
                    id={room.id}>
-                       <i class="far fa-eye"></i>
+                       <i class={`${room.selected=='off'?"far fa-eye":"far fa-eye-slash"}`}></i>
                    </button>
                 </div>
                 <div  className={` col ${room.selected=='off'?"d-none":"d-block"}`} >

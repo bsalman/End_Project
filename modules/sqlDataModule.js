@@ -176,7 +176,7 @@ function getAllRooms(){
                                 break;
                             case 'Light':
                             case 'Appliance':
-                                data = device.data ? 'on' : 'off'
+                                data = device.data=='on' ? 'on' : 'off'
                                 break;
                         
                             default:
@@ -220,7 +220,8 @@ function getRoom(roomId) {
                         id: results[0][0].id,
                         name: results[0][0].name,
                         type: results[0][0].type,
-                        devices:[]
+                        devices:[],
+                        
                     }
                     rooms.push(roomObj);
                 // console.log(roomObj);
@@ -423,6 +424,65 @@ function deleteDevice(deviceId,roomId) {
     })
 
 }
+//========================================//
+//=========================================================//
+
+function editData(deviceId,data){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        runQuery(`UPDATE devices SET data = '${data}' WHERE id = ${deviceId}`).then(() => {
+            runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`).then((device=>{
+                if(device[0]){
+                    resolve(device[0])
+                }else{
+                    reject(3)
+                }     
+                }
+            )).catch((error)=>{
+                console.log(error);
+                reject(error)
+               })
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+    })
+
+}
+//=================================================//
+
+function getDevices(){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM devices`).then((device=>{
+            if(device){
+                resolve(device)
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+function setDeviceConnection(sn, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
+            resolve(result)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
 
 //=================================================//
 
@@ -438,5 +498,8 @@ module.exports = {
     deleteRoom,
     editRoom,
     editDevice,
-    deleteDevice
+    deleteDevice,
+    editData,
+    getDevices,
+    setDeviceConnection
 }

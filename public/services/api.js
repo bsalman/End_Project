@@ -204,6 +204,7 @@ export const editRoomPost = (newRoomName, newRoomType, roomId) => {
 
 
 }
+//==============================================================//
 export const getRoomPost = (roomId) => {
     return new Promise((resolve, reject) => {
         const data = {
@@ -284,4 +285,66 @@ export const deleteDevicePost=(deviceId,roomId)=>{
             reject(error)
         })
     })
+}
+//================================================//
+
+export const editDataPost =(deviceId,data)=>{
+    return new Promise((resolve, reject) =>{
+        const dataObj={
+            deviceId:deviceId,
+            data:data
+        }
+        fetch('/editdata', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataObj)
+        }).then(response=>{
+            console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    // console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+}
+
+
+export const getDevicesPost = (roomId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            roomId: roomId
+        }
+        fetch("/getdevices", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
 }

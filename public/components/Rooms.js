@@ -283,8 +283,7 @@ const onAddRoomClick = e => {
         newState.deviceModalShow = false
         setState(newState)
     }else{
-      
-                  
+         
       let imgUrl="";
       switch (state.applianceType) {
         case "Washing-machine":
@@ -294,17 +293,24 @@ const onAddRoomClick = e => {
             imgUrl="/images/fridge1.png";
             break;
             case "Dishwasher":
-              imgUrl="/images/dishwasher.png";
+              imgUrl="/images/dishwasher1.png";
               break;
               case "Stereo":
                 imgUrl="/images/stereo.png";
+                
                 break;
                 case "Tv":
                   imgUrl="/images/tv.png";
                   break;
+                  case "Microwave":
+                  imgUrl="/images/microwave.png";
+                  break;
+                  case "Other":
+                    imgUrl="/images/other.png";
+                    break;
       
         default:
-          imgUrl="/images/others.png";
+         
           break;
       }
 
@@ -327,6 +333,7 @@ const onAddRoomClick = e => {
                       });
             props.setRoomsAction(newRooms) //2 is the secondType that  means we are just adding a new device.
             setState(newState)
+            console.log(props.rooms);
         }).catch(error=> {
             console.log(error);
         })
@@ -695,14 +702,15 @@ const onEditRoomClick = (e) => {
                   })
                 }}
                 
-                  value={state.ApplianceType}>
+                  value={state.applianceType}>
                   <option></option>
                   <option>Washing-machine</option>
                   <option>Fridge</option>
                   <option>Dishwasher</option>
                   <option>Stereo</option>
                   <option>Tv</option>
-                  <option>Others</option>
+                  <option>Microwave</option>
+                  <option>Other</option>
                 </Input>
               </div>
             </FormGroup>

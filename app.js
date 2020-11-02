@@ -118,7 +118,6 @@ app.post('/rooms/adddevices', (req, res) => {
     const imgUrl=req.body.imgUrl
     if (deviceName && categoryId && deviceSn) {
         dataModule.addDevice(deviceName,deviceSn,categoryId,roomId,imgUrl).then(device => {
-
             let deviceObj = {
                 id: device.insertId,
                 name: deviceName,
@@ -126,9 +125,7 @@ app.post('/rooms/adddevices', (req, res) => {
                 category: categoryId, 
                 room_id: roomId,
                 img_url:imgUrl
-
             }
-
             res.json(deviceObj)
 
         }).catch(error => {
@@ -259,6 +256,32 @@ app.post('/deleteDevice', (req, res) => {
         res.json(2)
     }
 })
+//==================================================//
+app.post('/editdata', (req, res) => {
+    console.log(req.body)
+    const deviceId = req.body.deviceId;
+    const data = req.body.data
+    if (deviceId && data) {
+        dataModule.editData(deviceId, data).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            res.json(3)
+        })
+    } else {
+        res.json(2)
+    }
+});
+
+app.post('/getdevices', (req, res) => {
+    dataModule.getDevices(req.body.roomId).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
