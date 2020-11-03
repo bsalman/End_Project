@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
 import {
   Col,
@@ -8,6 +8,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
+import {editDataPost} from '../services/api'
 //==============================================//
 import {connect} from 'react-redux'
 // importing the action
@@ -24,6 +25,7 @@ const LightSetting = (props) => {
   const deviceId=params.id
   const deviceName=params.deviceName
   const roomId =params.roomId
+  console.log(deviceId);
   
   const initialState = {
     errorModal: {
@@ -39,30 +41,42 @@ const LightSetting = (props) => {
     checked : false
   }
 //=======================================//
-  const [state,
-    setState] = useState(initialState)
+  const [state,setState] = useState(initialState)
 //==========================================//
   let room ={
     roomType: '',
-    devicesArr:""
+    devicesArr:[]
   }
+  let device=''
 //==============================================//
 
   if (props.rooms.length > 0) {
    
     const rooms=props.rooms
-   
     const selectedRoom= rooms.find(room=>room.id==roomId)
     const devices= selectedRoom.devices
-  
-    room.roomType=selectedRoom.type
-    const selectedDevice=devices.find(device=> device.id=== deviceId)
-    room.devicesArr=devices
-    // console.log(selectedDevice);
-   
+    room.roomType=selectedRoom.type;
+    room.devicesArr=devices;
+    device=devices.find(device=>device.id== deviceId)
   }
+  //==========================================//
+  const turnOnOff=(e,deviceId,roomId)=> {
+    e.preventDefault()
+   
+     setState({...state,checked:!state.checked})
+     device.data = device.data == 'on' ? 'off' : 'on'
+     console.log(device.data);
 
-  //=======================================//
+     editDataPost(deviceId,device.data).then(data1 => {
+    console.log(data1);
+     })
+    
+    
+    
+    
+  }
+   
+   //=======================================//
   // const setTimeTurnOffOnLight=(e)=>{
   //   if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
   //     const errorsElement = (
@@ -82,12 +96,6 @@ const LightSetting = (props) => {
   //   }
     
   // }
-  //==========================================//
-  const turnOnOff=(e)=> {
-    e.preventDefault()
-    setState({...state,
-      checked: !state.checked})
-  }
 
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
@@ -175,8 +183,8 @@ const LightSetting = (props) => {
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-							<Input type="checkbox" id="switch-house-lock"/>
+              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
+							<Input type="checkbox" id={deviceId}/>
 						</Label>
             &nbsp;
                 

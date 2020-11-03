@@ -5,6 +5,7 @@ import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
+import {setRoomsAction} from '../actions'
 // import {setRoomsAction} from '../actions'
 
 
@@ -110,7 +111,7 @@ const setStateToProps = (state) => {
 		return ({rooms: state.rooms})
 		  }
 
-export default connect(setStateToProps,{})(Dashboard)
+export default connect(setStateToProps,{setRoomsAction})(Dashboard)
 
 
 

@@ -297,7 +297,6 @@ const onAddRoomClick = e => {
               break;
               case "Stereo":
                 imgUrl="/images/stereo.png";
-                
                 break;
                 case "Tv":
                   imgUrl="/images/tv.png";
@@ -308,9 +307,7 @@ const onAddRoomClick = e => {
                   case "Other":
                     imgUrl="/images/other.png";
                     break;
-      
         default:
-         
           break;
       }
 
@@ -592,6 +589,7 @@ const onEditRoomClick = (e) => {
                   className="form-control custom-focus"
                   type="text"
                   id="room_name"
+                  maxLength="10"
                   onChange={e => {
                   setState({
                     ...state,newRoomName: e.target.value
@@ -653,6 +651,7 @@ const onEditRoomClick = (e) => {
                   className="form-control custom-focus"
                   type="text"
                   id="device_name"
+                  maxLength="10"
                   onChange={e => {
                   setState({
                     ...state,
@@ -722,6 +721,7 @@ const onEditRoomClick = (e) => {
                   className="form-control custom-focus"
                   type="text"
                   id="device_seralNum"
+                  maxLength="50"
                   onChange={e => {
                   setState({
                     ...state,

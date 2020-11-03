@@ -235,9 +235,9 @@ input[type=text]:disabled {
        background-color: red;
      }
      /* ================================== */
-     /* .sidebar-offcanvas.mini {
-      width: 88px !important;
-  } */
+      /* .sidebar-offcanvas.mini {
+      width: 80px !important;
+  }  */
 
     /* ========================= animation======================== */
     /* @-webkit-keyframes color-change-2x {

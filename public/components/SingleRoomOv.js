@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {useParams} from 'react-router-dom'
+import {Link,useParams} from 'react-router-dom'
+import {Button} from 'reactstrap';
 
 
 //=====================================//
@@ -60,9 +61,10 @@ const params = useParams()
 	        <div className="row">
 		        <div className="col-sm-12">
 			      <div className="card p-2 mb-4" >
+            
              	   {/* <h5 className="mx-auto">
                    {rooms.type}: {rooms.name}</h5> */}
-                   <h5 className="mx-auto">{roomInfo.roomType} : {roomInfo.roomName}</h5>
+                   <h5 className="mx-auto" id="compTitle">{roomInfo.roomType} : {roomInfo.roomName}</h5>
                     {/* {titleElement}  */}
 		  	      </div>
 		       </div>
@@ -127,6 +129,35 @@ const params = useParams()
               </div>
 		       </div>
 	         </div>
+           <div className="row">
+           <div className="col-sm-12">
+           
+              
+
+                <Link to="/rooms">
+                    <Button
+                      type="button "
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                       data-placement="right"
+                        title="go Back">
+                        BACK
+                    </Button>
+                       </Link>
+                <a href="#compTitle">
+                    <Button
+                      type="button "
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                       data-placement="right"
+                        title="go Up">
+                        <i className="fas fa-arrow-circle-up"></i>
+                    </Button>
+                 </a>
+           
+           
+           </div>
+           </div>
         </React.Fragment>
     )
  

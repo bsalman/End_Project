@@ -37,7 +37,7 @@ class TopNav extends React.Component {
           <div className="ml-auto">
             <div className="navbar-nav flex-row navbar-icons">
               <div className="nav-item">
-                <button
+                {/* <button
                   id="alerts-toggler"
                   className="btn btn-link nav-link"
                   title="Alerts"
@@ -49,7 +49,7 @@ class TopNav extends React.Component {
                     <use xlinkHref="images/icons-sprite.svg#alert"/>
                     <svg className="text-danger"><use className="icon-dot" xlinkHref="images/icons-sprite.svg#icon-dot"/></svg>
                   </svg>
-                </button>
+                </button> */}
               </div>
               <div id="user-menu" className="nav-item dropdown">
                 <button
@@ -62,8 +62,6 @@ class TopNav extends React.Component {
                   <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#user"/></svg>
                 </button>
                 <div className="dropdown-menu dropdown-menu-right">
-                  <Link className="dropdown-item" to="profile.html">Profile</Link>
-                  <div className="dropdown-divider"></div>
                   <Link className="dropdown-item" to="login.html">Logout</Link>
                 </div>
               </div>

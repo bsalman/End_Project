@@ -71,7 +71,7 @@ const initialStat={
                    data-placement="top" 
                    title="show all lights in this room"
                    id={room.id}>
-                       <i class={`${room.selected=='off'?"far fa-eye":"far fa-eye-slash"}`}></i>
+                       <i className={`${room.selected=='off'?"far fa-eye":"far fa-eye-slash"}`}></i>
                    </button>
                 </div>
                 <div  className={` col ${room.selected=='off'?"d-none":"d-block"}`} >
