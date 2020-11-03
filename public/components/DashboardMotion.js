@@ -9,7 +9,7 @@ const DashboardMotion = (props)=>{
         return(
             <div  key={room.id} className="card">
                 <div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
-                    <h5>{room.type}</h5>
+                    <h5><img src="/images/motion.png"></img> {room.type}</h5>
                     <h6 className="ml-auto status">No motion</h6>
                 </div>
             </div>

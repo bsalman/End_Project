@@ -58,11 +58,11 @@ const Light = (props) =>{
           <div key={device.id} className="card active" data-unit="switch-light-1">
           {/* Show the name of the device */}
             <div className="card-body d-flex flex-row justify-content-start">
-              <svg className="icon-sprite">
+              {/* <svg className="icon-sprite">
                 <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
                 <use xlinkHref="images/icons-sprite.svg#bulb-eco"/>
-              </svg>
-             <h5>{device.name}</h5>
+              </svg> */}
+             <h5><img src="/images/light.png"></img> {device.name}</h5>
               <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} 
                onClick={(e) => {turnOnOff(e, device.id, device.room_id)}}>
                 <Input type="checkbox" 
@@ -140,17 +140,7 @@ const Light = (props) =>{
     const turnOnOff=(e, deviceid, roomid)=> {
 
       e.preventDefault()
-      // editDataPost(deviceid,state.lightData).then(data1 => {
-      // console.log(data1);
-      //        // send data to be saved on database (light data / on / off) and make the light on or off
-      //   // if server side reply with success
-        
-
-   
-        //       setState(
-        //   {...state,lightData:device.data}
-        
-        //  )
+      
         const rooms = [...props.rooms]
         let room = rooms.find(room => room.id == roomid)
         let device = room.devices.find(device => device.id == deviceid)
@@ -162,6 +152,7 @@ const Light = (props) =>{
         room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
         rooms[rooms.map(room => room.id).indexOf(roomid)] = room
         // console.log('rooms after change', device.data);
+        props.socket.emit('light_status', {status: device.data, sn: device.number})
         props.setRoomsAction(rooms)
        })
  
@@ -308,7 +299,8 @@ const Light = (props) =>{
 const setStateToProps = (state) => {
   return ({
     
-      rooms: state.rooms
+      rooms: state.rooms,
+      socket: state.socket
   })
 }
 

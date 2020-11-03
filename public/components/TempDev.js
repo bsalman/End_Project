@@ -58,9 +58,7 @@ const Temperature = (props) => {
             {/* Show the name of the device */}
             <ListGroup className="list-group borderless">
               <ListGroupItem className="list-group-item align-items-center">
-                <svg className="icon-sprite icon-1x">
-                  <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
-                </svg>
+              <img src="/images/temperature.png"></img>
                 <h5>{device.name}</h5>
               </ListGroupItem>
             </ListGroup>

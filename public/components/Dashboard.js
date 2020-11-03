@@ -1,19 +1,31 @@
-import React from 'react'
+import React,{ useState, useEffect } from 'react'
 import {connect} from 'react-redux'
 //=====================================//
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
-// import {setRoomsAction} from '../actions'
+import DashboardAppliances from './DashboardAppliances'
+
 
 
 
 const Dashboard =(props)=> {
 		
+	
+	//=================================//	
+	let initialState={
+		security:false,
 		
-		
+	}
+	const [state,setState] = useState(initialState)
+	//=========================================//
+	const securityActivate=(e)=>{
+		e.preventDefault()
+		setState({...state,
+			security: !state.security})
+	}
 			if(props.rooms.length>0){
-				console.log("redux",props.rooms);
+				
 			}
 		return(
 			
@@ -29,20 +41,16 @@ const Dashboard =(props)=> {
 					<div className="row">
 						{/* security system start  */}
 					<div className="col-sm-12 col-md-6">
-							<div className="card " data-unit="switch-house-lock">
-								<div className="card-body">
+							<div className=  {`card lock ${state.security==true?" active":""}`} data-unit="switch-house-lock">
+								<div className="card-body " >
 									<div className="d-flex flex-wrap mb-2">
-										<svg className="icon-sprite icon-2x">
-											<use xlinkHref="images/icons-sprite.svg#home"/>
-											<use className="subicon-unlocked" xlinkHref="images/icons-sprite.svg#subicon-unlocked"/>
-											<use className="subicon-locked" xlinkHref="images/icons-sprite.svg#subicon-locked"/>
-											</svg>
+										<img src={`${state.security==true?"../images/home-lock.png":"../images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
 											<h4>Security system</h4>
-											<p className="status"><span className="arm"></span></p>
+											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
-										<label className="switch ml-auto">
-											<input type="checkbox" id="switch-house-lock"/>
+										<label className={`switch ml-auto ${state.security==true?"checked":""}`}>
+											<input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
 										</label>
 									</div>
 								</div>
@@ -54,10 +62,7 @@ const Dashboard =(props)=> {
 							<div className="card" data-unit="garage-doors-1">
 								<div className="card-body">
 									<div className="d-flex flex-wrap mb-2">
-										<svg className="icon-sprite icon-1x">
-											<use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
-											<use xlinkHref="images/icons-sprite.svg#garage"/>
-										</svg>
+										<img src="../images/garage.png" style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
 											<h5>Garage doors</h5>
 											<p className="status text-danger">Close</p>
@@ -91,7 +96,11 @@ const Dashboard =(props)=> {
 						{/* Motion system start  */}
 						<DashboardMotion parameter={props.rooms}/>
 						{/* Motion system end  */}	
+					
 					</div>	
+					<div className="row">
+					<DashboardAppliances parameter={props.rooms}/>
+					</div>
 				</React.Fragment>
 			)
 		

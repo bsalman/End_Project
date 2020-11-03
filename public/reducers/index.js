@@ -19,6 +19,15 @@ const loggedinReducer = (loggedin = null, action) => {
     return loggedin
 }
 
+const socketReducer = (socket = null, action) => {
+    if (action.type === 'SET_SOCKET') {
+        return action.payload
+    }
+
+
+    return socket
+}
+
 const roomsReducer = (rooms = [], action) => {
 
     if (action.type === 'SET_ROOMS') {
@@ -80,5 +89,6 @@ const roomsReducer = (rooms = [], action) => {
 export default combineReducers({
     user: userReducer,
     loggedin: loggedinReducer,
-    rooms: roomsReducer
+    rooms: roomsReducer,
+    socket: socketReducer
 })

@@ -85,6 +85,7 @@ editDataPost(deviceid,device.data).then(data1 => {
                 <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
                 <use xlinkHref="images/icons-sprite.svg#camera"/>
               </svg> */}
+              <img src="/images/motion.png"></img>
               <h5>{device.name}</h5>
               <Label className={`switch ml-auto ${device.data === true ? 'checked' : false }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
                 <Input type="checkbox" id={'tv-lcd-' + device.id} defaultChecked={device.data === true }/>  {/* checked */}

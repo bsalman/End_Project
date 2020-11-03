@@ -79,7 +79,7 @@ const roomElement = props.rooms.map(room => {
       return (
         <li ref={deviceLiRef} key={device.id} className="list-group-item">
           <p className="specs">{device.name}</p>
-          <p className="ml-auto mb-0 text-success">connected</p>
+      <p className="ml-auto mb-0 text-success">{device.connected ? 'connected' : 'disconnected'}</p>
         </li>
       )
     })

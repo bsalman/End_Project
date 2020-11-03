@@ -303,10 +303,10 @@ app.post('/editdata', (req, res) => {
     const data = req.body.data
     if (deviceId && data) {
         dataModule.editData(deviceId, data).then((device) => {
-            console.log(device);
+            //console.log(device);
             res.json(device)
         }).catch(error => {
-            console.log(error);
+            //console.log(error);
             res.json(3)
         })
     } else {
@@ -338,12 +338,15 @@ io.on('connection', socket => {
     console.log('user is connected');
 
     socket.join('home')
-
+//socket listeneer
     socket.on('device_connect', sn => {
         socket.broadcast.to('home').emit('device_connect', sn)
     })
     socket.on('device_disconnect', sn => {
         socket.broadcast.to('home').emit('device_disconnect', sn)
+    })
+    socket.on('light_status' , data => {
+        socket.broadcast.to('home').emit('light_status', data)
     })
 })
 
@@ -353,6 +356,8 @@ io.on('connection', socket => {
     socketClient.on('connect', () => {
         console.log('house is connected');
     })
+
+    
 
 // get a list of devices from database
 dataModule.getDevices().then(devices => {
@@ -365,16 +370,29 @@ dataModule.getDevices().then(devices => {
         console.log(data);
         const sn = data.substr(0, data.indexOf('-'))
 
-        console.log(sn);
+        //console.log(sn);
         const device = devices.find(device => device.number === sn)
         if (device) {
+            devices[devices.map(device => device.id).indexOf(device.id)].connected = true
             // get the message and replace the empty hexa field with nothing
             const message = data.substr(data.indexOf('-') + 1, data.length).replace(/\x00/gi, '')
             if (message === 'hi') {
                 dataModule.setDeviceConnection(sn, true).then(() => {
                     socketClient.emit('device_connect', sn)
+                    if (device.category === 'Light'){
+                        // if(device.data === 'on'){
+                            
+                        // }
+                        radio.send('data-' + device.data, 10, device.number).then(() => {
+                            console.log('setting has been sent');
+                        }).catch(error => {
+                            console.log('setting has not been sent');
+
+                        })
+                    
+                    }
                 }).catch(error => {
-                    console.log(error);
+                    //console.log(error);
                 })
             }
         }
@@ -384,35 +402,47 @@ dataModule.getDevices().then(devices => {
     //     console.log('sent');
     // })
 
+    socketClient.on('light_status' , data => {
+        //socket.broadcast.to('home').emit('light_status', data)
+        const device = devices.find(device => device.number === data.sn)
+        devices[devices.map(device => device.id).indexOf(device.id)].data = data.status
+        radio.send('data-' + data.status, 10, device.number).then(() => {
+            console.log('setting has been sent');
+        }).catch(error => {
+            console.log('setting has not been sent');
 
+        })
+    })
     setInterval(() => {
         recursiveSend(0)
-    }, 4 * 1000)
+    }, 10 * 1000)
 
 
     function recursiveSend(i){
         if(i < devices.length){
-           const newPromise = checkConnected(devices[i]) 
-           i++
-           newPromise.then(() => {
-            recursiveSend(i)
+           
+           checkConnected(devices[i]).then(() => {
+            recursiveSend(i+1)
            }).catch(() => {
-            recursiveSend(i)
+            recursiveSend(i+1)
            })
         }
     }
 
     function checkConnected(device) {
+        //console.log(device);
         return new Promise((resolve, reject) => {
             radio.send('hi', 10, device.number).then(() => {
                 if(device.connected){
                     resolve()
                 } else {
                     dataModule.setDeviceConnection(device.number, true).then(() => {
-                        device.connected = true
+                        devices[devices.map(device => device.id).indexOf(device.id)].connected = true
+                        //device.connected = true
                         socketClient.emit('device_connect', device.number)
                         resolve()
-                    }).catch(() => {
+                    }).catch(error => {
+                        console.log(error);
                         reject()
                     })
                 }
@@ -420,10 +450,12 @@ dataModule.getDevices().then(devices => {
         }).catch(() => {
             if(device.connected){
                 dataModule.setDeviceConnection(device.number, false).then(() => {
-                    device.connected = false
+                    devices[devices.map(device => device.id).indexOf(device.id)].connected = false
+                    //device.connected = false
                     socketClient.emit('device_disconnect', device.number)
                     reject()
-                }).catch(() => {
+                }).catch(error => {
+                    console.log(error);
                     reject()
                 })
             } else {
@@ -434,4 +466,6 @@ dataModule.getDevices().then(devices => {
         })
     }
 
+}).catch(error => {
+    console.log(error);
 })

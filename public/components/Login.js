@@ -87,7 +87,7 @@ const Login = (props) => {
               //show admin panel
               props.setUserAction(myState.username)
               props.setLoggedInAction(data)
-              history.push('/dashboard')
+              history.push('/')
               //console.log('should be login');
               break;
           
