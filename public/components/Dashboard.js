@@ -24,9 +24,12 @@ const Dashboard =(props)=> {
 		setState({...state,
 			security: !state.security})
 	}
+	
 			if(props.rooms.length>0){
-				
+
 			}
+				
+			
 		return(
 			
 				<React.Fragment>
@@ -106,7 +109,7 @@ const Dashboard =(props)=> {
 		
 		}
 		
-		
+	
 const setStateToProps = (state) => {
 		return ({rooms: state.rooms})
 		  }

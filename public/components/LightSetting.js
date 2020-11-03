@@ -25,7 +25,7 @@ const LightSetting = (props) => {
   const deviceId=params.id
   const deviceName=params.deviceName
   const roomId =params.roomId
-  console.log(deviceId);
+  
   
   const initialState = {
     errorModal: {

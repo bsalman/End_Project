@@ -124,7 +124,7 @@ app.post('/rooms/adddevices', (req, res) => {
                 number: deviceSn,
                 category: categoryId, 
                 room_id: roomId,
-                img_url:imgUrl
+                imgUrl:imgUrl
             }
             res.json(deviceObj)
 
