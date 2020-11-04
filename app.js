@@ -322,6 +322,25 @@ app.post('/getdevices', (req, res) => {
         res.json(error)
     })
 });
+
+
+
+
+app.post('/addtimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.addTimeMotion(req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId,req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
 //==============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
@@ -395,6 +414,18 @@ dataModule.getDevices().then(devices => {
                     //console.log(error);
                 })
             }
+
+            if(message.indexOf('data') === 0) {
+                if (device.category === 'Motion') {
+                    const stringData = message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '')
+
+                    dataModule.editData(device.id, stringData == '1'? '1' : '').then(() => {
+                        devices[devices.map(device => device.id).indexOf(device.id)].data = (stringData == '1'? '1' : '')
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                }
+            }
         }
     })
 
@@ -415,7 +446,7 @@ dataModule.getDevices().then(devices => {
     })
     setInterval(() => {
         recursiveSend(0)
-    }, 10 * 1000)
+    }, devices.length * 1000)
 
 
     function recursiveSend(i){
@@ -432,7 +463,11 @@ dataModule.getDevices().then(devices => {
     function checkConnected(device) {
         //console.log(device);
         return new Promise((resolve, reject) => {
-            radio.send('hi', 10, device.number).then(() => {
+            if (device.number == '0x744d52683C') {
+                    console.log();
+            }
+            radio.send('hi', 3, device.number).then(() => {
+                
                 if(device.connected){
                     resolve()
                 } else {

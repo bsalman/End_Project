@@ -476,6 +476,8 @@ function getDevices(){
     })
 
 }
+
+//=============================================//
 function setDeviceConnection(sn, status) {
     return new Promise((resolve,reject) => {
         runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
@@ -485,6 +487,37 @@ function setDeviceConnection(sn, status) {
         })
     })
 }
+
+
+//============================================//
+function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`SELECT * FROM device_motion WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId}`).then((results)=>{
+            console.log('resules',results);
+            if(results.length!=0){
+                reject(3)
+            }else{
+                runQuery(`INSERT INTO device_motion(start_time, stop_time, motion_id, device_id,active) VALUES ('${startTime}','${stopTime}',${motionId},${deviceId}, ${active})`).then( result => {
+                    console.log(result);
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
+// addTimeMotion(12,13,132,38,true)
+//=============================================//
 module.exports = {
     checkUser,
     changeUser,
@@ -498,5 +531,6 @@ module.exports = {
     deleteDevice,
     editData,
     getDevices,
-    setDeviceConnection
+    setDeviceConnection,
+    addTimeMotion
 }

@@ -43,10 +43,7 @@ const MotionSettings = (props) => {
         title: '',
         content: null
       },
-      //time on/off
-      startTime: '',
-      stopTime: '',
-      selectedDevice: null,
+      
       motionDevices : [],
 
       showdownTime:"",
@@ -120,13 +117,7 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       className="form-control custom-focus"
                       type="select"
                       name="select"
-                      id="room_type"
-                      onChange={(e) => {
-                        setState({
-                          ...state,
-                          selectedDevice: e.target.value
-                        })
-                      }}>
+                      id="room_type">
                       <option></option>
                       
                       {appliancDevices}
@@ -154,18 +145,15 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
 
   //add new time on + btn click function
   const addNewTimeBoxBtn = (e) => {
-    console.log('state.motionDevices',state.motionDevices);
     e.preventDefault()
-    // addTimeMotionPost(state.startTime,state.stopTime,params.id,state.selectedDevice,1).then(data => {
-    //   console.log('data',data);
-      
-    // }).catch(error => {
-    //   console.log('error',error);
-    // })
-    setState({...state,motionDevices:y})
+    addTimeMotionPost(12,13,152,78,1).then(data => {
+      console.log('data',data);
+    }).catch(error => {
+      console.log('error',error);
+    })
     // console.log('hi');
-    
-    // console.log('state,motionDevices', state.motionDevices);
+    setState({...state,motionDevices:y})
+    console.log('state,motionDevices', state.motionDevices);
   }
 
   const showAddTimeBox = (e) => {
@@ -176,31 +164,29 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
   }
 
   //============== edit serial number function  ========================//
-  const editDataOnClick =(e)=>{
-    e.preventDefault()
-    
-
-//     if (state.serialNumber.trim() === '') {
-//       const errorsElement = (
-//         <ul>
-//           {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
-//         </ul>
-//       )
-//       const newState = {...state}
-//       newState.errorModal.show = true
-//       newState.errorModal.title = "Entries Error"
-//       newState.errorModal.content = errorsElement
-//       // hide addroom modal because we need to show error modal and we can not show
-//       // two modals on the same time
-//       newState.roomModalShow = false
-//       setState(newState)
-    if (state.serialNumber.trim() != ''){
+  const editSerialNumberOnClick =(e)=>{
+   
+    if (state.serialNumber.trim() === '') {
+      const errorsElement = (
+        <ul>
+          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
+        </ul>
+      )
+      const newState = {...state}
+      newState.errorModal.show = true
+      newState.errorModal.title = "Entries Error"
+      newState.errorModal.content = errorsElement
+      // hide addroom modal because we need to show error modal and we can not show
+      // two modals on the same time
+      newState.roomModalShow = false
+      setState(newState)
+    }else{
       editDevicePost(params.id,state.serialNumber).then((device)=>{
        
          const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-// console.log("device", device);
+console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -210,9 +196,10 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
         });
           // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
         props.setRoomsAction(newRooms)
-           setState({...state,serialNumber:""})
+           setState(
+          {...state,serialNumber:""}
         
-         }
+         )}
         
       })
 
@@ -288,12 +275,8 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       type="time"
                       id="device_seralNum"
                       onChange={e => {
-                        setState({
-                          ...state,
-                          startTime: e.target.value
-                        })
-                    }}
-                    value={state.startTime}/>
+                      console.log('hi');
+                    }}/>
                   </div>
 
                   {/* //to */}
@@ -304,14 +287,7 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                     <Input
                       className="form-control custom-focus  ml-4 mb-2 text-primary text-center"
                       type="time"
-                      id="device_seralNum"
-                      onChange={e => {
-                        setState({
-                          ...state,
-                          stopTime: e.target.value
-                        })
-                    }}
-                    value={state.stopTime}/>
+                      id="device_seralNum"/>
                   </div>
 
 
@@ -326,13 +302,7 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       className="form-control custom-focus"
                       type="select"
                       name="select"
-                      id="room_type" 
-                      onChange={(e) => {
-                        setState({
-                          ...state,
-                          selectedDevice: e.target.value
-                        })
-                      }}>
+                      id="room_type">
                       <option></option>
                       {appliancDevices}
                     </Input>
@@ -409,7 +379,7 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                   data-toggle="tooltip"
                   data-placement="right"
                   title="Save changes"
-                  onClick={editDataOnClick}>
+                  onClick={editSerialNumberOnClick}>
                   SAVE
                 </Button>
 
