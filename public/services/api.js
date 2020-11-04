@@ -379,3 +379,35 @@ export const editSelected=(roomId,selected)=>{
     })
 
 }
+//=======================================================//
+export const addTimeMotionPost =(startTime,stopTime,motionId,deviceId,active)=>{
+    return new Promise((resolve,reject)=>{
+        const timeMotionObj={
+            startTime,
+            stopTime,
+            motionId,
+            deviceId,
+            active
+        }
+        //console.log(deviceObj);
+        fetch('/addtimemotion',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeMotionObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}

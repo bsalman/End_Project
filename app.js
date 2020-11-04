@@ -295,6 +295,22 @@ app.post('/editselected',(req,res)=>{
         })
     }
 })
+//===============================================//
+app.post('/addtimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.addTimeMotion(req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId,req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
 //=============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

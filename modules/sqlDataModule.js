@@ -499,6 +499,44 @@ function setDeviceConnection(sn, status) {
         })
     })
 }
+//==================================//
+function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`SELECT * FROM device_motion WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId}`).then((results)=>{
+            console.log('resules',results);
+            if(results.length!=0){
+                runQuery(`UPDATE device_motion SET start_time = '${startTime}' , stop_time = '${stopTime}' ,active = ${active} WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId} `).then( result => {
+                    console.log(result);
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }else{
+                runQuery(`INSERT INTO device_motion(start_time, stop_time, motion_id, device_id,active) VALUES ('${startTime}','${stopTime}',${motionId},${deviceId}, ${active})`).then( result => {
+                    console.log(result);
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
 
 //=================================================//
 
@@ -518,5 +556,6 @@ module.exports = {
     editData,
     getDevices,
     setDeviceConnection,
-    editSelected
+    editSelected,
+    addTimeMotion
 }
