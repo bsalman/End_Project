@@ -319,6 +319,7 @@ export const editDataPost =(deviceId,data)=>{
 }
 
 
+
 export const getDevicesPost = (roomId) => {
     return new Promise((resolve, reject) => {
         const data = {
@@ -346,5 +347,35 @@ export const getDevicesPost = (roomId) => {
         })
     })
 
+
+}
+export const editSelected=(roomId,selected)=>{
+    return new Promise((resolve,reject)=>{
+        const selectObj={
+            roomId:roomId,
+            selected:selected
+        }
+        fetch('/editselected', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectObj)
+        }).then(response=>{
+            console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    // console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
 
 }

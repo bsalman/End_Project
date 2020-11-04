@@ -21,10 +21,10 @@ import {editDevicePost} from '../services/api'
 //==============functionalComponent start==============================//
 const LightSetting = (props) => {
   const params = useParams()
-  const deviceCategory=params.deviceCategory;
+ const deviceCategoryParam =params.deviceCategory;
   const deviceId=params.id
-  const deviceName=params.deviceName
-  const roomId =params.roomId
+const deviceName=params.deviceName
+   const roomId =params.roomId
   
   
   const initialState = {
@@ -43,60 +43,49 @@ const LightSetting = (props) => {
 //=======================================//
   const [state,setState] = useState(initialState)
 //==========================================//
-  let room ={
-    roomType: '',
-    devicesArr:[]
-  }
-  let device=''
+ let room={
+   id:"",
+   name:"",
+   type:"",
+   devices:[]
+ }
+ let device={}
 //==============================================//
 
-  if (props.rooms.length > 0) {
-   
-    const rooms=props.rooms
-    const selectedRoom= rooms.find(room=>room.id==roomId)
-    const devices= selectedRoom.devices
-    room.roomType=selectedRoom.type;
-    room.devicesArr=devices;
-    device=devices.find(device=>device.id== deviceId)
-  }
+if(props.rooms.length>0){
+  console.log("hi",props.rooms);
+  room.id=roomId
+  const rooms=props.rooms
+  const selectedRoom = rooms.find(room=>room.id==roomId)
+  room.name=selectedRoom.name
+  room.type= selectedRoom.type
+  room.devices = selectedRoom.devices
+  device=room.devices.find(device => device.id == deviceId)
+  
+  
+
+  
+  // const devices= selectedRoom.devices
+  // // room.roomType=selectedRoom.type;
+ 
+  // const device=devices.find(device=>device.id== deviceId)
+}
+    
+  
   //==========================================//
   const turnOnOff=(e,deviceId,roomId)=> {
     e.preventDefault()
-   
-     setState({...state,checked:!state.checked})
+    setState({...state,checked:!state.checked})
+    const rooms = [...props.rooms]
+    //  setState({...state,checked:!state.checked})
+    let device = room.devices.find(device => device.id == deviceId)
+    
      device.data = device.data == 'on' ? 'off' : 'on'
-     console.log(device.data);
-
      editDataPost(deviceId,device.data).then(data1 => {
-    console.log(data1);
+      rooms[rooms.map(room => room.id).indexOf(roomId)] = room
+      props.setRoomsAction(rooms)
      })
-    
-    
-    
-    
   }
-   
-   //=======================================//
-  // const setTimeTurnOffOnLight=(e)=>{
-  //   if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
-  //     const errorsElement = (
-  //       <ul>
-  //         {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
-  //         {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
-  //       </ul>
-  //     )
-  //     const newState = {...state}
-  //     newState.errorModal.show = true
-  //     newState.errorModal.title = "Entries Error"
-  //     newState.errorModal.content = errorsElement
-  //     // hide addroom modal because we need to show error modal and we can not show
-  //     // two modals on the same time
-  //     newState.roomModalShow = false
-  //     setState(newState)
-  //   }
-    
-  // }
-
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
@@ -117,7 +106,8 @@ const LightSetting = (props) => {
     }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-         const  devices=props.rooms.find(room=>room.id==device.room_id)
+        //  const  devices=
+        props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
 
@@ -165,7 +155,7 @@ const LightSetting = (props) => {
         <div className="col-sm-12">
           <div className="card p-2 mb-4">
             <div className="card-body d-flex flex-row justify-content-center">
-  <h3 className="card-title">{room.roomType}/{deviceCategory}/{deviceName}</h3>
+  <h3 className="card-title">{room.type}/{deviceCategoryParam}/{deviceName}</h3>
             </div>
           </div>
         </div>
@@ -183,7 +173,7 @@ const LightSetting = (props) => {
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
+              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
 							<Input type="checkbox" id={deviceId}/>
 						</Label>
             &nbsp;
@@ -289,7 +279,8 @@ const LightSetting = (props) => {
                 </FormGroup>
                 <div className="row ">
                 <div className="col">
-                  <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}>
+                  {/* <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}> */}
+                  <Link to={"/room/"+ params.roomId}>
                       <Button
                         type="button "
                        className="btn btn-primary"

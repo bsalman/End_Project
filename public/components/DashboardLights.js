@@ -5,7 +5,7 @@ import {Label, Input } from 'reactstrap';
 
 import {setRoomsAction} from '../actions';
 
-import {editDataPost} from '../services/api';
+import {editDataPost,editSelected} from '../services/api';
 
 const DashboardLights = (props)=>{
 //=======================================================//
@@ -21,8 +21,11 @@ const initialStat={
         const rooms = [...props.rooms]
         let room = rooms.find(room => room.id == roomId)
         room.selected= room.selected == 'on' ? 'off' : 'on'
+        editSelected(roomId,room.selected).then(data=>{
         rooms[rooms.map(room => room.id).indexOf(roomId)] = room
         props.setRoomsAction(rooms)
+        })
+        
     }
    
 //=========================================================//

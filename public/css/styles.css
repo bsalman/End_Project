@@ -144,10 +144,13 @@
 
 }
 
-/* ================ disabled==================== */
-input[type=text]:disabled {
-  background: #4b5358;
+
+#appliance_Type{
+  background-color:#0d0e0f;
 }
+/* ================ disabled==================== */
+input[type=text]:disabled {background:#000000;}
+
     /* ====================color-change animation========================= */
     .color-change-2x {
       -webkit-animation: color-change-2x 2s linear infinite alternate both;

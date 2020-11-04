@@ -425,6 +425,22 @@ function deleteDevice(deviceId,roomId) {
 
 }
 //========================================//
+function editSelected(roomId,selected){
+    return new Promise((resolve,reject)=>{
+        runQuery(`UPDATE rooms SET selected = '${selected}' WHERE id = ${roomId}`).then((room) => {
+           
+                if(room){
+                    resolve(room)
+                }else{
+                    reject(3)
+                }     
+                }).catch((error)=>{
+                console.log(error);
+                reject(error)
+               })
+            })
+    }
+
 //=========================================================//
 
 function editData(deviceId,data){
@@ -501,5 +517,6 @@ module.exports = {
     deleteDevice,
     editData,
     getDevices,
-    setDeviceConnection
+    setDeviceConnection,
+    editSelected
 }

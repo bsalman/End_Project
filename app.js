@@ -283,6 +283,19 @@ app.post('/getdevices', (req, res) => {
     })
 });
 //==============================================================//
+app.post('/editselected',(req,res)=>{
+    const roomId=req.body.roomId;
+    const selected=req.body.selected
+    if(roomId&&selected){
+        dataModule.editSelected(roomId,selected).then((room)=>{
+            res.json(room)
+        }).catch(error => {
+            console.log(error);
+            res.json(3)
+        })
+    }
+})
+//=============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)
