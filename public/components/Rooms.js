@@ -1,5 +1,5 @@
 //------------------------------------------------------------//
-///      IMPORT DEPENDENCIES    ///
+///       IMPORT DEPENDENCIES    ///
 //------------------------------------------------------------//
 import React, {useRef, useState} from 'react'
 import {connect} from 'react-redux'
@@ -23,7 +23,7 @@ import {addDevicePost, deleteRoomPost, editRoomPost} from '../services/api'
 
 
 //------------------------------------------------------------//
-///        CLASS COMPONENT     ///
+///        FUNCTION COMPONENT       ///
 //------------------------------------------------------------//
 
 const Rooms = (props) => {
@@ -56,6 +56,7 @@ const Rooms = (props) => {
     deviceName: '',
     categoryID: '',
     deviceSerialNumType: '',
+    applianceType:'',
     deviceModalShow: false,
 
     // edit data for the room
@@ -282,12 +283,41 @@ const onAddRoomClick = e => {
         newState.deviceModalShow = false
         setState(newState)
     }else{
+         
+      let imgUrl="";
+      switch (state.applianceType) {
+        case "Washing-machine":
+          imgUrl="/images/washing-machine.png";
+          break;
+          case "Fridge":
+            imgUrl="/images/fridge1.png";
+            break;
+            case "Dishwasher":
+              imgUrl="/images/dishwasher1.png";
+              break;
+              case "Stereo":
+                imgUrl="/images/stereo.png";
+                break;
+                case "Tv":
+                  imgUrl="/images/tv.png";
+                  break;
+                  case "Microwave":
+                  imgUrl="/images/microwave.png";
+                  break;
+                  case "Other":
+                    imgUrl="/images/other.png";
+                    break;
+        default:
+          break;
+      }
+
         const newState = {...state}
         newState.deviceName = ''
         newState.categoryID = ''
         newState.deviceSerialNumType = ''
+        newState.applianceType=''
         newState.deviceModalShow = false
-        addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId).then(device => {
+        addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId,imgUrl).then(device => {
             // console.log('device',device);
             // console.log('propsessen3',props.setRoomsAction);
 
@@ -300,6 +330,7 @@ const onAddRoomClick = e => {
                       });
             props.setRoomsAction(newRooms) //2 is the secondType that  means we are just adding a new device.
             setState(newState)
+            console.log(props.rooms);
         }).catch(error=> {
             console.log(error);
         })
@@ -433,11 +464,6 @@ const onAddRoomClick = e => {
 
   //=====================================================//
 
-
-  //================================================//
-
-
-
 const onEditRoomClick = (e) => {
   e.preventDefault()
   // console.log(state);
@@ -558,6 +584,7 @@ const onEditRoomClick = (e) => {
                   className="form-control custom-focus"
                   type="text"
                   id="room_name"
+                  maxLength="10"
                   onChange={e => {
                   setState({
                     ...state,newRoomName: e.target.value
@@ -583,10 +610,11 @@ const onEditRoomClick = (e) => {
                   value={state.newRoomType}>
                   <option></option>
                   <option>Kitchen</option>
-                  <option>Dining room</option>
-                  <option>Living room</option>
-                  <option>Sleep room</option>
-                  <option>Bath room</option>
+                  <option>Dining Room</option>
+                  <option>Living Room</option>
+                  <option>Bedroom</option>
+                  <option>Bathroom</option>
+                  <option>Office</option>
                   <option>Garage</option>
                 </Input>
               </div>
@@ -613,11 +641,12 @@ const onEditRoomClick = (e) => {
           <Form className="p-2">
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
-                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
+                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label>
                 <Input
                   className="form-control custom-focus"
                   type="text"
                   id="device_name"
+                  maxLength="10"
                   onChange={e => {
                   setState({
                     ...state,
@@ -632,7 +661,7 @@ const onEditRoomClick = (e) => {
               <div className="col-12">
                 <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
                 <Input
-                  className="form-control custom-focus"
+                  className="form-control custom-focus app1"
                   type="select"
                   name="select"
                   id="room_type"
@@ -643,7 +672,7 @@ const onEditRoomClick = (e) => {
                   })
                 }}
                   value={state.categoryID}>
-                  <option></option>
+                  <option className="app1"></option> 
                   <option>Light</option>
                   <option>Temperature</option>
                   <option>Motion</option>
@@ -651,14 +680,44 @@ const onEditRoomClick = (e) => {
                 </Input>
               </div>
             </FormGroup>
+            <FormGroup className="form-group row">
+              <div className="col-12">
+                <Label for="appliance_Type" className="col-12 col-form-label modal-font">Appliance Type</Label>
+                <Input
+                //  disabled={`${state.categoryID=="Appliance" ? "" : "disabled"}`}
+                 disabled={`${state.categoryID=="Appliance" ? "" : "disabled"}`}
+                  className="form-control custom-focus"
+                  type="select"
+                  name="select"
+                  id="appliance_Type"
+                 // id="room_type"
+                  onChange={(e) => {
+                  setState({
+                    ...state,
+                    applianceType: e.target.value
+                  })
+                }}
+                  value={state.applianceType}>
+                   <option></option> 
+                  <option>Washing-machine</option>
+                  <option>Fridge</option>
+                  <option>Dishwasher</option>
+                  <option>Stereo</option>
+                  <option>Tv</option>
+                  <option>Microwave</option>
+                  <option>Other</option>
+                </Input>
+              </div>
+            </FormGroup>
 
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
-                <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label >
+                <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label>
                 <Input
                   className="form-control custom-focus"
                   type="text"
                   id="device_seralNum"
+                  maxLength="50"
                   onChange={e => {
                   setState({
                     ...state,
@@ -759,4 +818,3 @@ const setStateToProps = (state) => {
 }
 
 export default connect(setStateToProps, {setRoomsAction})(Rooms)
-

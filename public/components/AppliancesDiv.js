@@ -76,7 +76,7 @@ const [state,setState] = useState(initialState)
         {/* <!-- Light switch START --> */}
         <div className="card-body d-flex flex-row justify-content-start">
          
-          <h5><img src="/images/appliance.png"></img> {device.name}</h5>
+          <h5><img src={device.imgUrl}></img> {device.name}</h5>
           <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
            <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
          </Label>
@@ -97,7 +97,7 @@ const [state,setState] = useState(initialState)
      <div className="card-body">
     <div className="row">
       <div className="col-auto mr-auto">
-        <Link  to={"/appliancesSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
+        <Link to={"/appliancesSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
       <Button
           type="button"
           className="btn btn-primary"
@@ -138,7 +138,7 @@ const deleteBtnClick = (deviceId) => {
   const newState = {...state}
   newState.confirmModal.confirmModalShow= true,
   newState.confirmModal.confirmModalPayLoad= deviceId,
-  newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device gonna be deleted for ever</p>
+  newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing, this device id going to be deleted for ever</p>
   setState(newState)
 }
 
@@ -153,8 +153,8 @@ const deleteConfirm = deviceId => {
       let badgeMessage = ''
       let badgeTitle = ''
     //data success
-    //2 this device id doesnt exist
-    //3 kein devices
+    //2 this device id doesn't exist
+    //3 no devices
     //4 server error
     switch (data) {
       case 10:
@@ -175,7 +175,7 @@ const deleteConfirm = deviceId => {
       case 4:
         // console.log('server error');
         badgeClass = 'alert alert-danger'
-        badgeMessage = 'There was a server side error, please contact the adminstrator'
+        badgeMessage = 'There was a server side error, please contact the administrator'
         badgeTitle = 'Server side error'
         break;
       default:
@@ -187,20 +187,20 @@ const deleteConfirm = deviceId => {
         //props.tempDevices.splice(props.tempDevices.indexOf(props.tempDevices.find(element => element.id === deviceId)),1)
         
         console.log("device", data);
-                    const newRooms = props.rooms.map(room => {
-                      console.log('data.room_id',data[0]);
-                      if(room.id === data[0].room_id){
-                        //room.devices[room.devices.map(data => data.id).indexOf(data.id)] = data
-                      // //     // room.devices.push(device)
-                      console.log('room',room);
-                      room.devices.splice(room.devices.indexOf(room.devices.find(element => element.id === deviceId)),1)
-                      }
+         const newRooms = props.rooms.map(room => {
+          console.log('data.room_id',data[0]);
+          if(room.id === data[0].room_id){
+          //room.devices[room.devices.map(data => data.id).indexOf(data.id)] = data
+          // room.devices.push(device)
+          console.log('room',room);
+          room.devices.splice(room.devices.indexOf(room.devices.find(element => element.id === deviceId)),1)
+            }
                       
                       
-                      return room;
-                  });
-                    // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
-                props.setRoomsAction(newRooms)
+            return room;
+             });
+           // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
+            props.setRoomsAction(newRooms)
                      
         const newState = {...state}
         newState.confirmModal.confirmModalShow = false

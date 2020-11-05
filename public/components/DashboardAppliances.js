@@ -5,7 +5,7 @@ import { Label, Input} from 'reactstrap';
 
 // importing the action
 import {setRoomsAction} from '../actions'
-
+import {editDataPost} from '../services/api'
 //===============================//
 
 const DashboardAppliance = (props) =>{ 
@@ -25,21 +25,16 @@ const DashboardAppliance = (props) =>{
        let room = rooms.find(room => room.id == roomid)
        let device = room.devices.find(device => device.id == deviceid)
        device.data = device.data == 'on' ? 'off' : 'on'
+       editDataPost(deviceid,device.data).then(data1 => {
        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
        console.log('rooms after change', rooms);
-       props.setRoomsAction(rooms)
-   
-   
+       props.setRoomsAction(rooms)})
      }
      //=============================//
-
-
-
  if(props.rooms.length > 0) {
 
  const rooms = props.parameter //* parameter = applianceDevices in the father: dashboard
-    console.log("rooms", props.rooms);
     const applianceElement = rooms.filter(room => room.devices.find(device => device.category ==='Appliance')).map((room)=>{
         const devices = room.devices.filter(device => device.category ==='Appliance').map(device => {
           console.log("device",device);
@@ -47,9 +42,8 @@ const DashboardAppliance = (props) =>{
         <React.Fragment>
         <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
-            <img src={`${device.name==="washing-machine"?'/images/washing-machine.png':''}`}></img>
-            <img src={`${device.name==="tv"?'/images/tv.png':''}`}></img>
-            <img src={`${device.name==="fridge"?'/images/fridge1.png':''}`}></img>
+            <img src={device.imgUrl}></img>
+            &nbsp;&nbsp;
                  <h5>{device.name}</h5>
                  <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
                   <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/>  {/* checked/ */}
@@ -109,4 +103,3 @@ const setStateToProps = (state) => {
 
 
 export default connect(setStateToProps, {setRoomsAction})(DashboardAppliance)
-

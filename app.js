@@ -126,21 +126,21 @@ app.post('/rooms/adddevices', (req, res) => {
     const categoryId = req.body.type
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
+    const imgUrl=req.body.imgUrl
     if (deviceName && categoryId && deviceSn) {
-        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId).then(device => {
-
+        dataModule.addDevice(deviceName,deviceSn,categoryId,roomId,imgUrl).then(device => {
             let deviceObj = {
                 id: device.insertId,
                 name: deviceName,
                 number: deviceSn,
                 category: categoryId, 
-                room_id: roomId
+                room_id: roomId,
+                imgUrl:imgUrl
             }
-console.log(deviceObj);
             res.json(deviceObj)
 
         }).catch(error => {
-            if (error === 3) {
+            if (error ===3) {
                 res.json(3)
             } 
             else {
@@ -152,7 +152,6 @@ console.log(deviceObj);
     }
     
 });
-
 // ============= ALL ROOMS WITH ALL DEVICES  =================//
 
 //==================get all Rooms  ======================//
@@ -278,6 +277,54 @@ app.post('/deletedevice', (req, res) => {
         res.json(2)
     }
 })
+//==================================================//
+app.post('/editdata', (req, res) => {
+    console.log(req.body)
+    const deviceId = req.body.deviceId;
+    const data = req.body.data
+    if (deviceId && data) {
+        dataModule.editData(deviceId, data).then((device) => {
+            console.log(device);
+            res.json(device)
+        }).catch(error => {
+            console.log(error);
+            res.json(3)
+        })
+    } else {
+        res.json(2)
+    }
+});
+
+//===========adding another set input for the real data in motion setting===============================//
+
+app.post('/addtimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.addTimeMotion(req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId,req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+
+//==============================================================//
+
+app.post('/getdevices', (req, res) => {
+    dataModule.getDevices(req.body.roomId).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+
+
 //==============================================================//
 app.use('/',(req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

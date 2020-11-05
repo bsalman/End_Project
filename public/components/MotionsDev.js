@@ -75,7 +75,7 @@ let initialState = {
         {/* <!--  switch START --> */}
         <ListGroup className="list-group borderless">
           <ListGroupItem className="list-group-item align-items-center">
-          <img src="/images/motion.png"></img>  
+          <img src="/images/motion24.png"></img>  
             <h5> {device.name}</h5>
             {/* <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
               <Input type="checkbox" id="tv-lcd-2"/> 
@@ -256,7 +256,7 @@ const deleteConfirm = deviceId => {
       newState.errorModal.show = true
       newState.errorModal.title = badgeTitle
       newState.errorModal.content = badge
-      // hide addroom modal because we need to show error modal and we can not show
+      // hide add room modal because we need to show error modal and we can not show
       // two modals on the same time
       newState.confirmModal.confirmModalShow = false
       setState(newState)

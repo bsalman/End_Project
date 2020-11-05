@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-import {Button} from 'reactstrap';
+
 
 import LandNav from './LandNav'
 
@@ -25,10 +25,9 @@ render(){
                                                     <p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi accusantium fuga cumque libero. Eligendi minima, itaque, odio earum doloribus expedita dolor harum numquam qui a reprehenderit molestiae, rerum quidem?</p>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                <Link to="/login">
-                                                    <Button type="button" className="btn btn-lg btn-primary btn1">Get started</Button>
+                                                    <Link to="/dashboard">
+                                                        <button type="button" className="btn btn-lg btn-primary btn1">Get started</button>
                                                     </Link>
-                                                   
                                                 </div>
                                         </div>
                                         <div className="col houseContainer">
@@ -37,7 +36,7 @@ render(){
                                                     <i className="fas fa-laptop laptop"></i>
                                                     <div className="iconCon light justify-content-center"><i className="fas fa-lightbulb "></i></div>
                                                     <div className="iconCon tv"><i className="fas fa-desktop "></i></div>
-                                                    <div className="iconCon lock"><i className="fab fa-expeditedssl "></i></div>
+                                                    <div className="iconCon lockIcon"><i className="fab fa-expeditedssl "></i></div>
                                                     <div className="iconCon video"><i className="fas fa-video "></i></div>
                                                     <div className="iconCon elk"><i className="fas fa-plug "></i></div>
                                                     <div className="iconCon home"><i className="fas fa-house-user  "></i></div>

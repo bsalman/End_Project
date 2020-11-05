@@ -296,14 +296,18 @@ function getRoom(roomId) {
                     results[1].forEach(device=>{
                         rooms.forEach(room=>{
                             
-                                let deviceObj = {
-                                    id: device.id,
-                                    name: device.name,
-                                    number: device.number,
-                                    category: device.category,
-                                    room_id: room.id
-                                }
-                                room.devices.push(deviceObj)
+                            let deviceObj = {
+                                id: device.id,
+                                name: device.name,
+                                number: device.number,
+                                category: device.category,
+                                room_id: room.id,
+                                connected: device.connected === 1 ? true : false,
+                                data: data,
+                                imgUrl: device.img_url
+                            }
+                            
+                            room.devices.push(deviceObj)
                             
                         })
                         
@@ -361,16 +365,17 @@ function getRoom(roomId) {
 //     })
 // }
 
-//========================================//
-// add devices to the room component 
-function addDevice(deviceName,deviceNumber,category, roomId) {
+
+//=============== add devices to the room component ==================//
+
+function addDevice(deviceName,deviceNumber,category, roomId, imgUrl) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
             // console.log('resules',results);
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name,number,category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then( result => {
+                runQuery(`INSERT INTO devices(name,number,category, room_id,img_url) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}','${imgUrl}')`).then( result => {
                     resolve(result)
                 }).catch(error => {
                     console.log(error);
@@ -388,7 +393,6 @@ function addDevice(deviceName,deviceNumber,category, roomId) {
         
     })
 }
-
 //=========================================================//
 function deleteRoom(roomid) {
     return new Promise((resolve, reject) => {
@@ -641,6 +645,118 @@ function deleteDevice(deviceId,roomId) {
 // deleteDevice(180, 52)
 //=========================================================//
 
+function editData(deviceId,data){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        runQuery(`UPDATE devices SET data = '${data}' WHERE id = ${deviceId}`).then(() => {
+            runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`).then((device=>{
+                if(device[0]){
+                    resolve(device[0])
+                }else{
+                    reject(3)
+                }     
+                }
+            )).catch((error)=>{
+                console.log(error);
+                reject(error)
+               })
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+    })
+
+}
+//=================================================//
+
+function getDevices(){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM devices`).then((device=>{
+            if(device){
+                resolve(device)
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+
+//=================================================//
+function setDeviceConnection(sn, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
+            resolve(result)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+//=============================================//
+function setDeviceConnection(sn, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
+            resolve(result)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+//==================================//
+function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`SELECT * FROM device_motion WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId}`).then((results)=>{
+            console.log('resules',results);
+            if(results.length!=0){
+                runQuery(`UPDATE device_motion SET start_time = '${startTime}' , stop_time = '${stopTime}' ,active = ${active} WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId} `).then( result => {
+                    console.log(result);
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }else{
+                runQuery(`INSERT INTO device_motion(start_time, stop_time, motion_id, device_id,active) VALUES ('${startTime}','${stopTime}',${motionId},${deviceId}, ${active})`).then( result => {
+                    console.log(result);
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
+            }
+        }).catch(error=>{
+            reject(error)
+        })
+        
+    })
+}
+
+//=================================================//
+
+
 
 module.exports = {
     checkUser,
@@ -652,5 +768,10 @@ module.exports = {
     deleteRoom,
     editRoom,
     editDevice,
-    deleteDevice
+    deleteDevice,
+    editData,
+    getDevices,
+    setDeviceConnection,
+    //editSelected,
+    addTimeMotion
 }

@@ -7,6 +7,8 @@ import {
   FormGroup,
   Label,
   Input,
+  ListGroup,
+  ListGroupItem,
   Alert
 } from 'reactstrap';
 //==============================================//
@@ -30,7 +32,8 @@ const AppliancesSetting = (props) => {
     errorModal: {
       show: false,
       title: '',
-      content: null
+      content: null,
+      checked : false
     },
     
     showdownTime:"",
@@ -63,24 +66,30 @@ const AppliancesSetting = (props) => {
   }
 
   //=======================================//
-  const ternOffOnLight=(e)=>{
-    if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
-      const errorsElement = (
-        <ul>
-          {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
-          {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
-        </ul>
-      )
-      const newState = {...state}
-      newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
-      newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
-      newState.roomModalShow = false
-      setState(newState)
-    }
+//   const ternOffOnLight=(e)=>{
+//     if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
+//       const errorsElement = (
+//         <ul>
+//           {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
+//           {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
+//         </ul>
+//       )
+//       const newState = {...state}
+//       newState.errorModal.show = true
+//       newState.errorModal.title = "Entries Error"
+//       newState.errorModal.content = errorsElement
+//       // hide addroom modal because we need to show error modal and we can not show
+//       // two modals on the same time
+//       newState.roomModalShow = false
+//       setState(newState)
+//     }
     
+//   }
+//============================================//
+const turnOnOff=(e)=> {
+    e.preventDefault()
+    setState({...state,
+      checked: !state.checked})
   }
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
@@ -102,7 +111,7 @@ const AppliancesSetting = (props) => {
     }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-         const  devices=props.rooms.find(room=>room.id==device.room_id)
+         const devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
             alert("SN changed successfully")
@@ -163,20 +172,22 @@ const AppliancesSetting = (props) => {
           <div><h3 className="card-title text-center"><TimeNow/></h3></div>
           </div>
           <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
-              &nbsp;
-              <h5 className="card-title">{deviceName}: Set Time to ternOn </h5>
-              <div className="d-flex ml-auto align-items-center ">
-              <label className="switch ml-auto">
-							<input type="checkbox" id="switch-house-lock"  />
-						</label>
+          <ListGroup className="list-group borderless">
+            <ListGroupItem className="list-group-item align-items-center">
+              {/* <i className="fas fa-stopwatch"></i> */}
+              <img src="/images/timer1.png"></img>
+              &nbsp;&nbsp;
+              <h5 className="card-title"> Set Time to turn on for : {deviceName} </h5>
+              <div className="d-flex ml-auto align-items-center">
+              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
+							{/* <Input type="checkbox" id={'switch-house-lock-' + deviceId} defaultChecked={device.data === 'on' }/>  */}
+               <Input type="checkbox" id="switch-house-lock"  />
+		          </Label>
             &nbsp;
                 
               </div>
-            </li>
-          </ul>
+            </ListGroupItem>
+          </ListGroup>
 
           <hr className="my-0"/>
           &nbsp;
@@ -200,7 +211,7 @@ const AppliancesSetting = (props) => {
                />
             </div>
             <div className="col justify-content-center ">
-              <h5 className="specs text-center">To</h5>
+              <h5 className="specs text-center">to</h5>
             </div>
             <div className="col justify-content-center">
               <Input
@@ -212,7 +223,7 @@ const AppliancesSetting = (props) => {
                 />
             </div>
             <div className="col justify-content-end ">
-              <Button onClick={ternOffOnLight}>Save</Button>
+              <Button>Save</Button>
             </div>
           </div>
           &nbsp;
@@ -262,7 +273,7 @@ const AppliancesSetting = (props) => {
     </React.Fragment>
   )
 
-  // }) // from room Element map
+ 
 }
 
 const setStateToProps = (state) => {

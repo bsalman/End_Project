@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {useParams} from 'react-router-dom'
-
+import {Link,useParams} from 'react-router-dom'
+import {Button} from 'reactstrap';
 
 //=====================================//
 // importing the components
@@ -19,13 +19,11 @@ const SingleRoomOv =(props) =>{
 // to the path of the chosen room and its devices
 const params = useParams()
 
-
-
 //console.log('params',params)
 //console.log(props.rooms);
 //console.log('props', props);
 
-  
+
   let roomInfo = {
       roomType: '',
       roomName: '',
@@ -94,7 +92,7 @@ console.log('lightArr', roomInfo.lightArr);
 
     
         <div className="row">
-      
+
            {/* Temp component start */}
             <div className="col-sm-12 col-md-6 col-xl-4">
             <div className="card text-center" data-unit="room-temp-02">
@@ -145,21 +143,48 @@ console.log('lightArr', roomInfo.lightArr);
             <h4 className="card-title"> Appliances </h4>
             </div>
             <div className="overflow3">
-              <AppliancesDiv  AppliancesDevice={roomInfo.AppliancesArr}/>
+              <AppliancesDiv AppliancesDevice={roomInfo.AppliancesArr}/>
 		  	      </div>
               </div>
 		       </div>
 	         </div>
+
+         <div className="row">
+           <div className="col-sm-12">
+                <Link to="/rooms">
+                    <Button
+                      type="button "
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                       data-placement="right"
+                        title="go Back">
+                        BACK
+                    </Button>
+                       </Link>
+                <a hrefTo="#compTitle"> 
+                 {/* <a href="#">  */}
+                    <Button
+                      type="button "
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                       data-placement="right"
+                        title="Go back Up"
+                        >
+                        {/* onClick='window.scrollTo({top: 0, behavior: "smooth"});' */}
+                        <i className="fas fa-arrow-circle-up"></i>
+                    </Button>
+                 </a>
+           </div>
+          </div>
         </React.Fragment>
     )
  
-
 }
 
 
 const setStateToProps = (state) => {
     return ({
-       // rooms: state.rooms
+
         rooms: state.rooms
     })
 }

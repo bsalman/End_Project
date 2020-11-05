@@ -1,15 +1,12 @@
 import React,{ useState } from 'react'
 import {connect} from 'react-redux'
-//=====================================// 
-
-// importing the action
-import {setRoomsAction} from '../actions'
-
-
+//=====================================//
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
+import {setRoomsAction} from '../actions'
+// import {setRoomsAction} from '../actions'
 
 
 
@@ -44,7 +41,7 @@ const Dashboard =(props)=> {
 					<div className="row">
 						{/* security system start  */}
 					<div className="col-sm-12 col-md-6">
-							<div className="card" data-unit="switch-house-lock">
+							<div className=  {`card lock ${state.security==true?" active":""}`} data-unit="switch-house-lock">
 								<div className="card-body " >
 									<div className="d-flex flex-wrap mb-2">
 										<img src={`${state.security==true?"/images/home-lock.png":"/images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
@@ -52,7 +49,7 @@ const Dashboard =(props)=> {
 											<h4>Security system</h4>
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
-										<label className="switch ml-auto">
+										<label className={`switch ml-auto ${state.security==true?"checked":""}`}>
 											<input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
 										</label>
 									</div>
@@ -115,6 +112,7 @@ const setStateToProps = (state) => {
 		  }
 
 export default connect(setStateToProps,{setRoomsAction})(Dashboard)
+
 
 
 

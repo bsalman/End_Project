@@ -20,6 +20,7 @@ class SideNav extends React.Component{
                     <img src="/images/dashboard-10-24.png"></img> 
                     {/* <br></br>  */}
                     &nbsp;
+                    &nbsp;
                       Dashboard
                     </Link>
                   </ListGroupItem>
