@@ -44,11 +44,10 @@ const MotionSettings = (props) => {
         content: null
       },
       //time on/off
-      startTime: '',
-      stopTime: '',
-      selectedDevice: null,
-      motionDevices : [],
-
+      motionDevices : [
+        {startTime: '',
+        stopTime: '',
+        selectedDevice: null,}],
       showdownTime:"",
       ternOnTim:"",
       classChecked:"",
@@ -75,7 +74,7 @@ const MotionSettings = (props) => {
 
       selectedRoom.devices.forEach(device => {
         if (device.category == 'Light' || device.category == 'Appliance'){
-          appliancDevices.push(<option value={device.id}>{device.name}</option>)
+          appliancDevices.push(<option key={device.id} value={device.id}>{device.name}</option>)
         }
       });
       roomInfo.roomType = selectedRoom.type
@@ -85,7 +84,7 @@ const MotionSettings = (props) => {
 
 
 const y = []
-for (let i = 0; i <= state.motionDevices.length; i++) {
+for (let i = 1; i < state.motionDevices.length; i++) {
   const newTime = (
             <React.Fragment key={i}>
               <FormGroup className="row">
@@ -98,7 +97,12 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       type="time"
                       id="device_seralNum"
                       onChange={e => {
-                      console.log('hi');
+                        let x = state.motionDevices.slice();
+                        x[i].startTime = e.target.value;
+                        setState({
+                          ...state,
+                          motionDevices: x
+                        })
                     }}/>
                   </div>
 
@@ -107,7 +111,17 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                     <Input
                       className="form-control custom-focus  ml-4 mb-2 text-primary text-center"
                       type="time"
-                      id="device_seralNum"/>
+                      id="device_seralNum"
+                      onChange={e => {
+                        let x = state.motionDevices.slice();
+                        x[i].stopTime = e.target.value;
+                        setState({
+                          ...state,
+                          motionDevices: x
+                        })
+                    }}
+                      />
+                      
                   </div>
 
 
@@ -122,9 +136,11 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       name="select"
                       id="room_type"
                       onChange={(e) => {
+                        let x = state.motionDevices.slice();
+                        x[i].selectedDevice = e.target.value;
                         setState({
                           ...state,
-                          selectedDevice: e.target.value
+                          motionDevices: x
                         })
                       }}>
                       <option></option>
@@ -141,7 +157,7 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
   y.push(newTime)
 }
 
-
+// console.log(state.motionDevices);
 //////////////////////////////////////////
   const deviceDeleteClick = (e) => {
     // e.preventDefault()
@@ -149,20 +165,28 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
     e.target.parentElement.parentElement.remove()
   }
 ////////////////////////////////////////////
- 
   
 
   //add new time on + btn click function
   const addNewTimeBoxBtn = (e) => {
     console.log('state.motionDevices',state.motionDevices);
     e.preventDefault()
-    // addTimeMotionPost(state.startTime,state.stopTime,params.id,state.selectedDevice,1).then(data => {
-    //   console.log('data',data);
-      
-    // }).catch(error => {
-    //   console.log('error',error);
-    // })
-    setState({...state,motionDevices:y})
+    state.motionDevices.forEach(Element=>{
+      addTimeMotionPost(Element.startTime,Element.stopTime,params.id,Element.selectedDevice,1).then(data => {
+        console.log('data',data);
+        
+      }).catch(error => {
+        console.log('error',error);
+      })
+    })
+    
+    let newMotionDevices = state.motionDevices.slice();
+    newMotionDevices.push({
+        startTime: '',
+        stopTime: '',
+        selectedDevice: null,
+    })
+    setState({...state,motionDevices:newMotionDevices})
     // console.log('hi');
     
     // console.log('state,motionDevices', state.motionDevices);
@@ -288,12 +312,14 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       type="time"
                       id="device_seralNum"
                       onChange={e => {
+                        let x = state.motionDevices.slice();
+                        x[0].startTime = e.target.value;
                         setState({
                           ...state,
-                          startTime: e.target.value
+                          motionDevices: x
                         })
                     }}
-                    value={state.startTime}/>
+                    value={state.motionDevices[0].startTime}/>
                   </div>
 
                   {/* //to */}
@@ -306,12 +332,14 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       type="time"
                       id="device_seralNum"
                       onChange={e => {
+                        let x = state.motionDevices.slice();
+                        x[0].stopTime = e.target.value;
                         setState({
                           ...state,
-                          stopTime: e.target.value
+                          motionDevices: x
                         })
                     }}
-                    value={state.stopTime}/>
+                    value={state.motionDevices[0].stopTime}/>
                   </div>
 
 
@@ -328,9 +356,11 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                       name="select"
                       id="room_type" 
                       onChange={(e) => {
+                        let x = state.motionDevices.slice();
+                        x[0].selectedDevice = e.target.value;
                         setState({
                           ...state,
-                          selectedDevice: e.target.value
+                          motionDevices: x
                         })
                       }}>
                       <option></option>
@@ -340,8 +370,9 @@ for (let i = 0; i <= state.motionDevices.length; i++) {
                 </div>
               </FormGroup>
 
-                {state.motionDevices}
-
+                {/* {state.displayMotionDevices} */}
+                      {y}
+                      
               <div className="row col-2 ml-3 mb-3 mt-0">
                     <Button
                       type="button"

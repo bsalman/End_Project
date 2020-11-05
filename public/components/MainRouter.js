@@ -23,7 +23,7 @@ class MainRouter extends React.Component {
 
 			console.log('socket connected');
 			socket.on('device_connect', sn => {
-                console.log('connect', sn);
+                //console.log('connect', sn);
                 const rooms = [...this.props.rooms]
                 const room = rooms.find(room => room.devices.find(device => device.number === sn))
                 const device = room.devices.find(device => device.number === sn)
@@ -34,12 +34,22 @@ class MainRouter extends React.Component {
                 
 			})
 			socket.on('device_disconnect', sn => {
-                console.log('disconnect', sn);
+                //console.log('disconnect', sn);
                 const rooms = [...this.props.rooms]
                 const room = rooms.find(room => room.devices.find(device => device.number === sn))
                 const device = room.devices.find(device => device.number === sn)
                 device.connected = false
                 room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
+                this.props.setRoomsAction(rooms)
+            })
+            socket.on('device_status', data => {
+                console.log(data);
+                const rooms = [...this.props.rooms]
+                const room = rooms.find(room => room.devices.find(device => device.id === data.id))
+                const device = room.devices.find(device => device.id === data.id)
+                device.data = data.status
+                room.devices[room.devices.map(device => device.id).indexOf(data.id)] = device
                 rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
                 this.props.setRoomsAction(rooms)
 			})

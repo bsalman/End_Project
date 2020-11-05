@@ -18,6 +18,7 @@ import TempSettings from './TemperatureSettings'
 import MotionSettings from './MotionSettings'
 import LightSetting from './LightSettings'
 import AppliancesSetting from './AppliancesSettings'
+import AboutUsPage from './AboutUs'
 
 class SupRouter extends React.Component {
     render() {
@@ -36,6 +37,7 @@ class SupRouter extends React.Component {
                                             <Switch>
                                             <Route path="/dashboard" exact component={Dashboard}/>
                                                 <Route path="/rooms" exact component={Rooms} />
+                                                <Route path="/aboutus" exact component={AboutUsPage} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
                                                 {/* <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} /> */}

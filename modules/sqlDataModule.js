@@ -489,13 +489,24 @@ function setDeviceConnection(sn, status) {
 }
 
 
-//============================================//
+//==================================//
 function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
     return new Promise((resolve,reject) => {
-        runQuery(`SELECT * FROM device_motion WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId}`).then((results)=>{
+        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${motionId} AND device_id = ${deviceId}`).then((results)=>{
             console.log('resules',results);
             if(results.length!=0){
-                reject(3)
+                runQuery(`UPDATE device_motion SET start_time LIKE '${startTime}' , stop_time LIKE '${stopTime}' ,active = ${active} WHERE motion_id = ${motionId} AND device_id = ${deviceId} `).then( result => {
+                    console.log(result);
+                    resolve(result)
+                }).catch(error => {
+                    console.log(error);
+                    if (error.errno === 1054) {
+                        reject(3)
+                    } else {
+                        reject(error)
+                    }
+                    
+                })
             }else{
                 runQuery(`INSERT INTO device_motion(start_time, stop_time, motion_id, device_id,active) VALUES ('${startTime}','${stopTime}',${motionId},${deviceId}, ${active})`).then( result => {
                     console.log(result);
@@ -516,8 +527,34 @@ function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
         
     })
 }
-// addTimeMotion(12,13,132,38,true)
-//=============================================//
+
+
+//=================================================//
+
+function getMotionRelatedDevices(deviceId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${deviceId} AND active = 1 AND start_time < now() AND stop_time > now()`).then((device=>{
+            if(device){
+                resolve(device)
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+//=================================================//
+
 module.exports = {
     checkUser,
     changeUser,
@@ -532,5 +569,6 @@ module.exports = {
     editData,
     getDevices,
     setDeviceConnection,
-    addTimeMotion
+    addTimeMotion,
+    getMotionRelatedDevices
 }

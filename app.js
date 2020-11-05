@@ -367,6 +367,9 @@ io.on('connection', socket => {
     socket.on('light_status' , data => {
         socket.broadcast.to('home').emit('light_status', data)
     })
+    socket.on('device_status' , data => {
+        socket.broadcast.to('home').emit('device_status', data)
+    })
 })
 
     const ioClient = require('socket.io-client')
@@ -403,9 +406,9 @@ dataModule.getDevices().then(devices => {
                             
                         // }
                         radio.send('data-' + device.data, 10, device.number).then(() => {
-                            console.log('setting has been sent');
+                            //console.log('setting has been sent');
                         }).catch(error => {
-                            console.log('setting has not been sent');
+                            //console.log('setting has not been sent');
 
                         })
                     
@@ -416,13 +419,37 @@ dataModule.getDevices().then(devices => {
             }
 
             if(message.indexOf('data') === 0) {
+                //socketClient.emit('device_status', {id: 78, status: message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '') == '1'? 'on' : 'off'})
                 if (device.category === 'Motion') {
                     const stringData = message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '')
 
                     dataModule.editData(device.id, stringData == '1'? '1' : '').then(() => {
                         devices[devices.map(device => device.id).indexOf(device.id)].data = (stringData == '1'? '1' : '')
+                        dataModule.getMotionRelatedDevices(device.id).then((results) => {
+                            //console.log('429',results);
+                            results.forEach(realtedDevice => {
+                                const foundDevice = devices.find(device => device.id === realtedDevice.device_id)
+                                dataModule.editData(foundDevice.id, stringData == '1'? 'on' : 'off').then(() => {
+                                    setTimeout(() => {
+                                        radio.send('data-' +  stringData == '1'? 'on' : 'off', 10, foundDevice.number).then(() => {
+                                            devices[devices.map(device => device.id).indexOf(foundDevice.id)].data = stringData == '1'? 'on' : 'off'
+                                            socketClient.emit('device_status', {id: foundDevice.id, status: stringData == '1'? 'on' : 'off'})
+                                            console.log('434', stringData);
+                                        }).catch(error => {
+                                            console.log('436',error);
+                                        })
+                                    }, 500)
+                                    
+                                }).catch(error => {
+console.log('439',error);
+                                })
+                                
+                            });
+                        }).catch(error => {
+console.log('444',error);
+                        })
                     }).catch(error => {
-                        console.log(error);
+                        console.log('447', error);
                     })
                 }
             }
@@ -463,9 +490,7 @@ dataModule.getDevices().then(devices => {
     function checkConnected(device) {
         //console.log(device);
         return new Promise((resolve, reject) => {
-            if (device.number == '0x744d52683C') {
-                    console.log();
-            }
+            
             radio.send('hi', 3, device.number).then(() => {
                 
                 if(device.connected){
