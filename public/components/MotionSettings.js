@@ -28,15 +28,6 @@ import {editDevicePost, addTimeMotionPost} from '../services/api'
 const MotionSettings = (props) => {
 
   const params = useParams()
-
-  // console.log('params:',params);
-  // console.log('paramsDeviceCategory:',params.deviceCategory);
-  // console.log('paramsDeviceName:',params.deviceName);
-  // console.log('paramsRoomId:',params.roomId);
-  // console.log('paramsId:',params.id);
-    // console.log('props', props);
-    // console.log('rooms', props);
-  
     const initialState = {
       errorModal: {
         show: false,
@@ -65,7 +56,7 @@ const MotionSettings = (props) => {
       deviceName : ''
     }
   
-    const appliancDevices = []
+    const applianceDevices = []
     if (props.rooms.length > 0) {
       const selectedRoom = props.rooms.find(room => room.id == params.roomId) 
       const selectedDevices = selectedRoom.devices.find(device => device.id == params.id) 
@@ -74,7 +65,7 @@ const MotionSettings = (props) => {
 
       selectedRoom.devices.forEach(device => {
         if (device.category == 'Light' || device.category == 'Appliance'){
-          appliancDevices.push(<option key={device.id} value={device.id}>{device.name}</option>)
+          applianceDevices.push(<option key={device.id} value={device.id}>{device.name}</option>)
         }
       });
       roomInfo.roomType = selectedRoom.type
@@ -145,7 +136,7 @@ for (let i = 1; i < state.motionDevices.length; i++) {
                       }}>
                       <option></option>
                       
-                      {appliancDevices}
+                      {applianceDevices}
                     </Input>
                   </div>
                   <a href="#" onClick={e => {deviceDeleteClick(e)}}>X</a>
@@ -306,7 +297,7 @@ for (let i = 1; i < state.motionDevices.length; i++) {
                   <div className="col-xl-5 col-sm-5" modal-content="true">
                     <Label
                       for="device_seralNum"
-                      className="col-12 col-form-label modal-font text-center">From</Label >
+                      className="col-12 col-form-label modal-font text-center">From</Label>
                     <Input
                       className="form-control custom-focus ml-4 mb-2 text-primary text-center"
                       type="time"
@@ -326,7 +317,7 @@ for (let i = 1; i < state.motionDevices.length; i++) {
                   <div className="col-xl-5 col-sm-5" modal-content="true">
                     <Label
                       for="device_seralNum"
-                      className="col-12 col-form-label modal-font  text-center">To</Label >
+                      className="col-12 col-form-label modal-font  text-center">To</Label>
                     <Input
                       className="form-control custom-focus  ml-4 mb-2 text-primary text-center"
                       type="time"
@@ -364,7 +355,7 @@ for (let i = 1; i < state.motionDevices.length; i++) {
                         })
                       }}>
                       <option></option>
-                      {appliancDevices}
+                      {applianceDevices}
                     </Input>
                   </div>
                 </div>
@@ -412,10 +403,6 @@ for (let i = 1; i < state.motionDevices.length; i++) {
               </Form>
             </div>
             {/* <!-- serial number END --> */}
-            
-
-
-
             {/* <!-- button Save START --> */}
             <div className="row">
               <div className="col-auto mr-auto ml-4">
@@ -457,21 +444,12 @@ for (let i = 1; i < state.motionDevices.length; i++) {
 
   )
 
-  // }) // from room Element map
-}
 
-// here we change our initial state to props to be able to send it to the main
-// state //! this is to get the state of redux and save it in the props of this
-// component
+}
 const setStateToProps = (state) => {
   return ({
     // rooms: state.rooms
     rooms: state.rooms
   })
 }
-
-// when you see props.room. ..... is touching the main state ( the redux state)
-// when you see this.state....  it is touching the initial state
-
 export default connect(setStateToProps, {setRoomsAction})(MotionSettings)
-//export default SingleRoomOv

@@ -76,7 +76,7 @@ const [state,setState] = useState(initialState)
         {/* <!-- Light switch START --> */}
         <div className="card-body d-flex flex-row justify-content-start">
          
-          <h5><img src="/images/appliance.png"></img> {device.name}</h5>
+          <h5><img src={device.imgUrl}></img> {device.name}</h5>
           <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
            <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
          </Label>

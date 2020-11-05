@@ -199,7 +199,7 @@ input[type=text]:disabled {background:#000000;}
       font-size:2em ;
     }
     .iconCon>i{
-      position: absolute;;
+      position: absolute;
       top: 10px;
       left:10px; 
     
@@ -261,28 +261,9 @@ input[type=text]:disabled {background:#000000;}
      .securityActive{
        background-color: red;
      }
-     /* ================================== */
-      /* .sidebar-offcanvas.mini {
-      width: 80px !important;
-  }  */
-
-    /* ========================= animation======================== */
-    /* @-webkit-keyframes color-change-2x {
-        0% {
-          background:rgba(92, 176, 233, 0.911);
-        }
-        100% {
-          background:rgba(10, 26, 56, 0.795);
-        }
-      }
-      @keyframes color-change-2x {
-        0% {
-          background: rgba(92, 176, 233, 0.911);
-        }
-        100% {
-          background: rgba(10, 26, 56, 0.795);
-        }
-      } */
+    
+ 
+  
       /* ============pulse animation 2========== */
       @keyFrames pulse {
         0% {
@@ -313,12 +294,87 @@ input[type=text]:disabled {background:#000000;}
     /* ============================================== */
     @media only screen and (max-width: 576px){
       .houseContainer>div>div{
-        
+        width: 200px;
+        height: 500px;
+        border-radius: 5px; 
+      }
+      .iconCon{
+        width: 60px;
+        height: 60px;
+      }
+      .laptop{
+      
+        position: absolute;
+        top:220px;
+  
+        font-size: 5em;
+       
+        left:75px
+      }
+      .light>i{
+       
+        left:16px;
+      }
+      .lockIcon>i{
+        left:16px;
+       
+      }
+      .elk>i{
+        left:15px;
+      
+      }
+      .light{
+        top:30px;
+      }
+      .tv{
+        top:100px;
+        left:140px;
+      }
+      .lockIcon{
+        top:100px;
+        right:130px;
+      }
+      .video{
+        bottom:30px;
+      }
+      .elk{
+        position: absolute;
+        top:350px;
+        left:140px;
+      }
+      .home{
+        position: absolute;
+        top:350px;
+        right:130px;
+       
       }
    
   };
-  @media (min-width: 768px) {  };
+  @media (min-width: 768px) { 
+    .houseContainer>div>div{
+      width: 250px;
+      height: 250px;
+    }
+    .laptop{
+      
+      position: absolute;
+      top:220px;
+      
+      font-size: 5em;
+     
+      left:50px
+    }
+    .houseContainer{
+      top:300px
+      
+  }
+   };
 
-  @media (min-width: 992px) {  };
+  @media (min-width: 992px) { 
+    .houseContainer>div>div{
+      width: 300px;
+      height: 300px;
+    }
+   };
   
       

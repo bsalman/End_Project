@@ -1,9 +1,8 @@
 // import dependencies
 import React from 'react'
 import {withRouter} from 'react-router-dom'
-
-
 import {connect} from 'react-redux'
+import {ListGroup, ListGroupItem, Button, Label, Input, Form} from 'reactstrap';
 // import the components
 import CustomModal from './CustomModal'
 
@@ -133,14 +132,13 @@ class AccountSettings extends React.Component {
                   <div className="row">
                     <div className="col-12 col-sm-10 offset-sm-1">
                       {/* <!-- Profile tabs START --> */}
-                      <ul className="nav nav-tabs nav-fill" role="tablist">
-                        <li className="nav-item">
+                      <ListGroup className="nav nav-tabs nav-fill" role="tablist">
+                        <ListGroupItem className="nav-item">
                           <h3>Please Change Your Default Settings</h3>
-                        </li>
-                      </ul>
+                        </ListGroupItem>
+                      </ListGroup>
                       <div className="info-holder info-ct">
-                        <div
-                          data-toggle="popover-all"
+                      <div data-toggle="popover-all"
                           data-content="Customized tabbed interface"
                           data-original-title="Tabs"
                           data-placement="top"
@@ -150,11 +148,11 @@ class AccountSettings extends React.Component {
                       <div className="tab-content px-4 px-sm-0 py-sm-4 mt-4">
 
                         {/* <!-- Password pane START --> */}
-                        <form>
+                        <Form>
                             <div className="form-group row">
-                              <label htmlFor="first-name" className="col-12 col-sm-3 col-form-label">New Username</label>
+                              <Label htmlFor="first-name" className="col-12 col-sm-3 col-form-label">New Username</Label>
                               <div className="col-12 col-sm-9">
-                                <input
+                                <Input
                                   className="form-control custom-focus"
                                   type="text"
                                   value={this.state.name}
@@ -165,9 +163,9 @@ class AccountSettings extends React.Component {
                               </div>
                             </div>
                             <div className="form-group row">
-                              <label htmlFor="user-password" className="col-12 col-sm-3 col-form-label">Old Password</label>
+                              <Label htmlFor="user-password" className="col-12 col-sm-3 col-form-label">Old Password</Label>
                               <div className="col-12 col-sm-9">
-                                <input
+                                <Input
                                   className="form-control custom-focus"
                                   type="password"
                                   value={this.state.oldPassword}
@@ -178,9 +176,9 @@ class AccountSettings extends React.Component {
                               </div>
                             </div>
                             <div className="form-group row">
-                              <label htmlFor="user-password" className="col-12 col-sm-3 col-form-label">Password</label>
+                              <Label htmlFor="user-password" className="col-12 col-sm-3 col-form-label">Password</Label>
                               <div className="col-12 col-sm-9">
-                                <input
+                                <Input
                                   className="form-control custom-focus"
                                   type="password"
                                   value={this.state.password}
@@ -191,9 +189,9 @@ class AccountSettings extends React.Component {
                               </div>
                             </div>
                             <div className="form-group row has-success">
-                              <label htmlFor="user-password-confirm" className="col-12 col-sm-3 col-form-label">Confirm Password</label>
+                              <Label htmlFor="user-password-confirm" className="col-12 col-sm-3 col-form-label">Confirm Password</Label>
                               <div className="col-12 col-sm-9">
-                                <input
+                                <Input
                                   className="form-control custom-focus"
                                   type="password"
                                   value={this.state.repassword}
@@ -205,10 +203,10 @@ class AccountSettings extends React.Component {
                             </div>
                             <div className="form-group row">
                               <div className="offset-xs-0 offset-sm-3 col-12 col-sm-9 mt-3">
-                                <button  onClick={this.onRegisterBtnClick}className="btn btn-primary">Save Changes</button>
+                                <Button  onClick={this.onRegisterBtnClick}className="btn btn-primary">Save Changes</Button>
                               </div>
                             </div>
-                          </form>
+                          </Form>
                         
                         {/* <!-- Password pane END --> */}
                       </div>
@@ -228,12 +226,12 @@ class AccountSettings extends React.Component {
         {/* <!-- Wrapper END --> */}
         {/*
   <!-- FAB button - bottom right on large screens --> */}
-        <button
+        {/* <Button
           id="info-toggler"
           type="button"
           className="btn btn-primary btn-fab btn-fixed-br d-none d-lg-inline-block">
           <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#info"/></svg>
-        </button>
+        </Button> */}
 
         {/* <!-- SVG assets - not visible --> */}
         <svg

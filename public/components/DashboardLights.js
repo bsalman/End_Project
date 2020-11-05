@@ -56,7 +56,7 @@ const initialStat={
                        <h6 className="ml-4">{device.name}</h6>
                             
                         <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
-                            <Input type="checkbox" id={'switch-light-' + device.id} checked={device.data === 'on' }/> 
+                            <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
                         </Label>
                    </div>
             )

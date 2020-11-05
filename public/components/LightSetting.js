@@ -169,7 +169,7 @@ if(props.rooms.length>0){
           <hr className="my-0"/>
           <ul className="list-group borderless">
             <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
+              <img src="/images/timer.png"></img>
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
@@ -223,7 +223,7 @@ if(props.rooms.length>0){
           <hr className="my-0"/>
           <ul className="list-group borderless">
             <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
+            <img src="/images/timer.png"></img>
               &nbsp;
               <h5 className="card-title">Motion:Set Time</h5>
               <div className=" ml-auto ">
@@ -291,8 +291,6 @@ if(props.rooms.length>0){
                       </Button>
                 </Link>
                 </div>
-                  
-                 
                 </div>
               </Form>
             </div>

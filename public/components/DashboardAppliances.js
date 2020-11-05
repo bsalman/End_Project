@@ -43,6 +43,7 @@ const DashboardAppliance = (props) =>{
         <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
             <img src={device.imgUrl}></img>
+            &nbsp;&nbsp;
                  <h5>{device.name}</h5>
                  <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
                   <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/>  {/* checked/ */}
@@ -57,13 +58,12 @@ const DashboardAppliance = (props) =>{
     })
     
     return(
-        <React.Fragment>
+        <React.Fragment key={room.id}>
 							&nbsp;
               <div>
               &nbsp;
               <h5>&nbsp;{room.type}</h5>
-
-							<div  className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
+							<div className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
 			          	{devices}
 							</div>
               </div>

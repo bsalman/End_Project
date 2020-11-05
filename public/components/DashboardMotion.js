@@ -7,7 +7,7 @@ const DashboardMotion = (props)=>{
     const MotionElement=rooms.filter(room => room.devices.find(device => device.category ==='Motion')).map((room)=>{
             
         return(
-            <div  key={room.id} className="card">
+            <div key={room.id} className="card">
                 <div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
                 
                  {/* issue with the size of the motion picture states 32/52 if its outside of the header */}
