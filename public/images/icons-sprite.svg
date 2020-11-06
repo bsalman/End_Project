@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+ <symbol id="alarm" viewBox="0 0 64 64">
+  <title>Alarm</title>
+  <desc>Alarm symbol</desc>
+  <g fill="currentColor">
+    <rect x="7" y="27" width="8" height="2"/>
+    <rect x="49" y="27" width="8" height="2"/>
+    <rect x="31" y="3" width="2" height="8"/>
+    <path d="M47.2,20.4l6.9-4l-1-1.7l-6.9,4L47.2,20.4z"/>
+    <path d="M41.4,13.8l4-6.9l-1.7-1l-4,6.9L41.4,13.8z"/>
+    <path d="M24.4,12.8l-4-6.9l-1.7,1l4,6.9L24.4,12.8z"/>
+    <path d="M17.8,18.6l-6.9-4l-1,1.7l6.9,4L17.8,18.6z"/>
+    <path d="M13,52v-5c0-2.2,1.8-4,4-4h30c2.2,0,4,1.8,4,4v5H13z"/>
+    <path d="M32,14c-7.7,0-14,6.3-14,14v13h17V28c0-1.7,1.3-3,3-3s3,1.3,3,3v13h5V28C46,20.3,39.7,14,32,14z"/>
+  </g>
+ </symbol>
+ <symbol id="alert" viewBox="0 0 64 64">
+  <title>Alert</title>
+  <desc>alert symbol</desc>
+  <g fill="currentColor">
+    <path d="M50,40c-2.2,0-4-1.8-4-4v-9c0-7.1-5.2-12.9-12-13.8c0,0,0-2.2-2-2.2s-2,2.2-2,2.2c-6.8,1-12,6.8-12,13.8v9
+		c0,2.2-1.8,4-4,4h-1v5h38v-5H50z"/>
+    <path d="M32,52c3,0,5-2,5-5H27C27,50,29,52,32,52z"/>
+  </g>
+ </symbol>
+ <symbol id="appliances" viewBox="0 0 64 64">
+  <title>Appliances</title>
+  <desc>appliances symbol</desc>
+  <g fill="currentColor">
+    <path d="M44,19v-8c0-1.1-0.9-2-2-2h-2c-1.1,0-2,0.9-2,2v8H26v-8c0-1.1-0.9-2-2-2h-2c-1.1,0-2,0.9-2,2v8h-6v6h36v-6H44z"/>
+    <path d="M16,27v6c0,6.5,3.2,10.9,9,13v3h4v6h6v-6h4v-3c5.8-2.1,9-6.5,9-13v-6H16z"/>
+  </g>
+ </symbol>
+ <symbol id="camera" viewBox="0 0 64 64">
+  <title>Camera</title>
+  <desc>Camera symbol</desc>
+  <g fill="currentColor">
+    <polygon points="5,39 17,36 25,44 22,57"/>
+    <path d="M52,50h3V33h-3v7h-6l-4-4l12-12L38,7L14,30l17,17l9-9l5,5h7V50z M36,35c-1.7,0-3-1.3-3-3c0-1.7,1.3-3,3-3
+		s3,1.3,3,3C39,33.7,37.7,35,36,35z"/>
+  </g>
+ </symbol>
+ <symbol id="bulb-eco" viewBox="0 0 64 64">
+  <title>Bulb eco</title>
+  <desc>Bulb eco symbol</desc>
+  <g fill="currentColor">
+    <path d="M39,49H25v4h4c0.6,1.2,1.6,2,3,2c1.4,0,2.4-0.8,3-2h4V49z"/>
+    <path d="M19.1,17.8c0.3,0,0.7-0.1,1-0.2L34,13.2c1.4-0.5,2.1-2.1,1.6-3.4c-0.5-1.4-2.1-2-3.5-1.5l-13.8,4.4
+			c-1.4,0.5-2.1,2.1-1.6,3.4C17,17.1,18.1,17.8,19.1,17.8z"/>
+    <path d="M19.1,25.7c0.3,0,0.7-0.1,1-0.2l25.6-8.8c1.4-0.5,2.1-2.1,1.6-3.4c-0.5-1.4-2.1-2-3.5-1.5l-25.6,8.8
+			c-1.4,0.5-2.1,2.1-1.6,3.4C17,25.1,18.1,25.7,19.1,25.7z"/>
+    <path d="M44.7,28.3c-0.2,0-1.3,0-3.4,0.5c-3.8,0.9-6.5,4.3-6.6,8.1h-5.7c0-2.3-1-4.4-2.6-5.9l19.2-6.4
+			c1.4-0.5,2.1-2.1,1.6-3.4c-0.5-1.4-2.1-2-3.5-1.5l-25.6,8.8c0,0,0,0,0,0c-0.1,0-0.1,0.1-0.2,0.1c-1.2,0.6-1.8,2-1.3,3.3
+			c0.4,1,1.4,1.7,2.5,1.7c0,0,0,0,0,0c0,0,0.7,0,2.1,0.4c1.1,0.3,2.4,1.3,2.4,3H21v8l2,2h18l2-2v-8h-2.8c0.1-1.7,1.3-2.7,2.5-3
+			c1.3-0.3,2-0.4,2.1-0.4c1.5,0,2.7-1.2,2.7-2.6C47.4,29.5,46.2,28.3,44.7,28.3z"/>
+  </g>
+ </symbol>
+ <symbol id="dashboard" viewBox="0 0 64 64">
+  <title>Dashboard</title>
+  <desc>Dashboard symbol</desc>
+  <g fill="currentColor">
+    <rect x="26" y="36" width="29" height="16"/>
+    <rect x="9" y="22" width="14" height="30"/>
+    <rect x="26" y="22" width="13" height="11"/>
+    <rect x="42" y="22" width="13" height="11"/>
+    <path d="M9,12v7h46v-7H9z M41.5,17c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S42.33,17,41.5,17z
+		 M46.5,17c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S47.33,17,46.5,17z M51.5,17c-0.83,0-1.5-0.67-1.5-1.5s0.67-1.5,1.5-1.5s1.5,0.67,1.5,1.5S52.33,17,51.5,17z"/>
+  </g>
+ </symbol>
+ <symbol id="garage" viewBox="0 0 64 64">
+  <title>Garage</title>
+  <desc>Garage symbol</desc>
+  <g fill="currentColor">
+    <polygon points="10,22 32,15 54,22 54,26 32,19 10,26"/>
+    <polygon points="15,26.4 15,47 21,47 21,31 43,31 43,47 49,47 49,26.4 32,21"/>
+    <rect x="23" y="38" width="18" height="3"/>
+    <rect x="23" y="33" width="18" height="3"/>
+    <rect x="23" y="43" width="18" height="3"/>
+  </g>
+ </symbol>
+ <symbol id="fan" viewBox="0 0 64 64">
+  <title>Fan</title>
+  <desc>Fan symbol</desc>
+  <g fill="currentColor">
+    <path d="M32,10c-12.15,0-22,9.85-22,22c0,12.15,9.85,22,22,22c12.15,0,22-9.85,22-22C54,19.85,44.15,10,32,10z M32,52
+		c-11.05,0-20-8.95-20-20c0-11.05,8.95-20,20-20c11.05,0,20,8.95,20,20C52,43.05,43.05,52,32,52z"/>
+    <path d="M50.01,30.22c-0.17-1.66-1.52-2.02-2.82-0.98c-2.63,2.09-5.31,3.43-8.26,3.74C38.97,32.66,39,32.33,39,32
+		c0-1.08-0.25-2.11-0.7-3.03c3.19-2.31,5.35-5.51,4.76-9.05c-1.01-6.04-9.65-6.26-12.84-5.94c-1.66,0.17-2.02,1.52-0.98,2.82
+		c2.09,2.63,3.43,5.31,3.74,8.26C32.66,25.03,32.33,25,32,25c-1.09,0-2.11,0.25-3.03,0.69c-2.31-3.19-5.51-5.35-9.05-4.76
+		c-6.04,1.01-6.26,9.65-5.94,12.84c0.17,1.66,1.52,2.02,2.82,0.98c2.63-2.09,5.31-3.43,8.26-3.75C25.03,31.34,25,31.67,25,32
+		c0,1.08,0.25,2.11,0.69,3.03c-3.19,2.31-5.35,5.51-4.76,9.05c1.01,6.04,9.65,6.25,12.84,5.94c1.66-0.17,2.02-1.52,0.98-2.82
+		c-2.09-2.63-3.43-5.31-3.75-8.26C31.34,38.97,31.67,39,32,39c1.08,0,2.11-0.25,3.03-0.7c2.31,3.19,5.51,5.35,9.05,4.76
+		C50.11,42.06,50.33,33.42,50.01,30.22z M27,32c0-2.76,2.24-5,5-5c2.76,0,5,2.24,5,5c0,2.76-2.24,5-5,5C29.24,37,27,34.76,27,32z"/>
+    <circle cx="32" cy="32" r="3"/>
+  </g>
+ </symbol>
+ <symbol id="fire" viewBox="0 0 64 64">
+  <title>Fire</title>
+  <desc>Fire symbol</desc>
+  <g fill="currentColor">
+    <path d="M52,32c-1.58-3.95-4.58-5.83-2-14c-2.56-0.45-7.22,1.14-10,5c-4.46-4.78-7-11-6-18c-6,4-12,11-10,24c-3-6-7.57-6.92-12-7
+		c2.36,3.83,3.76,8.94,1,12c-1.81,2-8.23,18,15.15,18c-4.49-1.99-7.05-6.81-3.15-13c0.57,2.13,2.67,3.62,4,3
+		c3.69-1.71,3.56-8.19,3-12c4,3,5,7,3.9,10.36C39,39,39.18,38.19,40,35c4.86,6.48,2.5,14.27-2.83,17C57,52,54,37,52,32z"/>
+  </g>
+ </symbol>
+ <symbol id="home" viewBox="0 0 64 64">
+  <title>Home</title>
+  <desc>Home symbol</desc>
+  <g fill="currentColor">
+    <polygon points="10,29 32,10 54,29"/>
+    <polygon points="15,31 15,51 28,51 28,42 36,42 36,51 49,51 49,31"/>
+  </g>
+ </symbol>
+ <symbol id="home-fridge" viewBox="0 0 64 64">
+  <title>Home fridge</title>
+  <desc>Home fridge symbol</desc>
+  <g fill="currentColor">
+    <rect x="19" y="52" width="26" height="2"/>
+    <path d="M19,10v3h26v-3H19z M23,12h-2v-1h2V12z M43,12h-5v-1h5V12z"/>
+    <path d="M19,14v22h26V14H19z M23,34h-2v-9h2V34z"/>
+    <path d="M19,37v14h26V37H19z M23,45h-2v-6h2V45z"/>
+  </g>
+ </symbol>
+ <symbol id="info" viewBox="0 0 64 64">
+  <title>Info</title>
+  <desc>Info symbol</desc>
+  <g fill="currentColor">
+    <path d="M32,45c-2,4,3,2,5,0c2-2,5,0,2,3c-10,10-22,6-19,0.1L28,29c2.5-4.7-2-3-5,0c-2,2-5,0-2-3c12-12,21-4,18.8,0.9L32,45z"/>
+    <circle cx="39" cy="13" r="5"/>
+  </g>
+ </symbol>
+ <symbol id="logout" viewBox="0 0 64 64">
+  <title>Logout</title>
+  <desc>Logout symbol</desc>
+  <g fill="currentColor">
+    <path d="M39,14.28v7.77c3.6,2.31,6,6.34,6,10.94c0,7.18-5.82,13-13,13s-13-5.82-13-13c0-4.6,2.4-8.63,6-10.94v-7.77C17.41,17.12,12,24.42,12,33c0,11.05,8.95,20,20,20s20-8.95,20-20C52,24.42,46.59,17.12,39,14.28z"/>
+    <rect x="28" y="11" width="8" height="18"/>
+  </g>
+ </symbol>
+ <symbol id="message" viewBox="0 0 64 64">
+  <title>Message</title>
+  <desc>Message symbol</desc>
+  <g fill="currentColor">
+    <polygon points="12,47 52,47 52,24 32,35 12,24"/>
+    <polygon points="12,21 32,32 52,21 52,17 12,17"/>
+  </g>
+ </symbol>
+ <symbol id="menu" viewBox="0 0 64 64">
+  <title>Menu</title>
+  <desc>Menu symbol</desc>
+  <g fill="currentColor">
+    <rect x="10" y="16" width="44" height="6"/>
+    <rect x="10" y="30" width="44" height="6"/>
+    <rect x="10" y="44" width="44" height="6"/>
+  </g>
+ </symbol>
+ <symbol id="menu-arrow" viewBox="0 0 64 64">
+  <title>Menu Arrow</title>
+  <desc>Menu Arrow symbol</desc>
+  <g fill="currentColor">
+    <rect x="25" y="16" width="14" height="6"/>
+    <rect x="15" y="30" width="34" height="6"/>
+    <rect x="5" y="44" width="54" height="6"/>
+  </g>
+ </symbol>
+ <symbol id="settings" viewBox="0 0 64 64">
+  <title>Settings</title>
+  <desc>Settings symbol</desc>
+  <g fill="currentColor">
+    <path d="M53,35v-6h-4.8c-0.4-2.3-1.3-4.5-2.6-6.3l3.4-3.4L44.7,15l-3.4,3.4c-1.9-1.3-4-2.2-6.3-2.6V11h-6v4.8
+		c-2.3,0.4-4.5,1.3-6.4,2.6L19.3,15L15,19.3l3.4,3.4c-1.3,1.9-2.2,4-2.6,6.3H11v6h4.8c0.4,2.3,1.3,4.5,2.6,6.3L15,44.7l4.2,4.2
+		l3.4-3.4c1.9,1.3,4,2.2,6.3,2.6V53h6v-4.8c2.3-0.4,4.5-1.3,6.3-2.6l3.4,3.4l4.2-4.2l-3.4-3.4c1.3-1.9,2.2-4,2.6-6.3H53z M32,40.4c-4.6,0-8.4-3.8-8.4-8.4c0-4.6,3.8-8.4,8.4-8.4c4.6,0,8.4,3.8,8.4,8.4C40.4,36.6,36.6,40.4,32,40.4z"/>
+  </g>
+ </symbol>
+ <symbol id="tv-lcd" viewBox="0 0 64 64">
+  <title>LCD TV</title>
+  <desc>LCD TV symbol</desc>
+  <g fill="currentColor">
+    <rect x="15" y="19" width="34" height="20"/>
+    <path d="M53,43V15H11v28h15l1,3h-7l-1,2h26l-1-2h-7l1-3H53z M13,41V17h38v24H13z"/>
+  </g>
+ </symbol>
+ <symbol id="thermometer" viewBox="0 0 64 64">
+  <title>Thermometer</title>
+  <desc>Thermometer symbol</desc>
+  <g fill="currentColor">
+    <path d="M41,30.84V18c0-5.52-4.48-10-10-10c-5.52,0-10,4.48-10,10v12.84c-3.06,2.75-5,6.72-5,11.16c0,8.28,6.72,15,15,15
+		c8.28,0,15-6.72,15-15C46,37.56,44.06,33.59,41,30.84z M31,53c-6.08,0-11-4.93-11-11c0-3.86,1.99-7.25,5-9.21V18c0-3.31,2.69-6,6-6
+		s6,2.69,6,6v14.79c3.01,1.96,5,5.35,5,9.21C42,48.07,37.07,53,31,53z"/>
+    <path d="M33.5,35.47V23h-5v12.47C25.87,36.48,24,39.02,24,42c0,3.87,3.13,7,7,7c3.87,0,7-3.13,7-7C38,39.02,36.13,36.48,33.5,35.47z"/>
+    <rect x="44" y="15" width="8" height="2"/>
+    <rect x="44" y="21" width="8" height="2"/>
+    <rect x="44" y="27" width="8" height="2"/>
+  </g>
+ </symbol>
+ <symbol id="thermometer-tiny" viewBox="0 0 64 64">
+  <title>Thermometer</title>
+  <desc>Thermometer symbol</desc>
+  <g fill="currentColor">
+	<rect x="44" y="14" width="8" height="2"/>
+    <rect x="44" y="20" width="8" height="2"/>
+    <rect x="45" y="26" width="7" height="2"/>
+    <path d="M39.5,29.89V18.5c0-4.69-3.81-8.5-8.5-8.5c-4.69,0-8.5,3.81-8.5,8.5v11.39C19.16,32.45,17,36.47,17,41
+		c0,7.73,6.27,14,14,14c7.73,0,14-6.27,14-14C45,36.47,42.84,32.45,39.5,29.89z M31,52.5c-6.35,0-11.5-5.15-11.5-11.5
+		c0-4.15,2.21-7.77,5.5-9.8V18.5c0-3.31,2.69-6,6-6c3.31,0,6,2.69,6,6v12.7c3.29,2.02,5.5,5.65,5.5,9.8
+		C42.5,47.35,37.35,52.5,31,52.5z"/>
+    <path d="M33,34.29V22h-4v12.29c-2.89,0.86-5,3.54-5,6.71c0,3.87,3.13,7,7,7s7-3.13,7-7C38,37.83,35.89,35.15,33,34.29z"/>
+  </g>
+ </symbol>
+ <symbol id="user" viewBox="0 0 64 64">
+  <title>User</title>
+  <desc>User symbol</desc>
+  <g fill="currentColor">
+    <circle cx="32" cy="22" r="11"/>
+    <path d="M39,33.5c-2,1-4,2-7,2c-3,0-5-1-7-2C17,36.5,12,44,12,52h40C52,44,47,36.5,39,33.5z"/>
+  </g>
+ </symbol>
+ <symbol id="wash-machine" viewBox="0 0 64 64">
+  <title>Wash machine</title>
+  <desc>Wash machine symbol</desc>
+  <g fill="currentColor">
+    <path d="M16,13v8h32v-8H16z M27,19h-9v-4h9V19z M34,19c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S35.1,19,34,19z M39,19
+		c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S40.1,19,39,19z M44,19c-1.1,0-2-0.9-2-2s0.9-2,2-2s2,0.9,2,2S45.1,19,44,19z"/>
+    <rect x="38" y="48" width="5" height="3"/>
+    <path d="M16,22v29h21v-4h7v4h4V22H16z M32,46c-6.07,0-11-4.93-11-11c0-6.08,4.93-11,11-11c6.08,0,11,4.93,11,11
+		C43,41.07,38.08,46,32,46z"/>
+    <path d="M32,25c-5.52,0-10,4.48-10,10c0,5.52,4.48,10,10,10s10-4.48,10-10C42,29.48,37.52,25,32,25z M25,35
+		c0-3.87,3.13-7,7-7c2.55,0,4.78,1.37,6,3.41v5.02c-1.96-1.47-5.01-2.19-7.57,0.43c-1.92,1.92-4.28,0.72-5.12,0.2
+		C25.11,36.41,25,35.72,25,35z"/>
+  </g>
+ </symbol>
+    
+ <symbol id="glow" viewBox="0 0 64 64">
+    <g class="glow">
+     <circle cx="32" cy="32" r="32"/>
+    </g>
+ </symbol>
+ <symbol id="icon-dot" viewBox="0 0 64 64">
+    <g class="icon-dot" fill="currentColor">
+     <circle cx="56" cy="8" r="6"/>
+    </g>
+ </symbol>
+ <symbol id="subicon-unlocked" viewBox="0 0 64 64">
+    <g class="subicon-unlocked" fill="currentColor">
+     <path d="M55,46v-3c0-3.31-2.69-6-6-6s-6,2.69-6,6h3c0-1.66,1.34-3,3-3s3,1.34,3,3v3H41v11h16V46H55z M50,51.72V55
+		h-2v-3.28c-0.6-0.35-1-0.98-1-1.72c0-1.1,0.9-2,2-2s2,0.9,2,2C51,50.74,50.6,51.38,50,51.72z"/>
+    </g>
+ </symbol>
+    <symbol id="subicon-locked" viewBox="0 0 64 64">
+    <g class="subicon-locked" fill="currentColor">
+     <path d="M55,46v-2c0-3.31-2.69-6-6-6s-6,2.69-6,6v2h-2v11h16V46H55z M50,51.72V55h-2v-3.28c-0.6-0.35-1-0.98-1-1.72c0-1.1,0.9-2,2-2s2,0.9,2,2C51,50.74,50.6,51.38,50,51.72z M52,46h-6v-2c0-1.66,1.34-3,3-3s3,1.34,3,3V46z"/>
+    </g>
+ </symbol>
+</svg>
+

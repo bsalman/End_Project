@@ -26,10 +26,11 @@ const DashboardAppliance = (props) =>{
        let room = rooms.find(room => room.id == roomid)
        let device = room.devices.find(device => device.id == deviceid)
        device.data = device.data == 'on' ? 'off' : 'on'
-       room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
-       rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-       //console.log('rooms after change', rooms);
-       props.setRoomsAction(rooms)
+       editDataPost(deviceid,device.data).then(data1 => {
+        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+        console.log('rooms after change', rooms);
+        props.setRoomsAction(rooms)})
    
    
      }
@@ -45,8 +46,8 @@ const DashboardAppliance = (props) =>{
         const devices = room.devices.filter(device => device.category ==='Appliance').map(device => {
          // console.log("device",device);
       return (
-        <React.Fragment>
-        <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
+        <React.Fragment  key={device.id}>
+        <div className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
             <img src={device.imgUrl}></img>
             &nbsp;&nbsp;
@@ -64,7 +65,7 @@ const DashboardAppliance = (props) =>{
     })
     
     return(
-        <React.Fragment>
+        <React.Fragment key={room.id}>
 							&nbsp;
               <div>
               &nbsp;
