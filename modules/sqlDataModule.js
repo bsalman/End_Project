@@ -114,30 +114,34 @@ function changeUser (userName, newPassword,oldPassword) {
 }
 
 //========================================//
-function addRoom(roomName,roomType) {
+function addRoom(roomName,roomType,roomSelected) {
     return new Promise((resolve,reject) => {
-        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' ANd type LIKE '${roomType}'`).then((results)=>{
+        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' AND type LIKE '${roomType}'`).then((results)=>{
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
+                runQuery(`INSERT INTO rooms(name,type,selected) VALUES ('${roomName}','${roomType}','${roomSelected}')`).then( result => {
                     getAllRooms().then(rooms => {
                         resolve(rooms)
                     }).catch(error => {
+                        //console.log(error);
                         reject(error)
                     })
                     
                 }).catch(error => {
-                    console.log(error);
+                    
                     if (error.errno === 1054) {
                         reject(3)
                     } else {
+                        //console.log(error);
                         reject(error)
                     }
                     
                 })
             }
         }).catch(error=>{
+            //4
+            console.log(error);
             reject(error)
         })
         
@@ -148,15 +152,17 @@ function getAllRooms(){
     return new Promise((resolve, reject) =>{
         runQuery(`SELECT rooms.* FROM rooms; SELECT devices.* FROM devices;`).then(results=>{
             // console.
-            (results);
+            //(results);
             if(results.length > 0){
             const rooms = [];
             results[0].forEach(room=>{
+                //console.log(room);
                 let roomObj = {
                     id: room.id,
                     name: room.name,
                     type: room.type,
-                    devices:[]
+                    devices:[],
+                    selected:room.selected
                 }
                 rooms.push(roomObj);
             })
@@ -233,7 +239,10 @@ function getRoom(roomId) {
                                     name: device.name,
                                     number: device.number,
                                     category: device.category,
-                                    room_id: room.id
+                                    room_id: room.id,
+                                    connected: device.connected === 1 ? true : false,
+                                    data: data,
+                                    imgUrl: device.img_url
                                 }
                                 room.devices.push(deviceObj)
                             
@@ -259,16 +268,16 @@ function getRoom(roomId) {
         })
     })
 }
-//  getRoom(187); 
+
 //============================================//
-function addDevice(deviceName,deviceNumber,category, roomId) {
+function addDevice(deviceName,deviceNumber,category, roomId, imgUrl) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
             // console.log('resules',results);
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name,number,category, room_id) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}')`).then( result => {
+                runQuery(`INSERT INTO devices(name,number,category, room_id, img_url) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}','${imgUrl}')`).then( result => {
                     resolve(result)
                 }).catch(error => {
                     console.log(error);
@@ -407,7 +416,7 @@ function deleteDevice(deviceId,roomId) {
                     // })
                              
                 }).catch(error => {
-                    console.log(error);
+                    //console.log(error);
                     if (error.errno === 1146) {
                         reject(3)
                     } else {
@@ -418,7 +427,7 @@ function deleteDevice(deviceId,roomId) {
                 reject(3)
             }     
         }).catch((error)=>{
-            console.log(error);
+            //console.log(error);
             reject(error)
         })
 
@@ -426,6 +435,22 @@ function deleteDevice(deviceId,roomId) {
 
 }
 
+//=========================================================//
+function editSelected(roomId,selected){
+    return new Promise((resolve,reject)=>{
+        runQuery(`UPDATE rooms SET selected = '${selected}' WHERE id = ${roomId}`).then((room) => {
+           
+                if(room){
+                    resolve(room)
+                }else{
+                    reject(3)
+                }     
+                }).catch((error)=>{
+                console.log(error);
+                reject(error)
+               })
+            })
+    }
 
 //=========================================================//
 
@@ -442,11 +467,11 @@ function editData(deviceId,data){
                 }     
                 }
             )).catch((error)=>{
-                console.log(error);
+                //console.log(error);
                 reject(error)
                })
         }).catch((error)=>{
-            console.log(error);
+            //console.log(error);
             reject(error)
            })
     })
@@ -488,7 +513,6 @@ function setDeviceConnection(sn, status) {
     })
 }
 
-
 //==================================//
 function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
     return new Promise((resolve,reject) => {
@@ -527,7 +551,6 @@ function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
         
     })
 }
-
 
 //=================================================//
 
@@ -570,5 +593,6 @@ module.exports = {
     getDevices,
     setDeviceConnection,
     addTimeMotion,
-    getMotionRelatedDevices
+    getMotionRelatedDevices,
+    editSelected
 }

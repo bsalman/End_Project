@@ -61,10 +61,11 @@ export const changeUserPost =(newUsername,newPassword,repassword,oldPassword) =>
     })
 }
 //================================================//
-export const addRoomPost =(roomName,roomType)=>{
+export const addRoomPost =(roomName,roomType,roomSelected)=>{
     const roomObj={
         roomName:roomName,
-        roomType:roomType
+        roomType:roomType,
+        roomSelected
     }
     return new Promise((resolve,reject)=>{
         fetch('/addroom',{
@@ -113,13 +114,14 @@ export const allRoomsPost = () => {
 }
 //===========================================//
 
-export const addDevicePost =(deviceName,type,deviceSn,roomId)=>{
+export const addDevicePost =(deviceName,type,deviceSn,roomId,imgUrl)=>{
     return new Promise((resolve,reject)=>{
         const deviceObj={
             deviceName:deviceName,
             deviceSn:deviceSn,
             type:type,
-            roomId:roomId
+            roomId:roomId,
+            imgUrl:imgUrl
         }
         //console.log(deviceObj);
         fetch('/rooms/adddevices',{
@@ -205,33 +207,6 @@ export const editRoomPost = (newRoomName, newRoomType, roomId) => {
 
 }
 
-// export const deleteDevicePost = (roomId, deviceId) => {
-//     return new Promise ((resolve,reject)=>{
-//         const data={roomId, deviceId}
-//         fetch('/room/deletedevice',{
-//             method:'POST',
-//             headers:{
-//                 'Content-Type':'application/json'
-//             },
-//             body:JSON.stringify(data)
-//         }).then((response)=>{
-//             if (response.status===200) {
-//                 response.json().then((data)=>{
-//                     resolve(data)
-//                 }).catch((error)=>{
-//                     reject(error)
-//                 })              
-//             }else{
-//                 reject(new Error('can not get the data, response number is: ' + response.status))
-//             }
-//         }).catch((error)=>{
-//             reject(error)
-//         })
-//     })
-    
-// }
-
-
 export const getRoomPost = (roomId) => {
     return new Promise((resolve, reject) => {
         const data = {
@@ -261,7 +236,6 @@ export const getRoomPost = (roomId) => {
 
 
 }
-
 
 //===================================================================//
 export const editDevicePost =(deviceId,serialNumber)=>{
@@ -294,7 +268,6 @@ export const editDevicePost =(deviceId,serialNumber)=>{
     })
 }
 
-///deleteDevice
 
 //============================================//
 export const deleteDevicePost=(deviceId,roomId)=>{
@@ -387,6 +360,38 @@ export const getDevicesPost = (roomId) => {
 
 //===========================================//
 
+export const editSelected=(roomId,selected)=>{
+    return new Promise((resolve,reject)=>{
+        const selectObj={
+            roomId:roomId,
+            selected:selected
+        }
+        fetch('/editselected', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectObj)
+        }).then(response=>{
+            //console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    // console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+
+}
+//=======================================================//
+
 export const addTimeMotionPost =(startTime,stopTime,motionId,deviceId,active)=>{
     return new Promise((resolve,reject)=>{
         const timeMotionObj={
@@ -418,3 +423,36 @@ export const addTimeMotionPost =(startTime,stopTime,motionId,deviceId,active)=>{
     })
 
 }
+
+//==================================================//
+
+export const getMotionRelatedDevicesPost = (deviceId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            deviceId
+        }
+        fetch("/getmotiondevices", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+

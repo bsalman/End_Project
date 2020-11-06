@@ -35,52 +35,75 @@ const LightSetting = (props) => {
     showdownTime:"",
     ternOnTim:"",
     classChecked:"",
-    serialNumber:""
+    serialNumber:"",
+    checked : false
   }
 //=======================================//
   const [state,
     setState] = useState(initialState)
 //==========================================//
   let room ={
-    roomType: '',
-    devicesArr:""
+    id:"",
+    name:"",
+    type:"",
+    devices:[]
   }
+  let device={}
 //==============================================//
 
   if (props.rooms.length > 0) {
    
+    room.id=roomId
     const rooms=props.rooms
    
     const selectedRoom= rooms.find(room=>room.id==roomId)
     const devices= selectedRoom.devices
   
-    room.roomType=selectedRoom.type
-    const selectedDevice=devices.find(device=> device.id=== deviceId)
-    room.devicesArr=devices
+    room.name=selectedRoom.name
+    room.type= selectedRoom.type
+    room.devices = selectedRoom.devices
+    device=room.devices.find(device => device.id == deviceId)
+
+    //room.roomType=selectedRoom.type
+    //const selectedDevice=devices.find(device=> device.id=== deviceId)
+    //room.devicesArr=devices
     // console.log(selectedDevice);
    
   }
 
   //=======================================//
-  const ternOffOnLight=(e)=>{
-    if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
-      const errorsElement = (
-        <ul>
-          {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
-          {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
-        </ul>
-      )
-      const newState = {...state}
-      newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
-      newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
-      newState.roomModalShow = false
-      setState(newState)
-    }
+  const turnOnOff=(e,deviceId,roomId)=> {
+    e.preventDefault()
+    setState({...state,checked:!state.checked})
+    const rooms = [...props.rooms]
+    //  setState({...state,checked:!state.checked})
+    let device = room.devices.find(device => device.id == deviceId)
     
+     device.data = device.data == 'on' ? 'off' : 'on'
+     editDataPost(deviceId,device.data).then(data1 => {
+      rooms[rooms.map(room => room.id).indexOf(roomId)] = room
+      props.setRoomsAction(rooms)
+     })
   }
+  // const ternOffOnLight=(e)=>{
+  //   if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
+  //     const errorsElement = (
+  //       <ul>
+  //         {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
+  //         {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
+  //       </ul>
+  //     )
+  //     const newState = {...state}
+  //     newState.errorModal.show = true
+  //     newState.errorModal.title = "Entries Error"
+  //     newState.errorModal.content = errorsElement
+  //     // hide addroom modal because we need to show error modal and we can not show
+  //     // two modals on the same time
+  //     newState.roomModalShow = false
+  //     setState(newState)
+  //   }
+    
+  // }
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
@@ -101,7 +124,7 @@ const LightSetting = (props) => {
     }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-         const  devices=props.rooms.find(room=>room.id==device.room_id)
+         //const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
 console.log("device", device);
@@ -149,7 +172,7 @@ console.log("device", device);
         <div className="col-sm-12">
           <div className="card p-2 mb-4">
             <div className="card-body d-flex flex-row justify-content-center">
-  <h3 className="card-title">{room.roomType}/{deviceCategory}/{deviceName}</h3>
+  <h3 className="card-title">{room.type}/{deviceCategoryParam}/{deviceName}</h3>
             </div>
           </div>
         </div>
@@ -167,9 +190,9 @@ console.log("device", device);
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <label className="switch ml-auto">
-							<input type="checkbox" id="switch-house-lock"  />
-						</label>
+              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
+							<Input type="checkbox" id={deviceId}/>
+						</Label>
             &nbsp;
                 
               </div>
@@ -210,14 +233,14 @@ console.log("device", device);
                 />
             </div>
             <div className="col justify-content-end ">
-              <Button onClick={ternOffOnLight}>Save</Button>
+              <Button>Save</Button>
             </div>
           </div>
           &nbsp;
           <hr className="my-0"/>
           <ul className="list-group borderless">
             <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
+            <img src="/images/timer.png"></img>
               &nbsp;
               <h5 className="card-title">Motion:Set Time</h5>
               <div className=" ml-auto ">
@@ -273,7 +296,7 @@ console.log("device", device);
                 </FormGroup>
                 <div className="row ">
                 <div className="col">
-                  <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}>
+                  <Link to={"/room/"+ params.roomId}>
                       <Button
                         type="button "
                        className="btn btn-primary"

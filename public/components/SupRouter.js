@@ -19,6 +19,7 @@ import MotionSettings from './MotionSettings'
 import LightSetting from './LightSettings'
 import AppliancesSetting from './AppliancesSettings'
 import AboutUsPage from './AboutUs'
+import AccountSettings from './AccountSettings'
 
 class SupRouter extends React.Component {
     render() {
@@ -40,6 +41,7 @@ class SupRouter extends React.Component {
                                                 <Route path="/aboutus" exact component={AboutUsPage} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
+                                                <Route path="/accountSettings" exact component={AccountSettings}/>
                                                 {/* <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} /> */}
                                                 <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} />
                                                 {/* <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} /> */}

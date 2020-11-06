@@ -21,9 +21,9 @@ const DashboardMotion = (props)=>{
 							<div className="card">
 								<div className="card-body">
 									<h4 className="card-title">Motion</h4>
-								
+                                    <div className="overflow">
 								{MotionElement}
-									
+                                </div>
 								</div>
 							</div>
 						</div>

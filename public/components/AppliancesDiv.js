@@ -276,6 +276,7 @@ const AppliancesDiv = (props) =>{
   )
 }
 
+
 const setStateToProps = (state) => {
   return ({
       rooms: state.rooms

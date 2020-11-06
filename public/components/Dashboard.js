@@ -1,17 +1,18 @@
-import React,{ useState, useEffect } from 'react'
+import React,{ useState } from 'react'
 import {connect} from 'react-redux'
+import { Button, Label, Input} from 'reactstrap'
 //=====================================//
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
-
+import {setRoomsAction} from '../actions'
+// import {setRoomsAction} from '../actions'
 
 
 
 const Dashboard =(props)=> {
 		
-	
 	//=================================//	
 	let initialState={
 		security:false,
@@ -24,9 +25,12 @@ const Dashboard =(props)=> {
 		setState({...state,
 			security: !state.security})
 	}
+	
 			if(props.rooms.length>0){
-				
+
 			}
+				
+			
 		return(
 			
 				<React.Fragment>
@@ -49,9 +53,9 @@ const Dashboard =(props)=> {
 											<h4>Security system</h4>
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
-										<label className={`switch ml-auto ${state.security==true?"checked":""}`}>
-											<input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
-										</label>
+										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
+											<Input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
+										</Label>
 									</div>
 								</div>
 							</div>
@@ -68,10 +72,10 @@ const Dashboard =(props)=> {
 											<p className="status text-danger">Close</p>
 										</div>
 										<div className="ml-auto timer-controls" data-controls="garage-doors-1">
-												<button data-action="open" type="button" className="btn btn-secondary doors-control">Open</button>
-												<button data-action="pause" type="button" className="btn btn-secondary doors-control">Pause</button>
-												<button data-action="resume" type="button" className="btn btn-secondary doors-control">Resume</button>
-												<button data-action="close" type="button" className="btn btn-secondary doors-control">Close</button>
+												<Button data-action="open" type="button" className="btn btn-secondary doors-control">Open</Button>
+												<Button data-action="pause" type="button" className="btn btn-secondary doors-control">Pause</Button>
+												<Button data-action="resume" type="button" className="btn btn-secondary doors-control">Resume</Button>
+												<Button data-action="close" type="button" className="btn btn-secondary doors-control">Close</Button>
 										</div>
 									</div>
 									<div className="progress">
@@ -106,9 +110,9 @@ const Dashboard =(props)=> {
 		
 		}
 		
-		
+	
 const setStateToProps = (state) => {
 		return ({rooms: state.rooms})
 		  }
 
-export default connect(setStateToProps,{})(Dashboard)
+export default connect(setStateToProps,{setRoomsAction})(Dashboard)

@@ -26,7 +26,10 @@ const DashboardTemperature = (props)=>{
 							<div className="card">
 								<div className="card-body">
 									<h4 className="card-title ">Temperature-Indictor</h4>
+									<div className="overflow">
 									{TempElement}
+									</div>
+									
 									
 								</div>
 							</div>

@@ -5,6 +5,7 @@ import { Label, Input} from 'reactstrap';
 
 // importing the action
 import {setRoomsAction} from '../actions'
+import {editDataPost} from '../services/api'
 
 //===============================//
 
@@ -47,9 +48,8 @@ const DashboardAppliance = (props) =>{
         <React.Fragment>
         <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
-            <img src={`${device.name==="washing-machine"?'/images/washing-machine.png':''}`}></img>
-            <img src={`${device.name==="tv"?'/images/tv.png':''}`}></img>
-            <img src={`${device.name==="fridge"?'/images/fridge1.png':''}`}></img>
+            <img src={device.imgUrl}></img>
+            &nbsp;&nbsp;
                  <h5>{device.name}</h5>
                  <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
                   <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/>  {/* checked/ */}

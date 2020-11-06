@@ -56,6 +56,7 @@ const Rooms = (props) => {
     deviceName: '',
     categoryID: '',
     deviceSerialNumType: '',
+    applianceType:'',
     deviceModalShow: false,
 
     // edit data for the room
@@ -195,8 +196,8 @@ const onAddRoomClick = e => {
     newState.roomModalShow = false
     setState(newState)
   } else {
-    addRoomPost(state.newRoomName, state.newRoomType).then(data => {
-
+    addRoomPost(state.newRoomName, state.newRoomType,'off').then(data => {
+      console.log('data',data);
       let badgeClass = ''
       let badgeMessage = ''
       let badgeTitle = ''
@@ -222,6 +223,7 @@ const onAddRoomClick = e => {
           newState.newRoomName = ''
           newState.newRoomType = ''
           setState(newState)
+
           // props.setRoomsAction(data,null,1) //saving all the rooms
           props.setRoomsAction(data) 
           break;
@@ -284,12 +286,39 @@ const onAddRoomClick = e => {
         newState.deviceModalShow = false
         setState(newState)
     }else{
+      let imgUrl="";
+      switch (state.applianceType) {
+        case "Washing-machine":
+          imgUrl="/images/washing-machine.png";
+          break;
+          case "Fridge":
+            imgUrl="/images/fridge1.png";
+            break;
+            case "Dishwasher":
+              imgUrl="/images/dishwasher1.png";
+              break;
+              case "Stereo":
+                imgUrl="/images/stereo.png";
+                break;
+                case "Tv":
+                  imgUrl="/images/tv.png";
+                  break;
+                  case "Microwave":
+                  imgUrl="/images/microwave.png";
+                  break;
+                  case "Other":
+                    imgUrl="/images/other.png";
+                    break;
+        default:
+          break;
+      }
         const newState = {...state}
         newState.deviceName = ''
         newState.categoryID = ''
         newState.deviceSerialNumType = ''
+        newState.applianceType=''
         newState.deviceModalShow = false
-        addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId).then(device => {
+        addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId,imgUrl).then(device => {
             // console.log('device',device);
             // console.log('propsessen3',props.setRoomsAction);
             const newRooms = props.rooms.map(room => {
@@ -653,6 +682,36 @@ const onEditRoomClick = (e) => {
                 </Input>
               </div>
             </FormGroup>
+
+            <FormGroup className="form-group row">
+              <div className="col-12">
+                <Label for="appliance_Type" className="col-12 col-form-label modal-font">Appliance Type</Label>
+                <Input
+                 disabled={`${state.categoryID=="Appliance"?"":"disabled"}`}
+                  className="form-control custom-focus "
+                  type="select"
+                  name="select"
+                  id="appliance_Type"
+                  onChange={(e) => {
+                  setState({
+                    ...state,
+                    applianceType: e.target.value
+                  })
+                }}
+                
+                  value={state.applianceType}>
+                  <option></option>
+                  <option>Washing-machine</option>
+                  <option>Fridge</option>
+                  <option>Dishwasher</option>
+                  <option>Stereo</option>
+                  <option>Tv</option>
+                  <option>Microwave</option>
+                  <option>Other</option>
+                </Input>
+              </div>
+            </FormGroup>
+
 
             <FormGroup className="row">
               <div className="col-12" modal-content="true">

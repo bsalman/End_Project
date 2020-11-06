@@ -91,26 +91,14 @@ app.post('/settings', (req, res) => {
 
 });
 
-
-// app.get('/dashboard', (req, res) => {
-//     const arr = [{roomName:'bed',
-// roomType:'a'},
-// {roomName:'bed1',
-// roomType:'b'}]
-//     dataModule.addRoom(arr).then(result => {
-//         console.log(result);
-//     }).catch(error => {
-//         console.log(error);
-//     })
-// });
-
 app.post('/addroom', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
+    const roomSelected = req.body.roomSelected
     if (roomName && roomType) {
-        dataModule.addRoom(roomName, roomType).then(rooms => {
-            console.log('rooms', rooms);
+        dataModule.addRoom(roomName, roomType,roomSelected).then(rooms => {
+            //console.log('rooms', rooms);
             res.json(rooms)
         }).catch(error => {
             if (error === 3) {
@@ -131,18 +119,21 @@ app.post('/rooms/adddevices', (req, res) => {
     const categoryId = req.body.type
     const deviceSn = req.body.deviceSn
     const roomId = req.body.roomId
-    if (deviceName && categoryId && deviceSn) {
-        dataModule.addDevice(deviceName, deviceSn, categoryId, roomId).then(device => {
+    const imgUrl = req.body.imgUrl
 
-            console.log('device', device);
+    if (deviceName && categoryId && deviceSn) {
+        dataModule.addDevice(deviceName, deviceSn, categoryId, roomId, imgUrl).then(device => {
+
+           // console.log('device', device);
             let deviceObj = {
                 id: device.insertId,
                 name: deviceName,
                 number: deviceSn,
                 category: categoryId,
-                room_id: roomId
+                room_id: roomId,
+                imgUrl:imgUrl
             }
-            console.log(deviceObj);
+            //console.log(deviceObj);
             res.json(deviceObj)
 
 
@@ -197,13 +188,7 @@ app.post('/rooms/editroom', (req, res) => {
     // console.log(req.body)
     // res.json(1)
     dataModule.editRoom(req.body.newRoomName, req.body.newRoomType, req.body.roomId).then((room) => {
-        // console.log('room',room);
-        // let roomObj = {
-        //         room:[req.body.newRoomName,req.body.newRoomType,req.body.id],
-        //         device : room.roomDevice[0]
 
-        // }
-        // console.log('roomObj',roomObj);
         res.json(room)
     }).catch(error => {
         if (error === 2) {
@@ -272,7 +257,7 @@ app.post('/deletedevice', (req, res) => {
     //3 this device id doesnt exist
     //2 kein devices
     //4 server error
-    console.log(req.body)
+    //console.log(req.body)
 
 
     const deviceId = req.body.deviceId;
@@ -280,10 +265,10 @@ app.post('/deletedevice', (req, res) => {
 
     if (deviceId) {
         dataModule.deleteDevice(deviceId, roomId).then((device) => {
-            console.log('hi', device);
+            //console.log('hi', device);
             res.json(device)
         }).catch(error => {
-            console.log(error);
+            //console.log(error);
             if (error == 3) {
                 res.json(3)
             } else {
@@ -323,9 +308,21 @@ app.post('/getdevices', (req, res) => {
     })
 });
 
+//==============================================================//
+app.post('/editselected',(req,res)=>{
+    const roomId=req.body.roomId;
+    const selected=req.body.selected
+    if(roomId&&selected){
+        dataModule.editSelected(roomId,selected).then((room)=>{
+            res.json(room)
+        }).catch(error => {
+            console.log(error);
+            res.json(3)
+        })
+    }
+})
 
-
-
+//==============================================================//
 app.post('/addtimemotion', (req, res) => {
     console.log(req.body);
     // res.json(req.body)
@@ -342,6 +339,16 @@ app.post('/addtimemotion', (req, res) => {
 
 });
 //==============================================================//
+app.post('/getmotiondevices', (req, res) => {
+    //console.log(req.body);
+    dataModule.getMotionRelatedDevices(req.body.deviceId).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+//================================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)
@@ -350,6 +357,10 @@ app.use('/', (req, res, next) => {
 const server = app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
 });
+
+
+
+
 
 const io = require('socket.io')(server)
 
