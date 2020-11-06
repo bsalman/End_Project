@@ -58,7 +58,7 @@ const Login = (props) => {
       } else {
         //console.log(myState);
         loginPost(myState.username,myState.password).then(data => {
-         console.log(data);
+        //  console.log(data);
           //here i need to write the switch selon le backend
         
           switch (data) {
@@ -77,11 +77,17 @@ const Login = (props) => {
               setMyState({...myState, entriesError:true, errorElement:<p>Server error, please contact the service provider</p>,errorTitle: 'Server Error'})
               break;
             case 'false':
+               //show admin panel
+               props.setUserAction(myState.username)
+               props.setLoggedInAction(data)
+               history.push('/settings')
+               //console.log('should be login');
+               break;
             case 'true':
               //show admin panel
               props.setUserAction(myState.username)
               props.setLoggedInAction(data)
-              history.push('/settings')
+              history.push('/')
               //console.log('should be login');
               break;
           

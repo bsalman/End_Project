@@ -52,38 +52,8 @@ $(document).ready(function() {
                 }
             }
         });
-
-        // Range Slider values
-       var rangeValues = JSON.parse(localStorage.getItem('rangeValues')) || {};
-
-       $.each(rangeValues, function(key, value) {
-
-        // Apply only if element is included on the page
-        if ($('[data-rangeslider="' + key + '"]').length) {
-
-          if (key === 'fridge-temp') {
-            // Update Range slider - special case Fridge
-            var temperatureFar = value;
-            var temperatureCel = (temperatureFar - 32) * 5 / 9;
-            var roundCel = Number(Math.round(temperatureCel + 'e2') + 'e-2');
-            $('[data-rangeslider="' + key + '"] #fridge-temp-F').html(temperatureFar);
-            $('[data-rangeslider="' + key + '"] #fridge-temp-C').html(roundCel);
-
-          } else {
-            // Update Range slider - universal
-            $('[data-rangeslider="' + key + '"] input[type="range"]').val(value);
-            $('[data-rangeslider="' + key + '"] .range-output').html(value);
-          }
-        }
-      });
-
-
-
-    // closing if statement of local storage 
     }
- 
-       
-   
+
 
     // Contract/expand side menu on click. (only large screens)
     $('#minifier').click(function() {
@@ -108,8 +78,8 @@ $(document).ready(function() {
     // Switch (checkbox element) toogler
     $('.switch input[type="checkbox"]').on("change", function(t) {
 
-        // Check the time between changes to prevent Android native browser execute twice
-        // If you don't need support for Android native browser - just call "switchSingle" function
+        // Check the time between changes to prevert Android native browser execute twice
+        // If you dont need support for Android native browser - just call "switchSingle" function
         if (this.last) {
 
             this.diff = t.timeStamp - this.last;
@@ -145,16 +115,6 @@ $(document).ready(function() {
         iot.switchGroup(target, action);
     });
 
-    // Wash machine controls
-    $('.wash-control').click(function() {
-
-     var target = $(this).closest('.timer-controls').data('controls');
-     var action = $(this).data('action');
-    
-     iot.washMachine(target, action);
-     });
-    
-   
     // Reposition to center when a modal is shown
     $('.modal.centered').on('show.bs.modal', iot.centerModal);
 
@@ -206,178 +166,13 @@ $(document).ready(function() {
 
     });
 
-    // Data binding for numeric representation of range slider
-    $(document).on('input', 'input[type="range"]', function() {
-    $('[data-rangeslider="' + this.id + '"] .range-output').html(this.value);
-    });
-
-    // Data binding for numeric representation of Fridge range slider
-    $(document).on('input', 'input[type="range"]#fridge-temp', function() {
-    var temperatureFar = this.value;
-    var temperatureCel = (temperatureFar - 32) * 5 / 9;
-    var roundCel = Number(Math.round(temperatureCel + 'e2') + 'e-2');
-    $('[data-rangeslider="' + this.id + '"] #fridge-temp-F').html(temperatureFar);
-    $('[data-rangeslider="' + this.id + '"] #fridge-temp-C').html(roundCel);
-
-    // Manage temperature visualization heating/cooling in regard to desired (71.6 F)
-      if (temperatureFar > 71.6) {
-        $('[data-unit="' + this.id + '"]').addClass("heating");
-        $('[data-unit="' + this.id + '"]').removeClass("cooling");
-      } else if (temperatureFar < 71.6) {
-        $('[data-unit="' + this.id + '"]').addClass("cooling");
-        $('[data-unit="' + this.id + '"]').removeClass("heating")  
-      } else {
-        $('[data-unit="' + this.id + '"]').removeClass("cooling");
-        $('[data-unit="' + this.id + '"]').removeClass("heating");
-      }
-
-    });
-
-    // Data binding for numeric representation of TV Volumee range slider
-    $(document).on('input', 'input[type="range"].volume', function() {
-    $('[data-rangeslider="' + this.id + '"] .range-output').html(this.value);
-    });
-
-    // Bar Chart initialization settings - Chartist.js
-
-    var data01 = {
-        // Labels array that can contain any sort of values
-        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        // Series array that contains series objects or in this case series data arrays
-        series: [{
-            "name": "Kitchen",
-            "data": [7, 4, 6, 5, 6, 3, 8]
-          },
-          {
-            "name": "Dining room",
-            "data": [3, 1, 1, 2, 1, 2, 2]
-          },
-          {
-            "name": "Living room",
-            "data": [6, 2, 3, 4, 2, 5, 7]
-          },
-          {
-            "name": "Bedroom",
-            "data": [2, 1, 1, 1, 1, 2, 3]
-          },
-          {
-            "name": "Bathroom",
-            "data": [6, 5, 6, 7, 5, 12, 9]
-          }
-        ]
-      };
-
-      var options01 = {
-        axisY: {
-          labelInterpolationFnc: function(value) {
-            return value + 'h'
-          }
-        },
-        height: 240,
-        high: 14,
-        low: 0,
-        scaleMinSpace: 6,
-        onlyInteger: false,
-        referenceValue: 0,
-        seriesBarDistance: 8,
-        plugins: [
-          Chartist.plugins.legend({
-            position: 'bottom'
-          })
-        ]
-      };
-
-      var responsive_steps01 = [
-        // Show only every second label
-        ['screen and (max-width: 768px)', {
-          axisX: {
-            labelInterpolationFnc: function skipLabels(value, index, labels) {
-              return index % 2 === 0 ? value : null;
-            }
-          }
-        }],
-        // Show only every fourth label
-        ['screen and (max-width: 480px)', {
-          axisX: {
-            labelInterpolationFnc: function skipLabels(value, index, labels) {
-              return index % 4 === 0 ? value : null;
-            }
-          }
-        }]
-      ];
-
-      var responsive_steps02 = [
-        // Show only every second label
-        ['screen and (max-width: 768px)', {
-          axisX: {
-            labelInterpolationFnc: function skipLabels(value, index, labels) {
-              return index % 2 === 0 ? value : null;
-            }
-          }
-        }],
-        // Show only every fourth label
-        ['screen and (max-width: 480px)', {
-          axisX: {
-            labelInterpolationFnc: function skipLabels(value, index, labels) {
-              return index % 4 === 0 ? value : null;
-            }
-          }
-        }]
-      ];
-
-      // Pie Chart initialization settings - Chartist.js
-      var data02 = {
-        labels: ['Kitchen', 'Dining room', 'Living room', 'Bedroom', 'Bathroom'],
-        series: [28, 12, 20, 9, 31]
-      };
-
-      var options02 = {
-        chartPadding: 50,
-        donut: true,
-        donutWidth: 12,
-        labelOffset: 20,
-        labelDirection: 'explode',
-        labelInterpolationFnc: function(value, idx) {
-          return data02.series[idx] + '%'
-        }
-      };
-
-      var responsive_steps02 = [
-        ['screen and (max-width: 768px)', {
-          height: 240,
-          chartPadding: 25
-        }]
-      ];
-
-      // Initialize a Bar chart in the container with the ID chart01
-      new Chartist.Bar('#chart01', data01, options01, responsive_steps01)
-        .on('draw', function(data001) {
-          if (data001.type === 'bar') {
-            data001.element.attr({
-              style: 'stroke-width: 6px;'
-            });
-          }
-        });
-
-       // Initialize a Bar chart in the container with the ID chart01
-       new Chartist.Bar('#chart02', data02, options02, responsive_steps02)
-       .on('draw', function(data02) {
-         if (data02.type === 'bar' && data02.value.y > 0) {
-           data02.element.attr({
-             class: 'ct-bar abovezero'
-           });
-         }
-       });
-
- // closing of the document tag
-});// doc ready END
+});
 
 // Apply necessary changes, functionality when content is loaded
 $(window).on('load', function() {
 
     // This script is necessary for cross browsers icon sprite support (IE9+, ...) 
     svg4everybody();
-    
 
     // Washing machine - demonstration of running program/cycle
     $('#wash-machine').timer({
@@ -386,11 +181,8 @@ $(window).on('load', function() {
         duration: '1h17m10s',
         callback: function() {
             $('[data-unit="wash-machine"]').removeClass("active");
-            $('[data-unit="wash-machine"] .status').html('OFF');
         }
     });
-
-    $('[data-unit="wash-machine"] .timer-controls button[data-action="pause"]').css("display", "block");
 
     if ($('[data-unit="switch-camera-1"]').hasClass("active")) {
         var activeVideo = $('[data-unit="switch-camera-1"] video').get(0);
@@ -416,35 +208,19 @@ $(window).on('load', function() {
         }
     }
 
-    // "Timeout" function is not necessary - important is to hide the preloader overlay
+    // "Timeout" function is not neccessary - important is to hide the preloader overlay
     setTimeout(function() {
 
-    // Hide preloader overlay when content is loaded
-    $('#iot-preloader,.card-preloader').fadeOut();
-    $("#wrapper").removeClass("hidden");
+        // Hide preloader overlay when content is loaded
+        $('#iot-preloader,.card-preloader').fadeOut();
+        $("#wrapper").removeClass("hidden");
 
-    // Initialize range sliders
-    // $('input[type="range"]').rangeslider({
-    //   polyfill: false,
-    //   onSlideEnd: function(position, value) {
+        // Check for Main contents scrollbar visibility and set right position for FAB button
+        iot.positionFab();
 
-    //     var rangeValues = JSON.parse(localStorage.getItem('rangeValues')) || {};
-    //     // Update localStorage
-    //     if (localStorage) {
-    //       rangeValues[this.$element[0].id] = value;
-    //       localStorage.setItem("rangeValues", JSON.stringify(rangeValues));
-    //     }
-    //   }
+    }, 800);
 
-    // });
-
-    // Check for Main contents scrollbar visibility and set right position for FAB button
-    iot.positionFab();
-
-  }, 800);
-
-
-}); // window onload end
+});
 
 // Apply necessary changes if window resized
 $(window).on('resize', function() {

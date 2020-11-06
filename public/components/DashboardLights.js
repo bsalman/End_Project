@@ -1,11 +1,11 @@
+import React,{ useState } from 'react'
+import {connect} from 'react-redux'
+import {Label, Input} from 'reactstrap';
 
-import React,{ useState } from 'react';
-import {connect} from 'react-redux';
-import {Label, Input } from 'reactstrap';
+import {setRoomsAction} from '../actions'
 
-import {setRoomsAction} from '../actions';
+import {editDataPost,editSelected} from '../services/api';
 
-import {editDataPost} from '../services/api';
 
 const DashboardLights = (props)=>{
 //=======================================================//
@@ -21,8 +21,11 @@ const initialStat={
         const rooms = [...props.rooms]
         let room = rooms.find(room => room.id == roomId)
         room.selected= room.selected == 'on' ? 'off' : 'on'
-        rooms[rooms.map(room => room.id).indexOf(roomId)] = room
-        props.setRoomsAction(rooms)
+        editSelected(roomId,room.selected).then(data=>{
+            console.log('data',data);
+            rooms[rooms.map(room => room.id).indexOf(roomId)] = room
+            props.setRoomsAction(rooms)
+        })
     }
    
 //=========================================================//
@@ -40,10 +43,9 @@ const initialStat={
         console.log('rooms after change', rooms);
         props.setRoomsAction(rooms)
        })
-       
-
    
-     }
+   
+    }
  //===============================================//
     const rooms2=props.parameter
     const LightElement=rooms2.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
@@ -53,7 +55,7 @@ const initialStat={
                        <h6 className="ml-4">{device.name}</h6>
                             
                         <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
-                            <Input type="checkbox" id={'switch-light-' + device.id} checked={device.data === 'on' }/> 
+                            <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
                         </Label>
                    </div>
             )
@@ -64,7 +66,7 @@ const initialStat={
         <div  key={room.id} className="card">
           <div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
                 
-                <img src="/images/light.png" style={{width:"32px",height:"32px"}}></img>
+                <img src="../images/light.png" style={{width:"32px",height:"32px"}}></img>
                  <h5>{room.type}</h5>
                  <button className="btn btn-secondary  ml-auto" onClick={(e)=>{toggle(e,room.id)}}
                   data-toggle="tooltip"

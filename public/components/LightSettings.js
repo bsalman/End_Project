@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {Link,useParams} from 'react-router-dom'
+import React, {useState,useEffect} from 'react'
+import {Link, useParams} from 'react-router-dom'
 import {
   Col,
   Button,
@@ -8,7 +8,6 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import {editDataPost} from '../services/api'
 //==============================================//
 import {connect} from 'react-redux'
 // importing the action
@@ -25,7 +24,6 @@ const LightSetting = (props) => {
   const deviceId=params.id
   const deviceName=params.deviceName
   const roomId =params.roomId
-  console.log(deviceId);
   
   const initialState = {
     errorModal: {
@@ -41,43 +39,53 @@ const LightSetting = (props) => {
     checked : false
   }
 //=======================================//
-  const [state,setState] = useState(initialState)
+  const [state,
+    setState] = useState(initialState)
 //==========================================//
   let room ={
-    roomType: '',
-    devicesArr:[]
+    id:"",
+    name:"",
+    type:"",
+    devices:[]
   }
-  let device=''
+  let device={}
 //==============================================//
 
   if (props.rooms.length > 0) {
    
+    room.id=roomId
     const rooms=props.rooms
+   
     const selectedRoom= rooms.find(room=>room.id==roomId)
     const devices= selectedRoom.devices
-    room.roomType=selectedRoom.type;
-    room.devicesArr=devices;
-    device=devices.find(device=>device.id== deviceId)
+  
+    room.name=selectedRoom.name
+    room.type= selectedRoom.type
+    room.devices = selectedRoom.devices
+    device=room.devices.find(device => device.id == deviceId)
+
+    //room.roomType=selectedRoom.type
+    //const selectedDevice=devices.find(device=> device.id=== deviceId)
+    //room.devicesArr=devices
+    // console.log(selectedDevice);
+   
   }
-  //==========================================//
+
+  //=======================================//
   const turnOnOff=(e,deviceId,roomId)=> {
     e.preventDefault()
-   
-     setState({...state,checked:!state.checked})
+    setState({...state,checked:!state.checked})
+    const rooms = [...props.rooms]
+    //  setState({...state,checked:!state.checked})
+    let device = room.devices.find(device => device.id == deviceId)
+    
      device.data = device.data == 'on' ? 'off' : 'on'
-     console.log(device.data);
-
      editDataPost(deviceId,device.data).then(data1 => {
-    console.log(data1);
+      rooms[rooms.map(room => room.id).indexOf(roomId)] = room
+      props.setRoomsAction(rooms)
      })
-    
-    
-    
-    
   }
-   
-   //=======================================//
-  // const setTimeTurnOffOnLight=(e)=>{
+  // const ternOffOnLight=(e)=>{
   //   if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
   //     const errorsElement = (
   //       <ul>
@@ -96,7 +104,6 @@ const LightSetting = (props) => {
   //   }
     
   // }
-
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
@@ -117,10 +124,10 @@ const LightSetting = (props) => {
     }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-         const  devices=props.rooms.find(room=>room.id==device.room_id)
+         //const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-
+console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -165,7 +172,7 @@ const LightSetting = (props) => {
         <div className="col-sm-12">
           <div className="card p-2 mb-4">
             <div className="card-body d-flex flex-row justify-content-center">
-  <h3 className="card-title">{room.roomType}/{deviceCategory}/{deviceName}</h3>
+  <h3 className="card-title">{room.type}/{deviceCategoryParam}/{deviceName}</h3>
             </div>
           </div>
         </div>
@@ -183,8 +190,8 @@ const LightSetting = (props) => {
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
-							<Input type="checkbox" id={deviceId} />
+              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
+							<Input type="checkbox" id={deviceId}/>
 						</Label>
             &nbsp;
                 
@@ -226,14 +233,14 @@ const LightSetting = (props) => {
                 />
             </div>
             <div className="col justify-content-end ">
-              <Button >Save</Button>
+              <Button>Save</Button>
             </div>
           </div>
           &nbsp;
           <hr className="my-0"/>
           <ul className="list-group borderless">
             <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
+            <img src="/images/timer.png"></img>
               &nbsp;
               <h5 className="card-title">Motion:Set Time</h5>
               <div className=" ml-auto ">
@@ -289,13 +296,13 @@ const LightSetting = (props) => {
                 </FormGroup>
                 <div className="row ">
                 <div className="col">
-                  <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}>
+                  <Link to={"/room/"+ params.roomId}>
                       <Button
                         type="button "
                        className="btn btn-primary"
                         data-toggle="tooltip"
                         data-placement="right"
-                        title="go Back">
+                        title="Go Back">
                        BACK
                       </Button>
                 </Link>

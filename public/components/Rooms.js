@@ -1,5 +1,5 @@
 //------------------------------------------------------------//
-///       IMPORT DEPENDENCIES    ///
+///////////////       IMPORT DEPENDENCIES     //////////////////
 //------------------------------------------------------------//
 import React, {useRef, useState} from 'react'
 import {connect} from 'react-redux'
@@ -23,7 +23,7 @@ import {addDevicePost, deleteRoomPost, editRoomPost} from '../services/api'
 
 
 //------------------------------------------------------------//
-///        FUNCTION COMPONENT       ///
+///////////////         CLASS COMPONENT       //////////////////
 //------------------------------------------------------------//
 
 const Rooms = (props) => {
@@ -31,7 +31,7 @@ const Rooms = (props) => {
   const deviceLiRef = useRef()
   
   //===================== Set the initial state ======================//
-  let initialState = {
+  let intialState = {
 
     //for the modal of errors
     errorModal: {
@@ -67,7 +67,7 @@ const Rooms = (props) => {
     selectedRoomTitle: '',
   }
 
-  const [state,setState] = useState(initialState)
+  const [state,setState] = useState(intialState)
 
 
 //===================== Set the initial state ======================//
@@ -80,7 +80,7 @@ const roomElement = props.rooms.map(room => {
       return (
         <li ref={deviceLiRef} key={device.id} className="list-group-item">
           <p className="specs">{device.name}</p>
-          <p className="ml-auto mb-0 text-success">connected</p>
+      <p className="ml-auto mb-0 text-success">{device.connected ? 'connected' : 'disconnected'}</p>
         </li>
       )
     })
@@ -107,6 +107,7 @@ const roomElement = props.rooms.map(room => {
               </Link>
             </div>
           </div>
+
         </div>
 
 
@@ -196,7 +197,7 @@ const onAddRoomClick = e => {
     setState(newState)
   } else {
     addRoomPost(state.newRoomName, state.newRoomType).then(data => {
-
+      //console.log('data',data);
       let badgeClass = ''
       let badgeMessage = ''
       let badgeTitle = ''
@@ -222,7 +223,9 @@ const onAddRoomClick = e => {
           newState.newRoomName = ''
           newState.newRoomType = ''
           setState(newState)
-          props.setRoomsAction(data) //saving all the rooms
+
+          // props.setRoomsAction(data,null,1) //saving all the rooms
+          props.setRoomsAction(data) 
           break;
       }
       if (!isNaN(data)) {
@@ -283,7 +286,6 @@ const onAddRoomClick = e => {
         newState.deviceModalShow = false
         setState(newState)
     }else{
-         
       let imgUrl="";
       switch (state.applianceType) {
         case "Washing-machine":
@@ -310,7 +312,6 @@ const onAddRoomClick = e => {
         default:
           break;
       }
-
         const newState = {...state}
         newState.deviceName = ''
         newState.categoryID = ''
@@ -320,17 +321,16 @@ const onAddRoomClick = e => {
         addDevicePost(state.deviceName,state.categoryID,state.deviceSerialNumType,state.selectedRoomId,imgUrl).then(device => {
             // console.log('device',device);
             // console.log('propsessen3',props.setRoomsAction);
-
             const newRooms = props.rooms.map(room => {
-                          if(room.id === device.room_id){
-      
-                              room.devices.push(device)
-                          }
-                          return room;
-                      });
-            props.setRoomsAction(newRooms) //2 is the secondType that  means we are just adding a new device.
-            setState(newState)
-            console.log(props.rooms);
+              if(room.id === device.room_id){
+
+                  room.devices.push(device)
+              }
+              return room;
+          });
+          props.setRoomsAction(newRooms) //2 is the secondType that  means we are just adding a new device.
+          setState(newState)
+
         }).catch(error=> {
             console.log(error);
         })
@@ -347,7 +347,7 @@ const onAddRoomClick = e => {
       const newState = {...state}
       newState.confirmModal.confirmModalShow= true,
       newState.confirmModal.confirmModalPayLoad= roomId,
-      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this book gonna be deleted for ever</p>
+      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this room gonna be deleted for ever</p>
       setState(newState)
   }
 
@@ -394,7 +394,7 @@ const onAddRoomClick = e => {
       const newState = {...state}
       newState.errorModal.show = true
       newState.errorModal.title = badgeTitle
-      newState.errorModal.content = <p>{badgeMessage}</p>
+      newState.errorModal.content = badge
       // hide addroom modal because we need to show error modal and we can not show
       // two modals on the same time
       newState.confirmModal.confirmModalShow = false
@@ -463,6 +463,11 @@ const onAddRoomClick = e => {
 
 
   //=====================================================//
+
+
+  //================================================//
+
+
 
 const onEditRoomClick = (e) => {
   e.preventDefault()
@@ -584,7 +589,6 @@ const onEditRoomClick = (e) => {
                   className="form-control custom-focus"
                   type="text"
                   id="room_name"
-                  maxLength="10"
                   onChange={e => {
                   setState({
                     ...state,newRoomName: e.target.value
@@ -610,11 +614,10 @@ const onEditRoomClick = (e) => {
                   value={state.newRoomType}>
                   <option></option>
                   <option>Kitchen</option>
-                  <option>Dining Room</option>
-                  <option>Living Room</option>
-                  <option>Bedroom</option>
-                  <option>Bathroom</option>
-                  <option>Office</option>
+                  <option>Dining room</option>
+                  <option>Living room</option>
+                  <option>Sleep room</option>
+                  <option>Bath room</option>
                   <option>Garage</option>
                 </Input>
               </div>
@@ -641,12 +644,11 @@ const onEditRoomClick = (e) => {
           <Form className="p-2">
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
-                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label>
+                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
                 <Input
                   className="form-control custom-focus"
                   type="text"
                   id="device_name"
-                  maxLength="10"
                   onChange={e => {
                   setState({
                     ...state,
@@ -661,7 +663,7 @@ const onEditRoomClick = (e) => {
               <div className="col-12">
                 <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
                 <Input
-                  className="form-control custom-focus app1"
+                  className="form-control custom-focus"
                   type="select"
                   name="select"
                   id="room_type"
@@ -672,7 +674,7 @@ const onEditRoomClick = (e) => {
                   })
                 }}
                   value={state.categoryID}>
-                  <option className="app1"></option> 
+                  <option></option>
                   <option>Light</option>
                   <option>Temperature</option>
                   <option>Motion</option>
@@ -680,25 +682,25 @@ const onEditRoomClick = (e) => {
                 </Input>
               </div>
             </FormGroup>
+
             <FormGroup className="form-group row">
               <div className="col-12">
                 <Label for="appliance_Type" className="col-12 col-form-label modal-font">Appliance Type</Label>
                 <Input
-                //  disabled={`${state.categoryID=="Appliance" ? "" : "disabled"}`}
-                 disabled={`${state.categoryID=="Appliance" ? "" : "disabled"}`}
-                  className="form-control custom-focus"
+                 disabled={`${state.categoryID=="Appliance"?"":"disabled"}`}
+                  className="form-control custom-focus "
                   type="select"
                   name="select"
                   id="appliance_Type"
-                 // id="room_type"
                   onChange={(e) => {
                   setState({
                     ...state,
                     applianceType: e.target.value
                   })
                 }}
+                
                   value={state.applianceType}>
-                   <option></option> 
+                  <option></option>
                   <option>Washing-machine</option>
                   <option>Fridge</option>
                   <option>Dishwasher</option>
@@ -710,14 +712,14 @@ const onEditRoomClick = (e) => {
               </div>
             </FormGroup>
 
+
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
-                <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label>
+                <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label >
                 <Input
                   className="form-control custom-focus"
                   type="text"
                   id="device_seralNum"
-                  maxLength="50"
                   onChange={e => {
                   setState({
                     ...state,

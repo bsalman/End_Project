@@ -1,5 +1,6 @@
 import React,{ useState } from 'react'
 import {connect} from 'react-redux'
+import { Button, Label, Input} from 'reactstrap'
 //=====================================//
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
@@ -24,9 +25,12 @@ const Dashboard =(props)=> {
 		setState({...state,
 			security: !state.security})
 	}
+	
 			if(props.rooms.length>0){
-				
+
 			}
+				
+			
 		return(
 			
 				<React.Fragment>
@@ -44,14 +48,14 @@ const Dashboard =(props)=> {
 							<div className=  {`card lock ${state.security==true?" active":""}`} data-unit="switch-house-lock">
 								<div className="card-body " >
 									<div className="d-flex flex-wrap mb-2">
-										<img src={`${state.security==true?"/images/home-lock.png":"/images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
+										<img src={`${state.security==true?"../images/home-lock.png":"../images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
 											<h4>Security system</h4>
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
-										<label className={`switch ml-auto ${state.security==true?"checked":""}`}>
-											<input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
-										</label>
+										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
+											<Input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
+										</Label>
 									</div>
 								</div>
 							</div>
@@ -62,16 +66,16 @@ const Dashboard =(props)=> {
 							<div className="card" data-unit="garage-doors-1">
 								<div className="card-body">
 									<div className="d-flex flex-wrap mb-2">
-										<img src="/images/garage.png" style={{width:"32px",height:"32px"}}></img>
+										<img src="../images/garage.png" style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
 											<h5>Garage doors</h5>
 											<p className="status text-danger">Close</p>
 										</div>
 										<div className="ml-auto timer-controls" data-controls="garage-doors-1">
-												<button data-action="open" type="button" className="btn btn-secondary doors-control">Open</button>
-												<button data-action="pause" type="button" className="btn btn-secondary doors-control">Pause</button>
-												<button data-action="resume" type="button" className="btn btn-secondary doors-control">Resume</button>
-												<button data-action="close" type="button" className="btn btn-secondary doors-control">Close</button>
+												<Button data-action="open" type="button" className="btn btn-secondary doors-control">Open</Button>
+												<Button data-action="pause" type="button" className="btn btn-secondary doors-control">Pause</Button>
+												<Button data-action="resume" type="button" className="btn btn-secondary doors-control">Resume</Button>
+												<Button data-action="close" type="button" className="btn btn-secondary doors-control">Close</Button>
 										</div>
 									</div>
 									<div className="progress">
@@ -106,13 +110,9 @@ const Dashboard =(props)=> {
 		
 		}
 		
-		
+	
 const setStateToProps = (state) => {
 		return ({rooms: state.rooms})
 		  }
 
 export default connect(setStateToProps,{setRoomsAction})(Dashboard)
-
-
-
-

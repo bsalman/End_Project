@@ -33,7 +33,7 @@ class TopNav extends React.Component {
               </div>
             </form>
           </div>
-          <Link className="navbar-brand px-lg-3 px-1 mr-0" to="#">SMART Family</Link>
+          <Link className="navbar-brand px-lg-3 px-1 mr-0" to="#">SMART family</Link>
           <div className="ml-auto">
             <div className="navbar-nav flex-row navbar-icons">
               <div className="nav-item">
@@ -62,7 +62,8 @@ class TopNav extends React.Component {
                   <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#user"/></svg>
                 </button>
                 <div className="dropdown-menu dropdown-menu-right">
-                  <div className="dropdown-divider"></div>
+                  {/* <Link className="dropdown-item" to="profile.html">Profile</Link>
+                  <div className="dropdown-divider"></div> */}
                   <Link className="dropdown-item" to="login.html">Logout</Link>
                 </div>
               </div>

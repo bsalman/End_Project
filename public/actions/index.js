@@ -4,8 +4,6 @@ export const setUserAction = (user) => {
         payload: user
     }
 }
-
-
 export const setLoggedInAction = (loggedin) => {
     return{
         type: 'CHANGE_LOGGEDIN',
@@ -13,15 +11,18 @@ export const setLoggedInAction = (loggedin) => {
     }
 }
 
-
-
-export const setRoomsAction = (rooms) => { // ,device,secondType
+export const setRoomsAction = (rooms) => {
     return {
         type: 'SET_ROOMS',
         payload: rooms
-            
-            // device,
-            // secondType
         
     }
 }
+
+export const setSocketAction = socket => {
+    return {
+        type: 'SET_SOCKET',
+        payload: socket
+    }
+}
+

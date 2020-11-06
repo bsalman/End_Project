@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link, withRouter} from 'react-router-dom'
-import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
+import {ListGroup, ListGroupItem} from 'reactstrap';
 
 
 
@@ -19,7 +19,6 @@ class SideNav extends React.Component{
                     {/* <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#home"/></svg> */}
                     <img src="/images/dashboard-10-24.png"></img> 
                     {/* <br></br>  */}
-                    &nbsp;
                     &nbsp;
                       Dashboard
                     </Link>

@@ -2,7 +2,7 @@
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {ListGroup, ListGroupItem, Button, Label, Input, Form, FormGroup} from 'reactstrap';
+import {ListGroup, ListGroupItem, Button, Label, Input, Form} from 'reactstrap';
 // import the components
 import CustomModal from './CustomModal'
 
@@ -226,12 +226,12 @@ class AccountSettings extends React.Component {
         {/* <!-- Wrapper END --> */}
         {/*
   <!-- FAB button - bottom right on large screens --> */}
-        <Button
+        {/* <Button
           id="info-toggler"
           type="button"
           className="btn btn-primary btn-fab btn-fixed-br d-none d-lg-inline-block">
           <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#info"/></svg>
-        </Button>
+        </Button> */}
 
         {/* <!-- SVG assets - not visible --> */}
         <svg

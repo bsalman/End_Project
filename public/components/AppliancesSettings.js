@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
 import {
   Col,
@@ -6,7 +6,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Alert
 } from 'reactstrap';
 //==============================================//
 import {connect} from 'react-redux'
@@ -18,7 +19,7 @@ import TimeNow from './TimeNow'
 import {editDevicePost} from '../services/api'
 
 //==============functionalComponent start==============================//
-const LightSetting = (props) => {
+const AppliancesSetting = (props) => {
   const params = useParams()
   const deviceCategory=params.deviceCategory;
   const deviceId=params.id
@@ -61,29 +62,12 @@ const LightSetting = (props) => {
    
   }
 
-  //=======================================//
-  const ternOffOnLight=(e)=>{
-    if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
-      const errorsElement = (
-        <ul>
-          {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
-          {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
-        </ul>
-      )
-      const newState = {...state}
-      newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
-      newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
-      newState.roomModalShow = false
-      setState(newState)
-    }
-    
-  }
-
- 
-
+ //============================================//
+const turnOnOff=(e)=> {
+  e.preventDefault()
+  setState({...state,
+    checked: !state.checked})
+}
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
@@ -107,7 +91,8 @@ const LightSetting = (props) => {
          const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-console.log("device", device);
+            alert("SN changed successfully")
+                console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -135,29 +120,6 @@ console.log("device", device);
     setState(newState)
   }
   //=================================================
-  
-
-
-    console.log('main state rooms ',props.rooms);
-    const turnOnOff=(e, deviceid, roomid)=> {
-       e.preventDefault()
-      // send data to be saved on database (light data / on / off) and make the light on or off
-      // if server side reply with success
-      const rooms = [...props.rooms]
-      let room = rooms.find(room => room.id == roomid)
-      let device = room.devices.find(device => device.id == deviceid)
-      device.data = device.data == 'on' ? 'off' : 'on'
-      room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
-      rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-      console.log('rooms after change', rooms);
-      props.setRoomsAction(rooms)
-  
-  
-    }
-    //=============================//
-  
-  
-  
   return (
 
     <React.Fragment>
@@ -191,14 +153,11 @@ console.log("device", device);
             <li className="list-group-item align-items-center">
               <i className="fas fa-stopwatch"></i>
               &nbsp;
-              <h5 className="card-title">Light:Set Time</h5>
+              <h5 className="card-title">{deviceName}: Set Time to ternOn </h5>
               <div className="d-flex ml-auto align-items-center ">
-               {/* <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
-                <Input type="checkbox" id={'switch-house-lock-' + device.id} defaultChecked={device.data === 'on' }/>
-               </Label> */}
-              <label className="switch ml-auto">
+              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
 							<input type="checkbox" id="switch-house-lock"  />
-						</label>
+              </Label>
             &nbsp;
                 
               </div>
@@ -239,48 +198,11 @@ console.log("device", device);
                 />
             </div>
             <div className="col justify-content-end ">
-              <Button onClick={ternOffOnLight}>Save</Button>
+              <Button>Save</Button>
             </div>
           </div>
           &nbsp;
-          <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
-              &nbsp;
-              <h5 className="card-title">Motion:Set Time</h5>
-              <div className=" ml-auto ">
-                <div></div>
-              </div>
-            </li>
-          </ul>
-          <hr className="my-0"/>
-          &nbsp;
-          <div className="row d-flex justify-content-center">
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">From</h5>
-            </div>
-            <div className="col justify-content-center ">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-                placeholder="HH : MM : SS"/>
-            </div>
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">To</h5>
-            </div>
-            <div className="col justify-content-center">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-               />
-            </div>
-            <div className="col justify-content-end ">
-              <Button >Save</Button>
-            </div>
-          </div>
-          &nbsp;
-          <hr className="my-0"/>
+          {/* <hr className="my-0"/> */}
         </div>
         <div className="card temp-range heating" data-unit="room-temp-02">
 
@@ -308,7 +230,7 @@ console.log("device", device);
                        className="btn btn-primary"
                         data-toggle="tooltip"
                         data-placement="right"
-                        title="you can go back to devices">
+                        title="Save changes">
                        BACK
                       </Button>
                 </Link>
@@ -334,5 +256,5 @@ const setStateToProps = (state) => {
     rooms: state.rooms
   })
 }
-export default connect(setStateToProps, {setRoomsAction})(LightSetting)
+export default connect(setStateToProps, {setRoomsAction})(AppliancesSetting)
 //export default SingleRoomOv

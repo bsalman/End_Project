@@ -30,7 +30,7 @@ export const loginPost = (username, password) => {
 
 }
 
-export const changeUserPost =(newUsername, newPassword, repassword, oldPassword) => {
+export const changeUserPost =(newUsername,newPassword,repassword,oldPassword) => {
     return new Promise((resolve,reject) => {
         const data = {
             username: newUsername,
@@ -60,10 +60,8 @@ export const changeUserPost =(newUsername, newPassword, repassword, oldPassword)
         })
     })
 }
-
-
-// function to add a single room to the component
-export const addRoomPost =(roomName, roomType)=>{
+//================================================//
+export const addRoomPost =(roomName,roomType)=>{
     const roomObj={
         roomName:roomName,
         roomType:roomType
@@ -90,10 +88,7 @@ export const addRoomPost =(roomName, roomType)=>{
     })
 
 }
-
-
-//========  function to show all rooms that were added to the component =====================//
-
+//============================================//
 export const allRoomsPost = () => {
     return new Promise((resolve, reject) => {
         fetch('/rooms/allrooms', {
@@ -116,9 +111,9 @@ export const allRoomsPost = () => {
         })
     })
 }
+//===========================================//
 
-// function to add a device to the room component 
-export const addDevicePost =(deviceName, type, deviceSn, roomId, imgUrl)=>{
+export const addDevicePost =(deviceName,type,deviceSn,roomId,imgUrl)=>{
     return new Promise((resolve,reject)=>{
         const deviceObj={
             deviceName:deviceName,
@@ -211,39 +206,37 @@ export const editRoomPost = (newRoomName, newRoomType, roomId) => {
 
 }
 
-//=============================================//
-
-// function to get the saved rooms
 export const getRoomPost = (roomId) => {
     return new Promise((resolve, reject) => {
         const data = {
             id: roomId
         }
-        fetch('/room', {
+        fetch("/room", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
             },
             body: JSON.stringify(data)
         }).then(response => {
-            if (response.status === 200) {
+            if (response.status == 200) {
                 response.json().then(data => {
                     resolve(data)
                 }).catch(error => {
                     reject(error)
                 })
-            } else {
-                reject(new Error('can not get the data, response number is: ' + response.status))
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
             }
         }).catch(error => {
             reject(error)
         })
     })
+
+
 }
 
-
-// =========================================== // 
-
+//===================================================================//
 export const editDevicePost =(deviceId,serialNumber)=>{
     return new Promise((resolve, reject) =>{
         const dataObj={
@@ -275,8 +268,7 @@ export const editDevicePost =(deviceId,serialNumber)=>{
 }
 
 
-
-//=================== deleteDevice =========================//
+//============================================//
 export const deleteDevicePost=(deviceId,roomId)=>{
     return new Promise ((resolve,reject)=>{
         const data={deviceId,roomId}
@@ -302,7 +294,7 @@ export const deleteDevicePost=(deviceId,roomId)=>{
     })
 }
 
-//================================================//
+//=============================================//
 
 export const editDataPost =(deviceId,data)=>{
     return new Promise((resolve, reject) =>{
@@ -334,7 +326,6 @@ export const editDataPost =(deviceId,data)=>{
     })
 }
 
-//================================================//
 
 export const getDevicesPost = (roomId) => {
     return new Promise((resolve, reject) => {
@@ -366,8 +357,39 @@ export const getDevicesPost = (roomId) => {
 
 }
 
-// ===================================================
+//===========================================//
 
+export const editSelected=(roomId,selected)=>{
+    return new Promise((resolve,reject)=>{
+        const selectObj={
+            roomId:roomId,
+            selected:selected
+        }
+        fetch('/editselected', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectObj)
+        }).then(response=>{
+            //console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    // console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+
+}
+//=======================================================//
 
 export const addTimeMotionPost =(startTime,stopTime,motionId,deviceId,active)=>{
     return new Promise((resolve,reject)=>{
@@ -400,3 +422,36 @@ export const addTimeMotionPost =(startTime,stopTime,motionId,deviceId,active)=>{
     })
 
 }
+
+//==================================================//
+
+export const getMotionRelatedDevicesPost = (deviceId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            deviceId
+        }
+        fetch("/getmotiondevices", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+

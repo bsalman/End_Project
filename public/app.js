@@ -10,6 +10,9 @@ import reducers from './reducers'
 
 
 class App extends React.Component {
+
+
+
     render(){
         return(
             <MainRouter></MainRouter>

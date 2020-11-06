@@ -116,55 +116,57 @@ function changeUser (userName, newPassword,oldPassword) {
 //========================================//
 function addRoom(roomName,roomType) {
     return new Promise((resolve,reject) => {
-        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' ANd type LIKE '${roomType}'`).then((results)=>{
+        runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' AND type LIKE '${roomType}'`).then((results)=>{
             if(results.length!=0){
                 reject(3)
             }else{
                 runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
-                    getAllRooms().then(rooms =>{
+                    getAllRooms().then(rooms => {
                         resolve(rooms)
-                    }).catch(error=>{
+                    }).catch(error => {
+                        console.log(error);
                         reject(error)
                     })
-                
+                    
                 }).catch(error => {
-                    console.log(error);
+                    
                     if (error.errno === 1054) {
                         reject(3)
                     } else {
+                        console.log(error);
                         reject(error)
                     }
                     
                 })
             }
         }).catch(error=>{
+            //4
+            console.log(error);
             reject(error)
         })
         
     })
 }
 //=============================================//
- //* function to get ALL ROOMS & DEVICES !!
-
 function getAllRooms(){
     return new Promise((resolve, reject) =>{
         runQuery(`SELECT rooms.* FROM rooms; SELECT devices.* FROM devices;`).then(results=>{
+            // console.
+            //(results);
             if(results.length > 0){
             const rooms = [];
             results[0].forEach(room=>{
+                //console.log(room);
                 let roomObj = {
                     id: room.id,
                     name: room.name,
                     type: room.type,
-                    devices:[]
+                    devices:[],
+                    selected:room.selected
                 }
                 rooms.push(roomObj);
             })
             results[1].forEach(device=>{
-                // data types for devices :
-                // 1 motion: [true, false]
-                // 2 temperature: number
-                // 3 Light / Appliance: ['on', 'off']
                 rooms.forEach(room=>{
                     if(device.room_id === room.id){
                         let data;
@@ -177,7 +179,7 @@ function getAllRooms(){
                                 break;
                             case 'Light':
                             case 'Appliance':
-                                data = device.data ? 'on' : 'off'
+                                data = device.data == 'on' ? 'on' : 'off'
                                 break;
                         
                             default:
@@ -199,6 +201,7 @@ function getAllRooms(){
                 })
                 
             })
+            // console.log(rooms);
             resolve(rooms)
             }else{
                 reject("no data found")
@@ -210,71 +213,6 @@ function getAllRooms(){
     })
 }
 
-// old version 
-// function getAllRooms(){
-//     return new Promise((resolve, reject) =>{
-//         runQuery(`SELECT rooms.* FROM rooms; SELECT devices.* FROM devices;`).then(results=>{
-//             if(results.length > 0){
-                
-//             const rooms = [];
-//             // const room ={
-//             //     roomId:'',
-//             //     roomName:'',
-//             //     roomType:'',
-//             //     devices:[]
-//             // }
-//             results[0].forEach(room=>{
-//                 let roomObj = {
-//                     id: room.id,
-//                     name: room.name,
-//                     type: room.type,
-//                     devices:[]
-//                 }
-//                 rooms.push(roomObj);
-//             })
-//             results[1].forEach(device=>{
-//                 rooms.forEach(room=>{
-//                     if(device.room_id === room.id){
-//                         let deviceObj = {
-//                             id: device.id,
-//                             name: device.name,
-//                             number: device.number,
-//                             category: device.category,
-//                             // category_id: device.category_id,
-//                             room_id: room.id
-//                         }
-//                         room.devices.push(deviceObj)
-//                     }
-//                 })
-                
-//             })
-//             /**rooms[{
-//              * roomId:10
-//              * roomName: bed,
-//              * type: 2,
-//              * devices:[{},{}]
-//              * }] */
-//             // const device={
-//             //     deviceId:'',
-//             //     deviceName:'',
-//             //     deviceNumber:''
-//             // }
-//             // results.forEach(result => {
-
-//             //     rooms.push(result)
-                
-//             // });
-//                 console.log(rooms)
-//             resolve(rooms)
-//             }else{
-//                 reject("no data found")
-//             }
-            
-//         }).catch((error)=>{
-//             reject(error)
-//         })
-//     })
-// }
 //================================================//
 function getRoom(roomId) {
     return new Promise((resolve, reject) => {
@@ -296,18 +234,17 @@ function getRoom(roomId) {
                     results[1].forEach(device=>{
                         rooms.forEach(room=>{
                             
-                            let deviceObj = {
-                                id: device.id,
-                                name: device.name,
-                                number: device.number,
-                                category: device.category,
-                                room_id: room.id,
-                                connected: device.connected === 1 ? true : false,
-                                data: data,
-                                imgUrl: device.img_url
-                            }
-                            
-                            room.devices.push(deviceObj)
+                                let deviceObj = {
+                                    id: device.id,
+                                    name: device.name,
+                                    number: device.number,
+                                    category: device.category,
+                                    room_id: room.id,
+                                    connected: device.connected === 1 ? true : false,
+                                    data: data,
+                                    imgUrl: device.img_url
+                                }
+                                room.devices.push(deviceObj)
                             
                         })
                         
@@ -331,43 +268,8 @@ function getRoom(roomId) {
         })
     })
 }
-//  getRoom(187); 
 
-// old version
-// function getRoom(roomId) {
-//     return new Promise((resolve, reject) => {
-//         runQuery(`SELECT rooms.*,devices.* FROM rooms INNER JOIN devices ON devices.room_id = rooms.id  WHERE devices.room_id = ${roomId};
-//                     SELECT * FROM rooms WHERE rooms.id = ${roomId}`).then(roomDevice => {
-//                         console.log('roomDevice',roomDevice);
-//             if(roomDevice[0].length){
-//                 let selectedRoom = {
-//                     num: 1,
-//                     roomDevice
-//                 }
-//                 resolve(selectedRoom)
-//             }
-//             else {
-//                 runQuery(`SELECT * FROM rooms WHERE rooms.id = ${roomId}`).then(room => {
-//                     let selectedRoom = {
-//                         num: 2,
-//                         room
-//                     }
-//                     resolve(selectedRoom)
-//                 }).catch(error => {
-//                     reject(3)
-//                 })
-               
-//             }
-//         }).catch(error => {
-//             console.log(error);
-//             reject(error)
-//         })
-//     })
-// }
-
-
-//=============== add devices to the room component ==================//
-
+//============================================//
 function addDevice(deviceName,deviceNumber,category, roomId, imgUrl) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM devices WHERE name LIKE '${deviceName}' AND number LIKE '${deviceNumber}'`).then((results)=>{
@@ -375,7 +277,7 @@ function addDevice(deviceName,deviceNumber,category, roomId, imgUrl) {
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO devices(name,number,category, room_id,img_url) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}','${imgUrl}')`).then( result => {
+                runQuery(`INSERT INTO devices(name,number,category, room_id, img_url) VALUES ('${deviceName}','${deviceNumber}','${category}','${roomId}','${imgUrl}')`).then( result => {
                     resolve(result)
                 }).catch(error => {
                     console.log(error);
@@ -393,6 +295,7 @@ function addDevice(deviceName,deviceNumber,category, roomId, imgUrl) {
         
     })
 }
+
 //=========================================================//
 function deleteRoom(roomid) {
     return new Promise((resolve, reject) => {
@@ -430,57 +333,7 @@ function deleteRoom(roomid) {
     })
 
 }
-//================================================//
-//old version 
-// function deleteRoom(roomid) {
-//     return new Promise((resolve, reject) => {
-//         //get the room clicked from the data base
-//         getRoom(roomid).then(data => {
-//             // 1 means we have a book with devices so we will delete it from the devices table
-//             // 2 means we have a book without a devices so we will delete the book from books table
-//             // 3 (others) we dont have a such book in both tables
-//             // console.log('deleted roo',data);
-//             if (data.num === 1) {
-//                 runQuery(`DELETE FROM devices WHERE devices.room_id = ${roomid};`).then(room => {
-//                     console.log('delete',room);
-//                     resolve(room)
-                 
-//                 }).catch(error => {
-//                     console.log(error);
-//                     if (error.errno === 1146) {
-//                         reject(3)
-//                     } else {
-//                        reject(error) 
-//                     }
-//                 })
-//             } else if (data.num === 2) {
-//                 runQuery(`DELETE FROM rooms WHERE rooms.id = ${roomid};`).then(room => {
-//                     resolve(room)
-//                 }).catch(error => {
-//                     if (error.errno === 1146) {
-//                         reject(3)
-//                     } else {
-//                        reject(error) 
-//                     }
-                    
-//                 })
-                 
-//             } else {
-//                 reject(2)
-//             }
-
-//         }).catch(error => {
-//             if (error.errno === 1051) {
-//                 reject(3)
-//             } else {
-//                reject(error) 
-//             }
-//         })
-//     })
-
-// }
-// getRoom(180)
-
+// deleteRoom(180)
 //=========================================================//
 function editRoom(newRoomName, newRoomType, roomId) {
     return new Promise((resolve, reject) => {
@@ -513,66 +366,6 @@ function editRoom(newRoomName, newRoomType, roomId) {
 
 }
 
-
-//=========================================================//
-//old version 
-// function editRoom(newRoomName, newRoomType, roomId, newDeviceArr) {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             (async () => {
-//                 let oldRoomData = await getRoom(roomId)
-                
-
-//                 let updateRoomDataQuery = ''
-//                 if(oldRoomData.num === 1){
-//                     // if (oldRoomData.roomDevice[1].name.indexOf(newRoomName) >= 0 || oldRoomData.roomDevice[1].type.indexOf(newRoomType) >= 0) {
-//                     //     updateRoomDataQuery += `UPDATE rooms SET name = ${newRoomName}' , type = ${newRoomType} WHERE id = ${roomId};`
-//                     // } else {
-//                     //     updateRoomDataQuery += ''
-//                     // }
-    
-//                     newDeviceArr.forEach((element) => {
-//                         updateRoomDataQuery += `UPDATE devices SET name = '${element.name}', number = '${element.number}',category = '${element.category}' WHERE id = ${element.id};`
-//                     })
-
-//                     console.log('updateRoomDataQuery',updateRoomDataQuery);
-//                     await runQuery(`UPDATE rooms SET name = '${newRoomName}',type = '${newRoomType}' WHERE id = ${roomId};`+updateRoomDataQuery)
-
-//                     getAllRooms().then(room => {
-//                         resolve(room)
-//                     }).catch(error => {
-//                         reject(error)
-//                     })
-
-
-
-//                 }else if (oldRoomData.num === 2) {
-//                     // if (oldRoomData.room[0].name.indexOf(newRoomName) >= 0 || oldRoomData.room[0].type.indexOf(newRoomType) >= 0) {
-//                     //     updateRoomDataQuery += `UPDATE rooms SET name = ${newRoomName}' , type = ${newRoomType} WHERE id = ${roomId};`
-//                     // } else {
-//                     // updateRoomDataQuery += ''
-//                     // }
-
-//                     await runQuery(`UPDATE rooms SET name = '${newRoomName}' , type = '${newRoomType}' WHERE id = ${roomId};`)
-//                     getAllRooms().then(room => {
-//                         resolve(room)
-//                     }).catch(error => {
-//                         reject(error)
-//                     })
-//                 }
-
-
-//                 else {
-//                     reject(2)
-//                 }
-
-//             })()
-//         } catch (error) {
-//             reject(error)
-//         }
-//     })
-
-// }
 //=========================================================//
 
 function editDevice (deviceId,serialNumber){
@@ -623,7 +416,7 @@ function deleteDevice(deviceId,roomId) {
                     // })
                              
                 }).catch(error => {
-                    console.log(error);
+                    //console.log(error);
                     if (error.errno === 1146) {
                         reject(3)
                     } else {
@@ -634,7 +427,7 @@ function deleteDevice(deviceId,roomId) {
                 reject(3)
             }     
         }).catch((error)=>{
-            console.log(error);
+            //console.log(error);
             reject(error)
         })
 
@@ -642,7 +435,23 @@ function deleteDevice(deviceId,roomId) {
 
 }
 
-// deleteDevice(180, 52)
+//=========================================================//
+function editSelected(roomId,selected){
+    return new Promise((resolve,reject)=>{
+        runQuery(`UPDATE rooms SET selected = '${selected}' WHERE id = ${roomId}`).then((room) => {
+           
+                if(room){
+                    resolve(room)
+                }else{
+                    reject(3)
+                }     
+                }).catch((error)=>{
+                console.log(error);
+                reject(error)
+               })
+            })
+    }
+
 //=========================================================//
 
 function editData(deviceId,data){
@@ -658,11 +467,11 @@ function editData(deviceId,data){
                 }     
                 }
             )).catch((error)=>{
-                console.log(error);
+                //console.log(error);
                 reject(error)
                })
         }).catch((error)=>{
-            console.log(error);
+            //console.log(error);
             reject(error)
            })
     })
@@ -693,17 +502,6 @@ function getDevices(){
 
 }
 
-//=================================================//
-function setDeviceConnection(sn, status) {
-    return new Promise((resolve,reject) => {
-        runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
-            resolve(result)
-        }).catch(error => {
-            reject(error)
-        })
-    })
-}
-
 //=============================================//
 function setDeviceConnection(sn, status) {
     return new Promise((resolve,reject) => {
@@ -718,10 +516,10 @@ function setDeviceConnection(sn, status) {
 //==================================//
 function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
     return new Promise((resolve,reject) => {
-        runQuery(`SELECT * FROM device_motion WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId}`).then((results)=>{
+        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${motionId} AND device_id = ${deviceId}`).then((results)=>{
             console.log('resules',results);
             if(results.length!=0){
-                runQuery(`UPDATE device_motion SET start_time = '${startTime}' , stop_time = '${stopTime}' ,active = ${active} WHERE motion_id LIKE ${motionId} AND device_id LIKE ${deviceId} `).then( result => {
+                runQuery(`UPDATE device_motion SET start_time LIKE '${startTime}' , stop_time LIKE '${stopTime}' ,active = ${active} WHERE motion_id = ${motionId} AND device_id = ${deviceId} `).then( result => {
                     console.log(result);
                     resolve(result)
                 }).catch(error => {
@@ -756,7 +554,29 @@ function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
 
 //=================================================//
 
+function getMotionRelatedDevices(deviceId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${deviceId} AND active = 1 AND start_time < now() AND stop_time > now()`).then((device=>{
+            if(device){
+                resolve(device)
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
 
+       
+        
+    })
+
+}
+//=================================================//
 
 module.exports = {
     checkUser,
@@ -772,6 +592,7 @@ module.exports = {
     editData,
     getDevices,
     setDeviceConnection,
-    //editSelected,
-    addTimeMotion
+    addTimeMotion,
+    getMotionRelatedDevices,
+    editSelected
 }

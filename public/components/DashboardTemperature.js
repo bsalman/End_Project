@@ -13,7 +13,7 @@ const DashboardTemperature = (props)=>{
 					<div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
 					    {/* <svg className="icon-sprite">
 						    <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
-					    </svg> */} 
+					    </svg> */}
 						<h5><img src="/images/temperature.png"></img> {room.type}</h5>
 						<h5 className="ml-auto status">22<sup>°C</sup></h5>
 					</div>
@@ -26,7 +26,10 @@ const DashboardTemperature = (props)=>{
 							<div className="card">
 								<div className="card-body">
 									<h4 className="card-title ">Temperature-Indictor</h4>
+									<div className="overflow">
 									{TempElement}
+									</div>
+									
 									
 								</div>
 							</div>

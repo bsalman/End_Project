@@ -6,6 +6,7 @@ import { Label, Input} from 'reactstrap';
 // importing the action
 import {setRoomsAction} from '../actions'
 import {editDataPost} from '../services/api'
+
 //===============================//
 
 const DashboardAppliance = (props) =>{ 
@@ -16,7 +17,7 @@ const DashboardAppliance = (props) =>{
 
   } 
      //============================//
-     console.log('main state rooms ',props.rooms);
+     //console.log('main state rooms ',props.rooms);
      const turnOnOff=(e, deviceid, roomid)=> {
         e.preventDefault()
        // send data to be saved on database (light data / on / off) and make the light on or off
@@ -26,21 +27,27 @@ const DashboardAppliance = (props) =>{
        let device = room.devices.find(device => device.id == deviceid)
        device.data = device.data == 'on' ? 'off' : 'on'
        editDataPost(deviceid,device.data).then(data1 => {
-       room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
-       rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-       console.log('rooms after change', rooms);
-       props.setRoomsAction(rooms)})
+        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
+        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
+        console.log('rooms after change', rooms);
+        props.setRoomsAction(rooms)})
+   
+   
      }
      //=============================//
+
+
+
  if(props.rooms.length > 0) {
 
  const rooms = props.parameter //* parameter = applianceDevices in the father: dashboard
+    //console.log("rooms", props.rooms);
     const applianceElement = rooms.filter(room => room.devices.find(device => device.category ==='Appliance')).map((room)=>{
         const devices = room.devices.filter(device => device.category ==='Appliance').map(device => {
-          console.log("device",device);
+         // console.log("device",device);
       return (
-        <React.Fragment>
-        <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
+        <React.Fragment key={device.id}>
+        <div className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
             <img src={device.imgUrl}></img>
             &nbsp;&nbsp;
@@ -58,13 +65,13 @@ const DashboardAppliance = (props) =>{
     })
     
     return(
-        <React.Fragment>
+        <React.Fragment key={room.id}>
 							&nbsp;
               <div>
               &nbsp;
               <h5>&nbsp;{room.type}</h5>
 
-							<div  className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
+							<div className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
 			          	{devices}
 							</div>
               </div>
@@ -79,7 +86,7 @@ const DashboardAppliance = (props) =>{
 
   return(
 
-        <div className="col-12">   {/* key={room.id} */}
+        <div className="col-12">  
       
           	<div className="col col-sm-12 card ">
 							<div className="card-body">
