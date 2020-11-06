@@ -95,9 +95,8 @@ app.post('/addroom', (req, res) => {
     //console.log(req.body);
     const roomName = req.body.roomName
     const roomType = req.body.roomType
-    const roomSelected = req.body.roomSelected
     if (roomName && roomType) {
-        dataModule.addRoom(roomName, roomType,roomSelected).then(rooms => {
+        dataModule.addRoom(roomName, roomType).then(rooms => {
             //console.log('rooms', rooms);
             res.json(rooms)
         }).catch(error => {

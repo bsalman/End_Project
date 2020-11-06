@@ -61,11 +61,10 @@ export const changeUserPost =(newUsername,newPassword,repassword,oldPassword) =>
     })
 }
 //================================================//
-export const addRoomPost =(roomName,roomType,roomSelected)=>{
+export const addRoomPost =(roomName,roomType)=>{
     const roomObj={
         roomName:roomName,
-        roomType:roomType,
-        roomSelected
+        roomType:roomType
     }
     return new Promise((resolve,reject)=>{
         fetch('/addroom',{

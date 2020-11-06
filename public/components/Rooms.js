@@ -196,8 +196,8 @@ const onAddRoomClick = e => {
     newState.roomModalShow = false
     setState(newState)
   } else {
-    addRoomPost(state.newRoomName, state.newRoomType,'off').then(data => {
-      console.log('data',data);
+    addRoomPost(state.newRoomName, state.newRoomType).then(data => {
+      //console.log('data',data);
       let badgeClass = ''
       let badgeMessage = ''
       let badgeTitle = ''

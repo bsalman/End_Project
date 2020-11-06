@@ -114,17 +114,17 @@ function changeUser (userName, newPassword,oldPassword) {
 }
 
 //========================================//
-function addRoom(roomName,roomType,roomSelected) {
+function addRoom(roomName,roomType) {
     return new Promise((resolve,reject) => {
         runQuery(`SELECT * FROM rooms WHERE name LIKE '${roomName}' AND type LIKE '${roomType}'`).then((results)=>{
             if(results.length!=0){
                 reject(3)
             }else{
-                runQuery(`INSERT INTO rooms(name,type,selected) VALUES ('${roomName}','${roomType}','${roomSelected}')`).then( result => {
+                runQuery(`INSERT INTO rooms(name,type) VALUES ('${roomName}','${roomType}')`).then( result => {
                     getAllRooms().then(rooms => {
                         resolve(rooms)
                     }).catch(error => {
-                        //console.log(error);
+                        console.log(error);
                         reject(error)
                     })
                     
@@ -133,7 +133,7 @@ function addRoom(roomName,roomType,roomSelected) {
                     if (error.errno === 1054) {
                         reject(3)
                     } else {
-                        //console.log(error);
+                        console.log(error);
                         reject(error)
                     }
                     
