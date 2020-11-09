@@ -25,6 +25,8 @@ class Radio {
             this.radio.config(config, false);
         }
     }
+    
+
     /**
      * Getter for Radio.
      * @returns {object} radio as an object.
@@ -63,28 +65,117 @@ class Radio {
     //     //this._writing_pipe = pipe;
     //     this.radio.useWritePipe(pipe, true);
     // }
+    /**
+     * 
+     */
+    sendTasks = [];
+    checkConnectedTasks = [];
+    radioFree = true;
     send(data, attempt, pipe){
-        return new Promise((resolve, reject)=>{
-            const interval = setInterval(()=>{
-            attempt--;
-            this.radio.useWritePipe(pipe, true);
-            //this.radio.addReadPipe(this._reading_pipe);
-            this.radio.write(Buffer.from(data), success=>{
-                if(success){
-                    clearInterval(interval)
-                    //this.radio.removeWritePipe(pipe);
-                    resolve()
-                }else{
-                    if(attempt === 0){
+        const promiseExecuter = () => {
+            return new Promise((resolve, reject)=>{
+                const interval = setInterval(()=>{
+                attempt--;
+                this.radio.useWritePipe(pipe, true);
+                //this.radio.addReadPipe(this._reading_pipe);
+                this.radio.write(Buffer.from(data), success=>{
+                    if(success){
                         clearInterval(interval)
                         //this.radio.removeWritePipe(pipe);
-                        reject('error')
+                        resolve()
+                    }else{
+                        if(attempt === 0){
+                            clearInterval(interval)
+                            //this.radio.removeWritePipe(pipe);
+                            reject('error')
+                        }
+                    }
+                })
+                //this.radio.stopWrite()
+               }, 100)
+            })
+        }
+        return new Promise((resolve, reject) => {
+            const sendInterval = setInterval(() => {
+                const checkPromise = this.sendTasks.find(task => task.interval === sendInterval)
+                if (checkPromise) {
+                    if(checkPromise.result.done) {
+                        clearInterval(sendInterval)
+                        this.sendTasks[this.sendTasks.map(tks => tks.interval).indexOf(sendInterval)].result.got = true
+                        if(checkPromise.result.ok) {
+                            resolve()
+                        } else {
+                            reject()
+                        }
+
                     }
                 }
+            
+            }, 50);
+            this.sendTasks.push({
+                interval: sendInterval,
+                promiseExecuter: promiseExecuter,
+                result: {done: false, ok: false, got: false }
             })
-            //this.radio.stopWrite()
-           }, 100)
         })
+        
+
+        
+        
+        
+    }
+    checkConnected(data, attempt, pipe){
+        const promiseExecuter = () => {
+            return new Promise((resolve, reject)=>{
+                const interval = setInterval(()=>{
+                attempt--;
+                this.radio.useWritePipe(pipe, true);
+                //this.radio.addReadPipe(this._reading_pipe);
+                this.radio.write(Buffer.from(data), success=>{
+                    if(success){
+                        clearInterval(interval)
+                        //this.radio.removeWritePipe(pipe);
+                        resolve()
+                    }else{
+                        if(attempt === 0){
+                            clearInterval(interval)
+                            //this.radio.removeWritePipe(pipe);
+                            reject('error')
+                        }
+                    }
+                })
+                //this.radio.stopWrite()
+               }, 100)
+            })
+        }
+        return new Promise((resolve, reject) => {
+            const sendInterval = setInterval(() => {
+                const checkPromise = this.checkConnectedTasks.find(task => task.interval === sendInterval)
+                if (checkPromise) {
+                    if(checkPromise.result.done) {
+                        clearInterval(sendInterval)
+                        this.checkConnectedTasks[this.checkConnectedTasks.map(tks => tks.interval).indexOf(sendInterval)].result.got = true
+                        if(checkPromise.result.ok) {
+                            resolve()
+                        } else {
+                            reject()
+                        }
+
+                    }
+                }
+            
+            }, 50);
+            this.checkConnectedTasks.push({
+                interval: sendInterval,
+                promiseExecuter: promiseExecuter,
+                result: {done: false, ok: false, got: false }
+            })
+        })
+        
+
+        
+        
+        
     }
     read(onRead, onStop){
         //this.radio.useWritePipe(this._writing_pipe, true);
@@ -95,6 +186,47 @@ class Radio {
     }
     begin(){
         this.radio.begin()
+        setInterval(() => {
+            if (this.radioFree){
+                
+                this.sendTasks = this.sendTasks.filter(task =>!task.result.got)
+                if(this.sendTasks[0]) {
+                    this.radioFree = false
+                    this.sendTasks[0].promiseExecuter().then(() => {
+                        this.radioFree = true
+                        this.sendTasks[0].result.done = true;
+                        this.sendTasks[0].result.ok = true;
+                        
+                    }).catch(error => {
+                        this.radioFree = true
+                        this.sendTasks[0].result.done = true;
+                        this.sendTasks[0].result.ok = false;
+                        
+                    })
+                }else {
+                    this.checkConnectedTasks = this.checkConnectedTasks.filter(task =>!task.result.got)
+                    if(this.checkConnectedTasks[0]) {
+                        this.radioFree = false
+                        this.checkConnectedTasks[0].promiseExecuter().then(() => {
+                            this.radioFree = true
+                            this.checkConnectedTasks[0].result.done = true;
+                            this.checkConnectedTasks[0].result.ok = true;
+                            
+                        }).catch(error => {
+                            this.radioFree = true
+                            this.checkConnectedTasks[0].result.done = true;
+                            this.checkConnectedTasks[0].result.ok = false;
+                            
+                        })
+                    } else {
+                        this.radioFree = true
+                    }
+                    
+                }
+                
+            }
+            
+        }, 100);
     }
 }
 module.exports = Radio;

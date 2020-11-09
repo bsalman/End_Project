@@ -26,7 +26,7 @@ function connect() {
                 host: 'localhost',
                 port: 3306,
                 user: 'root',
-                password: '12345678',
+                password: '20470',
                 database: 'smarthome'
             })
             con.connect(error => {
@@ -172,7 +172,7 @@ function getAllRooms(){
                         let data;
                         switch (device.category) {
                             case 'Temperature':
-                                data = device.data ? parseInt(device.data) : 0
+                                data = device.data 
                                 break;
                             case 'Motion':
                                 data = device.data ? true : false
@@ -512,46 +512,88 @@ function setDeviceConnection(sn, status) {
         })
     })
 }
+//=============================================//
+function changeMotionDeviceStatus(relationid) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_motion SET active =NOT active   WHERE id = '${relationid}'`).then((result) => {
+            resolve(result)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+//=============================================//
+function reversMotionDevices(motionId, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_motion SET active = ${status}   WHERE motion_id = '${motionId}'`).then((result) => {
+            getAllMotionRelatedDevices(motionId).then(devices => {
+                resolve(devices)
+            }).catch(error => {
+                reject(error)
+            })
+            
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
 
 //==================================//
 function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
     return new Promise((resolve,reject) => {
-        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${motionId} AND device_id = ${deviceId}`).then((results)=>{
-            console.log('resules',results);
-            if(results.length!=0){
-                runQuery(`UPDATE device_motion SET start_time LIKE '${startTime}' , stop_time LIKE '${stopTime}' ,active = ${active} WHERE motion_id = ${motionId} AND device_id = ${deviceId} `).then( result => {
-                    console.log(result);
-                    resolve(result)
-                }).catch(error => {
-                    console.log(error);
-                    if (error.errno === 1054) {
-                        reject(3)
-                    } else {
-                        reject(error)
-                    }
-                    
-                })
-            }else{
-                runQuery(`INSERT INTO device_motion(start_time, stop_time, motion_id, device_id,active) VALUES ('${startTime}','${stopTime}',${motionId},${deviceId}, ${active})`).then( result => {
-                    console.log(result);
-                    resolve(result)
-                }).catch(error => {
-                    console.log(error);
-                    if (error.errno === 1054) {
-                        reject(3)
-                    } else {
-                        reject(error)
-                    }
-                    
-                })
+        runQuery(`INSERT INTO device_motion(start_time, stop_time, motion_id, device_id,active) VALUES ('${startTime}','${stopTime}',${motionId},${deviceId}, ${active})`).then( result => {
+            console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
             }
-        }).catch(error=>{
-            reject(error)
+            
         })
         
     })
 }
 
+//==================================//
+function updateTimeMotion(id, startTime,stopTime,motionId,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_motion SET start_time = '${startTime}', stop_time = '${stopTime}', motion_id = ${motionId}, device_id = ${deviceId},active = ${active} WHERE id = ${id}`).then( result => {
+            console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
+//==================================//
+function deleteTimeMotion(id) {
+    return new Promise((resolve,reject) => {
+        runQuery(`DELETE FROM device_motion WHERE id = ${id}`).then( result => {
+            console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
 //=================================================//
 
 function getMotionRelatedDevices(deviceId){
@@ -565,6 +607,27 @@ function getMotionRelatedDevices(deviceId){
             }else{
                 reject(3)
             }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+
+//=================================================//
+
+function getAllMotionRelatedDevices(deviceId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${deviceId} `).then((devices=>{
+            resolve(devices)    
             }
         )).catch((error)=>{
             console.log(error);
@@ -594,5 +657,10 @@ module.exports = {
     setDeviceConnection,
     addTimeMotion,
     getMotionRelatedDevices,
-    editSelected
+    editSelected,
+    getAllMotionRelatedDevices,
+    changeMotionDeviceStatus,
+    updateTimeMotion,
+    deleteTimeMotion,
+    reversMotionDevices
 }

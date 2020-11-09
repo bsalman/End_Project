@@ -53,6 +53,7 @@ const Temperature = (props) => {
   //Check if rooms inside props are loading or not to use the redux method
   if(props.rooms.length > 0) {
       const tempElement = props.tempDevices.map(device=>{
+        const data = device.data ? JSON.parse(device.data) : null 
         return(
           <div key={device.id} className="card temp-range heating" data-unit="room-temp-02">
             {/* Show the name of the device */}
@@ -62,7 +63,16 @@ const Temperature = (props) => {
                 <h5>{device.name}</h5>
               </ListGroupItem>
             </ListGroup>
-
+            <hr className="my-0" />
+            <ListGroup className="list-group borderless px-1">
+            <ListGroupItem className="list-group-item list-group-item2 align-items-center">
+              
+              <p className="specs">Status</p>
+              &nbsp;&nbsp;&nbsp;
+              <p className="ml-auto mb-0 text-success">{device.connected? 'Connected': 'Disconnected'}</p>
+              &nbsp;&nbsp;&nbsp;
+            </ListGroupItem>       
+            </ListGroup>
             {/* Show the value of the temperature */}
             <hr className="my-0" />
             <div className="d-flex justify-content-between" data-rangeslider="room-temp-02">
@@ -70,16 +80,33 @@ const Temperature = (props) => {
               <br />
                 <ListGroupItem className="list-group-item list-group-item1">
                   &nbsp;
-                   <h5 className="specs mr-auto mb-auto">Desired temperature</h5>
+                   <h5 className="specs mr-auto mb-auto">Current Temperature</h5>
                 </ListGroupItem>
               </ListGroup>
 
               <div className="p-4" style={{position:'relative'}}>
-                <p className="mr-auto mt-2 mb-0 display-5 lead">
-                  <span className="room-temp-C">22</span><sup className="sup1">°C</sup>
+                <p className="mr-auto mt-2 mb-0 ">
+        <span className="room-temp-C">{data ? data.t : '0.00'}</span><sup className="sup1">°C</sup>
                 </p>
-                <p className="mr-auto mt-2 mb-0 lead text-primary">
+                {/* <p className="mr-auto mt-2 mb-0 lead text-primary">
                   <span className="room-temp-F">71.6</span><sup>°F</sup>
+                </p> */}
+              </div>
+            </div>
+             &nbsp;&nbsp;&nbsp;
+             <hr className="my-0" />
+            <div className="d-flex justify-content-between" data-rangeslider="room-temp-02">
+              <ListGroup className="list-group borderless px-1 align-items-stretch">
+              <br />
+                <ListGroupItem className="list-group-item list-group-item1">
+                  &nbsp;
+                   <h5 className="specs mr-auto mb-auto">Current Humidty</h5>
+                </ListGroupItem>
+              </ListGroup>
+
+              <div className="p-4" style={{position:'relative'}}>
+                <p className="mr-auto mt-2 mb-0 ">
+                  <span className="room-temp-C">{data ? data.h : '0.00'}</span><sup className="sup1">%</sup>
                 </p>
               </div>
             </div>

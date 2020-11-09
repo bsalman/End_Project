@@ -38,7 +38,8 @@ const Motion = (props) =>{
       confirmModalElement: null,
       confirmModalPayLoad: null
     },
-    motionLightsArr : []
+    motionLightsArr : [],
+    motionDevices: [...props.motionDevices]
   }
 
   const [state,setState] = useState(intialState)
@@ -51,7 +52,9 @@ const Motion = (props) =>{
 
       //============================//
 
-
+      useEffect(() => {
+        getMotionRelatedDevicesPost()
+      }, [])
 
 const turnOnOff=(e)=> {
   e.preventDefault()
@@ -78,33 +81,24 @@ const turnOnOff=(e)=> {
               </svg> */}
               <img src="/images/wave.png"></img>
               <h5>{device.name}</h5>
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-              <Input type="checkbox" id="tv-lcd-2"/>  {/* checked */}
-              </Label>
+              {/* <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
+              <Input type="checkbox" id="tv-lcd-2"/>  
+              </Label> */}
             </ListGroupItem>
           </ListGroup>
 
           {/* <!-- Switch the button when we want to active the motion device --> */}        
-          <div className="only-if-active">
             <hr className="my-0" />
             <ListGroup className="list-group borderless px-1">
-              <ListGroupItem className="list-group-item pb-0">
-                <h5 className="specs">Light Device</h5>
-                <div className="btn-group btn-group-toggle ml-auto py-1" data-toggle="buttons">
-                  <Label className="btn btn-label btn-sm mb-0">
-                    <Input type="radio" name="options" id="c1-nv-on" autoComplete="off" />
-                      ON
-                  </Label>
-
-                  <Label className="btn btn-label btn-sm mb-0 active">
-                    <Input type="radio" name="options" id="c1-nv-off" autoComplete="off"  />
-                      OFF
-                  </Label>
-                </div>
-              </ListGroupItem>        
+            <hr className="my-0" />
+            <ListGroupItem className="list-group-item list-group-item2 align-items-center">
+              
+              <p className="specs">Status</p>
+              &nbsp;&nbsp;&nbsp;
+              <p className="ml-auto mb-0 text-success">{device.connected? 'Connected': 'Disconnected'}</p>
+              &nbsp;&nbsp;&nbsp;
+            </ListGroupItem>       
             </ListGroup>
-            &nbsp;
-          </div>
 
           {/* Show the device serial number */}
           <ListGroup className="list-group borderless">

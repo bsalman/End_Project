@@ -44,7 +44,15 @@ class MainRouter extends React.Component {
                 this.props.setRoomsAction(rooms)
             })
             socket.on('device_status', data => {
-                console.log(data);
+                const rooms = [...this.props.rooms]
+                const room = rooms.find(room => room.devices.find(device => device.id === data.id))
+                const device = room.devices.find(device => device.id === data.id)
+                device.data = data.status
+                room.devices[room.devices.map(device => device.id).indexOf(data.id)] = device
+                rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
+                this.props.setRoomsAction(rooms)
+            })
+            socket.on('temp_data', data => {
                 const rooms = [...this.props.rooms]
                 const room = rooms.find(room => room.devices.find(device => device.id === data.id))
                 const device = room.devices.find(device => device.id === data.id)

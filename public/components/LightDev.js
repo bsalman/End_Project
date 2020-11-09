@@ -71,7 +71,16 @@ const Light = (props) =>{
                />  {/* checked/ */}
               </Label>
             </div>
-
+            <hr className="my-0" />
+            <ListGroup className="list-group borderless px-1">
+            <ListGroupItem className="list-group-item list-group-item2 align-items-center">
+              
+              <p className="specs">Status</p>
+              &nbsp;&nbsp;&nbsp;
+              <p className="ml-auto mb-0 text-success">{device.connected? 'Connected': 'Disconnected'}</p>
+              &nbsp;&nbsp;&nbsp;
+            </ListGroupItem>       
+            </ListGroup>
             {/* <!-- Light switch END --> */}
             <hr className="my-0" />
             {/* <!-- Bulb details START --> */}
