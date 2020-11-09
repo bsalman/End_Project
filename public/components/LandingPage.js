@@ -16,13 +16,14 @@ render(){
                             <div className="container-fluid landPage-container"> 
                                 <div className="container-lg ">
                                     <div className="row ">
+                                        <div className="col-sm-12 col-md-6">
                                         <div className="col textsContainer   ">
                                                 <div className="row justify-content-center">
                                                     <h1>Smart Family <br/>Technology</h1>
                                                 </div> 
                                         
                                                 <div className="row justify-content-center">
-                                                    <p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi accusantium fuga cumque libero. Eligendi minima, itaque, odio earum doloribus expedita dolor harum numquam qui a reprehenderit molestiae, rerum quidem?</p>
+                                                    <p> With us ,your home comes alive</p>
                                                 </div>
                                                 <div className="row justify-content-center">
                                                     <Link to="/dashboard">
@@ -30,20 +31,29 @@ render(){
                                                     </Link>
                                                 </div>
                                         </div>
-                                        <div className="col houseContainer">
-                                            <div className="row justify-content-center">
-                                                <div className="row">
-                                                    <i className="fas fa-laptop laptop"></i>
-                                                    <div className="iconCon light justify-content-center"><i className="fas fa-lightbulb "></i></div>
-                                                    <div className="iconCon tv"><i className="fas fa-desktop "></i></div>
-                                                    <div className="iconCon lockIcon"><i className="fab fa-expeditedssl "></i></div>
-                                                    <div className="iconCon video"><i className="fas fa-video "></i></div>
-                                                    <div className="iconCon elk"><i className="fas fa-plug "></i></div>
-                                                    <div className="iconCon home"><i className="fas fa-house-user  "></i></div>
-                                                </div> 
-                                            
-                                            </div> 
-                                    </div>
+                                        </div>
+                                       
+                                            <div className=" col  houseContainer">  
+                                                <div className="laptopContainer"> <i className="fas fa-laptop laptop"></i></div>
+                                                 <span className="sp1"></span>
+                                                  <span className="sp2"></span>
+                                                 <span className="sp3"></span>
+                                                 <span className="sp4"></span>
+                                                  <span className="sp5"></span>
+                                                 <span className="sp6"></span>
+                                                 <span className="sp7"></span>
+                                                 <span className="sp8"></span>
+                                                <div className="iconCon light justify-content-center"><i className="fas fa-lightbulb "></i></div>
+                                                <div className="iconCon tv"><i className="fas fa-desktop "></i></div>
+                                                <div className="iconCon lockIcon"><i class="fas fa-unlock-alt"></i></div>
+                                                <div className="iconCon video"><i className="fas fa-video "></i></div>
+                                                <div className="iconCon elk"><i className="fas fa-plug "></i></div>
+                                                <div className="iconCon home"><i className="fas fa-house-user"></i></div>
+                                                <div className="iconCon tempIcon"> <i className="fas fa-thermometer-three-quarters"></i></div>
+                                                <div className="iconCon musicIcon"><i className="fas fa-music"></i></div>
+                                                
+                                             </div>
+                                             
                                     </div>
                                 </div>
                             </div>

@@ -165,105 +165,182 @@ input[type=text]:disabled {background:#000000;}
         position: relative;
         width: 100%;
         height: 100%;
-        background-size: cover;
-        
+        background-size: cover; 
     }
     .textsContainer{
         top:100px;
-        
     }
-   
     .houseContainer{
-        top:70px;
-        
-    }
-    
-
-    .houseContainer>div>div{
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      position: relative;
+        top:100px;
+        height:400px;
+        border-radius:50PX; 
         animation:2s pulse  infinite;  
         border: 3px solid  rgba(92, 176, 233, 0.911); 
-        width: 400px;
-        height: 400px;
-        border-radius: 50%; 
+    }
+    .houseContainer>span{
+      
+      background-color:rgba(92, 176, 233, 0.911);
+      height: 3px;
+      display: inline-block;
+      
+      position: absolute;
+    }
+    .sp1{
+      left: 11.5%;
+      top:28%;
+      transform: rotate(40deg);
+      width:31% ;
+    }
+    .sp2{
+      right:11.5%;
+      top:28%;
+      transform: rotate(140deg);
+      width:30% ;
+    }
+    .sp3{
+      right:15%;
+      top:50%;
+      transform: rotate(180deg);
+      width:22% ;
+    }
+    .sp4{
+      left:15%;
+      top:50%;
+      transform: rotate(0deg);
+      width:22% ;
+    }
+    .sp5{
+      right:11.5%;
+      bottom:28%;
+      transform: rotate(214deg);
+      width:30% ;
+    }
+    .sp6{
+      left:11.5%;
+      bottom:28%;
+      transform: rotate(325deg);
+      width:30% ;
+    }
+    .sp7{
+      left:45.5%;
+      top:24%;
+      transform: rotate(90deg);
+      width:10% ;
+    }
+    .sp8{
+      left:45.5%;
+      bottom:24%;
+      transform: rotate(270deg);
+      width:10% ;
     }
      .iconCon{
       animation:2s pulse2  infinite; 
-      position: absolute;
       border: 3px solid  rgba(92, 176, 233, 0.911);
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      font-size:2em ;
+      font-size:30px ;
     }
-    .iconCon>i{
-      position: absolute;
-      top: 10px;
-      left:10px; 
-    
-    }
-    .light>i{
-      left:15px;
-    }
-    .lock>i{
-      left:12px;
-    }
-    .elk>i{
-      left:15px;
-    }
+   
+.laptopContainer{
+  position: absolute;
+  animation:2s pulse  infinite; 
+  border:3px solid  rgba(92, 176, 233, 0.911);
+border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  top:31.5%;
+  left:37%;
 
-  
+}
     .laptop{
-      
+      position: absolute; 
+      top:22px;
+      left:16px;
+      font-size: 90px;
+    }
+    .tempIcon{
       position: absolute;
-      top:150px;
-      font-size: 7em;
-      top:140px;
-      left:220px
+      top:3%;
+      left:45%;
     }
     .light{
-     
-      top:30px;
-     
+      position: absolute;
+      top:3%;
+      left:5%;
     }
     .tv{
-      
-      top:100px;
-      left:140px;
-      
+      position: absolute;
+      top:10px;
+      right:5%;
     }
     .lockIcon{
-     
-      top:100px;
-      right:130px;
-      
+      position: absolute;
+      bottom:3%;
+      right:5%;
     }
     .video{
-     
-      bottom:30px;
-      
+      position: absolute;
+      bottom:3%;
+      left:5%;
     }
     .elk{
       position: absolute;
-      top:250px;
-      left:140px;
-      
+      bottom:42%;
+      right:5%;
     }
     .home{
       position: absolute;
-      top:250px;
-      right:130px;
-     
+      bottom:42%;
+      left:5%;
+      
     }
-    /* //==================================================// */
-     .securityActive{
-       background-color: red;
-     }
+    .musicIcon{
+      position: absolute;
+      bottom:3%;
+      left:45%;
+    }
     
- 
-  
+     
+    .iconCon>i{
+      position: absolute;
+    }
+    .musicIcon>i{
+      top:10px;
+      left:10px;
+    }
+    .tempIcon>i{
+      top:10px;
+      left:18px;
+    }
+    .light>i{
+      top:10px;
+      left:15px;
+      
+    }
+    .lockIcon>i{
+      top:10px;
+      left:14px;
+      
+    }
+    .elk>i{
+      top:10px;
+      left:15px;
+    
+    }
+    .home>i{
+      top:10px;
+      left:10px;
+    }
+    .video>i{
+      top:10px;
+      left:10px;
+    }
+    .tv>i{
+      top:10px;
+      left:10px;
+    }
       /* ============pulse animation 2========== */
       @keyFrames pulse {
         0% {
@@ -292,89 +369,8 @@ input[type=text]:disabled {background:#000000;}
     }  
   }
     /* ============================================== */
-    @media only screen and (max-width: 576px){
-      .houseContainer>div>div{
-        width: 200px;
-        height: 500px;
-        border-radius: 5px; 
-      }
-      .iconCon{
-        width: 60px;
-        height: 60px;
-      }
-      .laptop{
-      
-        position: absolute;
-        top:220px;
-  
-        font-size: 5em;
-       
-        left:75px
-      }
-      .light>i{
-       
-        left:16px;
-      }
-      .lockIcon>i{
-        left:16px;
-       
-      }
-      .elk>i{
-        left:15px;
-      
-      }
-      .light{
-        top:30px;
-      }
-      .tv{
-        top:100px;
-        left:140px;
-      }
-      .lockIcon{
-        top:100px;
-        right:130px;
-      }
-      .video{
-        bottom:30px;
-      }
-      .elk{
-        position: absolute;
-        top:350px;
-        left:140px;
-      }
-      .home{
-        position: absolute;
-        top:350px;
-        right:130px;
-       
-      }
-   
-  };
-  @media (min-width: 768px) { 
-    .houseContainer>div>div{
-      width: 250px;
-      height: 250px;
-    }
-    .laptop{
-      
-      position: absolute;
-      top:220px;
-      
-      font-size: 5em;
-     
-      left:50px
-    }
-    .houseContainer{
-      top:300px
-      
-  }
-   };
 
-  @media (min-width: 992px) { 
-    .houseContainer>div>div{
-      width: 300px;
-      height: 300px;
-    }
-   };
+
+  
   
       

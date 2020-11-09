@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 
@@ -212,11 +212,11 @@ const deleteConfirm = deviceId => {
         
         console.log("device", data);
                     const newRooms = props.rooms.map(room => {
-                      console.log('data.room_id',data[0]);
+                      // console.log('data.room_id',data[0]);
                       if(room.id === data[0].room_id){
                         //room.devices[room.devices.map(data => data.id).indexOf(data.id)] = data
                       // //     // room.devices.push(device)
-                      console.log('room',room);
+                      // console.log('room',room);
                       room.devices.splice(room.devices.indexOf(room.devices.find(element => element.id === deviceId)),1)
                       }
                       

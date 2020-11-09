@@ -16,7 +16,7 @@ const DashboardAppliance = (props) =>{
 
   } 
      //============================//
-     console.log('main state rooms ',props.rooms);
+    
      const turnOnOff=(e, deviceid, roomid)=> {
         e.preventDefault()
        // send data to be saved on database (light data / on / off) and make the light on or off
@@ -28,7 +28,7 @@ const DashboardAppliance = (props) =>{
        editDataPost(deviceid,device.data).then(data1 => {
        room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
        rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-       console.log('rooms after change', rooms);
+       
        props.setRoomsAction(rooms)})
      }
      //=============================//
@@ -37,10 +37,10 @@ const DashboardAppliance = (props) =>{
  const rooms = props.parameter //* parameter = applianceDevices in the father: dashboard
     const applianceElement = rooms.filter(room => room.devices.find(device => device.category ==='Appliance')).map((room)=>{
         const devices = room.devices.filter(device => device.category ==='Appliance').map(device => {
-          console.log("device",device);
+         
       return (
-        <React.Fragment>
-        <div key={device.id} className="card col-sm-12 col-md-6 col-xl-5">
+        <React.Fragment key={device.id} >
+        <div className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
             <img src={device.imgUrl}></img>
             &nbsp;&nbsp;

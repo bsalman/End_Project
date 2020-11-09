@@ -320,3 +320,182 @@ app.use('/', (req, res, next) => {
 app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
 });
+//==============================================//
+// const io = require('socket.io')(server)
+
+// io.on('connection', socket => {
+//     console.log('user is connected');
+
+//     socket.join('home')
+// //socket listeneer
+//     socket.on('device_connect', sn => {
+//         socket.broadcast.to('home').emit('device_connect', sn)
+//     })
+//     socket.on('device_disconnect', sn => {
+//         socket.broadcast.to('home').emit('device_disconnect', sn)
+//     })
+//     socket.on('light_status' , data => {
+//         socket.broadcast.to('home').emit('light_status', data)
+//     })
+//     socket.on('device_status' , data => {
+//         socket.broadcast.to('home').emit('device_status', data)
+//     })
+// })
+
+//     const ioClient = require('socket.io-client')
+
+//     const socketClient = ioClient('http://pi.local:3000')
+//     socketClient.on('connect', () => {
+//         console.log('house is connected');
+//     })
+
+    
+
+// // get a list of devices from database
+// dataModule.getDevices().then(devices => {
+//     // connection to iot devices
+//     const radio = new Radio()
+
+//     radio.setReadingPipe('0xABCDABCD71')
+//     radio.begin()
+//     radio.read((data) => {
+//         console.log(data);
+//         const sn = data.substr(0, data.indexOf('-'))
+
+//         //console.log(sn);
+//         const device = devices.find(device => device.number === sn)
+//         if (device) {
+//             devices[devices.map(device => device.id).indexOf(device.id)].connected = true
+//             // get the message and replace the empty hexa field with nothing
+//             const message = data.substr(data.indexOf('-') + 1, data.length).replace(/\x00/gi, '')
+//             if (message === 'hi') {
+//                 dataModule.setDeviceConnection(sn, true).then(() => {
+//                     socketClient.emit('device_connect', sn)
+//                     if (device.category === 'Light'){
+//                         // if(device.data === 'on'){
+                            
+//                         // }
+//                         radio.send('data-' + device.data, 10, device.number).then(() => {
+//                             //console.log('setting has been sent');
+//                         }).catch(error => {
+//                             //console.log('setting has not been sent');
+
+//                         })
+                    
+//                     }
+//                 }).catch(error => {
+//                     //console.log(error);
+//                 })
+//             }
+
+//             if(message.indexOf('data') === 0) {
+//                 //socketClient.emit('device_status', {id: 78, status: message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '') == '1'? 'on' : 'off'})
+//                 if (device.category === 'Motion') {
+//                     const stringData = message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '')
+
+//                     dataModule.editData(device.id, stringData == '1'? '1' : '').then(() => {
+//                         devices[devices.map(device => device.id).indexOf(device.id)].data = (stringData == '1'? '1' : '')
+//                         dataModule.getMotionRelatedDevices(device.id).then((results) => {
+//                             //console.log('429',results);
+//                             results.forEach(realtedDevice => {
+//                                 const foundDevice = devices.find(device => device.id === realtedDevice.device_id)
+//                                 dataModule.editData(foundDevice.id, stringData == '1'? 'on' : 'off').then(() => {
+//                                     setTimeout(() => {
+//                                         radio.send('data-' +  stringData == '1'? 'on' : 'off', 10, foundDevice.number).then(() => {
+//                                             devices[devices.map(device => device.id).indexOf(foundDevice.id)].data = stringData == '1'? 'on' : 'off'
+//                                             socketClient.emit('device_status', {id: foundDevice.id, status: stringData == '1'? 'on' : 'off'})
+//                                             console.log('434', stringData);
+//                                         }).catch(error => {
+//                                             console.log('436',error);
+//                                         })
+//                                     }, 500)
+                                    
+//                                 }).catch(error => {
+// console.log('439',error);
+//                                 })
+                                
+//                             });
+//                         }).catch(error => {
+// console.log('444',error);
+//                         })
+//                     }).catch(error => {
+//                         console.log('447', error);
+//                     })
+//                 }
+//             }
+//         }
+//     })
+
+//     // radio.send('hi', 10, '0x744d52687C').then(() => {
+//     //     console.log('sent');
+//     // })
+
+//     socketClient.on('light_status' , data => {
+//         //socket.broadcast.to('home').emit('light_status', data)
+//         const device = devices.find(device => device.number === data.sn)
+//         devices[devices.map(device => device.id).indexOf(device.id)].data = data.status
+//         radio.send('data-' + data.status, 10, device.number).then(() => {
+//             console.log('setting has been sent');
+//         }).catch(error => {
+//             console.log('setting has not been sent');
+
+//         })
+//     })
+//     setInterval(() => {
+//         recursiveSend(0)
+//     }, devices.length * 1000)
+
+
+//     function recursiveSend(i){
+//         if(i < devices.length){
+           
+//            checkConnected(devices[i]).then(() => {
+//             recursiveSend(i+1)
+//            }).catch(() => {
+//             recursiveSend(i+1)
+//            })
+//         }
+//     }
+
+//     function checkConnected(device) {
+//         //console.log(device);
+//         return new Promise((resolve, reject) => {
+            
+//             radio.send('hi', 3, device.number).then(() => {
+                
+//                 if(device.connected){
+//                     resolve()
+//                 } else {
+//                     dataModule.setDeviceConnection(device.number, true).then(() => {
+//                         devices[devices.map(device => device.id).indexOf(device.id)].connected = true
+//                         //device.connected = true
+//                         socketClient.emit('device_connect', device.number)
+//                         resolve()
+//                     }).catch(error => {
+//                         console.log(error);
+//                         reject()
+//                     })
+//                 }
+            
+//         }).catch(() => {
+//             if(device.connected){
+//                 dataModule.setDeviceConnection(device.number, false).then(() => {
+//                     devices[devices.map(device => device.id).indexOf(device.id)].connected = false
+//                     //device.connected = false
+//                     socketClient.emit('device_disconnect', device.number)
+//                     reject()
+//                 }).catch(error => {
+//                     console.log(error);
+//                     reject()
+//                 })
+//             } else {
+//                 reject()
+//             }
+            
+//         })
+//         })
+//     }
+
+// }).catch(error => {
+//     console.log(error);
+// })

@@ -5,8 +5,15 @@ const DashboardTemperature = (props)=>{
     
     const rooms=props.parameter
         
-    const TempElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
-        
+    const roomElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
+		
+		const TempElement = room.devices.filter(device=>device.category ==='Temperature').map(device=>{
+			console.log(device);
+			return(
+				
+				<h5 key={device.id} className="ml-auto status">{device.data}<sup>°C</sup></h5>
+			)
+		})
         return(
            
                 <div key={room.id}className="card">
@@ -15,7 +22,7 @@ const DashboardTemperature = (props)=>{
 						    <use xlinkHref="images/icons-sprite.svg#thermometer-tiny"/>
 					    </svg> */} 
 						<h5><img src="/images/temperature.png"></img> {room.type}</h5>
-						<h5 className="ml-auto status">22<sup>°C</sup></h5>
+						{TempElement}
 					</div>
 				</div>
         )
@@ -27,7 +34,7 @@ const DashboardTemperature = (props)=>{
 								<div className="card-body">
 									<h4 className="card-title ">Temperature-Indictor</h4>
 									<div className="overflow">
-									{TempElement}
+									{roomElement}
 									</div>
 									
 								</div>

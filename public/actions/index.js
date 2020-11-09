@@ -17,4 +17,11 @@ export const setRoomsAction = (rooms) => {
         payload: rooms
     }
 }
+export const setSocketAction = socket => {
+    return {
+        type: 'SET_SOCKET',
+        payload: socket
+    }
+}
+
 

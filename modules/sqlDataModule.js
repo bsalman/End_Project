@@ -347,15 +347,11 @@ function editRoom(newRoomName, newRoomType, roomId) {
                     }).catch(error => {
                         reject(error)
                     })
-                
-
-
             })()
         } catch (error) {
             reject(error)
         }
     })
-
 }
 //=================================================//
 function editDevice (deviceId,serialNumber){
@@ -490,6 +486,7 @@ function getDevices(){
     })
 
 }
+//=============================================//
 function setDeviceConnection(sn, status) {
     return new Promise((resolve,reject) => {
         runQuery(`UPDATE devices SET connected = ${status ? 1 : 0}  WHERE number = '${sn}'`).then((result) => {
@@ -537,11 +534,28 @@ function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
         
     })
 }
+//========================================//
+function getMotionRelatedDevices(deviceId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_motion WHERE motion_id = ${deviceId} AND active = 1 AND start_time < now() AND stop_time > now()`).then((device=>{
+            if(device){
+                resolve(device)
+            }else{
+                reject(3)
+            }     
+            }
+        )).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+    })
+
+}
 
 //=================================================//
-
-
-
 module.exports = {
     checkUser,
     changeUser,
@@ -557,5 +571,6 @@ module.exports = {
     getDevices,
     setDeviceConnection,
     editSelected,
-    addTimeMotion
+    addTimeMotion,
+    getMotionRelatedDevices
 }

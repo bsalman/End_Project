@@ -1,6 +1,6 @@
 import React,{ useState } from 'react'
 import {connect} from 'react-redux'
-import { Button, Label, Input} from 'reactstrap'
+import { Button, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
 //=====================================//
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
@@ -16,15 +16,25 @@ const Dashboard =(props)=> {
 	//=================================//	
 	let initialState={
 		security:false,
+		modals:false
 		
 	}
 	const [state,setState] = useState(initialState)
 	//=========================================//
+	
+	// const toggle=()=>{setState({...state,
+	// 	modals: !state.modals})}
+
 	const securityActivate=(e)=>{
 		e.preventDefault()
 		setState({...state,
 			security: !state.security})
+		// toggle()
+		// setTimeout(function(){
+			
+		// },10000)
 	}
+	
 	
 			if(props.rooms.length>0){
 
@@ -34,6 +44,34 @@ const Dashboard =(props)=> {
 		return(
 			
 				<React.Fragment>
+	{/* // 				<Modal isOpen={state.modals} toggle={toggle}  className="modal-warning centered fade">
+	// 					<div className="modal-dialog modal-sm" role="document">
+	// 						<div className="modal-content">
+    //     				<ModalBody>
+	// 						<div id="armTimer">
+	// 	<h3 className="font-weight-bold">{`${state.modals==false?" 10 seconds to Start":" 10 seconds to Stop"}`}<span className="timer font-weight-normal"></span></h3>
+	// 	</div>
+    //     </ModalBody>
+    //     </div>
+	// 	</div>
+    //   </Modal> */}
+					{/* <!-- Arming Modal --> */}
+	{/* <Modal   isOpen={state.security} className="modal modal-warning centered fade" id="armModal" tabindex="-1" role="dialog" aria-label="Arming" aria-hidden="true">
+		<div className="modal-dialog modal-sm" role="document">
+			<div className="modal-content">
+				<ModalBody className="modal-body">
+					<div id="armTimer">
+						<h3 className="font-weight-bold">EXIT NOW! <span className="timer font-weight-normal"></span></h3>
+					</div>
+				</ModalBody>
+			</div>
+		</div>
+		<Button type="button" className="close close-modal" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</Button>
+	</Modal > */}
+
+	{/* <!-- Alarm Modal --> */}
 					
 					<div className="row">
 						<div className="col-sm-12">

@@ -8,7 +8,7 @@ import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 // importing the action
 import {setRoomsAction} from '../actions'
 
-import {deleteDevicePost} from '../services/api'
+import {deleteDevicePost,editDataPost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
 
@@ -55,10 +55,11 @@ const [state,setState] = useState(initialState)
      let room = rooms.find(room => room.id == roomid)
      let device = room.devices.find(device => device.id == deviceid)
      device.data = device.data == 'on' ? 'off' : 'on'
+     editDataPost(deviceid,device.data).then(data1 => {
      room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
      rooms[rooms.map(room => room.id).indexOf(roomid)] = room
      console.log('rooms after change', rooms);
-     props.setRoomsAction(rooms)
+     props.setRoomsAction(rooms)})
  
  
    }

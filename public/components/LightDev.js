@@ -1,7 +1,7 @@
 //------------------------------------------------------------//
 ///////////////       IMPORT DEPENDENCIES     //////////////////
 //------------------------------------------------------------//
-import React, { useEffect, useState } from 'react'
+import React, {useState } from 'react'
 import {connect} from 'react-redux'
 import {Link, useParams } from 'react-router-dom';
 import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
@@ -12,10 +12,6 @@ import {setRoomsAction} from '../actions'
 import {deleteDevicePost, editDataPost, getDevicesPost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
-
-
-//------------------------------------------------------------//
-///////////////         CLASS COMPONENT       //////////////////
 //------------------------------------------------------------//
 
 const Light = (props) =>{
@@ -110,44 +106,19 @@ const Light = (props) =>{
             </div>
           </div>
           </div>
-
         )
-
       })
       
     lightInfo.lightElementArr = lightElement
    
   }
 
-  // useEffect(() => {
-  //   console.log(params.id)
-  //   getDevicesPost(params.id).then(data => {
-  //     console.log('data',data);
-  //     setState({...state,})
-  //   }).catch(error => {
-  //     console.log(error);
-  //   })
-  // },[])
-
-
-
-
     //=============== switch on/off=============//
    
     const turnOnOff=(e, deviceid, roomid)=> {
 
       e.preventDefault()
-      // editDataPost(deviceid,state.lightData).then(data1 => {
-      // console.log(data1);
-      //        // send data to be saved on database (light data / on / off) and make the light on or off
-      //   // if server side reply with success
-        
-
-   
-        //       setState(
-        //   {...state,lightData:device.data}
-        
-        //  )
+      
         const rooms = [...props.rooms]
         let room = rooms.find(room => room.id == roomid)
         let device = room.devices.find(device => device.id == deviceid)

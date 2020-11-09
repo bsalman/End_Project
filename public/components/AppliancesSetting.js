@@ -62,27 +62,6 @@ const AppliancesSetting = (props) => {
     // console.log(selectedDevice);
    
   }
-
-  //=======================================//
-//   const ternOffOnLight=(e)=>{
-//     if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
-//       const errorsElement = (
-//         <ul>
-//           {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
-//           {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
-//         </ul>
-//       )
-//       const newState = {...state}
-//       newState.errorModal.show = true
-//       newState.errorModal.title = "Entries Error"
-//       newState.errorModal.content = errorsElement
-//       // hide addroom modal because we need to show error modal and we can not show
-//       // two modals on the same time
-//       newState.roomModalShow = false
-//       setState(newState)
-//     }
-    
-//   }
 //============================================//
 const turnOnOff=(e)=> {
     e.preventDefault()

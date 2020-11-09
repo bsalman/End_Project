@@ -61,14 +61,6 @@ if(props.rooms.length>0){
   room.type= selectedRoom.type
   room.devices = selectedRoom.devices
   device=room.devices.find(device => device.id == deviceId)
-  
-  
-
-  
-  // const devices= selectedRoom.devices
-  // // room.roomType=selectedRoom.type;
- 
-  // const device=devices.find(device=>device.id== deviceId)
 }
     
   
@@ -88,7 +80,6 @@ if(props.rooms.length>0){
   }
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
-   
     if (state.serialNumber.trim() === '') {
       const errorsElement = (
         <ul>
@@ -106,7 +97,7 @@ if(props.rooms.length>0){
     }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-        //  const  devices=
+       
         props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
@@ -141,7 +132,6 @@ if(props.rooms.length>0){
   return (
 
     <React.Fragment>
-
       <CustomModal
         show={state.errorModal.show}
         close={errorModalClose}
@@ -280,7 +270,7 @@ if(props.rooms.length>0){
                 <div className="row ">
                 <div className="col">
                   {/* <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}> */}
-                  <Link to={"/room/"+ params.roomId}>
+                  <Link to={"/room/"+room.type +"/"+ params.roomId}>
                       <Button
                         type="button "
                        className="btn btn-primary"

@@ -30,9 +30,7 @@ class LandNav extends React.Component {
                 <NavItem>
                     <NavLink tag={Link} to="#">Contatct us</NavLink>
                 </NavItem>
-                <NavItem>
-                    <NavLink tag={Link} to="#">Sign up </NavLink>
-                </NavItem>
+               
                 </Nav>
             </Collapse>
             
