@@ -311,6 +311,18 @@ app.post('/addtimemotion', (req, res) => {
     
 
 });
+//===================================================//
+app.post('/secureAllHouse',(req,res)=>{
+    
+    dataModule.updateSecureAllHouse(req.body.secure).then((data)=>{
+       
+        res.json(data)
+    }).catch(error=>{
+       
+        res.json(2)
+    })
+})
+
 //=============================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

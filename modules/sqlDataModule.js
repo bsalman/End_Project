@@ -1,6 +1,8 @@
 const passwordHash = require('password-hash')
 const mySql = require('mysql')
 const fs = require('fs')
+const { resolve } = require('path')
+const { error } = require('console')
 
 // declare con
 let con = null
@@ -554,6 +556,32 @@ function getMotionRelatedDevices(deviceId){
     })
 
 }
+//=======================================//
+function updateSecureAllHouse(secure){
+    return new Promise((resolve,reject)=>{
+        runQuery(`UPDATE configurations SET value ='${secure}'  WHERE name LIKE 'secure'`).then((result) => {
+           
+            runQuery(`SELECT * FROM configurations WHERE name LIKE 'secure'`).then(result1=>{
+                
+                if (result1.length>0) {
+                    
+                    resolve(result1)
+                }else{
+                    reject(3)
+                }
+            }).catch((error)=>{
+                reject(error)
+            })
+       
+                     
+                }).catch((error)=>{
+                    reject(error)
+                })
+    })
+    
+        
+
+}
 
 //=================================================//
 module.exports = {
@@ -572,5 +600,6 @@ module.exports = {
     setDeviceConnection,
     editSelected,
     addTimeMotion,
-    getMotionRelatedDevices
+    getMotionRelatedDevices,
+    updateSecureAllHouse
 }

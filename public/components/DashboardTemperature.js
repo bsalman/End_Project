@@ -8,7 +8,7 @@ const DashboardTemperature = (props)=>{
     const roomElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
 		
 		const TempElement = room.devices.filter(device=>device.category ==='Temperature').map(device=>{
-			console.log(device);
+			
 			return(
 				
 				<h5 key={device.id} className="ml-auto status">{device.data}<sup>°C</sup></h5>
