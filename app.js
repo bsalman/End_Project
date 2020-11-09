@@ -399,6 +399,35 @@ app.post('/reversmotiondevices', (req, res) => {
         res.json(error)
     })
 });
+
+
+//================================================================//
+app.post('/editsecure' , (req, res) => {
+    console.log(req.body);
+    dataModule.editSecure(req.body.roomId, req.body.secure).then((room) => {
+        res.json(room)
+
+    }).catch(error => {
+        res.json(error)
+    })
+})
+
+
+//================================================================//
+
+//===================================================//
+app.post('/secureAllHouse',(req,res)=>{
+    
+    dataModule.updateSecureAllHouse(req.body.secure).then((data)=>{
+       
+        res.json(data)
+    }).catch(error=>{
+       
+        res.json(2)
+    })
+})
+
+//=============================================================//
 //================================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
@@ -439,7 +468,7 @@ io.on('connection', socket => {
 
     const ioClient = require('socket.io-client')
 
-    const socketClient = ioClient('http://192.168.2.134:3000')
+    const socketClient = ioClient('http://pi.local:3000')
     socketClient.on('connect', () => {
         console.log('house is connected');
     })

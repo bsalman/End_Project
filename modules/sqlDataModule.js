@@ -26,7 +26,7 @@ function connect() {
                 host: 'localhost',
                 port: 3306,
                 user: 'root',
-                password: '20470',
+                password: '12345678',
                 database: 'smarthome'
             })
             con.connect(error => {
@@ -162,7 +162,8 @@ function getAllRooms(){
                     name: room.name,
                     type: room.type,
                     devices:[],
-                    selected:room.selected
+                    selected:room.selected,
+                    secure: room.secure
                 }
                 rooms.push(roomObj);
             })
@@ -562,7 +563,7 @@ function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
 function updateTimeMotion(id, startTime,stopTime,motionId,deviceId,active) {
     return new Promise((resolve,reject) => {
         runQuery(`UPDATE device_motion SET start_time = '${startTime}', stop_time = '${stopTime}', motion_id = ${motionId}, device_id = ${deviceId},active = ${active} WHERE id = ${id}`).then( result => {
-            console.log(result);
+            //console.log(result);
             resolve(result)
         }).catch(error => {
             console.log(error);
@@ -641,6 +642,55 @@ function getAllMotionRelatedDevices(deviceId){
 }
 //=================================================//
 
+//=========================================================//
+function editSecure(roomId,secure){
+    return new Promise((resolve,reject)=>{
+        runQuery(`UPDATE rooms SET secure = '${secure}' WHERE id = ${roomId}`).then((room) => {
+           console.log(room);
+                if(room){
+                    resolve(room)
+                }else{
+                    reject(3)
+                }     
+        }).catch((error)=>{
+                console.log(error);
+                reject(error)
+        })
+    })
+}
+
+//=======================================//
+function updateSecureAllHouse(secure){
+    return new Promise((resolve,reject)=>{
+        runQuery(`UPDATE configurations SET value = '${secure}'  WHERE name = 'secure'`).then((result) => {
+           
+            runQuery(`SELECT * FROM configurations WHERE name = 'secure'`).then(result1=>{
+                console.log('result',result1);
+                if (result1.length>0) {
+                    
+                    resolve(result1)
+                }else{
+                    reject(3)
+                }
+            }).catch((error)=>{
+                console.log(error);
+                reject(error)
+            })
+       
+                     
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+        })
+    })
+    
+        
+
+}
+
+//=================================================//
+
+//=========================================================//
 module.exports = {
     checkUser,
     changeUser,
@@ -662,5 +712,7 @@ module.exports = {
     changeMotionDeviceStatus,
     updateTimeMotion,
     deleteTimeMotion,
-    reversMotionDevices
+    reversMotionDevices,
+    editSecure,
+    updateSecureAllHouse
 }

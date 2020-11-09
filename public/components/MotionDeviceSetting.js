@@ -62,7 +62,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
         {/* //from to with + button */}
         <div className="row col-xl-12 col-sm-12">
           {/* //from */}
-          <div className="col-xl-3 col-sm-12" modal-content="true">
+          <div className="col-xl-3 col-sm-12  mt-2" modal-content="true">
             <Label
               for="device_seralNum"
               className="col-12 col-form-label modal-font text-center">From</Label >
@@ -78,7 +78,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
           </div>
 
           {/* //to */}
-          <div className="col-xl-3 col-sm-12" modal-content="true">
+          <div className="col-xl-3 col-sm-12  mt-2" modal-content="true">
             <Label
               for="device_seralNum"
               className="col-12 col-form-label modal-font  text-center">To</Label >
@@ -96,7 +96,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
               value={state.stopTime} />
           </div>
           <div className=" col-xl-3 col-sm-12  ">
-            <div className="col-12">
+            <div className="col-12 mt-2">
               <Label for="room_type" className="col-12 col-form-label modal-font text-center">Turn On Device</Label>
               <select
                 className="form-control custom-focus"
@@ -122,7 +122,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
                 data-placement="right"
                 onClick={onClickSaveBtn}
                 title="Save changes">
-                <img src="/images/save.png" />
+                <img src="/images/checkC.png" style={{width:"20px",height:"20px"}} />
               </button>
             </div>
             <div className="mt-5 col-xl-4 col-sm-4">

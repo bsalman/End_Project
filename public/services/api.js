@@ -580,4 +580,63 @@ export const changeMotionDeviceStatus = (relationId) => {
 
 }
 
+//===========================================//
+
+export const editSecurePost=(roomId,secure)=>{
+    return new Promise((resolve,reject)=>{
+        const selectObj={
+            roomId,
+            secure
+        }
+        fetch('/editsecure', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectObj)
+        }).then(response=>{
+            //console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    // console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+
+}
+//=======================================================//
+
+export const secureAllHousePost=(secure)=>{
+    return new Promise((resolve, reject) => {
+        const securedObj={secure:secure}
+        fetch('/secureAllHouse', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(securedObj)
+        }).then(response => {
+            if (response.status === 200 ){
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else {
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
 

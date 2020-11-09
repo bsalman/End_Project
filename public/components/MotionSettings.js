@@ -281,7 +281,7 @@ const MotionSettings = (props) => {
               {/* {state.displayMotionDevices} */}
               {motionDevicesElement}
 
-              <div className="row col-2 ml-3 mb-3 mt-0">
+              <div className="row col-2 ml-3 mb-3 mt-4">
                 <Button
                   type="button"
                   className="btn btn-primary"

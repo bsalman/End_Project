@@ -1,4 +1,4 @@
-import React,{ useState } from 'react'
+import React,{ useEffect, useState } from 'react'
 import {connect} from 'react-redux'
 import { Button, Label, Input} from 'reactstrap'
 //=====================================//
@@ -7,6 +7,7 @@ import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
 import {setRoomsAction} from '../actions'
+import {secureAllHousePost} from '../services/api'
 // import {setRoomsAction} from '../actions'
 
 
@@ -15,20 +16,34 @@ const Dashboard =(props)=> {
 		
 	//=================================//	
 	let initialState={
-		security:false,
+		security:false
 		
 	}
+
 	const [state,setState] = useState(initialState)
 	//=========================================//
+	//console.log("sec1",state.security);
 	const securityActivate=(e)=>{
 		e.preventDefault()
 		setState({...state,
-			security: !state.security})
-	}
-	
-			if(props.rooms.length>0){
+			security: data[0].value})
+		secureAllHousePost(!state.security).then(data=>{
+				console.log(data[0].value);
+				setState({...state,
+					security: data[0].value})
+			})
 
-			}
+	}
+	// useEffect(() => {
+	// 	secureAllHousePost(state.security).then(data=>{
+	// 		//console.log(data);
+	// 		setState({...state,
+	// 			security: data[0].value})
+	// 	})
+	// },[])
+		//console.log("sec2",state.security);
+		
+	
 				
 			
 		return(
@@ -44,7 +59,7 @@ const Dashboard =(props)=> {
 					</div>
 					<div className="row">
 						{/* security system start  */}
-					<div className="col-sm-12 col-md-6">
+						<div className="col-sm-12 col-md-6">
 							<div className=  {`card lock ${state.security==true?" active":""}`} data-unit="switch-house-lock">
 								<div className="card-body " >
 									<div className="d-flex flex-wrap mb-2">
@@ -54,7 +69,7 @@ const Dashboard =(props)=> {
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
 										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
-											<Input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
+											<Input type="checkbox" id="switch-house-lock" onClick={(e)=>{securityActivate(e)}}/>
 										</Label>
 									</div>
 								</div>

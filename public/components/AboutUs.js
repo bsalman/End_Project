@@ -28,7 +28,8 @@ const AboutUsPage = () => {
     e.preventDefault()
     setState({...state,
       dFirstBlock:!state.dFirstBlock,
-      dFirstNone:!state.dFirstNone})
+      dFirstNone:!state.dFirstNone
+    })
   }
 
   // display and hide the second box
@@ -68,18 +69,19 @@ const AboutUsPage = () => {
                     </div>
                   </div>
                   <h3>Neda Dehghan</h3>
-                  <span>FULLSTACK Web Devloper</span>
+                  <span>FULLSTACK Web Developer</span>
                 </div>
 
                 <div className={`member_info ${state.dFirstNone === true ? "d-block" : 'd-none'}`}>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione perspiciatis, error deleniti quaerat beatae doloribus incidunt excepturi. Fugit deleniti accusantium neque hic quidem voluptatibus cumque.</p>
+                  <h3>Neda Dehghan</h3>
+                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i className="fab fa-github" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
 
@@ -94,18 +96,19 @@ const AboutUsPage = () => {
                     </div>
                   </div>
                   <h3>Bashar Salman</h3>
-                  <span>FULLSTACK Web Devloper</span>
+                  <span>FULLSTACK Web Developer</span>
                 </div>
 
                 <div className={`member_info ${state.dSecondNone === true ? "d-block" : 'd-none'}`}>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione perspiciatis, error deleniti quaerat beatae doloribus incidunt excepturi. Fugit deleniti accusantium neque hic quidem voluptatibus cumque.</p>
+                <h3>Bashar Salman</h3>
+                <p className={`${state.dSecondNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i className="fab fa-github" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
 
@@ -120,18 +123,19 @@ const AboutUsPage = () => {
                     </div>
                   </div>
                   <h3>Safa Bouhlel</h3>
-                  <span>FULLSTACK Web Devloper</span>
+                  <span>FULLSTACK Web Developer</span>
                 </div>
 
                 <div className={`member_info ${state.dThirdNone === true ? "d-block" : 'd-none'}`}>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione perspiciatis, error deleniti quaerat beatae doloribus incidunt excepturi. Fugit deleniti accusantium neque hic quidem voluptatibus cumque.</p>
+                  <h3>Safa Bouhlel</h3>
+                  <p className={`${state.dThirdNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                <li><a href="https://github.com/Safa-14" target="_blank"><i className="fab fa-github" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.linkedin.com/in/safa-bouhlel/" target="_blank"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.xing.com/profile/Safa_Bouhlel/cv" target="_blank"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
           </div>
