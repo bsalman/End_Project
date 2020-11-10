@@ -41,6 +41,7 @@ const initialStat={
         room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
         rooms[rooms.map(room => room.id).indexOf(roomid)] = room
         console.log('rooms after change', rooms);
+        props.socket.emit('light_status', {status: device.data, sn: device.number})
         props.setRoomsAction(rooms)
        })
    
@@ -113,7 +114,8 @@ const initialStat={
 const setStateToProps = (state) => {
     return ({
       
-        rooms: state.rooms
+        rooms: state.rooms,
+        socket: state.socket
     })
   }
 export default connect(setStateToProps, {setRoomsAction})(DashboardLights)

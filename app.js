@@ -325,7 +325,39 @@ app.post('/editselected',(req,res)=>{
 app.post('/addtimemotion', (req, res) => {
     console.log(req.body);
     // res.json(req.body)
-    dataModule.addTimeMotion(req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId,req.body.active).then(data => {
+    dataModule.addTimeMotion(req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+app.post('/updatetimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.updateTimeMotion(req.body.id, req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+app.post('/deletetimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.deleteTimeMotion(req.body.id).then(data => {
         res.json(data)
     }).catch(error => {
         if (error === 3) {
@@ -340,13 +372,58 @@ app.post('/addtimemotion', (req, res) => {
 //==============================================================//
 app.post('/getmotiondevices', (req, res) => {
     //console.log(req.body);
-    dataModule.getMotionRelatedDevices(req.body.deviceId).then((devices) => {
+    dataModule.getAllMotionRelatedDevices(req.body.deviceId).then((devices) => {
         res.json(devices)
 
     }).catch(error => {
         res.json(error)
     })
 });
+//==============================================================//
+app.post('/changeMotionDeviceStatus', (req, res) => {
+    //console.log(req.body);
+    dataModule.changeMotionDeviceStatus(req.body.relationId).then((device) => {
+        res.json(device)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+//==============================================================//
+app.post('/reversmotiondevices', (req, res) => {
+    //console.log(req.body);
+    dataModule.reversMotionDevices(req.body.id, req.body.status).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+//================================================================//
+app.post('/editsecure' , (req, res) => {
+    console.log(req.body);
+    dataModule.editSecure(req.body.roomId, req.body.secure).then((room) => {
+        res.json(room)
+    }).catch(error => {
+        res.json(error)
+    })
+})
+//================================================================//
+
+app.post('/secureAllHouse',(req,res)=>{
+    
+    dataModule.updateSecureAllHouse(req.body.secure).then((data)=>{
+       
+        res.json(data)
+    }).catch(error=>{
+       
+        res.json(2)
+    })
+})
+
+
+
+
 //================================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
@@ -380,11 +457,14 @@ const server = app.listen(port, () => {
 //     socket.on('device_status' , data => {
 //         socket.broadcast.to('home').emit('device_status', data)
 //     })
+//     socket.on('temp_data' , data => {
+//         socket.broadcast.to('home').emit('temp_data', data)
+//     })
 // })
 
 //     const ioClient = require('socket.io-client')
 
-//     const socketClient = ioClient('http://pi.local:3000')
+//     const socketClient = ioClient('http://192.168.2.134:3000')
 //     socketClient.on('connect', () => {
 //         console.log('house is connected');
 //     })
@@ -415,7 +495,7 @@ const server = app.listen(port, () => {
 //                         // if(device.data === 'on'){
                             
 //                         // }
-//                         radio.send('data-' + device.data, 10, device.number).then(() => {
+//                         radio.send('data-' + device.data, 3, device.number).then(() => {
 //                             //console.log('setting has been sent');
 //                         }).catch(error => {
 //                             //console.log('setting has not been sent');
@@ -441,7 +521,7 @@ const server = app.listen(port, () => {
 //                                 const foundDevice = devices.find(device => device.id === realtedDevice.device_id)
 //                                 dataModule.editData(foundDevice.id, stringData == '1'? 'on' : 'off').then(() => {
 //                                     setTimeout(() => {
-//                                         radio.send('data-' +  stringData == '1'? 'on' : 'off', 10, foundDevice.number).then(() => {
+//                                         radio.send('data-' +  (stringData === '1'? 'on' : 'off'), 3, foundDevice.number).then(() => {
 //                                             devices[devices.map(device => device.id).indexOf(foundDevice.id)].data = stringData == '1'? 'on' : 'off'
 //                                             socketClient.emit('device_status', {id: foundDevice.id, status: stringData == '1'? 'on' : 'off'})
 //                                             console.log('434', stringData);
@@ -462,6 +542,19 @@ const server = app.listen(port, () => {
 //                         console.log('447', error);
 //                     })
 //                 }
+//                 if (device.category === 'Temperature') {
+//                     const stringData = message.substr(message.indexOf('-') + 1, message.length).replace(/\x00/gi, '')
+//                     const savedData = {
+//                         t: stringData.split('-')[0],
+//                         h: stringData.split('-')[1]
+//                     }
+//                     dataModule.editData(device.id, JSON.stringify(savedData)).then(() => {
+//                         devices[devices.map(device => device.id).indexOf(device.id)].data = JSON.stringify(savedData)
+//                         socketClient.emit('temp_data', {id: device.id , status: JSON.stringify(savedData)})
+//                     }).catch(error => {
+//                         console.log('447', error);
+//                     })
+//                 }
 //             }
 //         }
 //     })
@@ -474,7 +567,7 @@ const server = app.listen(port, () => {
 //         //socket.broadcast.to('home').emit('light_status', data)
 //         const device = devices.find(device => device.number === data.sn)
 //         devices[devices.map(device => device.id).indexOf(device.id)].data = data.status
-//         radio.send('data-' + data.status, 10, device.number).then(() => {
+//         radio.send('data-' + data.status, 3, device.number).then(() => {
 //             console.log('setting has been sent');
 //         }).catch(error => {
 //             console.log('setting has not been sent');
@@ -482,26 +575,32 @@ const server = app.listen(port, () => {
 //         })
 //     })
 //     setInterval(() => {
-//         recursiveSend(0)
-//     }, devices.length * 1000)
+//         // recursiveSend(0)
+//         devices.forEach(device => {
+//             checkConnected(device).then(() => {
+
+//             }).catch(error => {
+//             })
+//         })
+//     }, (devices.length) * 1000)
 
 
-//     function recursiveSend(i){
-//         if(i < devices.length){
+//     // function recursiveSend(i){
+//     //     if(i < devices.length){
            
-//            checkConnected(devices[i]).then(() => {
-//             recursiveSend(i+1)
-//            }).catch(() => {
-//             recursiveSend(i+1)
-//            })
-//         }
-//     }
+//     //        checkConnected(devices[i]).then(() => {
+//     //         recursiveSend(i+1)
+//     //        }).catch(() => {
+//     //         recursiveSend(i+1)
+//     //        })
+//     //     }
+//     // }
 
 //     function checkConnected(device) {
 //         //console.log(device);
 //         return new Promise((resolve, reject) => {
             
-//             radio.send('hi', 3, device.number).then(() => {
+//             radio.checkConnected('hi', 3, device.number).then(() => {
                 
 //                 if(device.connected){
 //                     resolve()

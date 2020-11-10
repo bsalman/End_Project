@@ -46,7 +46,7 @@ const DashboardAppliance = (props) =>{
         const devices = room.devices.filter(device => device.category ==='Appliance').map(device => {
          // console.log("device",device);
       return (
-        <React.Fragment key={device.id}>
+        <React.Fragment  key={device.id}>
         <div className="card col-sm-12 col-md-6 col-xl-5">
             <div className="card-body d-flex flex-wrap justify-content-start" data-unit="room-temp-02">
             <img src={device.imgUrl}></img>
@@ -71,7 +71,7 @@ const DashboardAppliance = (props) =>{
               &nbsp;
               <h5>&nbsp;{room.type}</h5>
 
-							<div className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
+							<div  className="card-body d-flex flex-wrap overflow4 justify-content-md-center">
 			          	{devices}
 							</div>
               </div>
@@ -86,7 +86,7 @@ const DashboardAppliance = (props) =>{
 
   return(
 
-        <div className="col-12">  
+        <div className="col-12">   {/* key={room.id} */}
       
           	<div className="col col-sm-12 card ">
 							<div className="card-body">

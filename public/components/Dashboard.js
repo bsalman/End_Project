@@ -7,6 +7,7 @@ import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
 import {setRoomsAction} from '../actions'
+import {secureAllHousePost} from '../services/api'
 // import {setRoomsAction} from '../actions'
 
 
@@ -16,29 +17,37 @@ const Dashboard =(props)=> {
 	//=================================//	
 	let initialState={
 		security:false,
+		modals:false
+		
 		
 	}
 	const [state,setState] = useState(initialState)
 	//=========================================//
-	const securityActivate=(e)=>{
-		e.preventDefault()
-		setState({...state,
-			security: !state.security})
+	const securityActivate=(e,secure)=>{
+	 e.preventDefault()
+	 setState({...state,security:!state.security})	
+	
+	 // make changes on database 
+	 secureAllHousePost(secure).then(data=>{
+	 console.log(data);
+				
+			})	
 	}
 	
-			if(props.rooms.length>0){
-
-			}
+	
+if(props.rooms.length>0){
+	console.log("sec2",state.security);
+}
 				
 			
 		return(
 			
 				<React.Fragment>
-					
+				
 					<div className="row">
 						<div className="col-sm-12">
 							<div className="card p-2 mb-4 align-items-center">
-								<h4>Hello:user</h4>
+								<h4>Hello Ms & Mr Smart</h4>
 							</div>
 						</div>
 					</div>
@@ -54,7 +63,7 @@ const Dashboard =(props)=> {
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
 										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
-											<Input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
+											<Input type="checkbox" id="switch-house-lock"  onClick={(e)=>{securityActivate(e)}} />
 										</Label>
 									</div>
 								</div>

@@ -37,7 +37,9 @@ const Motion = (props) =>{
       confirmModalShow: false,
       confirmModalElement: null,
       confirmModalPayLoad: null
-    }
+    },
+    motionLightsArr : [],
+    motionDevices: [...props.motionDevices]
   }
 
   const [state,setState] = useState(intialState)
@@ -49,33 +51,10 @@ const Motion = (props) =>{
   }
 
       //============================//
-      // console.log('main state rooms ',props.rooms);
 
-
-//       const turnOnOff=(e, deviceid, roomid)=> {
-//          e.preventDefault()
-//         // send data to be saved on database (light data / on / off) and make the light on or off
-//         // if server side reply with success
-//         const rooms = [...props.rooms]
-//         let room = rooms.find(room => room.id == roomid)
-//         let device = room.devices.find(device => device.id == deviceid)
-//         device.data = device.data == true ? false : true
-// editDataPost(deviceid,device.data).then(data1 => {
-        
-        
-//         room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
-//         rooms[rooms.map(room => room.id).indexOf(roomid)] = room
-//         // console.log('rooms after change', device.data);
-//         props.setRoomsAction(rooms)
-//        })
-    
-    
-//       }
-
-
-// useEffect(()=>{
-  
-// },[])
+      useEffect(() => {
+        getMotionRelatedDevicesPost()
+      }, [])
 
 const turnOnOff=(e)=> {
   e.preventDefault()
@@ -86,32 +65,11 @@ const turnOnOff=(e)=> {
 //console.log('props',props);
  //Check if rooms inside props are loading or not to use the redux method
   if(props.rooms.length > 0) {
-    // getMotionRelatedDevicesPost(152).then(data => {
-    //   console.log('time',props.motionDevices);
-    //   const lightDevices = props.motionDevices.map(lightDevice => {
-    //     return(
-    //       <div key={lightDevice.id}>
-    //         <ListGroup className="list-group borderless">
-    //       <hr className="my-0" />
-    //       <ListGroupItem className="list-group-item list-group-item2 align-items-center">
-    //         <p className="specs">{lightDevice.start_time}</p>
-    //         &nbsp;&nbsp;&nbsp;
-    //         <p className="ml-auto mb-0">{lightDevice.stop_time}</p>
-    //         &nbsp;&nbsp;&nbsp;
-    //       </ListGroupItem>
-    //     </ListGroup>
-    //       </div>
-    //     )
-    //   })
-    //   //return lightDevices
-    //   //console.log('lightDevicesss',lightDevices)
-  
-    // }).catch(error => {
-    //   console.log(error);
-    // })
+ 
     const motionElement = props.motionDevices.map(device =>{
       //console.log(device);
     
+
       return(
         <div key={device.id} className="card active" data-unit="tv-lcd-2">
           {/* Show the name of the device */}
@@ -123,33 +81,24 @@ const turnOnOff=(e)=> {
               </svg> */}
               <img src="/images/wave.png"></img>
               <h5>{device.name}</h5>
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-              <Input type="checkbox" id="tv-lcd-2"/>  {/* checked */}
-              </Label>
+              {/* <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
+              <Input type="checkbox" id="tv-lcd-2"/>  
+              </Label> */}
             </ListGroupItem>
           </ListGroup>
 
           {/* <!-- Switch the button when we want to active the motion device --> */}        
-          <div className="only-if-active">
             <hr className="my-0" />
             <ListGroup className="list-group borderless px-1">
-              <ListGroupItem className="list-group-item pb-0">
-                <h5 className="specs">Light Device</h5>
-                <div className="btn-group btn-group-toggle ml-auto py-1" data-toggle="buttons">
-                  <Label className="btn btn-label btn-sm mb-0">
-                    <Input type="radio" name="options" id="c1-nv-on" autoComplete="off" />
-                      ON
-                  </Label>
-
-                  <Label className="btn btn-label btn-sm mb-0 active">
-                    <Input type="radio" name="options" id="c1-nv-off" autoComplete="off"  />
-                      OFF
-                  </Label>
-                </div>
-              </ListGroupItem>        
+            <hr className="my-0" />
+            <ListGroupItem className="list-group-item list-group-item2 align-items-center">
+              
+              <p className="specs">Status</p>
+              &nbsp;&nbsp;&nbsp;
+              <p className="ml-auto mb-0 text-success">{device.connected? 'Connected': 'Disconnected'}</p>
+              &nbsp;&nbsp;&nbsp;
+            </ListGroupItem>       
             </ListGroup>
-            &nbsp;
-          </div>
 
           {/* Show the device serial number */}
           <ListGroup className="list-group borderless">

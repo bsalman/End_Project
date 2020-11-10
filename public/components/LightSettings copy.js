@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {Link,useParams} from 'react-router-dom'
+import React, {useState,useEffect} from 'react'
+import {Link, useParams} from 'react-router-dom'
 import {
   Col,
   Button,
@@ -8,7 +8,6 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import {editDataPost} from '../services/api'
 //==============================================//
 import {connect} from 'react-redux'
 // importing the action
@@ -21,11 +20,10 @@ import {editDevicePost} from '../services/api'
 //==============functionalComponent start==============================//
 const LightSetting = (props) => {
   const params = useParams()
- const deviceCategoryParam =params.deviceCategory;
+  const deviceCategoryParam=params.deviceCategory;
   const deviceId=params.id
-const deviceName=params.deviceName
-   const roomId =params.roomId
-  
+  const deviceName=params.deviceName
+  const roomId =params.roomId
   
   const initialState = {
     errorModal: {
@@ -41,38 +39,39 @@ const deviceName=params.deviceName
     checked : false
   }
 //=======================================//
-  const [state,setState] = useState(initialState)
+  const [state,
+    setState] = useState(initialState)
 //==========================================//
- let room={
-   id:"",
-   name:"",
-   type:"",
-   devices:[]
- }
- let device={}
+  let room ={
+    id:"",
+    name:"",
+    type:"",
+    devices:[]
+  }
+  let device={}
 //==============================================//
 
-if(props.rooms.length>0){
-  console.log("hi",props.rooms);
-  room.id=roomId
-  const rooms=props.rooms
-  const selectedRoom = rooms.find(room=>room.id==roomId)
-  room.name=selectedRoom.name
-  room.type= selectedRoom.type
-  room.devices = selectedRoom.devices
-  device=room.devices.find(device => device.id == deviceId)
+  if (props.rooms.length > 0) {
+   
+    room.id=roomId
+    const rooms=props.rooms
+   
+    const selectedRoom= rooms.find(room=>room.id==roomId)
+    //const devices= selectedRoom.devices
   
-  
+    room.name=selectedRoom.name
+    room.type= selectedRoom.type
+    room.devices = selectedRoom.devices
+    device=room.devices.find(device => device.id == deviceId)
 
-  
-  // const devices= selectedRoom.devices
-  // // room.roomType=selectedRoom.type;
- 
-  // const device=devices.find(device=>device.id== deviceId)
-}
-    
-  
-  //==========================================//
+    //room.roomType=selectedRoom.type
+    //const selectedDevice=devices.find(device=> device.id=== deviceId)
+    //room.devicesArr=devices
+    // console.log(selectedDevice);
+   
+  }
+
+  //=======================================//
   const turnOnOff=(e,deviceId,roomId)=> {
     e.preventDefault()
     setState({...state,checked:!state.checked})
@@ -86,6 +85,25 @@ if(props.rooms.length>0){
       props.setRoomsAction(rooms)
      })
   }
+  // const ternOffOnLight=(e)=>{
+  //   if (state.ternOnTim.trim() === '' || state.showdownTime === '') {
+  //     const errorsElement = (
+  //       <ul>
+  //         {state.ternOnTim.trim() === ''? <div>set Time for ternOn</div>: null}
+  //         {state.showdownTime.trim() === ''? <div>set Time for ternOf</div>: null}
+  //       </ul>
+  //     )
+  //     const newState = {...state}
+  //     newState.errorModal.show = true
+  //     newState.errorModal.title = "Entries Error"
+  //     newState.errorModal.content = errorsElement
+  //     // hide addroom modal because we need to show error modal and we can not show
+  //     // two modals on the same time
+  //     newState.roomModalShow = false
+  //     setState(newState)
+  //   }
+    
+  // }
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
@@ -106,11 +124,10 @@ if(props.rooms.length>0){
     }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-        //  const  devices=
-        props.rooms.find(room=>room.id==device.room_id)
+         //const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-
+//console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -169,7 +186,7 @@ if(props.rooms.length>0){
           <hr className="my-0"/>
           <ul className="list-group borderless">
             <li className="list-group-item align-items-center">
-              <img src="/images/timer.png"></img>
+              <i className="fas fa-stopwatch"></i>
               &nbsp;
               <h5 className="card-title">Light:Set Time</h5>
               <div className="d-flex ml-auto align-items-center ">
@@ -216,7 +233,7 @@ if(props.rooms.length>0){
                 />
             </div>
             <div className="col justify-content-end ">
-              <Button >Save</Button>
+              <Button>Save</Button>
             </div>
           </div>
           &nbsp;
@@ -279,18 +296,19 @@ if(props.rooms.length>0){
                 </FormGroup>
                 <div className="row ">
                 <div className="col">
-                  {/* <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}> */}
                   <Link to={"/room/"+ params.roomId}>
                       <Button
                         type="button "
                        className="btn btn-primary"
                         data-toggle="tooltip"
                         data-placement="right"
-                        title="go Back">
+                        title="Go Back">
                        BACK
                       </Button>
                 </Link>
                 </div>
+                  
+                 
                 </div>
               </Form>
             </div>
