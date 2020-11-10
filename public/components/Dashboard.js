@@ -7,7 +7,7 @@ import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
 import {setRoomsAction} from '../actions'
-import {secureAllHousePost} from '../services/api'
+import {secureAllHousePost, getSecurePost} from '../services/api'
 // import {setRoomsAction} from '../actions'
 
 
@@ -25,22 +25,23 @@ const Dashboard =(props)=> {
 	//console.log("sec1",state.security);
 	const securityActivate=(e)=>{
 		e.preventDefault()
-		setState({...state,
-			security: data[0].value})
+		// setState({...state,
+		// 	security: !state.security})
+			//console.log("sec2",state.security);
 		secureAllHousePost(!state.security).then(data=>{
-				console.log(data[0].value);
+				//console.log(JSON.parse(data[0].value));
 				setState({...state,
-					security: data[0].value})
+					security: JSON.parse(data[0].value)})
 			})
 
 	}
-	// useEffect(() => {
-	// 	secureAllHousePost(state.security).then(data=>{
-	// 		//console.log(data);
-	// 		setState({...state,
-	// 			security: data[0].value})
-	// 	})
-	// },[])
+	useEffect(() => {
+		getSecurePost().then(data=>{
+			console.log(data);
+			setState({...state,
+				security: JSON.parse(data.value)})
+		})
+	},[])
 		//console.log("sec2",state.security);
 		
 	

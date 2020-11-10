@@ -689,6 +689,28 @@ function updateSecureAllHouse(secure){
 }
 
 //=================================================//
+function getSecureAllHouse(){
+    return new Promise((resolve,reject)=>{
+        
+           
+            runQuery(`SELECT * FROM configurations WHERE name = 'secure'`).then(result=>{
+                //console.log('result',result);
+                if (result.length>0) {
+                    
+                    resolve(result[0])
+                }else{
+                    reject(3)
+                }
+            }).catch((error)=>{
+                console.log(error);
+                reject(error)
+            })
+       
+                     
+    
+    })
+    
+}     
 
 //=========================================================//
 module.exports = {
@@ -714,5 +736,6 @@ module.exports = {
     deleteTimeMotion,
     reversMotionDevices,
     editSecure,
-    updateSecureAllHouse
+    updateSecureAllHouse,
+    getSecureAllHouse
 }
