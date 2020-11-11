@@ -63,7 +63,7 @@ const AboutUsPage = () => {
               <div onClick={showDetailsFirstMember}>
                 <div className={`member_area ${state.dFirstBlock === true ? "d-block" : 'd-none'}`}>
                   <div className="member_img">
-                    <img src="https://i.imgur.com/JzUIF4o.png" alt="our_team"/>
+                    <img src="/images/neda.jpg" alt="our_team"/>
                     <div className="social_media">
                       <h3>Click on me</h3>
                     </div>
@@ -74,7 +74,8 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dFirstNone === true ? "d-block" : 'd-none'}`}>
                   <h3>Neda Dehghan</h3>
-                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
+                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in arts.<br/>
+                    I like developing new<br/>ideas and working in<br/>groups to find the best<br/>solution for the customer.<br/></p>
                 </div>
               </div>
               <ul>
@@ -90,7 +91,7 @@ const AboutUsPage = () => {
               <div onClick={showDetailsSecondMember}>
                 <div className={`member_area ${state.dSecondBlock === true ? "d-block" : 'd-none'}`}>
                   <div className="member_img">
-                    <img src="https://i.imgur.com/2Necikc.png" alt="our_team"/>
+                    <img src="/images/bashar.jpeg" alt="our_team"/>
                     <div className="social_media">
                       <h3>Click on me</h3>
                     </div>
@@ -128,7 +129,8 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dThirdNone === true ? "d-block" : 'd-none'}`}>
                   <h3>Safa Bouhlel</h3>
-                  <p className={`${state.dThirdNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
+                  <p className={`${state.dThirdNone === true ? 'text-typing' : ''}`}>I have a degree in<br/>electrical engineering and<br/>have continued my<br/>studies as a full stack<br/>Web Developer.<br/>
+                    I have an eye for problem-<br/>solving and am good at<br/>working solution<br/>orientated with my team.<br/></p>
                 </div>
               </div>
               <ul>

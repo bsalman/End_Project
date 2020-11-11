@@ -439,6 +439,70 @@ app.post('/getsecure',(req,res)=>{
         res.json(2)
     })
 })
+
+
+//==============================================================//
+app.post('/addtimedevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.addTimeDevice(req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+
+//==============================================================//
+app.post('/updatetimedevice', (req, res) => {
+    console.log('',req.body);
+    // res.json(req.body)
+    dataModule.updateTimeDevice(req.body.id, req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+app.post('/deletetimedevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.deleteTimeDevice(req.body.id).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+
+//==============================================================//
+app.post('/gettimedevices', (req, res) => {
+    //console.log(req.body);
+    dataModule.getAllTimeRelatedDevices(req.body.deviceId).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+//==============================================================//
 //================================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

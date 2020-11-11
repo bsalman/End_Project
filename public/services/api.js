@@ -664,3 +664,132 @@ export const getSecurePost = () => {
     })
 }
 
+//=======================================================//
+
+export const addTimeDevicePost =(startTime,stopTime,deviceId, active)=>{
+    return new Promise((resolve,reject)=>{
+        const timeMotionObj={
+            startTime,
+            stopTime,
+            deviceId,
+            active
+        }
+        //console.log(deviceObj);
+        fetch('/addtimedevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeMotionObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+
+
+//=======================================================//
+export const updateTimeDevicePost =(id, startTime,stopTime,deviceId, active)=>{
+    return new Promise((resolve,reject)=>{
+        const timeDeviceObj={
+            id,
+            startTime,
+            stopTime,
+            deviceId,
+            active
+            
+        }
+        //console.log(deviceObj);
+        fetch('/updatetimedevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeDeviceObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//=======================================================//
+export const deleteTimeDevicePost =(id)=>{
+    return new Promise((resolve,reject)=>{
+        const timeDeviceObj={
+            id
+            
+        }
+        //console.log(deviceObj);
+        fetch('/deletetimedevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeDeviceObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+
+//==================================================//
+
+export const getDeviceRelatedDevicesPost = (deviceId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            deviceId
+        }
+        fetch("/gettimedevices", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+//=======================================================//

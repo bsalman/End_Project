@@ -12,7 +12,7 @@ const DashboardTemperature = (props)=>{
 			//console.log(device);
 			return(
 				
-				<h5 key={device.id} className="ml-auto status">{JSON.parse(device.data).t}<sup>°C</sup></h5>
+				<h5 key={device.id} className="mt-2 ml-auto status">{JSON.parse(device.data).t}<sup>°C</sup></h5>
 			)
 		})
         return(

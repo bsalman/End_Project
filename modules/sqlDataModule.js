@@ -712,7 +712,85 @@ function getSecureAllHouse(){
     
 }     
 
+//==================================//
+function addTimeDevice(startTime,stopTime,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`INSERT INTO device_timer(start_time, stop_time, device_id,active) VALUES ('${startTime}','${stopTime}',${deviceId}, ${active})`).then( result => {
+            //console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
 //=========================================================//
+
+//==================================//
+function updateTimeDevice(id, startTime,stopTime,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_timer SET start_time = '${startTime}', stop_time = '${stopTime}', device_id = ${deviceId},active = ${active} WHERE id = ${id}`).then( result => {
+            //console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
+//==================================//
+function deleteTimeDevice(id) {
+    return new Promise((resolve,reject) => {
+        runQuery(`DELETE FROM device_timer WHERE id = ${id}`).then( result => {
+            console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
+//=================================================//
+
+
+function getAllTimeRelatedDevices(deviceId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_timer WHERE device_id = ${deviceId} `).then(devices=>{
+            resolve(devices)    
+          
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+
+//=================================================//
 module.exports = {
     checkUser,
     changeUser,
@@ -737,5 +815,10 @@ module.exports = {
     reversMotionDevices,
     editSecure,
     updateSecureAllHouse,
-    getSecureAllHouse
+    getSecureAllHouse,
+    addTimeDevice,
+    updateTimeDevice,
+    deleteTimeDevice,
+    getAllTimeRelatedDevices
+
 }

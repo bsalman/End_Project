@@ -37,7 +37,7 @@ const Dashboard =(props)=> {
 	}
 	useEffect(() => {
 		getSecurePost().then(data=>{
-			console.log(data);
+			//console.log(data);
 			setState({...state,
 				security: JSON.parse(data.value)})
 		})

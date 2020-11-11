@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
 import {
   Col,
@@ -16,7 +16,9 @@ import {setRoomsAction} from '../actions'
 //==============================================//
 import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
-import {editDevicePost} from '../services/api'
+import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
+
+import LightDeviceSettings from './LightDeviceSettings'
 
 //==============functionalComponent start==============================//
 const LightSetting = (props) => {
@@ -26,14 +28,54 @@ const LightSetting = (props) => {
 const deviceName=params.deviceName
    const roomId =params.roomId
   
-  
+   useEffect(() => {
+    getDeviceRelatedDevicesPost(params.id).then(relatedDevices => {
+      // motionDevices : [
+      //   {startTime: '',
+      //   stopTime: '',
+      //   selectedDevice: null,}],
+      // console.log(relatedDevices);
+      let checkChecked = true
+      const timeDevices = relatedDevices.map((device) => {
+        if(device.active != 1)
+          checkChecked = false
+          // console.log(device);
+          const x= {
+            startTime: device.start_time,
+            stopTime: device.stop_time,
+            id: device.id,
+            active: device.active
+          }
+          return (x)
+        
+        
+        
+      })
+      timeDevices.push(
+        {
+          startTime: '',
+          stopTime: '',
+          id: null,
+          active: 1
+        }
+      )
+
+      setState({ ...state, timeDevices: timeDevices, checked: checkChecked })
+    })
+  }, [])
+
+
+
+
   const initialState = {
     errorModal: {
       show: false,
       title: '',
       content: null
     },
-    
+        //time on/off
+        timeDevices: [
+        ],
     showdownTime:"",
     ternOnTim:"",
     classChecked:"",
@@ -53,7 +95,7 @@ const deviceName=params.deviceName
 //==============================================//
 
 if(props.rooms.length>0){
-  console.log("hi",props.rooms);
+  //console.log("hi",props.rooms);
   room.id=roomId
   const rooms=props.rooms
   const selectedRoom = rooms.find(room=>room.id==roomId)
@@ -86,28 +128,57 @@ if(props.rooms.length>0){
       props.setRoomsAction(rooms)
      })
   }
+
+
+  const timeDevicesElement = state.timeDevices.map((device,idx) => {
+    return (
+      <LightDeviceSettings deviceId={params.id} key={idx} device={device}/>
+    )
+  })
+
+    //add new time on + btn click function
+    const addNewTimeBoxBtn = (e) => {
+      e.preventDefault()
+      //// big NOOOOOOOOOOOOOO
+      //state.motionDevices.forEach(Element=>{
+      const newTimeDevices = state.timeDevices
+      newTimeDevices.push({
+        startTime: '',
+        stopTime: '',
+        id: null,
+        active: 1
+      })
+      setState({ ...state, timeDevices: newTimeDevices })
+      //})
+  
+  
+      // console.log('hi');
+  
+      // console.log('state,motionDevices', state.motionDevices);
+    }
+
+
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
-   
-    if (state.serialNumber.trim() === '') {
-      const errorsElement = (
-        <ul>
-          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
-        </ul>
-      )
-      const newState = {...state}
-      newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
-      newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
-      newState.roomModalShow = false
-      setState(newState)
-    }else{
+    e.preventDefault()
+    if (state.serialNumber.trim() != '') {
+    //   const errorsElement = (
+    //     <ul>
+    //       {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
+    //     </ul>
+    //   )
+    //   const newState = {...state}
+    //   newState.errorModal.show = true
+    //   newState.errorModal.title = "Entries Error"
+    //   newState.errorModal.content = errorsElement
+    //   // hide addroom modal because we need to show error modal and we can not show
+    //   // two modals on the same time
+    //   newState.roomModalShow = false
+    //   setState(newState)
+    // }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-        //  const  devices=
-        props.rooms.find(room=>room.id==device.room_id)
+
        
         if(device){
 
@@ -185,8 +256,25 @@ if(props.rooms.length>0){
           <hr className="my-0"/>
           &nbsp;
 
-          <div className="row d-flex justify-content-center">
-            <div className="col justify-content-center ">
+          
+          
+
+          {timeDevicesElement}
+
+        <div className="row col-2 ml-3 mb-3 mt-4">
+          <Button
+            type="button"
+            className="btn btn-primary"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Add Devices"
+            onClick={addNewTimeBoxBtn}>
+            <i className="fas fa-plus"></i>
+          </Button>
+          &nbsp;&nbsp;
+        </div>
+            {/* //from to with + button */}
+            {/* <div className="col justify-content-center ">
               <h5 className="specs text-center">From</h5>
             </div>
             <div className="col justify-content-center ">
@@ -203,7 +291,9 @@ if(props.rooms.length>0){
                 value={state.ternOnTim}
                />
             </div>
-            <div className="col justify-content-center ">
+            
+            {/* //to */}
+            {/* <div className="col justify-content-center ">
               <h5 className="specs text-center">To</h5>
             </div>
             <div className="col justify-content-center">
@@ -215,10 +305,19 @@ if(props.rooms.length>0){
                 onChange={(e)=>{setState({...state,showdownTime: e.target.value})}}
                 />
             </div>
+            
+            
             <div className="col justify-content-end ">
               <Button >Save</Button>
-            </div>
-          </div>
+            </div> */}
+           
+          
+
+
+
+
+
+          
           &nbsp;
           <hr className="my-0"/>
           <ul className="list-group borderless">
@@ -280,7 +379,7 @@ if(props.rooms.length>0){
                 <div className="row ">
                 <div className="col">
                   {/* <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}> */}
-                  <Link to={"/room/"+ params.roomId}>
+                  <Link to={"/room/"+room.type +"/"+ params.roomId}>
                       <Button
                         type="button "
                        className="btn btn-primary"
