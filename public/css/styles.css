@@ -168,25 +168,19 @@ input[type=text]:disabled {background:#000000;}
         background-size: cover; 
     }
     .textsContainer{
-        top:100px;
+        top:0px;
     }
     .houseContainer{
       position: relative;
-        top:100px;
-        height:400px;
-        border-radius:50PX; 
+       
+        height:90vh;
+        width: 100%;
+        border-radius:50%; 
         animation:2s pulse  infinite;  
         border: 3px solid  rgba(92, 176, 233, 0.911); 
     }
-    .houseContainer>span{
-      
-      background-color:rgba(92, 176, 233, 0.911);
-      height: 3px;
-      display: inline-block;
-      
-      position: absolute;
-    }
-    .sp1{
+    
+    /* .sp1{
       left: 11.5%;
       top:28%;
       transform: rotate(40deg);
@@ -233,7 +227,7 @@ input[type=text]:disabled {background:#000000;}
       bottom:24%;
       transform: rotate(270deg);
       width:10% ;
-    }
+    } */
      .iconCon{
       animation:2s pulse2  infinite; 
       border: 3px solid  rgba(92, 176, 233, 0.911);
@@ -248,42 +242,47 @@ input[type=text]:disabled {background:#000000;}
   animation:2s pulse  infinite; 
   border:3px solid  rgba(92, 176, 233, 0.911);
 border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  top:31.5%;
-  left:37%;
+  width: 30%;
+  height: 30%;
+  top:34%;
+  left:34%;
 
 }
     .laptop{
       position: absolute; 
-      top:22px;
-      left:16px;
-      font-size: 90px;
+      top:20%;
+      left:19%;
+      font-size: 500%;
     }
     .tempIcon{
       position: absolute;
-      top:3%;
+      top:2%;
+      left:45%;
+    }
+    .musicIcon{
+      position: absolute;
+      bottom:2%;
       left:45%;
     }
     .light{
       position: absolute;
-      top:3%;
-      left:5%;
+      top:17%;
+      left:12%;
     }
     .tv{
       position: absolute;
-      top:10px;
-      right:5%;
+      top:17%;
+      right:12%;
     }
     .lockIcon{
       position: absolute;
-      bottom:3%;
-      right:5%;
+      bottom:15%;
+      right:15%;
     }
     .video{
       position: absolute;
-      bottom:3%;
-      left:5%;
+      bottom:15%;
+      left:15%;
     }
     .elk{
       position: absolute;
@@ -296,11 +295,7 @@ border-radius: 50%;
       left:5%;
       
     }
-    .musicIcon{
-      position: absolute;
-      bottom:3%;
-      left:45%;
-    }
+    
     
      
     .iconCon>i{
@@ -368,6 +363,140 @@ border-radius: 50%;
       transition:scale(0,9);
     }  
   }
+  /* @media  only screen and (max-width:900px) {
+    .houseContainer{
+      height:400px;
+      width: 400px;
+      top:100px
+    }
+   }
+    */
+    /* @media  only screen and (min-width:900px) {
+      .houseContainer{
+        height:500px;
+        width: 500px;
+        
+      }
+     
+     };*/
+
+  /* @media  only screen and (max-width:768px) {
+    .houseContainer{
+      height:400px;
+      width: 400px;
+      top:100px;
+    }
+   
+   };  */
+ 
+  @media only screen and (max-width: 576px){
+      .houseContainer{
+        width: 100%;
+        height: 65vh;
+       
+        
+      }
+      .iconCon{
+        width: 30px;
+        height: 30px;
+      }
+      .laptopContainer{
+        width: 75px;
+        height: 75px;
+        top:40%;
+        left:40%;
+      }
+      .laptop{
+
+        top:15px;
+        font-size: 40px;
+        left:10px;
+        
+      }
+      .tempIcon{
+        
+        top:2%;
+        left:45%;
+      }
+      .light{
+        position: absolute;
+        top:17%;
+        left:12%;
+      }
+      .tv{
+        position: absolute;
+        top:17%;
+        right:12%;
+      }
+      .lockIcon{
+        position: absolute;
+        bottom:15%;
+        right:15%;
+      }
+      .video{
+        position: absolute;
+        bottom:15%;
+        left:15%;
+      }
+      .elk{
+        position: absolute;
+        bottom:42%;
+        right:2%;
+      }
+      .home{
+        position: absolute;
+        bottom:42%;
+        left:2%;
+        
+      }
+      .musicIcon{
+        position: absolute;
+        bottom:2%;
+        left:45%;
+      }
+      
+      .iconCon>i{
+        font-size: 15px
+      }
+      .musicIcon>i{
+        top:5px;
+        left:4px;
+      }
+      .tempIcon>i{
+        top:5px;
+        left:8px;
+      }
+      .light>i{
+        top:5px;
+        left:6px;
+        
+      }
+      .lockIcon>i{
+        top:4px;
+        left:5px;
+        
+      }
+      .elk>i{
+        top:5px;
+        left:6px;
+      
+      }
+      .home>i{
+        top:4px;
+        left:3px;
+      }
+      .video>i{
+        top:5px;
+        left:4px;
+      }
+      .tv>i{
+        top:5px;
+        left:4px;
+      }
+
+     
+  };
+ 
     /* ============================================== */
 
 
