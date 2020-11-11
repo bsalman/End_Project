@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
 import {
   Col,
@@ -6,8 +6,7 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  Alert
+  Input
 } from 'reactstrap';
 //==============================================//
 import {connect} from 'react-redux'
@@ -16,7 +15,9 @@ import {setRoomsAction} from '../actions'
 //==============================================//
 import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
-import {editDevicePost} from '../services/api'
+import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
+
+import AppliancesDeviceSettings from './TimeDeviceSettings'
 
 //==============functionalComponent start==============================//
 const AppliancesSetting = (props) => {
@@ -26,17 +27,58 @@ const AppliancesSetting = (props) => {
   const deviceName=params.deviceName
   const roomId =params.roomId
   
+
+  useEffect(() => {
+    getDeviceRelatedDevicesPost(params.id).then(relatedDevices => {
+      // motionDevices : [
+      //   {startTime: '',
+      //   stopTime: '',
+      //   selectedDevice: null,}],
+      // console.log(relatedDevices);
+      let checkChecked = true
+      const applianceDevices = relatedDevices.map((device) => {
+        if(device.active != 1)
+          checkChecked = false
+          // console.log(device);
+          const x= {
+            startTime: device.start_time,
+            stopTime: device.stop_time,
+            id: device.id,
+            active: device.active
+          }
+          return (x)
+        
+        
+        
+      })
+      applianceDevices.push(
+        {
+          startTime: '',
+          stopTime: '',
+          id: null,
+          active: 1
+        }
+      )
+
+      setState({ ...state, applianceDevices: applianceDevices, checked: checkChecked })
+    })
+  }, [])
+
+
   const initialState = {
     errorModal: {
       show: false,
       title: '',
       content: null
     },
-    
+            //time on/off
+    applianceDevices: [
+    ],
     showdownTime:"",
     ternOnTim:"",
     classChecked:"",
-    serialNumber:""
+    serialNumber:"",
+    checked : false
   }
 //=======================================//
   const [state,
@@ -46,46 +88,86 @@ const AppliancesSetting = (props) => {
     roomType: '',
     devicesArr:""
   }
+
+  let device={}
 //==============================================//
 
   if (props.rooms.length > 0) {
-   
+    room.id=roomId
     const rooms=props.rooms
    
     const selectedRoom= rooms.find(room=>room.id==roomId)
-    const devices= selectedRoom.devices
+    //const devices= selectedRoom.devices
   
     room.roomType=selectedRoom.type
-    const selectedDevice=devices.find(device=> device.id=== deviceId)
-    room.devicesArr=devices
+    //const selectedDevice=devices.find(device=> device.id=== deviceId)
+    room.devicesArr=selectedRoom.devices
     // console.log(selectedDevice);
+    device=room.devicesArr.find(device => device.id == deviceId)
    
   }
 
  //============================================//
-const turnOnOff=(e)=> {
+const turnOnOff=(e,deviceId,roomId)=> {
   e.preventDefault()
   setState({...state,
     checked: !state.checked})
+    const rooms = [...props.rooms]
+    //  setState({...state,checked:!state.checked})
+    let device = room.devices.find(device => device.id == deviceId)
+    
+     device.data = device.data == 'on' ? 'off' : 'on'
+     editDataPost(deviceId,device.data).then(data1 => {
+      rooms[rooms.map(room => room.id).indexOf(roomId)] = room
+      props.setRoomsAction(rooms)
+    })
 }
+
+const applianceDevicesElement = state.applianceDevices.map((device,idx) => {
+  return (
+    <AppliancesDeviceSettings deviceId={params.id} key={idx} device={device}/>
+  )
+})
+
+  //add new time on + btn click function
+  const addNewTimeBoxBtn = (e) => {
+    e.preventDefault()
+    //// big NOOOOOOOOOOOOOO
+    //state.motionDevices.forEach(Element=>{
+    const newApplianceDevices = state.applianceDevices
+    newApplianceDevices.push({
+      startTime: '',
+      stopTime: '',
+      id: null,
+      active: 1
+    })
+    setState({ ...state, applianceDevices: newApplianceDevices })
+    //})
+
+
+    // console.log('hi');
+
+    // console.log('state,motionDevices', state.motionDevices);
+  }
+
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
     if (state.serialNumber.trim() === '') {
-      const errorsElement = (
-        <ul>
-          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
-        </ul>
-      )
-      const newState = {...state}
-      newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
-      newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
-      newState.roomModalShow = false
-      setState(newState)
-    }else{
+    //   const errorsElement = (
+    //     <ul>
+    //       {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
+    //     </ul>
+    //   )
+    //   const newState = {...state}
+    //   newState.errorModal.show = true
+    //   newState.errorModal.title = "Entries Error"
+    //   newState.errorModal.content = errorsElement
+    //   // hide addroom modal because we need to show error modal and we can not show
+    //   // two modals on the same time
+    //   newState.roomModalShow = false
+    //   setState(newState)
+    // }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
          const  devices=props.rooms.find(room=>room.id==device.room_id)
@@ -155,8 +237,8 @@ const turnOnOff=(e)=> {
               &nbsp;
               <h5 className="card-title">{deviceName}: Set Time to ternOn </h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
-							<input type="checkbox" id="switch-house-lock"  />
+              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
+							<input type="checkbox" id={deviceId}  />
               </Label>
             &nbsp;
                 
@@ -166,8 +248,21 @@ const turnOnOff=(e)=> {
 
           <hr className="my-0"/>
           &nbsp;
+          {applianceDevicesElement}
 
-          <div className="row d-flex justify-content-center">
+          <div className="row col-2 ml-3 mb-3 mt-4">
+          <Button
+            type="button"
+            className="btn btn-primary"
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Add Devices"
+            onClick={addNewTimeBoxBtn}>
+            <i className="fas fa-plus"></i>
+          </Button>
+          &nbsp;&nbsp;
+        </div>
+          {/* <div className="row d-flex justify-content-center">
             <div className="col justify-content-center ">
               <h5 className="specs text-center">From</h5>
             </div>
@@ -200,7 +295,7 @@ const turnOnOff=(e)=> {
             <div className="col justify-content-end ">
               <Button>Save</Button>
             </div>
-          </div>
+          </div> */}
           &nbsp;
           {/* <hr className="my-0"/> */}
         </div>

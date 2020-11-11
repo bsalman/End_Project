@@ -8,7 +8,7 @@ import {
 
 import { addTimeDevicePost, updateTimeDevicePost, deleteTimeDevicePost } from '../services/api'
 
-const LightDeviceSetting = ({deviceId,device}) => {
+const TimeDeviceSetting = ({deviceId,device}) => {
   useEffect(() => {
     //console.log(appliancDevices);
     setState({
@@ -179,4 +179,4 @@ const LightDeviceSetting = ({deviceId,device}) => {
 
 }
 
-export default LightDeviceSetting
+export default TimeDeviceSetting

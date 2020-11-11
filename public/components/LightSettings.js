@@ -18,7 +18,7 @@ import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
 import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
 
-import LightDeviceSettings from './LightDeviceSettings'
+import LightDeviceSettings from './TimeDeviceSettings'
 
 //==============functionalComponent start==============================//
 const LightSetting = (props) => {
@@ -36,7 +36,7 @@ const deviceName=params.deviceName
       //   selectedDevice: null,}],
       // console.log(relatedDevices);
       let checkChecked = true
-      const timeDevices = relatedDevices.map((device) => {
+      const lightDevices = relatedDevices.map((device) => {
         if(device.active != 1)
           checkChecked = false
           // console.log(device);
@@ -51,7 +51,7 @@ const deviceName=params.deviceName
         
         
       })
-      timeDevices.push(
+      lightDevices.push(
         {
           startTime: '',
           stopTime: '',
@@ -60,7 +60,7 @@ const deviceName=params.deviceName
         }
       )
 
-      setState({ ...state, timeDevices: timeDevices, checked: checkChecked })
+      setState({ ...state, lightDevices: lightDevices, checked: checkChecked })
     })
   }, [])
 
@@ -74,7 +74,7 @@ const deviceName=params.deviceName
       content: null
     },
         //time on/off
-        timeDevices: [
+        lightDevices: [
         ],
     showdownTime:"",
     ternOnTim:"",
@@ -130,7 +130,7 @@ if(props.rooms.length>0){
   }
 
 
-  const timeDevicesElement = state.timeDevices.map((device,idx) => {
+  const lightDevicesElement = state.lightDevices.map((device,idx) => {
     return (
       <LightDeviceSettings deviceId={params.id} key={idx} device={device}/>
     )
@@ -141,14 +141,14 @@ if(props.rooms.length>0){
       e.preventDefault()
       //// big NOOOOOOOOOOOOOO
       //state.motionDevices.forEach(Element=>{
-      const newTimeDevices = state.timeDevices
-      newTimeDevices.push({
+      const newLightDevices = state.lightDevices
+      newLightDevices.push({
         startTime: '',
         stopTime: '',
         id: null,
         active: 1
       })
-      setState({ ...state, timeDevices: newTimeDevices })
+      setState({ ...state, lightDevices: newLightDevices })
       //})
   
   
@@ -259,7 +259,7 @@ if(props.rooms.length>0){
           
           
 
-          {timeDevicesElement}
+          {lightDevicesElement}
 
         <div className="row col-2 ml-3 mb-3 mt-4">
           <Button
