@@ -1,69 +1,84 @@
-import React,{ useState } from 'react'
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     /////////////////
+//-----------------------------------------------------------//
+import React,{ useEffect, useState } from 'react'
 import {connect} from 'react-redux'
 import { Button, Label, Input} from 'reactstrap'
 //=====================================//
+// importing components
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
+// importing actions 
 import {setRoomsAction} from '../actions'
-import {secureAllHousePost} from '../services/api'
-// import {setRoomsAction} from '../actions'
+
+import {secureAllHousePost, getSecurePost} from '../services/api'
 
 
+//------------------------------------------------------------//
+///////////////    FUNCTIONAL COMPONENT       ////////////////
+//-----------------------------------------------------------//
 
 const Dashboard =(props)=> {
 		
-	//=================================//	
+//==== Set the initial state ====//
+
 	let initialState={
-		security:false,
-		modals:false
-		
+		security:false
 		
 	}
+
 	const [state,setState] = useState(initialState)
-	//=========================================//
-	const securityActivate=(e,secure)=>{
-	 e.preventDefault()
-	 setState({...state,security:!state.security})	
-	
-	 // make changes on database 
-	 secureAllHousePost(secure).then(data=>{
-	 console.log(data);
-				
-			})	
+//=========================================//
+
+// activate the security 
+	//console.log("sec1",state.security);
+	const securityActivate=(e)=>{
+		e.preventDefault()
+		// setState({...state,
+		// 	security: !state.security})
+			//console.log("sec2",state.security);
+		secureAllHousePost(!state.security).then(data=>{
+				//console.log(JSON.parse(data[0].value));
+				setState({...state,
+					security: JSON.parse(data[0].value)})
+			})
+
 	}
+	useEffect(() => {
+		getSecurePost().then(data=>{
+			//console.log(data);
+			setState({...state,
+				security: JSON.parse(data.value)})
+		})
+	},[])
+		//console.log("sec2",state.security);
+		
 	
-	
-if(props.rooms.length>0){
-	console.log("sec2",state.security);
-}
 				
-			
-		return(
-			
-				<React.Fragment>
-				
+	return(
+			<React.Fragment>
 					<div className="row">
 						<div className="col-sm-12">
 							<div className="card p-2 mb-4 align-items-center">
-								<h4>Hello Ms & Mr Smart</h4>
+								<h4>Hello User</h4>
 							</div>
 						</div>
 					</div>
 					<div className="row">
 						{/* security system start  */}
-					<div className="col-sm-12 col-md-6">
-							<div className=  {`card lock ${state.security==true?" active":""}`} data-unit="switch-house-lock">
+						<div className="col-sm-12 col-md-6">
+							<div className= {`card lock ${state.security == true ? "active" : ""}`} data-unit="switch-house-lock">
 								<div className="card-body " >
 									<div className="d-flex flex-wrap mb-2">
 										<img src={`${state.security==true?"../images/home-lock.png":"../images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
-											<h4>Security system</h4>
-											<p>{`${state.security==true?"Active":"Not active"}`}</p>
+											<h4>Security System</h4>
+											<p>{`${state.security== true ? "Active":"Not active"}`}</p>
 										</div>
-										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
-											<Input type="checkbox" id="switch-house-lock"  onClick={(e)=>{securityActivate(e)}} />
+										<Label className={`switch ml-auto ${state.security == true ? "checked" : ""}`}>
+											<Input type="checkbox" id="switch-house-lock" onClick={(e)=>{securityActivate(e)}}/>
 										</Label>
 									</div>
 								</div>

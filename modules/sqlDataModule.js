@@ -162,7 +162,8 @@ function getAllRooms(){
                     name: room.name,
                     type: room.type,
                     devices:[],
-                    selected:room.selected
+                    selected:room.selected,
+                    secure: room.secure
                 }
                 rooms.push(roomObj);
             })
@@ -562,7 +563,7 @@ function addTimeMotion(startTime,stopTime,motionId,deviceId,active) {
 function updateTimeMotion(id, startTime,stopTime,motionId,deviceId,active) {
     return new Promise((resolve,reject) => {
         runQuery(`UPDATE device_motion SET start_time = '${startTime}', stop_time = '${stopTime}', motion_id = ${motionId}, device_id = ${deviceId},active = ${active} WHERE id = ${id}`).then( result => {
-            console.log(result);
+            //console.log(result);
             resolve(result)
         }).catch(error => {
             console.log(error);
@@ -639,7 +640,7 @@ function getAllMotionRelatedDevices(deviceId){
     })
 
 }
-
+//=================================================//
 
 //=========================================================//
 function editSecure(roomId,secure){
@@ -650,20 +651,21 @@ function editSecure(roomId,secure){
                     resolve(room)
                 }else{
                     reject(3)
-                }
+                }     
         }).catch((error)=>{
                 console.log(error);
                 reject(error)
         })
     })
 }
-//=========================================================//
+
+//=======================================//
 function updateSecureAllHouse(secure){
     return new Promise((resolve,reject)=>{
-        runQuery(`UPDATE configurations SET value ='${secure}'  WHERE name LIKE 'secure'`).then((result) => {
+        runQuery(`UPDATE configurations SET value = '${secure}'  WHERE name = 'secure'`).then((result) => {
            
-            runQuery(`SELECT * FROM configurations WHERE name LIKE 'secure'`).then(result1=>{
-                
+            runQuery(`SELECT * FROM configurations WHERE name = 'secure'`).then(result1=>{
+                console.log('result',result1);
                 if (result1.length>0) {
                     
                     resolve(result1)
@@ -671,13 +673,15 @@ function updateSecureAllHouse(secure){
                     reject(3)
                 }
             }).catch((error)=>{
+                console.log(error);
                 reject(error)
             })
        
                      
-                }).catch((error)=>{
-                    reject(error)
-                })
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+        })
     })
     
         
@@ -685,7 +689,108 @@ function updateSecureAllHouse(secure){
 }
 
 //=================================================//
+function getSecureAllHouse(){
+    return new Promise((resolve,reject)=>{
+        
+           
+            runQuery(`SELECT * FROM configurations WHERE name = 'secure'`).then(result=>{
+                //console.log('result',result);
+                if (result.length>0) {
+                    
+                    resolve(result[0])
+                }else{
+                    reject(3)
+                }
+            }).catch((error)=>{
+                console.log(error);
+                reject(error)
+            })
+       
+                     
+    
+    })
+    
+}     
 
+//==================================//
+function addTimeDevice(startTime,stopTime,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`INSERT INTO device_timer(start_time, stop_time, device_id,active) VALUES ('${startTime}','${stopTime}',${deviceId}, ${active})`).then( result => {
+            //console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
+//=========================================================//
+
+//==================================//
+function updateTimeDevice(id, startTime,stopTime,deviceId,active) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_timer SET start_time = '${startTime}', stop_time = '${stopTime}', device_id = ${deviceId},active = ${active} WHERE id = ${id}`).then( result => {
+            //console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
+//==================================//
+function deleteTimeDevice(id) {
+    return new Promise((resolve,reject) => {
+        runQuery(`DELETE FROM device_timer WHERE id = ${id}`).then( result => {
+            console.log(result);
+            resolve(result)
+        }).catch(error => {
+            console.log(error);
+            if (error.errno === 1054) {
+                reject(3)
+            } else {
+                reject(error)
+            }
+            
+        })
+        
+    })
+}
+//=================================================//
+
+
+function getAllTimeRelatedDevices(deviceId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_timer WHERE device_id = ${deviceId} `).then(devices=>{
+            resolve(devices)    
+          
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+
+//=================================================//
 module.exports = {
     checkUser,
     changeUser,
@@ -710,4 +815,10 @@ module.exports = {
     reversMotionDevices,
     editSecure,
     updateSecureAllHouse,
+    getSecureAllHouse,
+    addTimeDevice,
+    updateTimeDevice,
+    deleteTimeDevice,
+    getAllTimeRelatedDevices
+
 }

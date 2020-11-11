@@ -1,13 +1,18 @@
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     /////////////////
+//-----------------------------------------------------------//
 import React from 'react'
 import {Link} from 'react-router-dom'
-
-
+import {Button} from 'reactstrap'
+// importing components
 import LandNav from './LandNav'
 
+//------------------------------------------------------------//
+///////////////    CLASS COMPONENT       ////////////////
+//-----------------------------------------------------------//
 class LandingPage extends React.Component{
 render(){
     return(
-        
             <div id="wrapper">
                 <LandNav/>
                 <div className="wrapper-offcanvas cont">
@@ -22,11 +27,16 @@ render(){
                                                 </div> 
                                         
                                                 <div className="row justify-content-center">
-                                                    <p> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laudantium commodi accusantium fuga cumque libero. Eligendi minima, itaque, odio earum doloribus expedita dolor harum numquam qui a reprehenderit molestiae, rerum quidem?</p>
+                                                    <p> Welcome to our Smart Home Application. This smart application which belongs to the family of the Internet of Things, 
+                                                    has been build by us as a part of our final project in our educational year as Full Stack Web Developers.
+                                                    We have build a fully functioning application, with it's devices and sensors, including transmitters and a raspberry pi, to
+                                                    be able to control the appliances, lights, temperature and security in your house. You can add as many devices as you want. 
+                                                    <br></br>But the core of this project is, that you can work on an independent server which is in your house and not connected 
+                                                    to any cloud service.<br></br>Like this all your data stays secure. We wish you a lot of fun trying it.</p>
                                                 </div>
                                                 <div className="row justify-content-center">
                                                     <Link to="/dashboard">
-                                                        <button type="button" className="btn btn-lg btn-primary btn1">Get started</button>
+                                                        <Button type="button" className="btn btn-lg btn-primary btn1">Get Started</Button>
                                                     </Link>
                                                 </div>
                                         </div>

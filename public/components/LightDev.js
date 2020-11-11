@@ -175,7 +175,7 @@ const Light = (props) =>{
     const newState = {...state}
     newState.confirmModal.confirmModalShow= true,
     newState.confirmModal.confirmModalPayLoad= deviceId,
-    newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing, this device gonna be deleted for ever</p>
+    newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device gonna be deleted for ever</p>
     setState(newState)
   }
 

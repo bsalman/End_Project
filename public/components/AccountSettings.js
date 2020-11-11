@@ -1,4 +1,6 @@
-// import dependencies
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     //////////////////
+//------------------------------------------------------------//
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -6,14 +8,16 @@ import {ListGroup, ListGroupItem, Button, Label, Input, Form} from 'reactstrap';
 // import the components
 import CustomModal from './CustomModal'
 
-
 import {changeUserPost} from '../services/api'
 
-// create a setting classNameName
-class AccountSettings extends React.Component {
-  
 
-    
+
+//------------------------------------------------------------//
+///////////////     CLASS COMPONENT       ////////////////
+//-----------------------------------------------------------//
+
+class AccountSettings extends React.Component {
+
   // create a state
   state = {
     name: '',
@@ -35,17 +39,17 @@ class AccountSettings extends React.Component {
             .state
             .name
             .trim() === ''
-            ? <div>Name should not be empty</div>
+            ? <div>Please enter a Username into the input box</div>
             : null}
             {this
             .state.oldPassword.trim() === ''
-            ? <div>Old Password should not be empty</div>
+            ? <div>Please enter your Old Password into the input box</div>
             : null}
           {this.state.password === ''
-            ? <div>password should not be empty</div>
+            ? <div>Please enter your new Password into the input box</div>
             : null}
           {this.state.password !== this.state.repassword
-            ? <div>password is not matching the repassword</div>
+            ? <div>Your Password is not matching the Confirmed one</div>
             : null}
         </ul>
 
@@ -68,7 +72,7 @@ class AccountSettings extends React.Component {
           case 2:
           case 4:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'there was a server side error, please contact the adminstrator'
+            badgeMessage = 'There was a server side error, please contact the administrator'
             break;
           case 3:
             badgeClass = 'alert alert-danger'
@@ -80,7 +84,7 @@ class AccountSettings extends React.Component {
         if(data!=1){
           const badge = (
             <div className="alert alert-danger" role="alert">
-                  can not send the registration data to server
+                  Can not send the registration data to the server
             </div>
             )
             this.setState({
@@ -94,7 +98,7 @@ class AccountSettings extends React.Component {
           console.log(error);
         const badge = (
           <div className="alert alert-danger" role="alert">
-                      can not send the registration data to server
+              Can not send the registration data to the server
           </div>
         )
         this.setState({
@@ -133,8 +137,8 @@ class AccountSettings extends React.Component {
                     <div className="col-12 col-sm-10 offset-sm-1">
                       {/* <!-- Profile tabs START --> */}
                       <ListGroup className="nav nav-tabs nav-fill" role="tablist">
-                        <ListGroupItem className="nav-item">
-                          <h3>Please Change Your Default Settings</h3>
+                        <ListGroupItem className="pl-0 nav-item">
+                          <h3>Change Default Settings</h3>
                         </ListGroupItem>
                       </ListGroup>
                       <div className="info-holder info-ct">
@@ -195,7 +199,7 @@ class AccountSettings extends React.Component {
                                   className="form-control custom-focus"
                                   type="password"
                                   value={this.state.repassword}
-                                  onChange={(e) => {
+                                  onChange={(e)=> {
                                       this.setState({repassword: e.target.value})
                                    }}
                                   id="user-password-confirm"/>
@@ -203,7 +207,7 @@ class AccountSettings extends React.Component {
                             </div>
                             <div className="form-group row">
                               <div className="offset-xs-0 offset-sm-3 col-12 col-sm-9 mt-3">
-                                <Button  onClick={this.onRegisterBtnClick}className="btn btn-primary">Save Changes</Button>
+                                <Button onClick={this.onRegisterBtnClick} className="btn btn-primary">Save Changes</Button>
                               </div>
                             </div>
                           </Form>

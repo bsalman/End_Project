@@ -1,8 +1,13 @@
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     //////////////////
+//------------------------------------------------------------//
 import React from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
+//------------------------------------------------------------//
+///////////////     CLASS COMPONENT       ////////////////
+//-----------------------------------------------------------//
 class ConfirmModal extends React.Component {
-    
     
     toggle = () => {
         
@@ -16,7 +21,7 @@ class ConfirmModal extends React.Component {
 
   render() {
     // console.log(this.props);
-      const {className,title, children} = this.props
+      const {className, title, children} = this.props
     return (
       <Modal isOpen={this.props.show} toggle={this.toggle} >
         <ModalHeader toggle={this.toggle} className={className}>{title}</ModalHeader>
@@ -24,7 +29,7 @@ class ConfirmModal extends React.Component {
           {children}
         </ModalBody>
         <ModalFooter>
-            <Button color="danger" onClick={this.confirm}>yes</Button>
+            <Button color="danger" onClick={this.confirm}>Yes</Button>
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
         </ModalFooter>
       </Modal>

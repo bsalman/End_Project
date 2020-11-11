@@ -399,17 +399,23 @@ app.post('/reversmotiondevices', (req, res) => {
         res.json(error)
     })
 });
+
+
 //================================================================//
 app.post('/editsecure' , (req, res) => {
     console.log(req.body);
     dataModule.editSecure(req.body.roomId, req.body.secure).then((room) => {
         res.json(room)
+
     }).catch(error => {
         res.json(error)
     })
 })
+
+
 //================================================================//
 
+//===================================================//
 app.post('/secureAllHouse',(req,res)=>{
     
     dataModule.updateSecureAllHouse(req.body.secure).then((data)=>{
@@ -421,9 +427,81 @@ app.post('/secureAllHouse',(req,res)=>{
     })
 })
 
+//=============================================================//
+
+app.post('/getsecure',(req,res)=>{
+    
+    dataModule.getSecureAllHouse().then((data)=>{
+       
+        res.json(data)
+    }).catch(error=>{
+       
+        res.json(2)
+    })
+})
 
 
+//==============================================================//
+app.post('/addtimedevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.addTimeDevice(req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
 
+});
+
+//==============================================================//
+app.post('/updatetimedevice', (req, res) => {
+    console.log('',req.body);
+    // res.json(req.body)
+    dataModule.updateTimeDevice(req.body.id, req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+app.post('/deletetimedevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.deleteTimeDevice(req.body.id).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+
+//==============================================================//
+app.post('/gettimedevices', (req, res) => {
+    //console.log(req.body);
+    dataModule.getAllTimeRelatedDevices(req.body.deviceId).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
 //================================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
@@ -464,7 +542,7 @@ const server = app.listen(port, () => {
 
 //     const ioClient = require('socket.io-client')
 
-//     const socketClient = ioClient('http://192.168.2.134:3000')
+//     const socketClient = ioClient('http://pi.local:3000')
 //     socketClient.on('connect', () => {
 //         console.log('house is connected');
 //     })

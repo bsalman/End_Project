@@ -52,15 +52,9 @@ const Motion = (props) =>{
 
       //============================//
 
-      useEffect(() => {
-        getMotionRelatedDevicesPost()
-      }, [])
+      
 
-const turnOnOff=(e)=> {
-  e.preventDefault()
-  setState({...state,
-    checked: !state.checked})
-}
+
       //=============================//
 //console.log('props',props);
  //Check if rooms inside props are loading or not to use the redux method

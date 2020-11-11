@@ -1,12 +1,23 @@
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     //////////////////
+//------------------------------------------------------------//
 import React, { useState } from 'react'
 // import {Collapse} from 'react-transition-group'
-
 // import LandNav from './LandNav'
 
+
+
+
+//------------------------------------------------------------//
+///////////////     FUNCTIONAL COMPONENT       ////////////////
+//-----------------------------------------------------------//
+
 const AboutUsPage = () => {
+
+
     //===================== Set the initial state ======================//
 
-    let intialState = {
+    let initialState = {
       //for the first member display the front or the back of the box
       dFirstBlock:true,
       dFirstNone:false,
@@ -20,7 +31,7 @@ const AboutUsPage = () => {
       dThirdNone:false,
   }
 
-  const [state,setState] = useState(intialState)
+  const [state,setState] = useState(initialState)
 
 
   // display and hide the first box
@@ -28,7 +39,8 @@ const AboutUsPage = () => {
     e.preventDefault()
     setState({...state,
       dFirstBlock:!state.dFirstBlock,
-      dFirstNone:!state.dFirstNone})
+      dFirstNone:!state.dFirstNone
+    })
   }
 
   // display and hide the second box
@@ -62,25 +74,27 @@ const AboutUsPage = () => {
               <div onClick={showDetailsFirstMember}>
                 <div className={`member_area ${state.dFirstBlock === true ? "d-block" : 'd-none'}`}>
                   <div className="member_img">
-                    <img src="https://i.imgur.com/JzUIF4o.png" alt="our_team"/>
+                    <img src="/images/neda.jpg" alt="our_team"/>
                     <div className="social_media">
                       <h3>Click on me</h3>
                     </div>
                   </div>
                   <h3>Neda Dehghan</h3>
-                  <span>FULLSTACK Web Devloper</span>
+                  <span>FULLSTACK Web Developer</span>
                 </div>
 
                 <div className={`member_info ${state.dFirstNone === true ? "d-block" : 'd-none'}`}>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione perspiciatis, error deleniti quaerat beatae doloribus incidunt excepturi. Fugit deleniti accusantium neque hic quidem voluptatibus cumque.</p>
+                  <h3>Neda Dehghan</h3>
+                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in arts.<br/>As a Web Developer<br/> 
+                  I am able to combine all<br/>my previous knowledge<br/>I like to bring ideas<br/>to life and work with<br/>my team to find the best<br/>solution for the customer.<br/></p>
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+              <li><a href="https://github.com/NerdiNed" target="_blank"><i className="fab fa-github" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
-              </ul>
+                <li><a href="https://www.xing.com/profile/Neda_Dehghan/cv" target="_blank"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
+              </ul> 
             </div>
 
             {/* SECOND MEMBER */}
@@ -88,24 +102,25 @@ const AboutUsPage = () => {
               <div onClick={showDetailsSecondMember}>
                 <div className={`member_area ${state.dSecondBlock === true ? "d-block" : 'd-none'}`}>
                   <div className="member_img">
-                    <img src="https://i.imgur.com/2Necikc.png" alt="our_team"/>
+                    <img src="/images/bashar.jpeg" alt="our_team"/>
                     <div className="social_media">
                       <h3>Click on me</h3>
                     </div>
                   </div>
                   <h3>Bashar Salman</h3>
-                  <span>FULLSTACK Web Devloper</span>
+                  <span>FULLSTACK Web Developer</span>
                 </div>
 
                 <div className={`member_info ${state.dSecondNone === true ? "d-block" : 'd-none'}`}>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione perspiciatis, error deleniti quaerat beatae doloribus incidunt excepturi. Fugit deleniti accusantium neque hic quidem voluptatibus cumque.</p>
+                <h3>Bashar Salman</h3>
+                <p className={`${state.dSecondNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+              <li><a href="#"><i className="fab fa-github" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
 
@@ -120,18 +135,20 @@ const AboutUsPage = () => {
                     </div>
                   </div>
                   <h3>Safa Bouhlel</h3>
-                  <span>FULLSTACK Web Devloper</span>
+                  <span>FULLSTACK Web Developer</span>
                 </div>
 
                 <div className={`member_info ${state.dThirdNone === true ? "d-block" : 'd-none'}`}>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione perspiciatis, error deleniti quaerat beatae doloribus incidunt excepturi. Fugit deleniti accusantium neque hic quidem voluptatibus cumque.</p>
+                  <h3>Safa Bouhlel</h3>
+                  <p className={`${state.dThirdNone === true ? 'text-typing' : ''}`}>I have a degree in<br/>electrical engineering and<br/>have continued my<br/>studies as a full stack<br/>Web Developer.<br/>
+                    I have an eye for problem-<br/>solving and am good at<br/>working solution<br/>orientated with my team.<br/></p>
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-facebook-f" aria-hidden="true"></i></a></li>
+                <li><a href="https://github.com/Safa-14" target="_blank"><i className="fab fa-github" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-instagram" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.linkedin.com/in/safa-bouhlel/" target="_blank"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.xing.com/profile/Safa_Bouhlel/cv" target="_blank"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
           </div>

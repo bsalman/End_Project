@@ -150,7 +150,7 @@ const roomElement = props.rooms.map(room => {
                 title="Set Security"
                 onClick={(e)=>{setSecurityModaltoggle(e,room.id)}}
                 id={'switch-house-lock-' + room.id} >
-                <img src={`${room.secure === 0 ?"../images/lock.png":"../images/open-padlock.png"}`} style={{width:"20px",height:"20px"}} ></img>
+                <img src={`${room.secure === 0 ?"../images/open-padlock.png":"../images/lock.png"}`} style={{width:"20px",height:"20px"}} ></img>
               </Button>
               &nbsp;&nbsp;
 
