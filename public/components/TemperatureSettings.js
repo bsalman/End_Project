@@ -174,9 +174,9 @@ console.log("device", device);
                 <div className="col-12" modal-content="true">
                   <ListGroupItem className="list-group-item list-group-item2 align-items-center">
 
-                    <Label for="device_seralNum" className="col-3 col-form-label modal-font">Device Serial Number</Label >
+                    <Label for="device_seralNum" className=" col-xl-3 col-md-3 col-sm-3 col-form-label modal-font">Device Serial Number</Label >
                     <Input
-                      className="form-control custom-focus col-9"
+                      className=" form-control custom-focus col-xl-9 col-md-9 col-sm-9"
                       type="text"
                       id="device_seralNum"
                       placeholder="insert new Serial Number"

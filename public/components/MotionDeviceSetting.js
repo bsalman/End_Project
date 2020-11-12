@@ -58,16 +58,16 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
   }
   if (!state.deleted) {
     return (
-      <FormGroup className="row" >
+      <FormGroup className="card row m-2" >
         {/* //from to with + button */}
-        <div className="row col-xl-12 col-sm-12">
+        <div className="row col-xl-12 col-md-12 col-sm-12 mb-3">
           {/* //from */}
-          <div className="col-xl-3 col-sm-12  mt-2" modal-content="true">
+          <div className="col-xl-3 col-md-4 col-sm-12  mt-2" modal-content="true">
             <Label
               for="device_seralNum"
               className="col-12 col-form-label modal-font text-center">From</Label >
             <Input
-              className="form-control custom-focus ml-4 mb-2 text-primary text-center"
+              className="form-control custom-focus ml-3 mb-2 text-primary text-center"
               type="time"
               id="device_seralNum"
               onChange={e => {
@@ -78,12 +78,12 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
           </div>
 
           {/* //to */}
-          <div className="col-xl-3 col-sm-12  mt-2" modal-content="true">
+          <div className="col-xl-3 col-md-4 col-sm-12 mt-2" modal-content="true">
             <Label
               for="device_seralNum"
               className="col-12 col-form-label modal-font  text-center">To</Label >
             <Input
-              className="form-control custom-focus  ml-4 mb-2 text-primary text-center"
+              className="form-control custom-focus  ml-3 mb-2 text-primary text-center"
               type="time"
               id="device_seralNum"
               onChange={e => {
@@ -95,11 +95,13 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
               }}
               value={state.stopTime} />
           </div>
-          <div className=" col-xl-3 col-sm-12  ">
+
+          {/* //turn on devices */}
+          <div className=" col-xl-3 col-md-4 col-sm-12 ">
             <div className="col-12 mt-2">
               <Label for="room_type" className="col-12 col-form-label modal-font text-center">Turn On Device</Label>
               <select
-                className="form-control custom-focus"
+                className="form-control custom-focus ml-3 mb-2 text-primary text-center"
                 value={state.selectedDevice ? state.selectedDevice : ''}
                 onChange={(e) => {
                   saveRef.current.classList.remove('d-none')
@@ -113,8 +115,12 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
               </select>
             </div>
           </div>
-          <div className="row col-xl-3 col-sm-12">
-            <div className="mt-5 col-xl-4 col-sm-4">
+
+          {/* //buttons */}
+          
+          <div className="row mt-5 col-xl-3 col-md-3 col-sm-9 col-9 mx-auto">
+
+            <div className="col-xl-4 col-md-4 col-sm-3 col-3">
               <button
                 ref={saveRef}
                 className="btn btn-sm btn-primary d-none"
@@ -125,7 +131,8 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
                 <img src="/images/checkC.png" style={{width:"20px",height:"20px"}} />
               </button>
             </div>
-            <div className="mt-5 col-xl-4 col-sm-4">
+
+            <div className="col-xl-4 col-md-4 col-sm-3 col-3 pl-2">
               <button
                 className="btn btn-sm btn-danger"
                 data-toggle="tooltip"
@@ -136,13 +143,15 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
               </button>
 
             </div>
-            <div className="mt-5 col-xl-4 col-sm-4">
+
+            <div className="col-xl-4 col-md-4 col-sm-3 col-3">
               <Label className={`switch ml-auto ${state.active ? 'checked' : ''}`} >
                 <Input type="checkbox" onChange={() => { setMotionDeviceStatus(state.id) }} />
               </Label>
             </div>
-          </div>
 
+          </div>
+          
         </div>
 
         {/* //turn on device */}

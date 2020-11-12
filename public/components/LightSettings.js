@@ -20,6 +20,9 @@ import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
 
 import LightDeviceSettings from './TimeDeviceSettings'
 
+
+
+
 //==============functionalComponent start==============================//
 const LightSetting = (props) => {
   const params = useParams()
@@ -62,6 +65,8 @@ const deviceName=params.deviceName
 
       setState({ ...state, lightDevices: lightDevices, checked: checkChecked })
     })
+
+    
   }, [])
 
 
@@ -76,6 +81,8 @@ const deviceName=params.deviceName
         //time on/off
         lightDevices: [
         ],
+        // motionDevices: [
+        // ],
     showdownTime:"",
     ternOnTim:"",
     classChecked:"",
@@ -89,16 +96,29 @@ const deviceName=params.deviceName
    id:"",
    name:"",
    type:"",
-   devices:[]
+   devices:[],
+
+  //  roomType: '',
+  //  deviceCategory: '',
+  //  deviceName: ''
  }
  let device={}
 //==============================================//
 
+
+//const appliancDevices = []
 if(props.rooms.length>0){
   //console.log("hi",props.rooms);
   room.id=roomId
   const rooms=props.rooms
   const selectedRoom = rooms.find(room=>room.id==roomId)
+
+  // selectedRoom.devices.forEach(device => {
+  //   if (device.category == 'Light') {
+  //     appliancDevices.push(<option key={device.id} value={device.id}>{device.name}</option>)
+  //   }
+  // });
+
   room.name=selectedRoom.name
   room.type= selectedRoom.type
   room.devices = selectedRoom.devices
@@ -106,6 +126,9 @@ if(props.rooms.length>0){
   
   
 
+  // room.roomType = selectedRoom.type
+  // room.deviceCategory = params.deviceCategory
+  // room.deviceName = params.deviceName
   
   // const devices= selectedRoom.devices
   // // room.roomType=selectedRoom.type;
@@ -113,7 +136,12 @@ if(props.rooms.length>0){
   // const device=devices.find(device=>device.id== deviceId)
 }
     
-  
+// const motionDevicesElement = state.motionDevices.map((motiondevice, idx) => {
+//   return (
+//     <MotionDeviceSetting motiondevice={motiondevice} appliancDevices={appliancDevices} motionId={params.id}  key={idx}/>
+//   )
+// })
+
   //==========================================//
   const turnOnOff=(e,deviceId,roomId)=> {
     e.preventDefault()
@@ -157,7 +185,27 @@ if(props.rooms.length>0){
       // console.log('state,motionDevices', state.motionDevices);
     }
 
+  //add new time on + btn click function
+  // const addNewTimeBoxMotionBtn = (e) => {
+  //   e.preventDefault()
+  //   //// big NOOOOOOOOOOOOOO
+  //   //state.motionDevices.forEach(Element=>{
+  //   const newMotionDevices = state.motionDevices
+  //   newMotionDevices.push({
+  //     startTime: '',
+  //     stopTime: '',
+  //     selectedDevice: '',
+  //     id: null,
+  //     active: 1
+  //   })
+  //   setState({ ...state, motionDevices: newMotionDevices })
+  //   //})
 
+
+  //   // console.log('hi');
+
+  //   // console.log('state,motionDevices', state.motionDevices);
+  // }
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
     e.preventDefault()
@@ -355,6 +403,20 @@ if(props.rooms.length>0){
               <Button >Save</Button>
             </div>
           </div>
+
+            {/* {motionDevicesElement}
+            <div className="row col-2 ml-3 mb-3 mt-4">
+                <Button
+                  type="button"
+                  className="btn btn-primary"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  title="Add Devices"
+                  onClick={addNewTimeBoxMotionBtn}>
+                  <i className="fas fa-plus"></i>
+                </Button>
+                    &nbsp;&nbsp;
+              </div> */}
           &nbsp;
           <hr className="my-0"/>
         </div>
