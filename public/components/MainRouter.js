@@ -1,18 +1,24 @@
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     //////////////////
+//------------------------------------------------------------//
 import React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {connect} from 'react-redux'
-
-
+// import components
 import Login from './Login'
 import SupRouter from './SupRouter'
 import LandingPage from './LandingPage'
-// import Settings from './Settings'
+import AboutUsPage from './AboutUs'
 
+// import actions
 import {setRoomsAction, setSocketAction} from '../actions'
 import {allRoomsPost} from '../services/api'
 
 import io from 'socket.io-client'
 
+//------------------------------------------------------------//
+///////////////         CLASS COMPONENT       //////////////
+//------------------------------------------------------------//
 class MainRouter extends React.Component {
     componentDidMount(){
         allRoomsPost().then(rooms=>{
@@ -71,9 +77,10 @@ class MainRouter extends React.Component {
             <BrowserRouter>
                 <div>
                  
-                <Switch> 
+                <Switch>
                     <Route path="/" exact component={LandingPage}/>
                     <Route path="/login" exact component={Login} />
+                    <Route path="/aboutus" exact component={AboutUsPage} />
                         <SupRouter/>
                     </Switch>                   
                 </div>

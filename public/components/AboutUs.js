@@ -85,8 +85,8 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dFirstNone === true ? "d-block" : 'd-none'}`}>
                   <h3>Neda Dehghan</h3>
-                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in arts.<br/>As a Web Developer<br/> 
-                  I am able to combine all<br/>my previous knowledge<br/>I like to bring ideas<br/>to life and work with<br/>my team to find the best<br/>solution for the customer.<br/></p>
+                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in fine Arts.<br/>With Web Development<br/> 
+                  I am able to combine all<br/>my previous knowledge.<br/>I like to bring ideas<br/>to life and work with<br/>my team to find the best<br/>solution for the customer.<br/></p>
                 </div>
               </div>
               <ul>

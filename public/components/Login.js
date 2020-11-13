@@ -1,5 +1,16 @@
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     //////////////////
+//------------------------------------------------------------//
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import {
+  Button,
+  Form,
+  Label,
+  Input,
+  ListGroup,
+  ListGroupItem
+} from 'reactstrap';
 
 import {connect} from 'react-redux'
 
@@ -7,7 +18,9 @@ import CustomModal from './CustomModal'
 import {loginPost} from '../services/api'
 import {setUserAction,setLoggedInAction} from '../actions'
 
-
+//------------------------------------------------------------//
+///////////////         FUNCTIONAL COMPONENT       //////////////
+//------------------------------------------------------------//
 const Login = (props) => {
 
   useEffect(() => {
@@ -19,6 +32,8 @@ const Login = (props) => {
 
   const history = useHistory()
 
+  // ====== setting an initial state ===== /// 
+
   const initialState = {
     username: '',
     password: '',
@@ -26,27 +41,26 @@ const Login = (props) => {
     entriesError: false,
     errorTitle: ''
   }
-  const [myState,
-    setMyState] = useState(initialState)
+  const [myState, setMyState] = useState(initialState)
 
 
-  const  onLoginBtnClick = (e) => {
+  const onLoginBtnClick = (e) => {
     e.preventDefault()
     // console.log(myState);
     if (myState.username.trim() === '' || myState.password === '') {
         const errorElement = (
-          <ul>
+          <ListGroup>
             {myState
               .username
               .trim() === ''
-              ? <li className='secondary'>Username should not be empty</li>
+              ? <ListGroupItem className='secondary'>the Username should not be empty</ListGroupItem>
               : null}
             
             {myState.password === ''
-              ? <li>Password should not be empty</li>
+              ? <ListGroupItem>the Password should not be empty</ListGroupItem>
               : null}
   
-          </ul>
+          </ListGroup>
         )
   
         setMyState({
@@ -67,11 +81,11 @@ const Login = (props) => {
               break;
 
             case 3:
-              setMyState({...myState, entriesError:true, errorElement:<p>Password is wrong</p>,errorTitle: 'Wrong password'})
+              setMyState({...myState, entriesError:true, errorElement:<p>The Password is wrong</p>,errorTitle: 'Wrong password'})
               break;
 
             case 4:
-              setMyState({...myState, entriesError:true, errorElement:<p>The username that you enter is not exist</p>,errorTitle: 'Username not exist'})
+              setMyState({...myState, entriesError:true, errorElement:<p>The Username that you entered does not exist</p>,errorTitle: 'Username not exist'})
               break;
             case 5:
               setMyState({...myState, entriesError:true, errorElement:<p>Server error, please contact the service provider</p>,errorTitle: 'Server Error'})
@@ -122,22 +136,15 @@ const Login = (props) => {
       </CustomModal>
       <div className="d-flex align-items-center pb-4">
         <div className="row mx-auto" style={{width:'100%',maxWidth:'24rem'}}>
-          {/* <div className="col-12 mb-2 text-center">
-            <img
-              src="/images/symbiot4.svg"
-              width="140"
-              height="20"
-              alt="SYMBIOT 4"
-              className="mx-auto"/>
-          </div> */}
+      
           <div className="col-12">
-            {/* <!-- Login form START --> */}
+            {/* <!-- Login Form START --> */}
             <div className="card px-4 pt-2">
-              <form className="p-2">
+              <Form className="p-2">
                 <div className="form-group row">
-                  <label htmlFor="user-name" className="col-12 col-form-label">Username</label>
+                  <Label htmlFor="user-name" className="col-12 col-form-label">Username</Label>
                   <div className="col-12">
-                    <input
+                    <Input
                     placeholder="Enter your username"
                     onChange={e=>{setMyState({...myState,username:e.target.value})}}
                       className="form-control custom-focus"
@@ -148,9 +155,9 @@ const Login = (props) => {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label htmlFor="user-password" className="col-12 col-form-label">Password</label>
+                  <Label htmlFor="user-password" className="col-12 col-form-label">Password</Label>
                   <div className="col-12">
-                    <input
+                    <Input
                     placeholder="Password"
                     onChange={(e) => {
                     setMyState({
@@ -167,13 +174,13 @@ const Login = (props) => {
                 </div>
                 <div className="form-group row">
                   <div className="col-12 mt-3 mb-2 text-center">
-                    <button onClick={onLoginBtnClick} className="btn btn-primary btn-block">Login</button>
+                    <Button onClick={onLoginBtnClick} className="btn btn-primary btn-block">Login</Button>
                   </div>
                 </div>
 
-              </form>
+              </Form>
             </div>
-            {/* <!-- Login form END --> */}
+            {/* <!-- Login Form END --> */}
           </div>
         </div>
       </div>

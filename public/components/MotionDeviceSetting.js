@@ -3,6 +3,8 @@ import {
   Label,
   Input,
   FormGroup,
+  Button,
+  ListGroup
 } from 'reactstrap';
 
 
@@ -14,6 +16,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
       ...motiondevice, deleted: false
     })
   }, [motiondevice])
+
   const initialState = {
     startTime: '',
     stopTime: '',
@@ -65,7 +68,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
           <div className="col-xl-3 col-sm-12  mt-2" modal-content="true">
             <Label
               for="device_seralNum"
-              className="col-12 col-form-label modal-font text-center">From</Label >
+              className="col-12 col-form-label modal-font text-center">From</Label>
             <Input
               className="form-control custom-focus ml-4 mb-2 text-primary text-center"
               type="time"
@@ -81,7 +84,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
           <div className="col-xl-3 col-sm-12  mt-2" modal-content="true">
             <Label
               for="device_seralNum"
-              className="col-12 col-form-label modal-font  text-center">To</Label >
+              className="col-12 col-form-label modal-font text-center">To</Label>
             <Input
               className="form-control custom-focus  ml-4 mb-2 text-primary text-center"
               type="time"
@@ -115,7 +118,7 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
           </div>
           <div className="row col-xl-3 col-sm-12">
             <div className="mt-5 col-xl-4 col-sm-4">
-              <button
+              <Button
                 ref={saveRef}
                 className="btn btn-sm btn-primary d-none"
                 data-toggle="tooltip"
@@ -123,17 +126,17 @@ const MotionDeviceSetting = ({ motiondevice, appliancDevices, motionId }) => {
                 onClick={onClickSaveBtn}
                 title="Save changes">
                 <img src="/images/checkC.png" style={{width:"20px",height:"20px"}} />
-              </button>
+              </Button>
             </div>
             <div className="mt-5 col-xl-4 col-sm-4">
-              <button
+              <Button
                 className="btn btn-sm btn-danger"
                 data-toggle="tooltip"
                 data-placement="right"
                 onClick={onClickDeleteBtn}
                 title="Delete">
                 Delete
-              </button>
+              </Button>
 
             </div>
             <div className="mt-5 col-xl-4 col-sm-4">

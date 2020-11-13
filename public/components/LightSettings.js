@@ -1,3 +1,6 @@
+//------------------------------------------------------------//
+///////////////       IMPORT DEPENDENCIES     //////////////////
+//------------------------------------------------------------//
 import React, {useEffect, useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
 import {
@@ -6,7 +9,9 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  ListGroup,
+  ListGroupItem
 } from 'reactstrap';
 import {editDataPost} from '../services/api'
 //==============================================//
@@ -14,19 +19,23 @@ import {connect} from 'react-redux'
 // importing the action
 import {setRoomsAction} from '../actions'
 //==============================================//
+// import components
 import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
 import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
 
 import LightDeviceSettings from './TimeDeviceSettings'
 
-//==============functionalComponent start==============================//
+//------------------------------------------------------------//
+///////////////         FUNCTIONAL COMPONENT       //////////////////
+//------------------------------------------------------------//
+
 const LightSetting = (props) => {
   const params = useParams()
- const deviceCategoryParam =params.deviceCategory;
+  const deviceCategoryParam =params.deviceCategory;
   const deviceId=params.id
-const deviceName=params.deviceName
-   const roomId =params.roomId
+  const deviceName=params.deviceName
+  const roomId =params.roomId
   
    useEffect(() => {
     getDeviceRelatedDevicesPost(params.id).then(relatedDevices => {
@@ -47,10 +56,9 @@ const deviceName=params.deviceName
             active: device.active
           }
           return (x)
-        
-        
-        
+           
       })
+
       lightDevices.push(
         {
           startTime: '',
@@ -65,7 +73,7 @@ const deviceName=params.deviceName
   }, [])
 
 
-
+/// ============= setting an initial state ================ ///
 
   const initialState = {
     errorModal: {
@@ -74,7 +82,7 @@ const deviceName=params.deviceName
       content: null
     },
         //time on/off
-        lightDevices: [
+    lightDevices: [
         ],
     showdownTime:"",
     ternOnTim:"",
@@ -139,7 +147,7 @@ if(props.rooms.length>0){
     //add new time on + btn click function
     const addNewTimeBoxBtn = (e) => {
       e.preventDefault()
-      //// big NOOOOOOOOOOOOOO
+    
       //state.motionDevices.forEach(Element=>{
       const newLightDevices = state.lightDevices
       newLightDevices.push({
@@ -159,29 +167,46 @@ if(props.rooms.length>0){
 
 
   //============== edit serial number function  ========================//
-  const editSerialNumberOnClick =(e)=>{
-    e.preventDefault()
-    if (state.serialNumber.trim() != '') {
-    //   const errorsElement = (
-    //     <ul>
-    //       {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
-    //     </ul>
-    //   )
-    //   const newState = {...state}
-    //   newState.errorModal.show = true
-    //   newState.errorModal.title = "Entries Error"
-    //   newState.errorModal.content = errorsElement
-    //   // hide addroom modal because we need to show error modal and we can not show
-    //   // two modals on the same time
-    //   newState.roomModalShow = false
-    //   setState(newState)
-    // }else{
-      editDevicePost(deviceId,state.serialNumber).then((device)=>{
-       
 
+  const editSerialNumberOnClick =(e)=>{
+   
+    if (state.serialNumber.trim() === '') {
+      const errorsElement = (
+        <ListGroup>
+          {state.serialNumber.trim() === ''? <div>Serial Number is empty</div>: null}
+        </ListGroup>
+      )
+      const newState = {...state}
+      newState.errorModal.show = true
+      newState.errorModal.title = "Error with your Entries"
+      newState.errorModal.content = errorsElement
+
+      newState.roomModalShow = false
+      setState(newState)
+    }else{
+    
+    editDevicePost(deviceId, state.serialNumber).then((device)=>{
+       
+      //const devices = props.rooms.find(room => room.id == device.room_id)
+      props.rooms.find(room => room.id == device.room_id)
        
         if(device){
-
+      
+           // console.log("dev",device);
+          const errorsElement = (
+            <ListGroup>
+              <div>Your Serial Number has been changed successfully</div>
+            </ListGroup>
+          )
+          const newState = {...state}
+          newState.errorModal.show = true
+          newState.errorModal.title = "Data Change"
+          newState.errorModal.content = errorsElement
+          
+          
+          newState.roomModalShow = false
+          setState(newState)
+              //  console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -238,11 +263,11 @@ if(props.rooms.length>0){
           <div><h3 className="card-title text-center"><TimeNow/></h3></div>
           </div>
           <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
+          <ListGroup className="list-group borderless">
+            <ListGroupItem className="list-group-item align-items-center">
               <img src="/images/timer.png"></img>
               &nbsp;
-              <h5 className="card-title">Light:Set Time</h5>
+              <h5 className="card-title">Set Light Time</h5>
               <div className="d-flex ml-auto align-items-center ">
               <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
 							<Input type="checkbox" id={deviceId}/>
@@ -250,14 +275,12 @@ if(props.rooms.length>0){
             &nbsp;
                 
               </div>
-            </li>
-          </ul>
+            </ListGroupItem>
+          </ListGroup>
 
           <hr className="my-0"/>
           &nbsp;
 
-          
-          
 
           {lightDevicesElement}
 
@@ -310,26 +333,19 @@ if(props.rooms.length>0){
             <div className="col justify-content-end ">
               <Button >Save</Button>
             </div> */}
-           
-          
-
-
-
-
-
-          
+    
           &nbsp;
           <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
+          <ListGroup className="list-group borderless">
+            <ListGroupItem className="list-group-item align-items-center">
             <img src="/images/timer.png"></img>
               &nbsp;
-              <h5 className="card-title">Motion:Set Time</h5>
+              <h5 className="card-title">Set Motion Time</h5>
               <div className=" ml-auto ">
                 <div></div>
               </div>
-            </li>
-          </ul>
+            </ListGroupItem>
+          </ListGroup>
           <hr className="my-0"/>
           &nbsp;
           <div className="row d-flex justify-content-center">
@@ -382,10 +398,10 @@ if(props.rooms.length>0){
                   <Link to={"/room/"+room.type +"/"+ params.roomId}>
                       <Button
                         type="button "
-                       className="btn btn-primary"
+                        className="btn btn-primary"
                         data-toggle="tooltip"
                         data-placement="right"
-                        title="go Back">
+                        title="Go Back">
                        BACK
                       </Button>
                 </Link>

@@ -8,7 +8,7 @@ class Page404 extends React.Component {
     return (
       <div>
           <h1>404</h1>
-        Page not found
+        PAGE NOT FOUND
        
       </div>
 

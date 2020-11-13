@@ -64,30 +64,46 @@ console.log('paramsId:',params.id);
 
   // console.log('selectedRoom',state.selectedRoom,'/',state.selectedDevice);
 
-  //============== edit serial number function  ========================//
+  //================ edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
     if (state.serialNumber.trim() === '') {
       const errorsElement = (
-        <ul>
-          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
-        </ul>
+        <ListGroup>
+          {state.serialNumber.trim() === ''? <div>Serial Number is empty</div>: null}
+        </ListGroup>
       )
       const newState = {...state}
       newState.errorModal.show = true
-      newState.errorModal.title = "Entries Error"
+      newState.errorModal.title = "Error with your Entries"
       newState.errorModal.content = errorsElement
-      // hide addroom modal because we need to show error modal and we can not show
-      // two modals on the same time
+      
       newState.roomModalShow = false
       setState(newState)
     }else{
-      editDevicePost(params.id,state.serialNumber).then((device)=>{
+    
+    editDevicePost(deviceId, state.serialNumber).then((device)=>{
        
-         const  devices=props.rooms.find(room=>room.id==device.room_id)
+      //const devices = props.rooms.find(room => room.id == device.room_id)
+      props.rooms.find(room => room.id == device.room_id)
        
         if(device){
-console.log("device", device);
+      
+            console.log("dev",device);
+          const errorsElement = (
+            <ListGroup>
+              <div>Your Serial Number has been changed successfully</div>
+            </ListGroup>
+          )
+          const newState = {...state}
+          newState.errorModal.show = true
+          newState.errorModal.title = "Data Change"
+          newState.errorModal.content = errorsElement
+          
+          
+          newState.roomModalShow = false
+          setState(newState)
+              //  console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device

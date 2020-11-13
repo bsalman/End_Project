@@ -207,7 +207,7 @@ const onAddRoomClick = e => {
     newState.errorModal.show = true
     newState.errorModal.title = "Entries Error"
     newState.errorModal.content = errorsElement
-    // hide addroom modal because we need to show error modal and we can not show
+    // hide add oom modal because we need to show error modal and we can not show
     // two modals on the same time
     newState.roomModalShow = false
     setState(newState)
@@ -254,8 +254,7 @@ const onAddRoomClick = e => {
         newState.errorModal.show = true
         newState.errorModal.title = badgeTitle
         newState.errorModal.content = badge
-        // hide addroom modal because we need to show error modal and we can not show
-        // two modals on the same time
+     
         newState.roomModalShow = false
         setState(newState)
 
@@ -679,15 +678,17 @@ const onEditRoomClick = (e) => {
           <Form className="p-2">
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
-                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
+                <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label>
                 <Input
                   className="form-control custom-focus"
                   type="text"
                   id="device_name"
+                  maxLength="12" 
                   onChange={e => {
                   setState({
                     ...state,
                     deviceName: e.target.value
+                    
                   })
                 }}
                   value={state.deviceName}/>
@@ -736,7 +737,7 @@ const onEditRoomClick = (e) => {
                 
                   value={state.applianceType}>
                   <option></option>
-                  <option>Washing-machine</option>
+                  <option>Washing-Machine</option>
                   <option>Fridge</option>
                   <option>Dishwasher</option>
                   <option>Stereo</option>

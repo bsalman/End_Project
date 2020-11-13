@@ -20,7 +20,7 @@ render(){
                         <div id="main">
                             <div className="container-fluid landPage-container"> 
                                 <div className="container-lg ">
-                                    <div className="row ">
+                                    <div className="row">
                                         <div className="col textsContainer   ">
                                                 <div className="row justify-content-center">
                                                     <h1>Smart Family <br/>Technology</h1>
@@ -51,9 +51,8 @@ render(){
                                                     <div className="iconCon elk"><i className="fas fa-plug "></i></div>
                                                     <div className="iconCon home"><i className="fas fa-house-user  "></i></div>
                                                 </div> 
-                                            
                                             </div> 
-                                    </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
