@@ -16,6 +16,7 @@ import MotionSettings from './MotionSettings'
 import TempSettings from './TemperatureSettings'
 import AppliancesSetting from './AppliancesSetting'
 import AccountSettings from './AccountSettings'
+import AboutUs from './AboutUs'
 
 
 class SupRouter extends React.Component {
@@ -45,6 +46,7 @@ class SupRouter extends React.Component {
                                                 <Route path="/motionSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={MotionSettings} />
                                                 <Route path="/tempSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={TempSettings} />
                                                 <Route path="/appliancesSetting/:deviceCategory/:deviceName/:roomId/:id"exact component={AppliancesSetting}/>
+                                                <Route path="/AboutUs"exact component={AboutUs}/>
                                                 <Route path="/" default component={Page404} />  
                                             </Switch>
                                         </div> 

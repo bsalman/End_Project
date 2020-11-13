@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom'
 
 
 import LandNav from './LandNav'
+import Footer from './Footer'
 
 class LandingPage extends React.Component{
 render(){
     return(
-        
+        <React.Fragment>
             <div id="wrapper">
                 <LandNav/>
                 <div className="wrapper-offcanvas cont">
@@ -55,16 +56,19 @@ render(){
                                                 
                                              </div>
                                              </div>
-                                             
                                     </div>
                                 </div>
+                                <div className="col-sm-12">
+                                   
+                                </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
              </div>
-           
-        
+             <Footer/>
+             </React.Fragment>
     )
 }
 
