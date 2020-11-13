@@ -1,6 +1,6 @@
 import React from 'react'
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
-
+import {connect} from 'react-redux'
 
 
 import SideNav from './SideNav'
@@ -20,8 +20,19 @@ import LightSetting from './LightSettings'
 import AppliancesSetting from './AppliancesSettings'
 import AboutUsPage from './AboutUs'
 import AccountSettings from './AccountSettings'
+import CheckLogin from './CheckLogin'
+//import {loginPost} from '../services/api'
+//import {setUserAction} from '../actions'
+
 
 class SupRouter extends React.Component {
+    // componentDidMount(){
+    //     loginPost().then(data => {
+    //         if(data != 10) {
+    //             this.props.setUserAction(data)
+    //         }
+    //     })
+    // }
     render() {
         return (
             
@@ -36,7 +47,8 @@ class SupRouter extends React.Component {
                                         <div className="container-fluid"> 
                                 
                                             <Switch>
-                                            <Route path="/dashboard" exact component={Dashboard}/>
+                                                <Route path="/dashboard" exact component={Dashboard}/> 
+                                                {/* <Route path="/dashboard" exact component={()=> <CheckLogin><Dashboard /></CheckLogin>} />  */}
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 <Route path="/aboutus" exact component={AboutUsPage} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
@@ -64,5 +76,5 @@ class SupRouter extends React.Component {
     }
 }
 
-
-export default SupRouter
+//export default connect(null, {setUserAction})(SupRouter)
+ export default SupRouter

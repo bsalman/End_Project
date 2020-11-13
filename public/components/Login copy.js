@@ -53,11 +53,11 @@ const Login = (props) => {
             {myState
               .username
               .trim() === ''
-              ? <ListGroupItem className='secondary'>The Username should not be empty</ListGroupItem>
+              ? <ListGroupItem className='secondary'>the Username should not be empty</ListGroupItem>
               : null}
             
             {myState.password === ''
-              ? <ListGroupItem>The Password should not be empty</ListGroupItem>
+              ? <ListGroupItem>the Password should not be empty</ListGroupItem>
               : null}
   
           </ListGroup>
@@ -67,13 +67,13 @@ const Login = (props) => {
           ...myState,
           entriesError: true,
           errorElement,
-          errorTitle: 'Error with the Entries'
+          errorTitle: 'entries Error'
         })
       } else {
         //console.log(myState);
-        loginPost(myState.username,myState.password).then(data => {
-        //  console.log(data);
-          //here i need to write the switch selon le backend
+        loginPost( myState.username, myState.password).then(data => {
+        // console.log(data);
+        //here i need to write the switch on the backend
         
           switch (data) {
             case 2:
@@ -94,14 +94,14 @@ const Login = (props) => {
                //show admin panel
                props.setUserAction(myState.username)
                props.setLoggedInAction(data)
-               history.push('/')
+               history.push('/settings')
                //console.log('should be login');
                break;
             case 'true':
               //show admin panel
               props.setUserAction(myState.username)
               props.setLoggedInAction(data)
-              history.push('/settings')
+              history.push('/')
               //console.log('should be login');
               break;
           
@@ -131,7 +131,7 @@ const Login = (props) => {
         close={closeModal}
         className='bg-danger'
         title={myState.errorTitle}
-       >
+        background='bg-warning'>
         {myState.errorElement}
       </CustomModal>
       <div className="d-flex align-items-center pb-4">

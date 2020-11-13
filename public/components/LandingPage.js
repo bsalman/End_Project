@@ -35,7 +35,7 @@ render(){
                                                     to any cloud service.<br></br>Like this all your data stays secure. We wish you a lot of fun trying it.</p>
                                                 </div>
                                                 <div className="row justify-content-center">
-                                                    <Link to="/dashboard">
+                                                    <Link to="/login">
                                                         <Button type="button" className="btn btn-lg btn-primary btn1">Get Started</Button>
                                                     </Link>
                                                 </div>

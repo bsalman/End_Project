@@ -5,9 +5,6 @@ import React, { useState } from 'react'
 // import {Collapse} from 'react-transition-group'
 // import LandNav from './LandNav'
 
-
-
-
 //------------------------------------------------------------//
 ///////////////     FUNCTIONAL COMPONENT       ////////////////
 //-----------------------------------------------------------//

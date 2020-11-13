@@ -10,7 +10,6 @@ const dataModule = require('./modules/sqlDataModule')
 // transmitter to connect with iot devices
 const Radio = require('./modules/transmitter')
 
-
 const app = express()
 
 app.use(express.static(__dirname + '/public'))
@@ -18,6 +17,22 @@ app.use(express.urlencoded({
     extended: false
 }))
 app.use(express.json())
+
+
+// session options 
+ const sessionOptions = {
+    secret: 'smartHome',
+//    resave: false,
+//     saveUninitialized: false,
+     cookie: { }  // if there is secure: tru in the {} then i have to use https: in the browser..(not now as i am working on localhost)
+     }
+//     // app.use(session({
+//     //     secret: 'bookstore',
+//     //     cookie: {}
+//     // }));
+
+// use the session
+    app.use(session(sessionOptions))
 
 
 const port = process.env.PORT || 3000
@@ -34,8 +49,8 @@ app.post('/login', (req, res) => {
     console.log(req.body);
 
     if (req.body.username && req.body.password) {
-        dataModule.checkUser(req.body.username.trim(), req.body.password).then(checklogin => {
-            // req.session.user = user
+        dataModule.checkUser(req.body.username.trim(), req.body.password).then((checklogin,user) => {
+            req.session.user = user
             res.json(checklogin)
         }).catch(error => {
             console.log(error);
@@ -59,6 +74,56 @@ app.post('/login', (req, res) => {
     }
 
 });
+// extra protection for back and front end 
+// creating a middleware to check the session for all routes in admin/ ..admin/blabla 
+// to make it safe !
+// if the error number is 10 means the session is over. 
+// if the request is a GET method then we need to redirect.. means he is trying to open the page form somewhere else
+// but if the Method is POST  then i need to res.Json : show that the session is over : 10
+// if its neither GET or Post : we show: there is nothing to be shown
+//case 'POST': 
+
+// 2
+// the first time the user tries to login .. he will go through th e/login page.. that's why when the first POST request is send.. its
+//through /login and the switch will allow him to go to next
+// but if the post request comes from the /admin or another route.. then switch will send him to the case POST.. and tell the session is over.
+// like this it recognizes from where the post request is coming to show nr 10 session is over 
+
+// if i activate this the dashboard rooms2.filer doesnt work
+// app.use((req, res, next) => {
+//     if (req.session.user) {
+//         next() //// if i comment this the pages don't work 
+//     } else {
+//         next()
+//         switch (req.method.toUpperCase()) { // because GET and POST are written in capital letters
+//             case 'GET':
+//                 res.redirect('/login')
+//                 break;
+//             case 'POST': //!2
+//                 res.json(10)
+//                 break;
+//             default:
+//                 res.json('nothing to show')
+//                 break;
+//         }
+//     }
+// })
+
+app.post('/checklogin', (req, res) => {
+     if(req.session.username){
+         res.json(req.session.user.username)
+    } else{
+         res.json(10)
+     }
+   
+
+});
+
+app.post('/logout', (req, res) => {
+    req.session.destroy()
+    res.json(10)
+})
+
 
 app.post('/settings', (req, res) => {
     console.log(req.body);
@@ -86,8 +151,6 @@ app.post('/settings', (req, res) => {
     } else {
         res.json(2)
     }
-
-
 
 });
 
@@ -123,14 +186,14 @@ app.post('/rooms/adddevices', (req, res) => {
     if (deviceName && categoryId && deviceSn) {
         dataModule.addDevice(deviceName, deviceSn, categoryId, roomId, imgUrl).then(device => {
 
-           // console.log('device', device);
+            // console.log('device', device);
             let deviceObj = {
                 id: device.insertId,
                 name: deviceName,
                 number: deviceSn,
                 category: categoryId,
                 room_id: roomId,
-                imgUrl:imgUrl
+                imgUrl: imgUrl
             }
             //console.log(deviceObj);
             res.json(deviceObj)
@@ -308,11 +371,11 @@ app.post('/getdevices', (req, res) => {
 });
 
 //==============================================================//
-app.post('/editselected',(req,res)=>{
-    const roomId=req.body.roomId;
-    const selected=req.body.selected
-    if(roomId&&selected){
-        dataModule.editSelected(roomId,selected).then((room)=>{
+app.post('/editselected', (req, res) => {
+    const roomId = req.body.roomId;
+    const selected = req.body.selected
+    if (roomId && selected) {
+        dataModule.editSelected(roomId, selected).then((room) => {
             res.json(room)
         }).catch(error => {
             console.log(error);
@@ -325,7 +388,7 @@ app.post('/editselected',(req,res)=>{
 app.post('/addtimemotion', (req, res) => {
     console.log(req.body);
     // res.json(req.body)
-    dataModule.addTimeMotion(req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId, req.body.active).then(data => {
+    dataModule.addTimeMotion(req.body.startTime, req.body.stopTime, req.body.motionId, req.body.deviceId, req.body.active).then(data => {
         res.json(data)
     }).catch(error => {
         if (error === 3) {
@@ -334,14 +397,14 @@ app.post('/addtimemotion', (req, res) => {
             res.json(4)
         }
     })
-    
+
 
 });
 //==============================================================//
 app.post('/updatetimemotion', (req, res) => {
     console.log(req.body);
     // res.json(req.body)
-    dataModule.updateTimeMotion(req.body.id, req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId, req.body.active).then(data => {
+    dataModule.updateTimeMotion(req.body.id, req.body.startTime, req.body.stopTime, req.body.motionId, req.body.deviceId, req.body.active).then(data => {
         res.json(data)
     }).catch(error => {
         if (error === 3) {
@@ -350,7 +413,7 @@ app.post('/updatetimemotion', (req, res) => {
             res.json(4)
         }
     })
-    
+
 
 });
 //==============================================================//
@@ -366,7 +429,7 @@ app.post('/deletetimemotion', (req, res) => {
             res.json(4)
         }
     })
-    
+
 
 });
 //==============================================================//
@@ -402,7 +465,7 @@ app.post('/reversmotiondevices', (req, res) => {
 
 
 //================================================================//
-app.post('/editsecure' , (req, res) => {
+app.post('/editsecure', (req, res) => {
     console.log(req.body);
     dataModule.editSecure(req.body.roomId, req.body.secure).then((room) => {
         res.json(room)
@@ -416,26 +479,26 @@ app.post('/editsecure' , (req, res) => {
 //================================================================//
 
 //===================================================//
-app.post('/secureAllHouse',(req,res)=>{
-    
-    dataModule.updateSecureAllHouse(req.body.secure).then((data)=>{
-       
+app.post('/secureAllHouse', (req, res) => {
+
+    dataModule.updateSecureAllHouse(req.body.secure).then((data) => {
+
         res.json(data)
-    }).catch(error=>{
-       
+    }).catch(error => {
+
         res.json(2)
     })
 })
 
 //=============================================================//
 
-app.post('/getsecure',(req,res)=>{
-    
-    dataModule.getSecureAllHouse().then((data)=>{
-       
+app.post('/getsecure', (req, res) => {
+
+    dataModule.getSecureAllHouse().then((data) => {
+
         res.json(data)
-    }).catch(error=>{
-       
+    }).catch(error => {
+
         res.json(2)
     })
 })
@@ -445,7 +508,7 @@ app.post('/getsecure',(req,res)=>{
 app.post('/addtimedevice', (req, res) => {
     console.log(req.body);
     // res.json(req.body)
-    dataModule.addTimeDevice(req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+    dataModule.addTimeDevice(req.body.startTime, req.body.stopTime, req.body.deviceId, req.body.active).then(data => {
         res.json(data)
     }).catch(error => {
         if (error === 3) {
@@ -454,15 +517,15 @@ app.post('/addtimedevice', (req, res) => {
             res.json(4)
         }
     })
-    
+
 
 });
 
 //==============================================================//
 app.post('/updatetimedevice', (req, res) => {
-    console.log('',req.body);
+    console.log('', req.body);
     // res.json(req.body)
-    dataModule.updateTimeDevice(req.body.id, req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+    dataModule.updateTimeDevice(req.body.id, req.body.startTime, req.body.stopTime, req.body.deviceId, req.body.active).then(data => {
         res.json(data)
     }).catch(error => {
         if (error === 3) {
@@ -471,7 +534,7 @@ app.post('/updatetimedevice', (req, res) => {
             res.json(4)
         }
     })
-    
+
 
 });
 //==============================================================//
@@ -487,7 +550,7 @@ app.post('/deletetimedevice', (req, res) => {
             res.json(4)
         }
     })
-    
+
 
 });
 //==============================================================//
@@ -507,6 +570,8 @@ app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')
     res.send(html)
 });
+
+
 //===============================================================//
 const server = app.listen(port, () => {
     console.log(`App listening on port ${port}!`);
@@ -547,7 +612,7 @@ const server = app.listen(port, () => {
 //         console.log('house is connected');
 //     })
 
-    
+
 
 // // get a list of devices from database
 // dataModule.getDevices().then(devices => {
@@ -571,7 +636,7 @@ const server = app.listen(port, () => {
 //                     socketClient.emit('device_connect', sn)
 //                     if (device.category === 'Light'){
 //                         // if(device.data === 'on'){
-                            
+
 //                         // }
 //                         radio.send('data-' + device.data, 3, device.number).then(() => {
 //                             //console.log('setting has been sent');
@@ -579,7 +644,7 @@ const server = app.listen(port, () => {
 //                             //console.log('setting has not been sent');
 
 //                         })
-                    
+
 //                     }
 //                 }).catch(error => {
 //                     //console.log(error);
@@ -607,11 +672,11 @@ const server = app.listen(port, () => {
 //                                             console.log('436',error);
 //                                         })
 //                                     }, 500)
-                                    
+
 //                                 }).catch(error => {
 // console.log('439',error);
 //                                 })
-                                
+
 //                             });
 //                         }).catch(error => {
 // console.log('444',error);
@@ -665,7 +730,7 @@ const server = app.listen(port, () => {
 
 //     // function recursiveSend(i){
 //     //     if(i < devices.length){
-           
+
 //     //        checkConnected(devices[i]).then(() => {
 //     //         recursiveSend(i+1)
 //     //        }).catch(() => {
@@ -677,9 +742,9 @@ const server = app.listen(port, () => {
 //     function checkConnected(device) {
 //         //console.log(device);
 //         return new Promise((resolve, reject) => {
-            
+
 //             radio.checkConnected('hi', 3, device.number).then(() => {
-                
+
 //                 if(device.connected){
 //                     resolve()
 //                 } else {
@@ -693,7 +758,7 @@ const server = app.listen(port, () => {
 //                         reject()
 //                     })
 //                 }
-            
+
 //         }).catch(() => {
 //             if(device.connected){
 //                 dataModule.setDeviceConnection(device.number, false).then(() => {
@@ -708,7 +773,7 @@ const server = app.listen(port, () => {
 //             } else {
 //                 reject()
 //             }
-            
+
 //         })
 //         })
 //     }

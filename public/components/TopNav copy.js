@@ -1,57 +1,37 @@
 import React from 'react'
 import {Link, withRouter} from 'react-router-dom'
-import {connect} from 'react-redux'
-//import {Nav,NavLink, NavItem, Button, Label, Input} from 'reactstrap'
+import {Nav,NavLink, NavItem, Button, Label, Input} from 'reactstrap'
 import {logoutPost} from '../services/api'
 
 
+
+//------------------------------------------------------------//
+///////////////    CLASS COMPONENT       ////////////////
+//-----------------------------------------------------------//
 class TopNav extends React.Component {
 
- 
-
-  // constructor(props) {
-  //   super(props)
-   
-  //   this.state = {
-    
-  //   logout:"" }
-  //   } 
-
-  // log out 
+// log out 
   logoutOnClick = (e) =>{
     e.preventDefault()
     logoutPost().then(data =>{
-      console.log('navData:',data);
+      console.log(data);
       if(data === 10){
-        console.log('navProps:',this.props);
-
         this.props.history.push('/login')
       }
     })
   }
     
 
-  //  logOutInfo={
-    
-  //   }
- 
-
-  // if(this.props.rooms.length > 0) {
-
-  // }
-
   render() {
-
     return (
 
       <React.Fragment>
-      
-        <nav
+        <Nav
           className="navbar navbar-expand fixed-top d-flex flex-row justify-content-start">
           <div className="d-none d-lg-block">
             <form>
               <div id="menu-minifier">
-                <label>
+                <Label>
                   <svg width="32" height="32" viewBox="0 0 32 32">
                     <rect x="2" y="8" width="4" height="3" className="menu-dots"></rect>
                     <rect x="2" y="15" width="4" height="3" className="menu-dots"></rect>
@@ -60,8 +40,8 @@ class TopNav extends React.Component {
                     <rect x="8" y="15" width="21" height="3" className="menu-lines"></rect>
                     <rect x="8" y="22" width="21" height="3" className="menu-lines"></rect>
                   </svg>
-                  <input id="minifier" type="checkbox"/>
-                </label>
+                  <Input id="minifier" type="checkbox"/>
+                </Label>
                 <div className="info-holder info-rb">
                   <div
                     data-toggle="popover-all"
@@ -76,10 +56,10 @@ class TopNav extends React.Component {
           <div className="ml-auto">
             <div className="navbar-nav flex-row navbar-icons">
               <div className="nav-item">
-   
+
               </div>
               <div id="user-menu" className="nav-item dropdown">
-                <button
+                <Button
                   className="btn btn-link nav-link dropdown-toggle"
                   title="User"
                   type="button"
@@ -87,38 +67,40 @@ class TopNav extends React.Component {
                   aria-haspopup="true"
                   aria-expanded="false">
                   <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#user"/></svg>
-                </button>
+                </Button>
                 <div className="dropdown-menu dropdown-menu-right">
                   {/* <Link className="dropdown-item" to="profile.html">Profile</Link>
                   <div className="dropdown-divider"></div> */}
-                  <Link className="dropdown-item" onClick={this.logoutOnClick} to="/login">Logout</Link>
+                  {/* <Link className="dropdown-item" to="login.html">Logout</Link> */}
+                  <NavItem className="dropdown-item"> 
+                  <NavLink tag={Link} onChange={this.logoutOnClick} to="/login">Logout</NavLink>
+                  </NavItem>
+                  {/* <Link className="dropdown-item" onChange={this.logoutOnClick} to="/login">Logout</Link> */}
                 </div>
               </div>
               <div className="nav-item d-lg-none">
-                <button
+                <Button
                   id="sidebar-toggler"
                   type="button"
                   className="btn btn-link nav-link"
                   data-toggle="offcanvas">
                   <svg className="icon-sprite"><use xlinkHref="images/icons-sprite.svg#menu"/></svg>
-                </button>
+                </Button>
               </div>
             </div>
           </div>
-        </nav>
+        </Nav>
        
       </React.Fragment>
     )
   }
 }
 
-
 const mapStateToProps = (state) => {
   return({
       user: state.user, 
-      //loggedin: state.loggedin
+      loggedin: state.loggedin
     })
 }
 
-
-  export default connect(mapStateToProps)(withRouter(TopNav))
+  export default withRouter(TopNav)
