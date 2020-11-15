@@ -6,7 +6,8 @@ import {connect} from 'react-redux'
 import Login from './Login'
 import SupRouter from './SupRouter'
 import LandingPage from './LandingPage'
-// import Settings from './Settings'
+import AboutUsPage from './AboutUs'
+import ContactPage from './ContactPage'
 
 import {setRoomsAction, setSocketAction} from '../actions'
 import {allRoomsPost} from '../services/api'
@@ -74,6 +75,8 @@ class MainRouter extends React.Component {
                 <Switch> 
                     <Route path="/" exact component={LandingPage}/>
                     <Route path="/login" exact component={Login} />
+                    <Route path="/aboutus" exact component={AboutUsPage} />
+                    <Route path="/contactus" exact component={ContactPage} />
                         <SupRouter/>
                     </Switch>                   
                 </div>

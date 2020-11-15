@@ -4,12 +4,14 @@ const session = require('express-session')
 const fileupload = require('express-fileupload')
 const passwordHash = require('password-hash')
 
+//const cors = require('cors')
 //include data module
 const dataModule = require('./modules/sqlDataModule')
 
 // transmitter to connect with iot devices
 const Radio = require('./modules/transmitter')
 
+const emailSender = require('./modules/emailSender')
 
 const app = express()
 
@@ -19,9 +21,39 @@ app.use(express.urlencoded({
 }))
 app.use(express.json())
 
+//app.use(cors())
+
 
 const port = process.env.PORT || 3000
 
+
+
+// app.use((req,res,next)=> {
+//     if (req.session) {
+//         next()
+//     } else {
+//         switch (req.method.toUpperCase()) {
+//             case 'GET':
+//                 res.redirect('/login')
+//                 break;
+
+//             case 'POST':
+//                 res.json(10)
+//                 break;
+
+//             default:
+//                 res.json('nothing will be shown')
+//                 break;
+//         }
+        
+        
+//     }
+// })
+
+app.post('/logout', (req, res) => {
+    //req.session.destroy()
+    res.json(10)
+});
 
 app.get('/dummy', (req, res) => {
 
@@ -503,6 +535,31 @@ app.post('/gettimedevices', (req, res) => {
     })
 });
 //==============================================================//
+app.post('/contactus', (req, res) => {
+    console.log(req.body);
+    //res.json(1)
+    const name = req.body.name
+    const email = req.body.email
+    const message = req.body.message
+    if (name != '' && name.length < 100) {
+        emailSender.sendEmail(name, email, message, (ok) => {
+            console.log(ok);
+            if (ok) {
+                //res.json(200)
+                res.status(200).json({
+                    success: true
+                });
+            } else {
+                //res.json(500)//server erreur
+                console.log('error: ');
+                res.status(401).json({
+                    success: false
+                });
+            }
+        })
+    }
+
+});
 //================================================================//
 app.use('/', (req, res, next) => {
     const html = fs.readFileSync(__dirname + '/index.html', 'utf-8')

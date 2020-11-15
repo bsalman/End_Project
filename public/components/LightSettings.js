@@ -6,7 +6,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  ListGroup
 } from 'reactstrap';
 import {editDataPost} from '../services/api'
 //==============================================//
@@ -209,27 +210,40 @@ if(props.rooms.length>0){
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
     e.preventDefault()
-    if (state.serialNumber.trim() != '') {
-    //   const errorsElement = (
-    //     <ul>
-    //       {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
-    //     </ul>
-    //   )
-    //   const newState = {...state}
-    //   newState.errorModal.show = true
-    //   newState.errorModal.title = "Entries Error"
-    //   newState.errorModal.content = errorsElement
-    //   // hide addroom modal because we need to show error modal and we can not show
-    //   // two modals on the same time
-    //   newState.roomModalShow = false
-    //   setState(newState)
-    // }else{
+    if (state.serialNumber.trim() === '') {
+      const errorsElement = (
+        <ListGroup>
+          {state.serialNumber.trim() === ''? <div>Serial Number is empty</div>: null}
+        </ListGroup>
+      )
+      const newState = {...state}
+      newState.errorModal.show = true
+      newState.errorModal.title = "Error with your Entries"
+      newState.errorModal.content = errorsElement
+      // hide addroom modal because we need to show error modal and we can not show
+      // two modals on the same time
+      newState.roomModalShow = false
+      setState(newState)
+    }else{
       editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
 
        
         if(device){
 
+          const errorsElement = (
+            <ListGroup>
+              <div>Your Serial Number has been changed successfully</div>
+            </ListGroup>
+          )
+
+          const newState = {...state}
+          newState.errorModal.show = true
+          newState.errorModal.title = "Data Change"
+          newState.errorModal.content = errorsElement
+          newState.roomModalShow = false
+          setState(newState)
+          
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device

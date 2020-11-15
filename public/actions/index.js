@@ -26,3 +26,15 @@ export const setSocketAction = socket => {
     }
 }
 
+export const toggleSideBar = check => {
+    return {
+        type: 'TOGGLE_NAVBAR',
+        payload: check
+    }
+}
+
+export const toggleSideBarSmallScreen = () => {
+    return {
+        type: 'TOGGLE_NAVBAR_SMALL'
+    }
+}

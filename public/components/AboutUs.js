@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 // import {Collapse} from 'react-transition-group'
-
+import {
+  Button
+} from 'reactstrap';
 // import LandNav from './LandNav'
 
 const AboutUsPage = () => {
@@ -74,8 +76,8 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dFirstNone === true ? "d-block" : 'd-none'}`}>
                   <h3>Neda Dehghan</h3>
-                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in arts.<br/>
-                    I like developing new<br/>ideas and working in<br/>groups to find the best<br/>solution for the customer.<br/></p>
+                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in fine Arts.<br/>With Web Development<br/>
+                  I am able to combine all<br/>my previous knowledge.<br/>I like to bring ideas<br/>to life and work with<br/>my team to find the best<br/>solution for the customer.<br/></p>
                 </div>
               </div>
               <ul>
@@ -118,7 +120,7 @@ const AboutUsPage = () => {
               <div onClick={showDetailsThirdMember}>
                 <div className={`member_area ${state.dThirdBlock === true ? "d-block" : 'd-none'}`}>
                   <div className="member_img">
-                    <img src="https://i.imgur.com/JzUIF4o.png" alt="our_team"/>
+                    <img src="/images/safa.jpg" alt="our_team"/>
                     <div className="social_media">
                       <h3>Click on me</h3>
                     </div>
@@ -143,6 +145,17 @@ const AboutUsPage = () => {
           </div>
 
         {/* TEAMS MEMBERS END */}
+
+        <a href="/" className="float-left">
+                    <Button
+                      type="button "
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                       data-placement="right"
+                        title="go Back">
+                        <i className="fas fa-arrow-circle-left"></i>
+                    </Button>
+                 </a>
       </div>
 
 

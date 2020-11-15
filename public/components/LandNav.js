@@ -25,10 +25,10 @@ class LandNav extends React.Component {
             <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar> 
                 <NavItem>
-                    <NavLink  tag={Link} to="#">About us</NavLink>
+                    <NavLink  tag={Link} to="/aboutus">About us</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink tag={Link} to="#">Contatct us</NavLink>
+                    <NavLink tag={Link} to="/contactus">Contact us</NavLink>
                 </NavItem>
                 <NavItem>
                     <NavLink tag={Link} to="#">Sign up </NavLink>

@@ -792,4 +792,61 @@ export const getDeviceRelatedDevicesPost = (deviceId) => {
 
 
 }
+
+//==================================================//
+
+export const sendEmailPost = (name, email, message) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            name, 
+            email, 
+            message
+        }
+        fetch("/contactus", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+//=======================================================//
+export const logoutPost = () => {
+    return new Promise((resolve,reject) => {
+        fetch('/logout',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
 //=======================================================//

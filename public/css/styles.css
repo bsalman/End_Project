@@ -171,106 +171,185 @@ input[type=text]:disabled {background:#000000;}
 
 
 
-       /* ================landPage ====================== */
+  /* ================landPage ====================== */
    
-       .cont{
-        background:linear-gradient(to left top,   rgba(92, 176, 233, 0.911),rgba(10, 26, 56, 0.795))
-      }
-      .landPage-container{
-          position: relative;
-          width: 100%;
-          height: 100%;
-          background-size: cover;
-          
-      }
-      .textsContainer{
-          top:100px;
-          
-      }
+  .cont{
+    background:linear-gradient(to left top,   rgba(92, 176, 233, 0.911),rgba(10, 26, 56, 0.795))
+  }
+  .landPage-container{
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-size: cover; 
+  }
+  .textsContainer{
+      top:0px;
+  }
+  .houseContainer{
+    position: relative;
      
-      .houseContainer{
-          top:70px;
-          
-      }
-      
+      height:90vh;
+      width: 100%;
+      border-radius:50%; 
+      animation:2s pulse  infinite;  
+      border: 3px solid  rgba(92, 176, 233, 0.911); 
+  }
   
-      .houseContainer>div>div{
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-          animation:2s pulse  infinite;  
-          border: 3px solid  rgba(92, 176, 233, 0.911); 
-          width: 400px;
-          height: 400px;
-          border-radius: 50%; 
-      }
-       .iconCon{
-        animation:2s pulse2  infinite; 
-        position: absolute;
-        border: 3px solid  rgba(92, 176, 233, 0.911);
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        font-size:2em ;
-      }
-      .iconCon>i{
-        position: absolute;
-        top: 10px;
-        left:10px; 
-      
-      }
-      .light>i{
-        left:15px;
-      }
-      .lock>i{
-        left:12px;
-      }
-      .elk>i{
-        left:15px;
-      }
-  
+  /* .sp1{
+    left: 11.5%;
+    top:28%;
+    transform: rotate(40deg);
+    width:31% ;
+  }
+  .sp2{
+    right:11.5%;
+    top:28%;
+    transform: rotate(140deg);
+    width:30% ;
+  }
+  .sp3{
+    right:15%;
+    top:50%;
+    transform: rotate(180deg);
+    width:22% ;
+  }
+  .sp4{
+    left:15%;
+    top:50%;
+    transform: rotate(0deg);
+    width:22% ;
+  }
+  .sp5{
+    right:11.5%;
+    bottom:28%;
+    transform: rotate(214deg);
+    width:30% ;
+  }
+  .sp6{
+    left:11.5%;
+    bottom:28%;
+    transform: rotate(325deg);
+    width:30% ;
+  }
+  .sp7{
+    left:45.5%;
+    top:24%;
+    transform: rotate(90deg);
+    width:10% ;
+  }
+  .sp8{
+    left:45.5%;
+    bottom:24%;
+    transform: rotate(270deg);
+    width:10% ;
+  } */
+   .iconCon{
+    animation:2s pulse2  infinite; 
+    border: 3px solid  rgba(92, 176, 233, 0.911);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size:30px ;
+  }
+ 
+.laptopContainer{
+position: absolute;
+animation:2s pulse  infinite; 
+border:3px solid  rgba(92, 176, 233, 0.911);
+border-radius: 50%;
+width: 30%;
+height: 30%;
+top:34%;
+left:34%;
+
+}
+  .laptop{
+    position: absolute; 
+    top:20%;
+    left:19%;
+    font-size: 500%;
+  }
+  .tempIcon{
+    position: absolute;
+    top:2%;
+    left:45%;
+  }
+  .musicIcon{
+    position: absolute;
+    bottom:2%;
+    left:45%;
+  }
+  .light{
+    position: absolute;
+    top:17%;
+    left:12%;
+  }
+  .tv{
+    position: absolute;
+    top:17%;
+    right:12%;
+  }
+  .lockIcon{
+    position: absolute;
+    bottom:15%;
+    right:15%;
+  }
+  .video{
+    position: absolute;
+    bottom:15%;
+    left:15%;
+  }
+  .elk{
+    position: absolute;
+    bottom:42%;
+    right:5%;
+  }
+  .home{
+    position: absolute;
+    bottom:42%;
+    left:5%;
     
-      .laptop{
-        
-        position: absolute;
-        top:150px;
-        font-size: 7em;
-        top:140px;
-        left:220px
-      }
-      .light{
-       
-        top:30px;
-       
-      }
-      .tv{
-        
-        top:100px;
-        left:140px;
-        
-      }
-      .lockIcon{
-       
-        top:100px;
-        right:130px;
-        
-      }
-      .video{
-       
-        bottom:30px;
-        
-      }
-      .elk{
-        position: absolute;
-        top:250px;
-        left:140px;
-        
-      }
-      .home{
-        position: absolute;
-        top:250px;
-        right:130px;
-       
+  }
+  
+  
+   
+  .iconCon>i{
+    position: absolute;
+  }
+  .musicIcon>i{
+    top:10px;
+    left:10px;
+  }
+  .tempIcon>i{
+    top:10px;
+    left:18px;
+  }
+  .light>i{
+    top:10px;
+    left:15px;
+    
+  }
+  .lockIcon>i{
+    top:10px;
+    left:14px;
+    
+  }
+  .elk>i{
+    top:10px;
+    left:15px;
+  
+  }
+  .home>i{
+    top:10px;
+    left:10px;
+  }
+  .video>i{
+    top:10px;
+    left:10px;
+  }
+  .tv>i{
+    top:10px;
+    left:10px;
       }
       /* //==================================================// */
        .securityActive{
@@ -308,90 +387,115 @@ input[type=text]:disabled {background:#000000;}
     }
       /* ============================================== */
       @media only screen and (max-width: 576px){
-        .houseContainer>div>div{
-          width: 200px;
-          height: 500px;
-          border-radius: 5px; 
+        .houseContainer{
+          width: 100%;
+          height: 65vh;
+         
+          
         }
         .iconCon{
-          width: 60px;
-          height: 60px;
+          width: 30px;
+          height: 30px;
+        }
+        .laptopContainer{
+          width: 75px;
+          height: 75px;
+          top:40%;
+          left:40%;
         }
         .laptop{
-        
-          position: absolute;
-          top:220px;
-    
-          font-size: 5em;
-         
-          left:75px
+  
+          top:15px;
+          font-size: 40px;
+          left:10px;
+          
         }
-        .light>i{
-         
-          left:16px;
-        }
-        .lockIcon>i{
-          left:16px;
-         
-        }
-        .elk>i{
-          left:15px;
-        
+        .tempIcon{
+          
+          top:2%;
+          left:45%;
         }
         .light{
-          top:30px;
+          position: absolute;
+          top:17%;
+          left:12%;
         }
         .tv{
-          top:100px;
-          left:140px;
+          position: absolute;
+          top:17%;
+          right:12%;
         }
         .lockIcon{
-          top:100px;
-          right:130px;
+          position: absolute;
+          bottom:15%;
+          right:15%;
         }
         .video{
-          bottom:30px;
+          position: absolute;
+          bottom:15%;
+          left:15%;
         }
         .elk{
           position: absolute;
-          top:350px;
-          left:140px;
+          bottom:42%;
+          right:2%;
         }
         .home{
           position: absolute;
-          top:350px;
-          right:130px;
-         
+          bottom:42%;
+          left:2%;
+          
         }
-     
-    };
-    @media (min-width: 768px) { 
-      .houseContainer>div>div{
-        width: 250px;
-        height: 250px;
-      }
-      .laptop{
+        .musicIcon{
+          position: absolute;
+          bottom:2%;
+          left:45%;
+        }
         
-        position: absolute;
-        top:220px;
+        .iconCon>i{
+          font-size: 15px
+        }
+        .musicIcon>i{
+          top:5px;
+          left:4px;
+        }
+        .tempIcon>i{
+          top:5px;
+          left:8px;
+        }
+        .light>i{
+          top:5px;
+          left:6px;
+          
+        }
+        .lockIcon>i{
+          top:4px;
+          left:5px;
+          
+        }
+        .elk>i{
+          top:5px;
+          left:6px;
         
-        font-size: 5em;
-       
-        left:50px
-      }
-      .houseContainer{
-        top:300px
-        
-    }
-     };
+        }
+        .home>i{
+          top:4px;
+          left:3px;
+        }
+        .video>i{
+          top:5px;
+          left:4px;
+        }
+        .tv>i{
+          top:5px;
+          left:4px;
+        }
   
-    @media (min-width: 992px) { 
-      .houseContainer>div>div{
-        width: 300px;
-        height: 300px;
-      }
-     };
-    
+       
+    };
+   
+      /* ============================================== */
+  
 
 
 
@@ -574,3 +678,16 @@ input[type=text]:disabled {background:#000000;}
         100% { width:22ch }
       }
       
+
+      /* contact us page */
+
+      .success-msg {
+        color: #57A773;
+        padding: 10px 15px;
+      }
+      
+      
+      .err-msg {
+        color: #EE6352;
+        padding: 10px 15px;
+      }

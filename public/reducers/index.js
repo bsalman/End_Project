@@ -28,6 +28,22 @@ const socketReducer = (socket = null, action) => {
     return socket
 }
 
+const sideBarReducer = (check = false, action) => {
+    if (action.type === 'TOGGLE_NAVBAR'){
+        return action.payload
+    }
+
+    return check
+}
+
+const sideBarSmallReducer = (smallScreenCheck = false, action) => {
+    if (action.type === 'TOGGLE_NAVBAR_SMALL'){
+        return !smallScreenCheck
+    }
+
+    return smallScreenCheck
+}
+
 const roomsReducer = (rooms = [], action) => {
 
     if (action.type === 'SET_ROOMS') {
@@ -90,5 +106,7 @@ export default combineReducers({
     user: userReducer,
     loggedin: loggedinReducer,
     rooms: roomsReducer,
-    socket: socketReducer
+    socket: socketReducer,
+    check: sideBarReducer,
+    smallScreenCheck: sideBarSmallReducer
 })
