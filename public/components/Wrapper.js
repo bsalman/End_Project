@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 
 
 import SideNav from './SideNav'
@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom'
 
 const Wrapper = (props) => {
     const history = useHistory()
+    const [state, setState] = useState({loading: true})
     useEffect(() => {
         checkLoginPost().then(data => {
             console.log(data);
@@ -15,6 +16,7 @@ const Wrapper = (props) => {
                 history.push('/login')
             } else {
                 //props.setUserAction(data)
+                setState({loading: false})
             }
         }).catch(error => {
             history.push('/login')
@@ -33,7 +35,8 @@ const Wrapper = (props) => {
                                 <SideNav/>
                                      <div id="main">
                                         <div className="container-fluid"> 
-                                {props.children}
+
+                                {state.loading? <div>Loading ....</div> : props.children}
                                             
                                         </div> 
                                     </div>

@@ -52,12 +52,7 @@ class MainRouter extends React.Component {
     // }
 	componentDidMount() {
        
-        checkLoginPost().then(data => {
-            if(data === 10) {
-                //this.props.setUserAction(data)
-                this.props.history.push('/login')
-            }
-        })
+        
 		allRoomsPost().then((rooms) => {
 			this.props.setRoomsAction(rooms);
 		});
