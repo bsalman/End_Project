@@ -21,7 +21,8 @@ import AppliancesSetting from './AppliancesSettings'
 import AboutUsPage from './AboutUs'
 import AccountSettings from './AccountSettings'
 import CheckLogin from './CheckLogin'
-//import {loginPost} from '../services/api'
+//test
+
 //import {setUserAction} from '../actions'
 
 
@@ -33,13 +34,17 @@ class SupRouter extends React.Component {
     //         }
     //     })
     // }
+
     render() {
         return (
             
             <BrowserRouter>
                 <div>
                     <div id="wrapper">
-                        <TopNav/> 
+                        <TopNav /> 
+                  
+                       
+
                         <div className="wrapper-offcanvas">
                             <div className="row-offcanvas row-offcanvas-left">
                                 <SideNav/>
@@ -75,6 +80,8 @@ class SupRouter extends React.Component {
     
     }
 }
+
+
 
 //export default connect(null, {setUserAction})(SupRouter)
  export default SupRouter

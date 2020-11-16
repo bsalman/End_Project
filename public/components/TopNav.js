@@ -7,15 +7,6 @@ import {logoutPost} from '../services/api'
 
 class TopNav extends React.Component {
 
- 
-
-  // constructor(props) {
-  //   super(props)
-   
-  //   this.state = {
-    
-  //   logout:"" }
-  //   } 
 
   // log out 
   logoutOnClick = (e) =>{
@@ -31,14 +22,7 @@ class TopNav extends React.Component {
   }
     
 
-  //  logOutInfo={
-    
-  //   }
  
-
-  // if(this.props.rooms.length > 0) {
-
-  // }
 
   render() {
 
@@ -91,7 +75,10 @@ class TopNav extends React.Component {
                 <div className="dropdown-menu dropdown-menu-right">
                   {/* <Link className="dropdown-item" to="profile.html">Profile</Link>
                   <div className="dropdown-divider"></div> */}
+                
+
                   <Link className="dropdown-item" onClick={this.logoutOnClick} to="/login">Logout</Link>
+              
                 </div>
               </div>
               <div className="nav-item d-lg-none">
@@ -119,6 +106,7 @@ const mapStateToProps = (state) => {
       //loggedin: state.loggedin
     })
 }
+
 
 
   export default connect(mapStateToProps)(withRouter(TopNav))

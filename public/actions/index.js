@@ -1,3 +1,7 @@
+
+//import * as constants from '../reducers/constants';
+
+
 export const setUserAction = (user) => {
     return{
         type: 'CHANGE_USER',
@@ -9,7 +13,15 @@ export const setLoggedInAction = (loggedin) => {
         type: 'CHANGE_LOGGEDIN',
         payload: loggedin
     }
-}
+} 
+
+// export const logoutUser = () =>{ 
+//     localStorage.removeItem('USER_INFO');
+//     return {
+//         type: constants.RESET.USER_INFO
+//     }
+
+// }
 
 export const setRoomsAction = (rooms) => {
     return {

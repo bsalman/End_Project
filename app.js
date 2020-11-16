@@ -22,17 +22,34 @@ app.use(express.json())
 // session options 
  const sessionOptions = {
     secret: 'smartHome',
-//    resave: false,
-//     saveUninitialized: false,
-     cookie: { }  // if there is secure: tru in the {} then i have to use https: in the browser..(not now as i am working on localhost)
+//  resave: false,
+//  saveUninitialized: false,
+     cookie: { }  // if there is secure: true in the {} then i have to use https: in the browser..(not now as i am working on localhost)
      }
-//     // app.use(session({
-//     //     secret: 'bookstore',
-//     //     cookie: {}
-//     // }));
+
 
 // use the session
-    app.use(session(sessionOptions))
+app.use(session(sessionOptions))
+
+
+// app.use((req, res, next) => {
+//     if (req.session.user) {
+//         next() // if i comment this the pages don't work 
+//     } else {
+//         next()
+//         switch (req.method.toUpperCase()) { // because GET and POST are written in capital letters
+//             case 'GET':
+//                 res.redirect('/login')
+//                 break;
+//             case 'POST': //!2
+//                 res.json(10)
+//                 break;
+//             default:
+//                 res.json('there is nothing to show')
+//                 break;
+//         }
+//     }
+// })
 
 
 const port = process.env.PORT || 3000
@@ -49,9 +66,9 @@ app.post('/login', (req, res) => {
     console.log(req.body);
 
     if (req.body.username && req.body.password) {
-        dataModule.checkUser(req.body.username.trim(), req.body.password).then((checklogin,user) => {
-            req.session.user = user
-            res.json(checklogin)
+        dataModule.checkUser(req.body.username.trim(), req.body.password).then((checkLogin) => {
+            req.session.user = req.body.username 
+            res.json(checkLogin)
         }).catch(error => {
             console.log(error);
             switch (error) {
@@ -73,7 +90,8 @@ app.post('/login', (req, res) => {
         res.json(2)
     }
 
-});
+}); 
+
 // extra protection for back and front end 
 // creating a middleware to check the session for all routes in admin/ ..admin/blabla 
 // to make it safe !
@@ -89,29 +107,11 @@ app.post('/login', (req, res) => {
 // but if the post request comes from the /admin or another route.. then switch will send him to the case POST.. and tell the session is over.
 // like this it recognizes from where the post request is coming to show nr 10 session is over 
 
-// if i activate this the dashboard rooms2.filer doesnt work
-// app.use((req, res, next) => {
-//     if (req.session.user) {
-//         next() //// if i comment this the pages don't work 
-//     } else {
-//         next()
-//         switch (req.method.toUpperCase()) { // because GET and POST are written in capital letters
-//             case 'GET':
-//                 res.redirect('/login')
-//                 break;
-//             case 'POST': //!2
-//                 res.json(10)
-//                 break;
-//             default:
-//                 res.json('nothing to show')
-//                 break;
-//         }
-//     }
-// })
+// if i activate this the dashboard rooms.file doesn't work
 
 app.post('/checklogin', (req, res) => {
-     if(req.session.username){
-         res.json(req.session.user.username)
+     if(req.session.user){
+         res.json(req.session.user)
     } else{
          res.json(10)
      }

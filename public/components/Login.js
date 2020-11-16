@@ -73,7 +73,7 @@ const Login = (props) => {
         //console.log(myState);
         loginPost(myState.username,myState.password).then(data => {
         //  console.log(data);
-          //here i need to write the switch selon le backend
+          //here i need to write the switch on the backend
         
           switch (data) {
             case 2:
