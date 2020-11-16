@@ -1,13 +1,14 @@
 import React,{ useState ,useEffect} from 'react'
 import {connect} from 'react-redux'
-import { Button, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+import {Label, Input} from 'reactstrap'
 //=====================================//
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
 import {setRoomsAction} from '../actions'
-import {secureAllHousePost} from '../services/api'
+import {secureAllHousePost,getSecurePost} from '../services/api'
+import GarageDoor from './GarageDoor'
 // import {setRoomsAction} from '../actions'
 
 
@@ -25,16 +26,23 @@ const Dashboard =(props)=> {
 	
 	// const toggle=()=>{setState({...state,
 	// 	modals: !state.modals})}
-
-	const securityActivate=(e,secure)=>{
+	
+	const securityActivate=(e)=>{
 		e.preventDefault()
-		setState({...state,security:!state.security})	
-		
-			secureAllHousePost(secure).then(data=>{
-				console.log(data);
+			secureAllHousePost(!state.security).then(data=>{
 				
+			
+				setState({...state,security:!state.security})
 			})	
 	}
+
+	useEffect(() => {
+		getSecurePost().then(data=>{
+		
+			setState({...state,
+				security: JSON.parse(data.value)})
+		})
+	},[])
 	
 	
 if(props.rooms.length>0){
@@ -93,39 +101,16 @@ if(props.rooms.length>0){
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
 										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
-											<Input type="checkbox" id="switch-house-lock" onClick={(e)=>{securityActivate(e)}}/>
+											<Input type="checkbox" id="switch-house-lock" onClick={securityActivate}/>
 										</Label>
 									</div>
 								</div>
 							</div>
 						</div>
 						{/* security system end  */}
-						<div className="col-sm-12 col-md-6">
-									{/* <!-- Garage-doors START --> */}
-							<div className="card" data-unit="garage-doors-1">
-								<div className="card-body">
-									<div className="d-flex flex-wrap mb-2">
-										<img src="../images/garage.png" style={{width:"32px",height:"32px"}}></img>
-										<div className="title-status">
-											<h5>Garage doors</h5>
-											<p className="status text-danger">Close</p>
-										</div>
-										<div className="ml-auto timer-controls" data-controls="garage-doors-1">
-												<Button data-action="open" type="button" className="btn btn-secondary doors-control">Open</Button>
-												<Button data-action="pause" type="button" className="btn btn-secondary doors-control">Pause</Button>
-												<Button data-action="resume" type="button" className="btn btn-secondary doors-control">Resume</Button>
-												<Button data-action="close" type="button" className="btn btn-secondary doors-control">Close</Button>
-										</div>
-									</div>
-									<div className="progress">
-										<div className="progress-bar progress-tiny timer" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="12"></div>
-									</div>
-									<div className="info-holder info-cb">
-										<div data-toggle="popover-all" data-content="Element driven by javascript (countdown timer)." data-original-title="Progress indicator" data-placement="top" data-offset="0,-12"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+
+						{/* <!-- Garage-doors START --> */}
+						<GarageDoor/>
 	
 					</div>
 					{/* lights temp motion aria started */}
