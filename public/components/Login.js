@@ -59,7 +59,7 @@ const Login = (props) => {
         //console.log(myState);
         loginPost(myState.username,myState.password).then(data => {
         //  console.log(data);
-          //here i need to write the switch selon le backend
+          //here i need to write the switch depending on the backend
         
           switch (data) {
             case 2:
@@ -151,7 +151,7 @@ const Login = (props) => {
                   <label htmlFor="user-password" className="col-12 col-form-label">Password</label>
                   <div className="col-12">
                     <input
-                    placeholder="Password"
+                    placeholder="Enter your password"
                     onChange={(e) => {
                     setMyState({
                       ...myState,

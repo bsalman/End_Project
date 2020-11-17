@@ -69,7 +69,8 @@ let sideNavWithRouter = withRouter(SideNav);
 
 const mapStateToProps = (state) => {
   return({
-    check: state.check
+    check: state.check,
+    smallScreenCheck: state.smallScreenCheck, 
   })
 }
 

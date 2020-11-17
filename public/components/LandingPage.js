@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom'
 
 
 import LandNav from './LandNav'
+import Footer from './Footer'
 
 class LandingPage extends React.Component{
 render(){
     return(
-        
+        <React.Fragment>
             <div id="wrapper">
                 <LandNav/>
                 <div className="wrapper-offcanvas cont">
@@ -16,9 +17,9 @@ render(){
                             <div className="container-fluid landPage-container"> 
                                 <div className="container-lg">
                                     <div className="row textsContainer">
-                                        <div className="col-sm-12 col-md-6">
+                                        <div className="col-xl-6 col-sm-12 col-md-6 mb-2">
                                         <div className="col textsContainer   ">
-                                                <div className="row justify-content-center">
+                                                <div className="row justify-content-center mb-3">
                                                     <h1>Smart Family <br/>Technology</h1>
                                                 </div> 
                                         
@@ -27,7 +28,7 @@ render(){
                                                         But the core of this project is, that you can work on an independent server which is in your house and not connected to any cloud service.
                                                         Like this all your data stays secure. We wish you a lot of fun trying it.</p>
                                                 </div>
-                                                <div className="row justify-content-center">
+                                                <div className="row justify-content-center my-3">
                                                     <Link to="/dashboard">
                                                         <button type="button" className="btn btn-lg btn-primary btn1">Get started</button>
                                                     </Link>
@@ -35,7 +36,7 @@ render(){
                                         </div>
                                         </div>
                                        
-                                            <div className=" col-sm-12 col-md-6"> 
+                                            <div className="col-xl-6 col-sm-12 col-md-6"> 
                                             <div  className="houseContainer"> 
                                                 <div className="laptopContainer"> <i className="fas fa-laptop laptop"></i></div>
                                                  {/* <span className="sp1"></span>
@@ -60,12 +61,14 @@ render(){
                                              
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
              </div>
-           
+             <Footer/>
+             </React.Fragment>   
         
     )
 }

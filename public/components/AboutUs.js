@@ -81,10 +81,10 @@ const AboutUsPage = () => {
                 </div>
               </div>
               <ul>
-                <li><a href="#"><i className="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="https://github.com/NerdiNed"><i className="fab fa-github" aria-hidden="true"></i></a></li>
+                <li><a href="https://mail.google.com/mail/u/0/#inbox" title="nerdined7@gmail.com"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.xing.com/profile/Neda_Dehghan/cv"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
 
@@ -108,10 +108,10 @@ const AboutUsPage = () => {
                 </div>
               </div>
               <ul>
-              <li><a href="#"><i className="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
+              <li><a href="https://github.com/bsalman"><i className="fab fa-github" aria-hidden="true"></i></a></li>
+                <li><a href="https://mail.google.com/mail/u/0/#inbox" title='bsalman395850@gmail.com'><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.xing.com/profile/Bashar_Salman"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
 
@@ -137,7 +137,7 @@ const AboutUsPage = () => {
               </div>
               <ul>
                 <li><a href="https://github.com/Safa-14" target="_blank"><i className="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="https://mail.google.com/mail/u/0/#inbox" title="safa.bouhlel91@gmail.com"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="https://www.linkedin.com/in/safa-bouhlel/" target="_blank"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
                 <li><a href="https://www.xing.com/profile/Safa_Bouhlel/cv" target="_blank"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
@@ -146,7 +146,7 @@ const AboutUsPage = () => {
 
         {/* TEAMS MEMBERS END */}
 
-        <a href="/" className="float-left">
+        <a href="/">
                     <Button
                       type="button "
                       className="btn btn-primary"

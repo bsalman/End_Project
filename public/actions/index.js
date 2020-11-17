@@ -33,8 +33,9 @@ export const toggleSideBar = check => {
     }
 }
 
-export const toggleSideBarSmallScreen = () => {
+export const toggleSideBarSmallScreen = (check) => {
     return {
-        type: 'TOGGLE_NAVBAR_SMALL'
+        type: 'TOGGLE_NAVBAR_SMALL',
+        payload: check
     }
 }

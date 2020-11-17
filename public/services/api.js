@@ -30,6 +30,52 @@ export const loginPost = (username, password) => {
 
 }
 
+export const checkLoginPost = () => {
+    return new Promise((resolve, reject) => {
+        fetch('/checklogin', {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status === 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            } else {
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+export const logoutPost = () =>{
+    return new Promise((resolve, reject) =>{
+        fetch('/logout',{
+            method: 'POST', 
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(response=>{
+            if(response.status === 200){
+                response.json().then(data =>{
+                    resolve(data)
+                }).catch(error =>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get any data, response number is: ' + response.status))
+            }
+        }).catch(error =>{
+            reject(error)
+        })
+    })
+}
+
 export const changeUserPost =(newUsername,newPassword,repassword,oldPassword) => {
     return new Promise((resolve,reject) => {
         const data = {
@@ -580,6 +626,35 @@ export const changeMotionDeviceStatus = (relationId) => {
 
 }
 
+export const changeTimeDeviceStatus = (relationId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            relationId
+        }
+        fetch("/changeTimeDeviceStatus", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
 //===========================================//
 
 export const editSecurePost=(roomId,secure)=>{
@@ -827,26 +902,5 @@ export const sendEmailPost = (name, email, message) => {
 
 }
 //=======================================================//
-export const logoutPost = () => {
-    return new Promise((resolve,reject) => {
-        fetch('/logout',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            if (response.status == 200) {
-                response.json().then(data => {
-                    resolve(data)
-                }).catch(error => {
-                    reject(error)
-                })
-            }else{
-                reject(new Error('can not send data to server. response number is: ' + response.status))
-            }
-        }).catch(error => {
-            reject(error)
-        })
-    })
-}
+
 //=======================================================//

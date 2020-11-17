@@ -38,7 +38,7 @@ const sideBarReducer = (check = false, action) => {
 
 const sideBarSmallReducer = (smallScreenCheck = false, action) => {
     if (action.type === 'TOGGLE_NAVBAR_SMALL'){
-        return !smallScreenCheck
+        return action.payload
     }
 
     return smallScreenCheck

@@ -67,7 +67,15 @@ const Rooms = (props) => {
     selectedRoomTitle: '',
 
     //set the security alarm
-    securityAlarm :false
+    securityAlarm :false,
+
+    //show red border on add device
+    error:{
+      deviceNameFilled: false,
+      deviceCategoryIDFilled: false,
+      deviceSerialNumTypeFilled: false,
+      deviceApplianceTypeFilled: false,
+    } 
   }
 
   const [state,setState] = useState(intialState)
@@ -286,24 +294,61 @@ const onAddRoomClick = e => {
 
   const onAddDeviceClick = (e) => {
     e.preventDefault();
-    if(state.deviceName.trim()===''||state.categoryID ===''||state.deviceSerialNumType ===''){
-        const errorsElement=(
-            <ul>
-                  {state.deviceName.trim() === ''? <div>Device Name should not be empty</div>: null}
-                  {state.categoryID ===''? <div>select one of the type Options</div>: null}
-                  {state.deviceSerialNumType ===''? <div>select one of the serial number Options</div>: null}
-              </ul>
-        )
-        const newState = {...state}
-        newState.errorModal.show = true
-        newState.errorModal.title = "Entries Error"
-        newState.errorModal.content = errorsElement
-        // hide addroom modal because we need to show error modal and we can not show two modals on the same time
-        newState.deviceModalShow = false
-        setState(newState)
+    
+      if(state.deviceName.trim()===''||state.categoryID ===''||state.deviceSerialNumType ===''){
+        //device name
+        if(state.deviceName.trim()===''){
+          const newState = {...state}
+          newState.error.deviceNameFilled = true
+          setState(newState)
+        }else {
+          const newState = {...state}
+          newState.error.deviceNameFilled = false
+          setState(newState)
+        }
+
+        //categoryid
+        if(state.categoryID.trim()===''){
+          const newState = {...state}
+          newState.error.deviceCategoryIDFilled = true
+          setState(newState)
+        }else {
+          const newState = {...state}
+          newState.error.deviceCategoryIDFilled = false
+          setState(newState)
+        }
+
+        //device serialNumber
+        if(state.deviceSerialNumType.trim()===''){
+          const newState = {...state}
+          newState.error.deviceSerialNumTypeFilled = true
+          setState(newState)
+        }else {
+          const newState = {...state}
+          newState.error.deviceSerialNumTypeFilled = false
+          setState(newState)
+        }
+
+
+        
+        // const errorsElement=(
+        //     <ul>
+        //           {state.deviceName.trim() === ''? <div>Device Name should not be empty</div>: null}
+        //           {state.categoryID ===''? <div>select one of the type Options</div>: null}
+        //           {state.deviceSerialNumType ===''? <div>select one of the serial number Options</div>: null}
+        //       </ul>
+        // )
+        // const newState = {...state}
+        // newState.errorModal.show = true
+        // newState.errorModal.title = "Entries Error"
+        // newState.errorModal.content = errorsElement
+        // // hide addroom modal because we need to show error modal and we can not show two modals on the same time
+        // newState.deviceModalShow = false
+        // setState(newState)
     }else{
       let imgUrl="";
       switch (state.applianceType) {
+        
         case "Washing-machine":
           imgUrl="/images/washing-machine.png";
           break;
@@ -492,6 +537,9 @@ const setSecurityModaltoggle = (e,roomId) => {
     //console.log(data);
     rooms[rooms.map(room => room.id).indexOf(roomId)] = room
     props.setRoomsAction(rooms)
+    if(!state.securityAlarm){
+      props.socket.emit('stop_home_alarm', null)
+    }
     setState({...state, securityAlarm : !state.securityAlarm})
 
   }).catch(error => {
@@ -681,7 +729,7 @@ const onEditRoomClick = (e) => {
               <div className="col-12" modal-content="true">
                 <Label for="device_name" className="col-12 col-form-label modal-font">Device Name</Label >
                 <Input
-                  className="form-control custom-focus"
+                  className={`form-control custom-focus ${state.error.deviceNameFilled ? 'border-danger' : ''}`}
                   type="text"
                   id="device_name"
                   onChange={e => {
@@ -691,6 +739,7 @@ const onEditRoomClick = (e) => {
                   })
                 }}
                   value={state.deviceName}/>
+                  <span className={`d-none ${state.error.deviceNameFilled ? 'text-danger d-block' : ''}`}>Device Name shouldnt be empty</span>
               </div>
             </FormGroup>
 
@@ -698,7 +747,7 @@ const onEditRoomClick = (e) => {
               <div className="col-12">
                 <Label for="room_type" className="col-12 col-form-label modal-font">Device Type</Label>
                 <Input
-                  className="form-control custom-focus"
+                  className={`form-control custom-focus ${state.error.deviceCategoryIDFilled ? 'border-danger' : ''}`}
                   type="select"
                   name="select"
                   id="room_type"
@@ -709,12 +758,14 @@ const onEditRoomClick = (e) => {
                   })
                 }}
                   value={state.categoryID}>
+                   
                   <option></option>
                   <option>Light</option>
                   <option>Temperature</option>
                   <option>Motion</option>
                   <option>Appliance</option>
                 </Input>
+                <span className={`d-none ${state.error.deviceCategoryIDFilled ? 'text-danger d-block' : ''}`}>Device CategoryID shouldnt be empty</span>
               </div>
             </FormGroup>
 
@@ -723,7 +774,7 @@ const onEditRoomClick = (e) => {
                 <Label for="appliance_Type" className="col-12 col-form-label modal-font">Appliance Type</Label>
                 <Input
                  disabled={`${state.categoryID=="Appliance"?"":"disabled"}`}
-                  className="form-control custom-focus "
+                 className={`form-control custom-focus ${state.error.deviceApplianceTypeFilled ? 'border-danger' : ''}`}
                   type="select"
                   name="select"
                   id="appliance_Type"
@@ -735,6 +786,7 @@ const onEditRoomClick = (e) => {
                 }}
                 
                   value={state.applianceType}>
+                    
                   <option></option>
                   <option>Washing-machine</option>
                   <option>Fridge</option>
@@ -744,6 +796,7 @@ const onEditRoomClick = (e) => {
                   <option>Microwave</option>
                   <option>Other</option>
                 </Input>
+                <span className={`d-none ${state.error.deviceApplianceTypeFilled ? 'text-danger d-block' : ''}`}>Device Appliance Type shouldnt be empty</span>
               </div>
             </FormGroup>
 
@@ -752,7 +805,7 @@ const onEditRoomClick = (e) => {
               <div className="col-12" modal-content="true">
                 <Label for="device_seralNum" className="col-12 col-form-label modal-font">Device Serial Number</Label >
                 <Input
-                  className="form-control custom-focus"
+                  className={`form-control custom-focus ${state.error.deviceSerialNumTypeFilled ? 'border-danger' : ''}`}
                   type="text"
                   id="device_seralNum"
                   onChange={e => {
@@ -762,6 +815,7 @@ const onEditRoomClick = (e) => {
                   })
                 }}
                   value={state.deviceSerialNumType}/>
+                  <span className={`d-none ${state.error.deviceSerialNumTypeFilled ? 'text-danger d-block' : ''}`}>Device Serial Number shouldnt be empty</span>
               </div>
             </FormGroup>
           </Form>
@@ -851,7 +905,10 @@ const onEditRoomClick = (e) => {
 //--------------------------------------------------------------------------------//
 
 const setStateToProps = (state) => {
-  return ({rooms: state.rooms})
+  return ({
+    rooms: state.rooms,
+    socket: state.socket
+  })
 }
 
 export default connect(setStateToProps, {setRoomsAction})(Rooms)

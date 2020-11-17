@@ -1,257 +1,241 @@
-
-     .modal-content
-     {
-        
-        background-color: rgba(107, 160, 182, 0.616);
- 
-        color: #06315c;
-     }
- 
-     .modal-content h5{  
-         color: #aee0fa;
-     }
- 
-     .bg-danger {
-         background-color: #0d151d !important;}
-        
-    .modal-font{
-        color: #aee0fa;
-       
-        
-    }
-    .modal2-container{
-        background-color:#0c2742 ;
-    }
-    
-/* ============ List group Item Temp ====== */
-
-.list-group-item1{
-    padding: 0.75rem
-  }
-   /* ============ List group Item Motion ====== */
-   .list-group-item2{
-    padding-top: 1.75rem
-  }
-  /* .room-temp-C{
-    font-size: 1.25rem;
-    font-weight: 300;
-  } */
-
-  .sup1{
-    font-size: 1.25rem; 
-  font-weight: 300;
-  }
-
-
-    
-      /* ============ side bar icon position ============= */
-  
-      .sidebar-offcanvas.mini {
-        width: 88px !important;
-    }
-
-     /* ============overFlow =========== */
-    
-     .overflow{
-      width: 100%;
-      height: 200px;
-      overflow: auto; 
-  }
-  .overflow::-webkit-scrollbar{
-      width: 11px;
-  }
-  .overflow{
-      scrollbar-width: thin;
-      scrollbar-color:#0c2742
-  }
-  .overflow::-webkit-scrollbar-track {
-      background:#233e58;
-      display: none;
-  }
-
-  .overflow::-webkit-scrollbar-thumb{
-      background-color:#3f80a3;
-      border-radius:5px;
-
-  }
-  
-
-  
-        /*========================== overFlow2========================*/
+.modal-content
+{
    
+   background-color: rgba(107, 160, 182, 0.616);
 
-        .overflow2{
-          width: 100%;
-          height: 385px;
-          overflow: auto; 
-      }
-      .overflow2::-webkit-scrollbar{
-          width: 11px;
-      }
-      .overflow2{
-          scrollbar-width: thin;
-          scrollbar-color:#0c2742
-      }
-      .overflow2::-webkit-scrollbar-track {
-          background:#233e58;
-          display: none;
-      }
-    
-      .overflow2::-webkit-scrollbar-thumb{
-          background-color:#3f80a3;
-          border-radius:5px;
-    
-      } 
-      /* =============================== */
-      .overflow3{
-        width: 100%;
-        height: 245px;
-        overflow: auto; 
-        
-    }
-    .overflow3::-webkit-scrollbar{
-        width: 11px;
-    }
-    .overflow3{
-        scrollbar-width: thin;
-        scrollbar-color:#0c2742
-    }
-    .overflow3::-webkit-scrollbar-track {
-        background:#233e58;
-        display: none;
-    }
-    
-    .overflow3::-webkit-scrollbar-thumb{
-        background-color:#3f80a3;
-        border-radius:5px;
-        
-    
-    } 
-    
-    /* ============================================= */
-    .overflow4{
-      width: 100%;
-      height:140px;
-      overflow: auto;
-      scrollbar-width: thin;
-      scrollbar-color:#0c2742;
-      
-    }
-    .overflow4::-webkit-scrollbar{
-      
-      width: 11px;
-    }
-    .overflow4::-webkit-scrollbar-track {
-      background:#233e58;
-      display: none;
-    }
-    .overflow4::-webkit-scrollbar-thumb{
-      background-color:#3f80a3;
-      border-radius:5px;
-    
-    }
-    
-    
-    #appliance_Type{
-      background-color:#0d0e0f;
-    }
+   color: #06315c;
+}
 
-    /* ================ disabled==================== */
+.modal-content h5{  
+    color: #aee0fa;
+}
+
+.bg-danger {
+    background-color: #0d151d !important;}
+   
+.modal-font{
+   color: #aee0fa;
+  
+   
+}
+.modal2-container{
+   background-color:#0c2742 ;
+}
+ /* ============ List group Item Temp ====== */
+
+ .list-group-item1{
+   padding: 0.75rem
+ }
+  /* ============ List group Item Motion ====== */
+ .list-group-item2{
+   padding-top: 1.75rem
+ }
+ /* .room-temp-C{
+   font-size: 1.25rem;
+   font-weight: 300;
+ } */
+
+ .sup1{
+   font-size: 1.25rem; 
+ font-weight: 300;
+ }
+
+ /* ============ side bar icon position ============= */
+
+ .sidebar-offcanvas.mini {
+   width: 88px !important;
+}
+/* ============overFlow =========== */
+
+.overflow{
+   width: 100%;
+   height: 200px;
+   overflow: auto; 
+}
+.overflow::-webkit-scrollbar{
+   width: 11px;
+}
+.overflow{
+   scrollbar-width: thin;
+   scrollbar-color:#0c2742
+}
+.overflow::-webkit-scrollbar-track {
+   background:#233e58;
+   display: none;
+}
+
+.overflow::-webkit-scrollbar-thumb{
+   background-color:#3f80a3;
+   border-radius:5px;
+
+}
+/*========================== overFlow2========================*/
+
+
+.overflow2{
+ width: 100%;
+ height: 385px;
+ overflow: auto; 
+}
+.overflow2::-webkit-scrollbar{
+ width: 11px;
+}
+.overflow2{
+ scrollbar-width: thin;
+ scrollbar-color:#0c2742
+}
+.overflow2::-webkit-scrollbar-track {
+ background:#233e58;
+ display: none;
+}
+
+.overflow2::-webkit-scrollbar-thumb{
+ background-color:#3f80a3;
+ border-radius:5px;
+
+} 
+/* =============================== */
+.overflow3{
+width: 100%;
+height: 245px;
+overflow: auto; 
+
+}
+.overflow3::-webkit-scrollbar{
+width: 11px;
+}
+.overflow3{
+scrollbar-width: thin;
+scrollbar-color:#0c2742
+}
+.overflow3::-webkit-scrollbar-track {
+background:#233e58;
+display: none;
+}
+
+.overflow3::-webkit-scrollbar-thumb{
+background-color:#3f80a3;
+border-radius:5px;
+
+
+} 
+
+/* ============================================= */
+.overflow4{
+width: 100%;
+height:140px;
+overflow: auto;
+scrollbar-width: thin;
+scrollbar-color:#0c2742;
+
+}
+.overflow4::-webkit-scrollbar{
+
+width: 11px;
+}
+.overflow4::-webkit-scrollbar-track {
+background:#233e58;
+display: none;
+}
+.overflow4::-webkit-scrollbar-thumb{
+background-color:#3f80a3;
+border-radius:5px;
+
+}
+
+
+#appliance_Type{
+background-color:#0d0e0f;
+}
+/* ================ disabled==================== */
 input[type=text]:disabled {background:#000000;}
 
+/* ====================color-change animation========================= */
+.color-change-2x {
+ -webkit-animation: color-change-2x 2s linear infinite alternate both;
+         animation: color-change-2x 2s linear infinite alternate both;
+}
+/* ================landPage ====================== */
 
-          /* ====================color-change animation========================= */
-    .color-change-2x {
-        -webkit-animation: color-change-2x 2s linear infinite alternate both;
-                animation: color-change-2x 2s linear infinite alternate both;
-    }
-
-
-
-
-
-
-  /* ================landPage ====================== */
-   
-  .cont{
-    background:linear-gradient(to left top,   rgba(92, 176, 233, 0.911),rgba(10, 26, 56, 0.795))
-  }
-  .landPage-container{
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background-size: cover; 
-  }
-  .textsContainer{
-      top:0px;
-  }
-  .houseContainer{
-    position: relative;
-     
-      height:90vh;
-      width: 100%;
-      border-radius:50%; 
-      animation:2s pulse  infinite;  
-      border: 3px solid  rgba(92, 176, 233, 0.911); 
-  }
+.cont{
+ background:linear-gradient(to left top,   rgba(92, 176, 233, 0.911),rgba(10, 26, 56, 0.795))
+}
+.landPage-container{
+   position: relative;
+   width: 100%;
+   height: 100%;
+   background-size: cover; 
+}
+.textsContainer{
+   top:0px;
+}
+.houseContainer{
+ position: relative;
   
-  /* .sp1{
-    left: 11.5%;
-    top:28%;
-    transform: rotate(40deg);
-    width:31% ;
-  }
-  .sp2{
-    right:11.5%;
-    top:28%;
-    transform: rotate(140deg);
-    width:30% ;
-  }
-  .sp3{
-    right:15%;
-    top:50%;
-    transform: rotate(180deg);
-    width:22% ;
-  }
-  .sp4{
-    left:15%;
-    top:50%;
-    transform: rotate(0deg);
-    width:22% ;
-  }
-  .sp5{
-    right:11.5%;
-    bottom:28%;
-    transform: rotate(214deg);
-    width:30% ;
-  }
-  .sp6{
-    left:11.5%;
-    bottom:28%;
-    transform: rotate(325deg);
-    width:30% ;
-  }
-  .sp7{
-    left:45.5%;
-    top:24%;
-    transform: rotate(90deg);
-    width:10% ;
-  }
-  .sp8{
-    left:45.5%;
-    bottom:24%;
-    transform: rotate(270deg);
-    width:10% ;
-  } */
-   .iconCon{
-    animation:2s pulse2  infinite; 
-    border: 3px solid  rgba(92, 176, 233, 0.911);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    font-size:30px ;
-  }
- 
+   height:90vh;
+   width: 100%;
+   border-radius:50%; 
+   animation:2s pulse  infinite;  
+   border: 3px solid  rgba(92, 176, 233, 0.911); 
+}
+
+/* .sp1{
+ left: 11.5%;
+ top:28%;
+ transform: rotate(40deg);
+ width:31% ;
+}
+.sp2{
+ right:11.5%;
+ top:28%;
+ transform: rotate(140deg);
+ width:30% ;
+}
+.sp3{
+ right:15%;
+ top:50%;
+ transform: rotate(180deg);
+ width:22% ;
+}
+.sp4{
+ left:15%;
+ top:50%;
+ transform: rotate(0deg);
+ width:22% ;
+}
+.sp5{
+ right:11.5%;
+ bottom:28%;
+ transform: rotate(214deg);
+ width:30% ;
+}
+.sp6{
+ left:11.5%;
+ bottom:28%;
+ transform: rotate(325deg);
+ width:30% ;
+}
+.sp7{
+ left:45.5%;
+ top:24%;
+ transform: rotate(90deg);
+ width:10% ;
+}
+.sp8{
+ left:45.5%;
+ bottom:24%;
+ transform: rotate(270deg);
+ width:10% ;
+} */
+.iconCon{
+ animation:2s pulse2  infinite; 
+ border: 3px solid  rgba(92, 176, 233, 0.911);
+ width: 60px;
+ height: 60px;
+ border-radius: 50%;
+ font-size:30px ;
+}
+
 .laptopContainer{
 position: absolute;
 animation:2s pulse  infinite; 
@@ -263,238 +247,254 @@ top:34%;
 left:34%;
 
 }
-  .laptop{
-    position: absolute; 
-    top:20%;
-    left:19%;
-    font-size: 500%;
-  }
-  .tempIcon{
-    position: absolute;
-    top:2%;
-    left:45%;
-  }
-  .musicIcon{
-    position: absolute;
-    bottom:2%;
-    left:45%;
-  }
-  .light{
-    position: absolute;
-    top:17%;
-    left:12%;
-  }
-  .tv{
-    position: absolute;
-    top:17%;
-    right:12%;
-  }
-  .lockIcon{
-    position: absolute;
-    bottom:15%;
-    right:15%;
-  }
-  .video{
-    position: absolute;
-    bottom:15%;
-    left:15%;
-  }
-  .elk{
-    position: absolute;
-    bottom:42%;
-    right:5%;
-  }
-  .home{
-    position: absolute;
-    bottom:42%;
-    left:5%;
-    
-  }
-  
-  
-   
-  .iconCon>i{
-    position: absolute;
-  }
-  .musicIcon>i{
-    top:10px;
-    left:10px;
-  }
-  .tempIcon>i{
-    top:10px;
-    left:18px;
-  }
-  .light>i{
-    top:10px;
-    left:15px;
-    
-  }
-  .lockIcon>i{
-    top:10px;
-    left:14px;
-    
-  }
-  .elk>i{
-    top:10px;
-    left:15px;
-  
-  }
-  .home>i{
-    top:10px;
-    left:10px;
-  }
-  .video>i{
-    top:10px;
-    left:10px;
-  }
-  .tv>i{
-    top:10px;
-    left:10px;
-      }
-      /* //==================================================// */
-       .securityActive{
-         background-color: red;
-       }
-      
-   
-    
-        /* ============pulse animation 2========== */
-        @keyFrames pulse {
-          0% {
-            transition:scale(0,9);
-             box-shadow: 0 0 0 0  rgba(92, 176, 233, 0.911);
-            }
-            70% {
-              transition:scale(1);
-              box-shadow: 0 0 0 30px  rgba(92, 176, 233, 0);
-           }
-        100% {
-          transition:scale(0,9);
-        }  
-      }
-      @keyFrames pulse2 {
-        0% {
-          transition:scale(0,9);
-           box-shadow: 0 0 0 0  rgba(92, 176, 233, 0.911);
-          }
-          70% {
-            transition:scale(1);
-            box-shadow: 0 0 0 10px  rgba(92, 176, 233, 0);
-         }
-      100% {
-        transition:scale(0,9);
-      }  
+.laptop{
+ position: absolute; 
+ top:20%;
+ left:19%;
+ font-size: 500%;
+}
+.tempIcon{
+ position: absolute;
+ top:2%;
+ left:45%;
+}
+.musicIcon{
+ position: absolute;
+ bottom:2%;
+ left:45%;
+}
+.light{
+ position: absolute;
+ top:17%;
+ left:12%;
+}
+.tv{
+ position: absolute;
+ top:17%;
+ right:12%;
+}
+.lockIcon{
+ position: absolute;
+ bottom:15%;
+ right:15%;
+}
+.video{
+ position: absolute;
+ bottom:15%;
+ left:15%;
+}
+.elk{
+ position: absolute;
+ bottom:42%;
+ right:5%;
+}
+.home{
+ position: absolute;
+ bottom:42%;
+ left:5%;
+ 
+}
+
+
+
+.iconCon>i{
+ position: absolute;
+}
+.musicIcon>i{
+ top:10px;
+ left:10px;
+}
+.tempIcon>i{
+ top:10px;
+ left:18px;
+}
+.light>i{
+ top:10px;
+ left:15px;
+ 
+}
+.lockIcon>i{
+ top:10px;
+ left:14px;
+ 
+}
+.elk>i{
+ top:10px;
+ left:15px;
+
+}
+.home>i{
+ top:10px;
+ left:10px;
+}
+.video>i{
+ top:10px;
+ left:10px;
+}
+.tv>i{
+ top:10px;
+ left:10px;
+}
+ /* ============pulse animation 2========== */
+ @keyFrames pulse {
+   0% {
+     transition:scale(0,9);
+      box-shadow: 0 0 0 0  rgba(92, 176, 233, 0.911);
+     }
+     70% {
+       transition:scale(1);
+       box-shadow: 0 0 0 30px  rgba(92, 176, 233, 0);
     }
-      /* ============================================== */
-      @media only screen and (max-width: 576px){
-        .houseContainer{
-          width: 100%;
-          height: 65vh;
-         
-          
-        }
-        .iconCon{
-          width: 30px;
-          height: 30px;
-        }
-        .laptopContainer{
-          width: 75px;
-          height: 75px;
-          top:40%;
-          left:40%;
-        }
-        .laptop{
-  
-          top:15px;
-          font-size: 40px;
-          left:10px;
-          
-        }
-        .tempIcon{
-          
-          top:2%;
-          left:45%;
-        }
-        .light{
-          position: absolute;
-          top:17%;
-          left:12%;
-        }
-        .tv{
-          position: absolute;
-          top:17%;
-          right:12%;
-        }
-        .lockIcon{
-          position: absolute;
-          bottom:15%;
-          right:15%;
-        }
-        .video{
-          position: absolute;
-          bottom:15%;
-          left:15%;
-        }
-        .elk{
-          position: absolute;
-          bottom:42%;
-          right:2%;
-        }
-        .home{
-          position: absolute;
-          bottom:42%;
-          left:2%;
-          
-        }
-        .musicIcon{
-          position: absolute;
-          bottom:2%;
-          left:45%;
-        }
-        
-        .iconCon>i{
-          font-size: 15px
-        }
-        .musicIcon>i{
-          top:5px;
-          left:4px;
-        }
-        .tempIcon>i{
-          top:5px;
-          left:8px;
-        }
-        .light>i{
-          top:5px;
-          left:6px;
-          
-        }
-        .lockIcon>i{
-          top:4px;
-          left:5px;
-          
-        }
-        .elk>i{
-          top:5px;
-          left:6px;
-        
-        }
-        .home>i{
-          top:4px;
-          left:3px;
-        }
-        .video>i{
-          top:5px;
-          left:4px;
-        }
-        .tv>i{
-          top:5px;
-          left:4px;
-        }
-  
-       
-    };
+ 100% {
+   transition:scale(0,9);
+ }  
+}
+@keyFrames pulse2 {
+ 0% {
+   transition:scale(0,9);
+    box-shadow: 0 0 0 0  rgba(92, 176, 233, 0.911);
+   }
+   70% {
+     transition:scale(1);
+     box-shadow: 0 0 0 10px  rgba(92, 176, 233, 0);
+  }
+100% {
+ transition:scale(0,9);
+}  
+}
+/* @media  only screen and (max-width:900px) {
+.houseContainer{
+ height:400px;
+ width: 400px;
+ top:100px
+}
+}
+*/
+/* @media  only screen and (min-width:900px) {
+ .houseContainer{
+   height:500px;
+   width: 500px;
    
-      /* ============================================== */
+ }
+
+};*/
+
+/* @media  only screen and (max-width:768px) {
+.houseContainer{
+ height:400px;
+ width: 400px;
+ top:100px;
+}
+
+};  */
+
+@media only screen and (max-width: 576px){
+ .houseContainer{
+   width: 100%;
+   height: 65vh;
+  
+   
+ }
+ .iconCon{
+   width: 30px;
+   height: 30px;
+ }
+ .laptopContainer{
+   width: 75px;
+   height: 75px;
+   top:40%;
+   left:40%;
+ }
+ .laptop{
+
+   top:15px;
+   font-size: 40px;
+   left:10px;
+   
+ }
+ .tempIcon{
+   
+   top:2%;
+   left:45%;
+ }
+ .light{
+   position: absolute;
+   top:17%;
+   left:12%;
+ }
+ .tv{
+   position: absolute;
+   top:17%;
+   right:12%;
+ }
+ .lockIcon{
+   position: absolute;
+   bottom:15%;
+   right:15%;
+ }
+ .video{
+   position: absolute;
+   bottom:15%;
+   left:15%;
+ }
+ .elk{
+   position: absolute;
+   bottom:42%;
+   right:2%;
+ }
+ .home{
+   position: absolute;
+   bottom:42%;
+   left:2%;
+   
+ }
+ .musicIcon{
+   position: absolute;
+   bottom:2%;
+   left:45%;
+ }
+ 
+ .iconCon>i{
+   font-size: 15px
+ }
+ .musicIcon>i{
+   top:5px;
+   left:4px;
+ }
+ .tempIcon>i{
+   top:5px;
+   left:8px;
+ }
+ .light>i{
+   top:5px;
+   left:6px;
+   
+ }
+ .lockIcon>i{
+   top:4px;
+   left:5px;
+   
+ }
+ .elk>i{
+   top:5px;
+   left:6px;
+ 
+ }
+ .home>i{
+   top:4px;
+   left:3px;
+ }
+ .video>i{
+   top:5px;
+   left:4px;
+ }
+ .tv>i{
+   top:5px;
+   left:4px;
+ }
+
+
+};
   
 
 
@@ -511,7 +511,10 @@ left:34%;
 
 
 
-
+      /* //==================================================// */
+      .securityActive{
+        background-color: red;
+      }
 
 
     /*=====================about us page =================================*/

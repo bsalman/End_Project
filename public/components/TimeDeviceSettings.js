@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 
 
-import { addTimeDevicePost, updateTimeDevicePost, deleteTimeDevicePost } from '../services/api'
+import { addTimeDevicePost, updateTimeDevicePost, deleteTimeDevicePost, changeTimeDeviceStatus } from '../services/api'
 
 const TimeDeviceSetting = ({deviceId,device}) => {
   useEffect(() => {
@@ -21,18 +21,19 @@ const TimeDeviceSetting = ({deviceId,device}) => {
     startTime: '',
     stopTime: '',
     id: null,
-    deleted: false
+    deleted: false,
+    active: false
   }
 
 
   const saveRef = useRef()
   const [state, setState] = useState(initialState)
-//   const setMotionDeviceStatus = (relationId) => {
-//     changeMotionDeviceStatus(relationId).then(data => {
-//       setState({ ...state, active: (state.active ? 0 : 1) })
+  const setTimeDeviceStatus = () => {
+    changeTimeDeviceStatus(state.id).then(data => {
+      setState({ ...state, active: (state.active ? 0 : 1) })
 
-//     })
-//   }
+    })
+  }
   const onClickSaveBtn = () => {
     //console.log(state.id);
     if (state.id === null) {
@@ -162,7 +163,7 @@ const TimeDeviceSetting = ({deviceId,device}) => {
             {/* button for activate the light device */}
             <div className="col-xl-4 col-md-4 col-sm-4 col-4">
               <Label className={`switch ml-auto ${state.active ? 'checked' : ''}`} >
-                <Input type="checkbox" />
+                <Input type="checkbox"  onChange={setTimeDeviceStatus}/>
               </Label>
             </div>
           

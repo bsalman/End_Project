@@ -12,19 +12,22 @@ class TopNav extends React.Component {
   }
 
   showSideBarSmallScreen = (e) =>{
-    this.props.toggleSideBarSmallScreen()
+    this.props.toggleSideBar(!this.props.smallScreenCheck)
+    this.props.toggleSideBarSmallScreen(!this.props.smallScreenCheck)
   }
 
-  logoutBtnClick = (e) => {
-    console.log('hi');
+  // log out 
+  logoutOnClick = (e) =>{
     e.preventDefault()
-    logoutPost().then(data => {
-        if (data === 10) {
+    logoutPost().then(data =>{
+      console.log('navData:',data);
+      if(data === 10){
+        console.log('navProps:',this.props);
+
         this.props.history.push('/login')
-    }
+      }
     })
-    
-}
+  }
   render() {
     return (
 
@@ -55,7 +58,7 @@ class TopNav extends React.Component {
               </div>
             </form>
           </div>
-          <Link className="navbar-brand px-lg-3 px-1 mr-0 menu-bar" to="#">SMART family</Link>
+          <Link className="navbar-brand px-lg-3 px-1 mr-0 menu-bar" to="/">SMART family</Link>
           <div className="ml-auto">
             <div className="navbar-nav flex-row navbar-icons">
               <div className="nav-item">
@@ -87,7 +90,7 @@ class TopNav extends React.Component {
                 <div className="dropdown-menu dropdown-menu-right">
                   {/* <Link className="dropdown-item" to="profile.html">Profile</Link>
                   <div className="dropdown-divider"></div> */}
-                  <Link className="dropdown-item" to="/logout">Logout</Link>
+                  <Link className="dropdown-item" onClick={this.logoutOnClick} to="/login">Logout</Link>
                 </div>
               </div>
               <div className="nav-item d-lg-none">
@@ -110,6 +113,13 @@ class TopNav extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return({
+    smallScreenCheck: state.smallScreenCheck, 
+      //loggedin: state.loggedin
+    })
+}
+
 let TopNavWithRouter = withRouter(TopNav);
 
-export default connect(null,{toggleSideBar,toggleSideBarSmallScreen})(TopNavWithRouter)
+export default connect(mapStateToProps,{toggleSideBar,toggleSideBarSmallScreen})(TopNavWithRouter)

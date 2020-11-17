@@ -189,7 +189,8 @@ class AccountSettings extends React.Component {
                                   onChange={(e) => {
                                    this.setState({password: e.target.value})
                                    }}
-                                  id="user-password"/>
+                                  id="user-password"
+                                  title="8 characters minimum"/>
                               </div>
                             </div>
                             <div className="form-group row has-success">

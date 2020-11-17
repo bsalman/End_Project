@@ -29,6 +29,10 @@ const Dashboard =(props)=> {
 		// 	security: !state.security})
 			//console.log("sec2",state.security);
 		secureAllHousePost(!state.security).then(data=>{
+			if(state.security){
+				props.socket.emit('stop_home_alarm', null)
+			}
+			
 				//console.log(JSON.parse(data[0].value));
 				setState({...state,
 					security: JSON.parse(data[0].value)})
@@ -128,7 +132,10 @@ const Dashboard =(props)=> {
 		
 	
 const setStateToProps = (state) => {
-		return ({rooms: state.rooms})
+		return ({
+			rooms: state.rooms,
+			socket: state.socket
+		})
 		  }
 
 export default connect(setStateToProps,{setRoomsAction})(Dashboard)
