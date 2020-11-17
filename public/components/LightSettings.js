@@ -382,41 +382,10 @@ if(props.rooms.length>0){
           
           &nbsp;
           <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
-            <img src="/images/timer.png"></img>
-              &nbsp;
-              <h5 className="card-title">Motion:Set Time</h5>
-              <div className=" ml-auto ">
-                <div></div>
-              </div>
-            </li>
-          </ul>
+
           <hr className="my-0"/>
           &nbsp;
-          <div className="row d-flex justify-content-center">
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">From</h5>
-            </div>
-            <div className="col justify-content-center ">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-                placeholder="HH : MM : SS"/>
-            </div>
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">To</h5>
-            </div>
-            <div className="col justify-content-center">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-               />
-            </div>
-            <div className="col justify-content-end ">
-              <Button >Save</Button>
-            </div>
-          </div>
+
 
             {/* {motionDevicesElement}
             <div className="row col-2 ml-3 mb-3 mt-4">

@@ -765,7 +765,7 @@ const onEditRoomClick = (e) => {
                   <option>Motion</option>
                   <option>Appliance</option>
                 </Input>
-                <span className={`d-none ${state.error.deviceCategoryIDFilled ? 'text-danger d-block' : ''}`}>Device CategoryID shouldnt be empty</span>
+                <span className={`d-none ${state.error.deviceCategoryIDFilled ? 'text-danger d-block' : ''}`}>Device Type shouldnt be empty</span>
               </div>
             </FormGroup>
 

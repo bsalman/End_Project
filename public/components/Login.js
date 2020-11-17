@@ -80,14 +80,14 @@ const Login = (props) => {
                //show admin panel
                props.setUserAction(myState.username)
                props.setLoggedInAction(data)
-               history.push('/settings')
+               history.push('/accountSettings')
                //console.log('should be login');
                break;
             case 'true':
               //show admin panel
               props.setUserAction(myState.username)
               props.setLoggedInAction(data)
-              history.push('/')
+              history.push('/dashboard')
               //console.log('should be login');
               break;
           
@@ -116,8 +116,7 @@ const Login = (props) => {
         show={myState.entriesError}
         close={closeModal}
         className='bg-danger'
-        title={myState.errorTitle}
-        background='bg-warning'>
+        title={myState.errorTitle}>
         {myState.errorElement}
       </CustomModal>
       <div className="d-flex align-items-center pb-4">

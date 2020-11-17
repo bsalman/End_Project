@@ -4,23 +4,7 @@ import {Link} from 'react-router-dom'
 
 
 
-
-
-
-
-// create a setting classNameName
 class Settings extends React.Component {
-  
-
-    
-  // create a state
-  
- 
-  
-
-  
-
-
 
   
   render() {
@@ -32,8 +16,8 @@ class Settings extends React.Component {
                     <div className="card-body text-center">
                       <Link to="/accountSettings">
                         <img src="/images/account.png"></img>
-                        <h5> Account Setting </h5>
-                        <p>change Username&Password </p>
+                        <h5> Account Settings </h5>
+                        <p>Change Username & Password </p>
                       </Link>
                     </div>
                 </div>
@@ -43,7 +27,7 @@ class Settings extends React.Component {
                     <div className="card-body text-center ">
                       <Link to="">
                       <img src="/images/reset.png"></img>
-                        <h5> factory setting </h5>
+                        <h5> Factory Settings </h5>
                         <p>Reset your System </p>
                       </Link>
                     </div>
@@ -55,7 +39,7 @@ class Settings extends React.Component {
                       <Link to="">
                       <img src="/images/update.png"></img>
                         <h5>System Update</h5>
-                        <p>get last update </p>
+                        <p>Get Last Update </p>
                       </Link>
                     </div>
                 </div>
