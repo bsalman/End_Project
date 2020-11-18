@@ -30,7 +30,7 @@ class Footer extends React.Component {
             <div className="col-md-4 rig">
               <div className="navigation text-center">
                 <h4 >Info & Contact</h4>
-                <ul>
+                <ul style={{listStyle: 'none'}}>
                   <li>
                     <Link to="/ContactUs" style={{color:"#aee0fa"}}>Contact us</Link>
                   </li>

@@ -17,7 +17,7 @@ import {setRoomsAction} from '../actions'
 //==============================================//
 import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
-import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
+import {editDevicePost, getDeviceRelatedDevicesPost, reversTimeDevicesPost} from '../services/api'
 
 import LightDeviceSettings from './TimeDeviceSettings'
 
@@ -55,14 +55,14 @@ const deviceName=params.deviceName
         
         
       })
-      lightDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          id: null,
-          active: 1
-        }
-      )
+      // lightDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, lightDevices: lightDevices, checked: checkChecked })
     })
@@ -186,6 +186,36 @@ if(props.rooms.length>0){
       // console.log('state,motionDevices', state.motionDevices);
     }
 
+    const reversTimeDevices = (e) => {
+      e.preventDefault()
+      // console.log('click');
+      reversTimeDevicesPost(params.id, e.target.checked ? 1 : 0).then(relatedDevices => {
+        const lightDevices = relatedDevices.map(device => {
+        
+          return (
+            {
+              startTime: device.start_time,
+              stopTime: device.stop_time,
+              selectedDevice: device.device_id,
+              id: device.id,
+              active: device.active
+            })
+        })
+        // motionDevices.push(
+        //   {
+        //     startTime: '',
+        //     stopTime: '',
+        //     selectedDevice: null,
+        //     id: null,
+        //     active: 1
+        //   }
+        // )
+  
+        setState({ ...state, lightDevices: lightDevices, checked: !state.checked })
+      })
+      
+    }
+
   //add new time on + btn click function
   // const addNewTimeBoxMotionBtn = (e) => {
   //   e.preventDefault()
@@ -304,10 +334,10 @@ if(props.rooms.length>0){
             <li className="list-group-item align-items-center">
               <img src="/images/timer.png"></img>
               &nbsp;
-              <h5 className="card-title">Light:Set Time</h5>
+              <h5 className="card-title">Set Time : Light</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
-							<Input type="checkbox" id={deviceId}/>
+              <Label className={`switch ml-auto ${state.checked==true ? 'checked' : '' }`}>
+							<Input type="checkbox" id={deviceId}  onChange={reversTimeDevices} checked={state.checked}/>
 						</Label>
             &nbsp;
                 
@@ -381,42 +411,10 @@ if(props.rooms.length>0){
 
           
           &nbsp;
-          <hr className="my-0"/>
-          <ul className="list-group borderless">
-            <li className="list-group-item align-items-center">
-            <img src="/images/timer.png"></img>
-              &nbsp;
-              <h5 className="card-title">Motion:Set Time</h5>
-              <div className=" ml-auto ">
-                <div></div>
-              </div>
-            </li>
-          </ul>
+ 
           <hr className="my-0"/>
           &nbsp;
-          <div className="row d-flex justify-content-center">
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">From</h5>
-            </div>
-            <div className="col justify-content-center ">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-                placeholder="HH : MM : SS"/>
-            </div>
-            <div className="col justify-content-center ">
-              <h5 className="specs text-center">To</h5>
-            </div>
-            <div className="col justify-content-center">
-              <Input
-                className="ml-auto mb-0 text-primary text-center"
-                type="time"
-               />
-            </div>
-            <div className="col justify-content-end ">
-              <Button >Save</Button>
-            </div>
-          </div>
+          
 
             {/* {motionDevicesElement}
             <div className="row col-2 ml-3 mb-3 mt-4">

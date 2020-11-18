@@ -9,10 +9,14 @@ const DashboardTemperature = (props)=>{
 	const roomElement=rooms.filter(room => room.devices.find(device => device.category ==='Temperature')).map((room)=>{
 		
 		const TempElement = room.devices.filter(device=>device.category ==='Temperature').map(device=>{
-			//console.log(device);
+			// console.log(device);
+			let output = 'No Data'
+			if(device.data !== ''){
+				output = <>{JSON.parse(device.data).t}<sup>°C</sup></>
+			}
 			return(
 				
-				<h5 key={device.id} className="mt-2 ml-auto status">{JSON.parse(device.data).t}<sup>°C</sup></h5>
+				<h5 key={device.id} className="mt-2 ml-auto status">{output}</h5>
 			)
 		})
         return(

@@ -104,7 +104,7 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dSecondNone === true ? "d-block" : 'd-none'}`}>
                 <h3>Bashar Salman</h3>
-                <p className={`${state.dSecondNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
+                <p className={`${state.dSecondNone === true ? 'text-typing' : ''}`}>I graduated as Lawyer.<br/>As a full stack Web<br/>Developer I am able to<br/>combine my love for<br/>Design and my logical<br/>thinking to create special<br/>concepts for the company<br/>I work for. I enjoy team<br/>work as I think the more<br/>great heads work together<br/>the better solutions<br/>are found.<br/></p>
                 </div>
               </div>
               <ul>

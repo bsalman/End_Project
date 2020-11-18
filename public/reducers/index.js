@@ -47,54 +47,65 @@ const sideBarSmallReducer = (smallScreenCheck = false, action) => {
 const roomsReducer = (rooms = [], action) => {
 
     if (action.type === 'SET_ROOMS') {
-        // console.log("payload action: ", action.payload);
-        return action.payload
-
-        // let payload = action.payload
-        // let newRooms = [...rooms]
-        // let device = payload.device
-        // switch (payload.secondType) {
-        //     // Saving all the rooms
-        //     case 1:
-        //             return payload.rooms
-        //         break;
         
-        //     // Adding a new device
-        //     case 2:
+        if (action.payload.socketData === undefined){
+            return action.payload
+        }else{
+            let key = action.payload.socketData.key
+            let sn = action.payload.socketData.data.id
+            const updatedRooms = [...rooms]
+            let room = null;
+            let device = null;
+            switch (key) {
+                case 'DEVICE_CONNECT':
+                    room = updatedRooms.find(room => room.devices.find(device => device.number === sn))
+                    device = room.devices.find(device => device.number === sn)
+                    device.connected = true
+                    room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                    updatedRooms[updatedRooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
 
-               
+                    return updatedRooms
+                    break;
 
-        //         newRooms = newRooms.map(room => {
-        //             if(room.id === device.room_id){
+                case 'DEVICE_DISCONNECT':
+                    room = updatedRooms.find(room => room.devices.find(device => device.number === sn))
+                    device = room.devices.find(device => device.number === sn)
+                    device.connected = false
+                    room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                    updatedRooms[updatedRooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
 
-        //                 room.devices.push(device)
-        //             }
-        //             return room;
-        //         });
+                    return updatedRooms
+                    break;
 
-        //         return newRooms
+                case 'DEVICE_STATUS':
+                    // in this case sn is the id
+                    room = updatedRooms.find(room => room.devices.find(device => device.id === sn))
+                    device = room.devices.find(device => device.id === sn)
+                    device.data = action.payload.socketData.data.status
+                    room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                    updatedRooms[updatedRooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
 
-        //         break;
-        //         case 3:
+                    return updatedRooms
+                    break;
 
-                
+                case 'DEVICE_TEMP':
+                    // in this case sn is the id
+                    room = updatedRooms.find(room => room.devices.find(device => device.id === sn))
+                    device = room.devices.find(device => device.id === sn)
+                    device.data = action.payload.socketData.data.status
+                    room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                    updatedRooms[updatedRooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
 
-        //          newRooms = rooms.forEach(room => {
-        //             if(room.id === device.room_id){
-        //                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
-        //                 // room.devices.push(device)
-        //             }
-        //             //return room;
-        //         });
+                    return updatedRooms
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+        
 
-        //         return newRooms
-
-        //         break;
-
-        //     default:
-        //         return rooms
-        //         break;
-        // }
+        
         
     }
 

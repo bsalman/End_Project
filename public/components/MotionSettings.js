@@ -46,15 +46,15 @@ const MotionSettings = (props) => {
             active: device.active
           })
       })
-      motionDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          selectedDevice: null,
-          id: null,
-          active: 1
-        }
-      )
+      // motionDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     selectedDevice: null,
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, motionDevices: motionDevices, checked: checkChecked })
     })
@@ -161,15 +161,15 @@ const MotionSettings = (props) => {
             active: device.active
           })
       })
-      motionDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          selectedDevice: null,
-          id: null,
-          active: 1
-        }
-      )
+      // motionDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     selectedDevice: null,
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, motionDevices: motionDevices, checked: !state.checked })
     })

@@ -48,19 +48,23 @@ console.log('paramsId:',params.id);
   let roomInfo = {
     roomType : '',
     deviceCategory : '',
-    deviceName : ''
+    deviceName : '',
+    deviceData: ''
   }
 
   if (props.rooms.length > 0) {
     const selectedRoom = props.rooms.find(room => room.id == params.roomId) 
     const selectedDevices = selectedRoom.devices.find(device => device.id == params.id) 
-    console.log('selectedRoom', selectedRoom)
-    console.log('selectedDevices', selectedDevices)
+    //console.log('selectedRoom', selectedRoom)
+ 
 
     roomInfo.roomType = selectedRoom.type
     roomInfo.deviceCategory = params.deviceCategory
     roomInfo.deviceName = params.deviceName
+    roomInfo.deviceData = selectedDevices.data ? JSON.parse(selectedDevices.data) : null
+    
   }
+  console.log('selectedDevices', roomInfo.deviceData)
 
   // console.log('selectedRoom',state.selectedRoom,'/',state.selectedDevice);
 
@@ -170,11 +174,11 @@ console.log('paramsId:',params.id);
                   position: 'relative'
                 }}>
                   <p className="mr-auto mt-2 mb-0 display-5">
-                    <span className="room-temp-C">22</span>
+                    <span className="room-temp-C">{roomInfo.deviceData ? roomInfo.deviceData.t : '0.00'}</span>
                     <sup>°C</sup>
                   </p>
                   <p className="mr-auto mt-2 mb-0 lead text-primary">
-                    <span className="room-temp-F">71.6</span>
+                    <span className="room-temp-F">{roomInfo.deviceData ? roomInfo.deviceData.h : '0.00'}</span>
                     <sup>°F</sup>
                   </p>
                 </div>

@@ -38,6 +38,7 @@ class MainRouter extends React.Component {
     componentDidMount(){
         allRoomsPost().then(loadedRooms=>{
         this.props.setRoomsAction(loadedRooms)
+        })
         
         const socket = io(window.location.origin)
 		socket.on('connect', () => {
@@ -45,52 +46,52 @@ class MainRouter extends React.Component {
 			console.log('socket connected');
 			socket.on('device_connect', sn => {
                 //console.log('connect', sn);
-                const rooms = [...loadedRooms]
-                const room = rooms.find(room => room.devices.find(device => device.number === sn))
-                const device = room.devices.find(device => device.number === sn)
-                device.connected = true
-                room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
-                rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
-                loadedRooms = rooms
-                this.props.setRoomsAction(rooms)
+                // const rooms = [...this.props.rooms]
+                // const room = rooms.find(room => room.devices.find(device => device.number === sn))
+                // const device = room.devices.find(device => device.number === sn)
+                // device.connected = true
+                // room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                // rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
+                // loadedRooms = rooms
+                this.props.setRoomsAction(null,{key:'DEVICE_CONNECT',data: {id: sn}})
                 
 			})
 			socket.on('device_disconnect', sn => {
                 //console.log('disconnect', sn);
-                const rooms = [...loadedRooms]
-                const room = rooms.find(room => room.devices.find(device => device.number === sn))
-                const device = room.devices.find(device => device.number === sn)
-                device.connected = false
-                room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
-                rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
-                loadedRooms = rooms
-                this.props.setRoomsAction(rooms)
+                // const rooms = [...this.props.rooms]
+                // const room = rooms.find(room => room.devices.find(device => device.number === sn))
+                // const device = room.devices.find(device => device.number === sn)
+                // device.connected = false
+                // room.devices[room.devices.map(device => device.number).indexOf(sn)] = device
+                // rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
+                // loadedRooms = rooms
+                this.props.setRoomsAction(null,{key:'DEVICE_DISCONNECT',data: {id: sn}})
             })
             socket.on('device_status', data => {
                 console.log(data);
-                const rooms = [...loadedRooms]
-                const room = rooms.find(room => room.devices.find(device => device.id === data.id))
-                const device = room.devices.find(device => device.id === data.id)
-                device.data = data.status
-                room.devices[room.devices.map(device => device.id).indexOf(data.id)] = device
-                rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
-                loadedRooms = rooms
-                this.props.setRoomsAction(rooms)
+                // const rooms = [...this.props.rooms]
+                // const room = rooms.find(room => room.devices.find(device => device.id === data.id))
+                // const device = room.devices.find(device => device.id === data.id)
+                // device.data = data.status
+                // room.devices[room.devices.map(device => device.id).indexOf(data.id)] = device
+                // rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
+                // loadedRooms = rooms
+                this.props.setRoomsAction(null,{key:'DEVICE_STATUS',data})
             })
             socket.on('temp_data', data => {
-                const rooms = [...loadedRooms]
-                const room = rooms.find(room => room.devices.find(device => device.id === data.id))
-                const device = room.devices.find(device => device.id === data.id)
-                device.data = data.status
-                room.devices[room.devices.map(device => device.id).indexOf(data.id)] = device
-                rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
-                loadedRooms = rooms
-                this.props.setRoomsAction(rooms)
+                // const rooms = [...this.props.rooms]
+                // const room = rooms.find(room => room.devices.find(device => device.id === data.id))
+                // const device = room.devices.find(device => device.id === data.id)
+                // device.data = data.status
+                // room.devices[room.devices.map(device => device.id).indexOf(data.id)] = device
+                // rooms[rooms.map(foundRoom => foundRoom.id).indexOf(room.id)] = room
+                // loadedRooms = rooms
+                this.props.setRoomsAction(null,{key:'DDEVICE_TEMP',data})
 			})
 
         
             this.props.setSocketAction(socket)
-        })
+        
 		})
     }
     render() {

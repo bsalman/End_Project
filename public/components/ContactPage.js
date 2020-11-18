@@ -62,7 +62,7 @@ class ContactPage extends React.Component{
                             <div className="pl-0">
                               <Row className="justify-content-center py-5">
                                 <Col xl={12} md={8} sm={12}>
-                                  <h1 className="display-1 font-weight-bolder">Talk to us</h1> 
+                                  <h1 className="display-1 font-weight-bolder">Contact us</h1> 
                                 </Col>
                               </Row>
                             </div>

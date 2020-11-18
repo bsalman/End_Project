@@ -99,12 +99,6 @@ const initialStat={
                         </div>
                     </div>
                     <hr className="my-0"/>
-                    <div className="card-body">
-                        <div className="lights-controls" data-controls="switch-lights">
-                            <button data-action="all-on" type="button" className="btn btn-primary lights-control">All <strong>ON</strong></button>
-                            <button data-action="all-off" type="button" className="btn btn-secondary lights-control">All <strong>OFF</strong></button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </React.Fragment>

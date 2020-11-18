@@ -464,16 +464,6 @@ app.post('/reversmotiondevices', (req, res) => {
 });
 
 
-//==============================================================//
-app.post('/reverstimedevices', (req, res) => {
-    //console.log(req.body);
-    dataModule.reversTimeDevices(req.body.id, req.body.status).then((devices) => {
-        res.json(devices)
-
-    }).catch(error => {
-        res.json(error)
-    })
-});
 //================================================================//
 app.post('/editsecure', (req, res) => {
     console.log(req.body);
@@ -655,16 +645,9 @@ socketClient.on('connect', () => {
 
 
 // get a list of devices from database
-dataModule.getDevices().then(initDevices => {
+dataModule.getDevices().then(devices => {
 
 
-    let devices = initDevices
-    setInterval(()=>{
-        dataModule.getDevices().then(CurrentDevices => {
-            devices = CurrentDevices
-        })
-    },500)
- 
     // check schedule jobs
     setInterval(() => {
         dataModule.getSchedules().then(schedules => {
@@ -740,7 +723,6 @@ dataModule.getDevices().then(initDevices => {
     // connection to iot devices
     const radio = new Radio()
 
-
     radio.setReadingPipe('0xABCDABCD71')
     radio.begin()
 
@@ -774,7 +756,7 @@ dataModule.getDevices().then(initDevices => {
 
                     }
                 }).catch(error => {
-                    console.log(error);
+                    //console.log(error);
                 })
             }
 
@@ -891,7 +873,6 @@ dataModule.getDevices().then(initDevices => {
 
     socketClient.on('light_status', data => {
         //socket.broadcast.to('home').emit('light_status', data)
-        // console.log(data);
         const device = devices.find(device => device.number === data.sn)
         devices[devices.map(device => device.id).indexOf(device.id)].data = data.status
         radio.send('data-' + data.status, 3, device.number).then(() => {
@@ -920,7 +901,6 @@ dataModule.getDevices().then(initDevices => {
             checkConnected(device).then(() => {
 
             }).catch(error => {
-                console.log(error, device.number);
             })
         })
     }, (devices.length) * 1000)
@@ -941,7 +921,7 @@ dataModule.getDevices().then(initDevices => {
         //console.log(device);
         return new Promise((resolve, reject) => {
 
-            radio.checkConnected('hi', 10, device.number).then(() => {
+            radio.checkConnected('hi', 3, device.number).then(() => {
 
                 if (device.connected) {
                     resolve()

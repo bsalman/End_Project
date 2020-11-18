@@ -82,7 +82,7 @@ const Rooms = (props) => {
 
 
 //===================== Set the initial state ======================//
-
+console.log(props.rooms);
 const roomElement = props.rooms.map(room => {
   //console.log(room);
   //mapping the devices inside room
@@ -239,7 +239,7 @@ const onAddRoomClick = e => {
           break;
         case 4:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'There was a server side error, please contact the adminstrator'
+          badgeMessage = 'There was a server side error, please contact the administrator'
           badgeTitle = 'Server side error'
           break;
         default:
@@ -287,9 +287,14 @@ const onAddRoomClick = e => {
 
 //ADD DEVICE
   const deviceModaltoggle = (roomID,roomType) => {
-    setState({...state,deviceModalShow: !state.deviceModalShow,
-        selectedRoomId: roomID,
-        selectedRoomTitle: roomType})
+    const newState = {...state}
+    newState.error.deviceNameFilled = false
+    newState.error.deviceCategoryIDFilled = false
+    newState.error.deviceSerialNumTypeFilled = false
+    newState.deviceModalShow = !state.deviceModalShow
+    newState.selectedRoomId = roomID
+    newState.selectedRoomTitle = roomType
+    setState(newState)
   }
 
   const onAddDeviceClick = (e) => {
@@ -408,7 +413,7 @@ const onAddRoomClick = e => {
       const newState = {...state}
       newState.confirmModal.confirmModalShow= true,
       newState.confirmModal.confirmModalPayLoad= roomId,
-      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this room gonna be deleted for ever</p>
+      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing, this room is going to be deleted forever.</p>
       setState(newState)
   }
 
@@ -434,7 +439,7 @@ const onAddRoomClick = e => {
       case 3:
         // console.log('server error');
         badgeClass = 'alert alert-danger'
-        badgeMessage = 'There was a server side error, please contact the adminstrator'
+        badgeMessage = 'There was a server side error, please contact the administrator'
         badgeTitle = 'Server side error'
         break;
       default:
@@ -574,7 +579,7 @@ const onEditRoomClick = (e) => {
               const newState1 = {...state}
               newState1.errorModal.show = true
               newState1.errorModal.title = 'Server Side Error'
-              newState1.errorModal.content = <p>There was a server side error, please contact the adminstrator</p>
+              newState1.errorModal.content = <p>There was a server side error, please contact the administrator</p>
               // hide addroom modal because we need to show error modal and we can not show
               // two modals on the same time
               newState1.roomDeviceModalShow = false
@@ -663,7 +668,7 @@ const onEditRoomClick = (e) => {
         {/* <ModalHeader toggle={this.toggle}><h3 className="card-title">Add Room</h3></ModalHeader> */}
         <ModalBody >
 
-          <h3 className="card-title modal-font">Add Room</h3>
+          <h3 className="card-title modal-font">Add A New Room</h3>
           <Form className="p-2">
             <FormGroup className="row">
               <div className="col-12" modal-content="true">
@@ -671,6 +676,7 @@ const onEditRoomClick = (e) => {
                 <Input
                   className="form-control custom-focus"
                   type="text"
+                  maxLength='12'
                   id="room_name"
                   onChange={e => {
                   setState({
@@ -697,10 +703,10 @@ const onEditRoomClick = (e) => {
                   value={state.newRoomType}>
                   <option></option>
                   <option>Kitchen</option>
-                  <option>Dining room</option>
-                  <option>Living room</option>
-                  <option>Sleep room</option>
-                  <option>Bath room</option>
+                  <option>Dining-room</option>
+                  <option>Living-room</option>
+                  <option>Sleeping-room</option>
+                  <option>Bathroom</option>
                   <option>Garage</option>
                 </Input>
               </div>
@@ -731,6 +737,7 @@ const onEditRoomClick = (e) => {
                 <Input
                   className={`form-control custom-focus ${state.error.deviceNameFilled ? 'border-danger' : ''}`}
                   type="text"
+                  maxLength='12'
                   id="device_name"
                   onChange={e => {
                   setState({
@@ -765,7 +772,7 @@ const onEditRoomClick = (e) => {
                   <option>Motion</option>
                   <option>Appliance</option>
                 </Input>
-                <span className={`d-none ${state.error.deviceCategoryIDFilled ? 'text-danger d-block' : ''}`}>Device CategoryID shouldnt be empty</span>
+                <span className={`d-none ${state.error.deviceCategoryIDFilled ? 'text-danger d-block' : ''}`}>Device Type shouldnt be empty</span>
               </div>
             </FormGroup>
 
@@ -807,6 +814,7 @@ const onEditRoomClick = (e) => {
                 <Input
                   className={`form-control custom-focus ${state.error.deviceSerialNumTypeFilled ? 'border-danger' : ''}`}
                   type="text"
+                  maxLength='15'
                   id="device_seralNum"
                   onChange={e => {
                   setState({
@@ -870,17 +878,14 @@ const onEditRoomClick = (e) => {
                   value={state.newRoomType}>
                   <option></option>
                   <option>Kitchen</option>
-                  <option>Dining room</option>
-                  <option>Living room</option>
-                  <option>Sleep room</option>
-                  <option>Bath room</option>
+                  <option>Dining-room</option>
+                  <option>Living-room</option>
+                  <option>Sleeping-room</option>
+                  <option>Bathroom</option>
                   <option>Garage</option>
                 </Input>
               </div>
             </FormGroup>
-            
-            
-            
 
           </Form>
 

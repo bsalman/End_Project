@@ -16,7 +16,7 @@ import {setRoomsAction} from '../actions'
 //==============================================//
 import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
-import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
+import {editDevicePost, getDeviceRelatedDevicesPost, reversTimeDevicesPost} from '../services/api'
 
 import AppliancesDeviceSettings from './TimeDeviceSettings'
 
@@ -52,14 +52,14 @@ const AppliancesSetting = (props) => {
         
         
       })
-      applianceDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          id: null,
-          active: 1
-        }
-      )
+      // applianceDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, applianceDevices: applianceDevices, checked: checkChecked })
     })
@@ -150,6 +150,37 @@ const applianceDevicesElement = state.applianceDevices.map((device,idx) => {
 
     // console.log('state,motionDevices', state.motionDevices);
   }
+
+  const reversTimeDevices = (e) => {
+    e.preventDefault()
+    // console.log('click');
+    reversTimeDevicesPost(params.id, e.target.checked ? 1 : 0).then(relatedDevices => {
+      const applianceDevices = relatedDevices.map(device => {
+      
+        return (
+          {
+            startTime: device.start_time,
+            stopTime: device.stop_time,
+            selectedDevice: device.device_id,
+            id: device.id,
+            active: device.active
+          })
+      })
+      // motionDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     selectedDevice: null,
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
+
+      setState({ ...state, applianceDevices: applianceDevices, checked: !state.checked })
+    })
+    
+  }
+
 
   //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
@@ -245,12 +276,12 @@ const applianceDevicesElement = state.applianceDevices.map((device,idx) => {
           <hr className="my-0"/>
           <ul className="list-group borderless">
             <li className="list-group-item align-items-center">
-              <i className="fas fa-stopwatch"></i>
+            <img src="/images/timer.png"></img>
               &nbsp;
-              <h5 className="card-title">{deviceName}: Set Time to ternOn </h5>
+              <h5 className="card-title"> Set Time to turn on : {deviceName}</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
-							<input type="checkbox" id={deviceId}  />
+              <Label className={`switch ml-auto ${state.checked==true ? 'checked' : '' }`}>
+							<input type="checkbox" id={deviceId}   onChange={reversTimeDevices} checked={state.checked} />
               </Label>
             &nbsp;
                 

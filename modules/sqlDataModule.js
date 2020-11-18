@@ -864,6 +864,24 @@ function checkRoomSecurity(roomId){
 
 }
 //=================================================//
+//=============================================//
+function reversTimeDevices(deviceId, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_timer SET active = ${status}   WHERE device_id = '${deviceId}'`).then((result) => {
+            getAllTimeRelatedDevices(deviceId).then(devices => {
+                resolve(devices)
+            }).catch(error => {
+                reject(error)
+            })
+            
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+
+//==================================//
 //=================================================//
 
 
@@ -899,6 +917,7 @@ module.exports = {
     getSchedules,
     changeTimeDeviceStatus,
     checkHomeSecurity,
-    checkRoomSecurity
+    checkRoomSecurity,
+    reversTimeDevices
 
 }

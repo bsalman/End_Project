@@ -11,10 +11,14 @@ export const setLoggedInAction = (loggedin) => {
     }
 }
 
-export const setRoomsAction = (rooms) => {
+export const setRoomsAction = (rooms,socketData) => {
+    let payload = rooms
+    if(socketData){
+        payload = {rooms,socketData}
+    }
     return {
         type: 'SET_ROOMS',
-        payload: rooms
+        payload
         
     }
 }
@@ -39,3 +43,4 @@ export const toggleSideBarSmallScreen = (check) => {
         payload: check
     }
 }
+

@@ -20,7 +20,7 @@ class LandNav extends React.Component {
         <React.Fragment>
           <Navbar 
             className="navbar navbar-expand fixed-top d-flex flex-row justify-content-start " expand="lg">
-            <NavbarBrand className="px-lg-3 px-1 mr-0" href="/">SMART family</NavbarBrand>
+            <NavbarBrand className="px-lg-3 px-1 mr-0" href="/">SMART Family</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar> 
@@ -29,9 +29,6 @@ class LandNav extends React.Component {
                 </NavItem>
                 <NavItem>
                     <NavLink tag={Link} to="/contactus">Contact us</NavLink>
-                </NavItem>
-                <NavItem>
-                    <NavLink tag={Link} to="#">Sign up </NavLink>
                 </NavItem>
                 </Nav>
             </Collapse>

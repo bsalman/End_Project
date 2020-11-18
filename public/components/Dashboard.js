@@ -8,6 +8,7 @@ import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
 import {setRoomsAction} from '../actions'
 import {secureAllHousePost, getSecurePost} from '../services/api'
+import Garage from './Garage'
 // import {setRoomsAction} from '../actions'
 
 
@@ -58,7 +59,7 @@ const Dashboard =(props)=> {
 					<div className="row">
 						<div className="col-sm-12">
 							<div className="card p-2 mb-4 align-items-center">
-								<h4>Hello:user</h4>
+								<h4>Welcome Home</h4>
 							</div>
 						</div>
 					</div>
@@ -70,7 +71,7 @@ const Dashboard =(props)=> {
 									<div className="d-flex flex-wrap mb-2">
 										<img src={`${state.security==true?"../images/home-lock.png":"../images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
-											<h4>Security system</h4>
+											<h4>Security System</h4>
 											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
 										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
@@ -81,8 +82,10 @@ const Dashboard =(props)=> {
 							</div>
 						</div>
 						{/* security system end  */}
-						<div className="col-sm-12 col-md-6">
-									{/* <!-- Garage-doors START --> */}
+						{/* Garage Door starts  */}
+							<Garage />	
+						{/* <div className="col-sm-12 col-md-6">
+								
 							<div className="card" data-unit="garage-doors-1">
 								<div className="card-body">
 									<div className="d-flex flex-wrap mb-2">
@@ -106,8 +109,9 @@ const Dashboard =(props)=> {
 									</div>
 								</div>
 							</div>
-						</div>
-	
+						</div> */}
+
+						{/* Garage Door ends  */}
 					</div>
 					{/* lights temp motion aria started */}
 					<div className="row">

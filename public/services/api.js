@@ -566,6 +566,38 @@ export const reversMotionDevicesPost =(id, status)=>{
 }
 
 //==================================================//
+//=======================================================//
+export const reversTimeDevicesPost =(id, status)=>{
+    return new Promise((resolve,reject)=>{
+        const timeMotionObj={
+            id,
+            status
+            
+        }
+        //console.log(deviceObj);
+        fetch('/reverstimedevices',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeMotionObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+
+//==================================================//
 
 export const getMotionRelatedDevicesPost = (deviceId) => {
     return new Promise((resolve, reject) => {

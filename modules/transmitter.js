@@ -19,10 +19,11 @@ class Radio {
      */
     constructor(config) {
         this.radio =  new rf.nRF24(24, 0);
+        this.radio.begin()
         if(!config){
-            this.radio.config(this._config, false);
+            this.radio.config(this._config, true);
         }else{
-            this.radio.config(config, false);
+            this.radio.config(config, true);
         }
     }
     
@@ -185,7 +186,7 @@ class Radio {
         }, ()=>{onStop()})
     }
     begin(){
-        this.radio.begin()
+        //this.radio.begin()
         setInterval(() => {
             if (this.radioFree){
                 
