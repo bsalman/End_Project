@@ -411,7 +411,193 @@ export const addTimeMotionPost =(startTime,stopTime,motionId,deviceId,active)=>{
     })
 
 }
+//=======================================================//
+export const updateTimeMotionPost =(id, startTime,stopTime,motionId,deviceId, active)=>{
+    return new Promise((resolve,reject)=>{
+        const timeMotionObj={
+            id,
+            startTime,
+            stopTime,
+            motionId,
+            deviceId,
+            active
+            
+        }
+        //console.log(deviceObj);
+        fetch('/updatetimemotion',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeMotionObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
 
+}
+//=======================================================//
+export const deleteTimeMotionPost =(id)=>{
+    return new Promise((resolve,reject)=>{
+        const timeMotionObj={
+            id
+            
+        }
+        //console.log(deviceObj);
+        fetch('/deletetimemotion',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeMotionObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//===================================================//
+export const reversMotionDevicesPost =(id, status)=>{
+    return new Promise((resolve,reject)=>{
+        const timeMotionObj={
+            id,
+            status
+            
+        }
+        //console.log(deviceObj);
+        fetch('/reversmotiondevices',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeMotionObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//================================================//
+export const getMotionRelatedDevicesPost = (deviceId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            deviceId
+        }
+        fetch("/getmotiondevices", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+//==========================================//
+export const changeMotionDeviceStatus = (relationId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            relationId
+        }
+        fetch("/changeMotionDeviceStatus", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+//===========================================//
+
+export const editSecurePost=(roomId,secure)=>{
+    return new Promise((resolve,reject)=>{
+        const selectObj={
+            roomId,
+            secure
+        }
+        fetch('/editsecure', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectObj)
+        }).then(response=>{
+            //console.log(response.status);
+            if(response.status==200){
+                response.json().then((data)=>{
+                    // console.log(data);
+                    resolve(data)
+                }).catch((error)=>{
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch((error)=>{
+            reject(error)
+        })
+    })
+
+}
+
+//=================================================//
 export const secureAllHousePost=(secure)=>{
     return new Promise((resolve, reject) => {
         const securedObj={secure:secure}
@@ -436,3 +622,150 @@ export const secureAllHousePost=(secure)=>{
         })
     })
 }
+//==================================================//
+export const getSecurePost = () => {
+    return new Promise((resolve, reject) => {
+        fetch('/getsecure', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if (response.status === 200 ){
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else {
+                reject(new Error('can not get the data, response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+//=======================================//
+export const addTimeDevicePost =(startTime,stopTime,deviceId,active)=>{
+    return new Promise((resolve,reject)=>{
+        const timeDeviceObj={
+            startTime,
+            stopTime,
+            deviceId,
+            active
+        }
+        //console.log(deviceObj);
+        fetch('/addtimeDevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeDeviceObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//=============================//
+export const updateTimeDevicePost =(id, startTime,stopTime,deviceId, active)=>{
+    return new Promise((resolve,reject)=>{
+        const timeDeviceObj={
+            id,
+            startTime,
+            stopTime,
+            deviceId,
+            active
+            
+        }
+        //console.log(deviceObj);
+        fetch('/updatetimedevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeDeviceObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//=======================================================//
+export const deleteTimeDevicePost =(id)=>{
+    return new Promise((resolve,reject)=>{
+        const timeDeviceObj={
+            id
+            
+        }
+        //console.log(deviceObj);
+        fetch('/deletetimedevice',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(timeDeviceObj)
+        }).then(response=>{
+            if (response.status===200) {
+                response.json().then((data)=>{
+                    resolve(data)
+                    //console.log(data);
+                }).catch((error)=>{
+                    reject(error);  
+                })
+            }else{ reject(new Error('can not send data to server. response number is: ' + response.status))}
+        }).catch((error)=>{
+            reject(error);
+        })
+    })
+
+}
+//=================================================//
+export const changeDeviceStatus = (relationId) => {
+    return new Promise((resolve, reject) => {
+        const data = {
+            relationId
+        }
+        fetch("/changeDeviceStatus", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (response.status == 200) {
+                response.json().then(data => {
+                    resolve(data)
+                }).catch(error => {
+                    reject(error)
+                })
+            }else{
+                reject(new Error('can not send data to server. response number is: ' + response.status))
+            }
+        }).catch(error => {
+            reject(error)
+        })
+    })
+
+
+}
+

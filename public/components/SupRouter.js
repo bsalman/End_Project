@@ -19,6 +19,7 @@ import AccountSettings from './AccountSettings'
 import AboutUs from './AboutUs'
 
 
+
 class SupRouter extends React.Component {
     render() {
         return (
@@ -35,6 +36,7 @@ class SupRouter extends React.Component {
                                 
                                             <Switch>
                                                 <Route path="/dashboard" exact component={Dashboard}/>
+                                               
                                                 <Route path="/rooms" exact component={Rooms} />
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />

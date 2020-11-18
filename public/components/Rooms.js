@@ -19,7 +19,7 @@ import CustomModal from './CustomModal'
 import ConfirmModal from './ConfirmModal'
 import {addRoomPost} from '../services/api'
 import {setRoomsAction} from '../actions'
-import {addDevicePost, deleteRoomPost, editRoomPost} from '../services/api'
+import {addDevicePost, deleteRoomPost, editRoomPost,editSecurePost} from '../services/api'
 
 
 //------------------------------------------------------------//
@@ -89,7 +89,7 @@ const roomElement = props.rooms.map(room => {
   return (
     
     <div key={room.id} className="col-sm-12 col-md-6 col-xl-4">
-      <div className="card ">
+      <div  className={`card lock ${room.secure === 0  ? "" : "active"}`} data-unit="switch-house-lock">
         <div className="card-body">
           <div className="row">
             <div className="col-auto mr-auto">
@@ -136,7 +136,16 @@ const roomElement = props.rooms.map(room => {
               </Button>
               &nbsp;&nbsp;</div>
             <div className="col-auto">
-
+            <Button
+                type="button"
+                className="btn btn-primary"
+                data-toggle="tooltip"
+                data-placement="left"
+                title="Set Security"
+                onClick={(e)=>{setSecurityModaltoggle(e,room.id)}}
+                id={'switch-house-lock-' + room.id} >
+                <img src={`${room.secure === 0 ?"../images/lock.png":"../images/open-padlock.png"}`} style={{width:"20px",height:"20px"}} ></img>
+              </Button>
               <Button
                 type="button"
                 className="btn btn-primary"
@@ -464,7 +473,25 @@ const onAddRoomClick = e => {
 
   //=====================================================//
 
-
+  const setSecurityModaltoggle = (e,roomId) => {
+  
+    e.preventDefault()
+          // setState({...state,isOpen:!state.isOpen})
+          const rooms = [...props.rooms]
+          let room = rooms.find(room => room.id == roomId)
+          room.secure= room.secure == 0 ? 1 : 0
+  
+    editSecurePost(roomId,room.secure).then(data => {
+      //console.log(data);
+      rooms[rooms.map(room => room.id).indexOf(roomId)] = room
+      props.setRoomsAction(rooms)
+      setState({...state, securityAlarm : !state.securityAlarm})
+  
+    }).catch(error => {
+      console.log(error);
+    })
+    
+  }
   //================================================//
 
 
@@ -651,7 +678,7 @@ const onEditRoomClick = (e) => {
                   className="form-control custom-focus"
                   type="text"
                   id="device_name"
-                  maxLength="10"
+                  maxLength="12"
                   onChange={e => {
                   setState({
                     ...state,

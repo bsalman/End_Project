@@ -32,8 +32,7 @@ const deviceName=params.deviceName
       show: false,
       title: '',
       content: null
-    },
-    
+    },    
     showdownTime:"",
     ternOnTim:"",
     classChecked:"",
@@ -53,7 +52,7 @@ const deviceName=params.deviceName
 //==============================================//
 
 if(props.rooms.length>0){
-  console.log("hi",props.rooms);
+ 
   room.id=roomId
   const rooms=props.rooms
   const selectedRoom = rooms.find(room=>room.id==roomId)
@@ -269,7 +268,7 @@ if(props.rooms.length>0){
                 </FormGroup>
                 <div className="row ">
                 <div className="col">
-                  {/* <Link to={"/room/" + room.roomType.replace(/ /g, '_') + "/" + params.roomId}> */}
+                  {/* <Link to={"/room/" + room.type.replace(/ /g, '_') + "/" + params.roomId}> */}
                   <Link to={"/room/"+room.type +"/"+ params.roomId}>
                       <Button
                         type="button "

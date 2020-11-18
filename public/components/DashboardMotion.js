@@ -13,7 +13,7 @@ const DashboardMotion = (props)=>{
                  {/* issue with the size of the motion picture states 32/52 if its outside of the header */}
                
                     <h5><img src="/images/wave.png"></img> {room.type}</h5>
-                    <h6 className="ml-auto status">No motion</h6>
+                    <h6 className=" mt-2 ml-auto status">No motion</h6>
                 </div>
             </div>
         )

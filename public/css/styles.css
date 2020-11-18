@@ -173,61 +173,12 @@ input[type=text]:disabled {background:#000000;}
     .houseContainer{
       position: relative;
        
-        height:90vh;
-        width: 100%;
+        height:90%;
+        width: 85%;
         border-radius:50%; 
         animation:2s pulse  infinite;  
         border: 3px solid  rgba(92, 176, 233, 0.911); 
     }
-    
-    /* .sp1{
-      left: 11.5%;
-      top:28%;
-      transform: rotate(40deg);
-      width:31% ;
-    }
-    .sp2{
-      right:11.5%;
-      top:28%;
-      transform: rotate(140deg);
-      width:30% ;
-    }
-    .sp3{
-      right:15%;
-      top:50%;
-      transform: rotate(180deg);
-      width:22% ;
-    }
-    .sp4{
-      left:15%;
-      top:50%;
-      transform: rotate(0deg);
-      width:22% ;
-    }
-    .sp5{
-      right:11.5%;
-      bottom:28%;
-      transform: rotate(214deg);
-      width:30% ;
-    }
-    .sp6{
-      left:11.5%;
-      bottom:28%;
-      transform: rotate(325deg);
-      width:30% ;
-    }
-    .sp7{
-      left:45.5%;
-      top:24%;
-      transform: rotate(90deg);
-      width:10% ;
-    }
-    .sp8{
-      left:45.5%;
-      bottom:24%;
-      transform: rotate(270deg);
-      width:10% ;
-    } */
      .iconCon{
       animation:2s pulse2  infinite; 
       border: 3px solid  rgba(92, 176, 233, 0.911);
@@ -250,9 +201,9 @@ border-radius: 50%;
 }
     .laptop{
       position: absolute; 
-      top:20%;
-      left:19%;
-      font-size: 500%;
+      top:15%;
+      left:15%;
+      font-size: 450%;
     }
     .tempIcon{
       position: absolute;
@@ -306,6 +257,7 @@ border-radius: 50%;
       left:10px;
     }
     .tempIcon>i{
+      
       top:10px;
       left:18px;
     }
@@ -336,6 +288,37 @@ border-radius: 50%;
       top:10px;
       left:10px;
     }
+    /*=======================footer style============================*/
+    .footerStyle{
+      background-color:rgba(10, 26, 56, 0.795);
+    }
+    .footerStyle:nth-child(2){
+      padding-top: 30px;
+
+    }
+    
+    .address>h4,.timing>h4,.navigation>h4{
+      color: rgb(63, 108, 192);
+    }
+
+    
+    .navigation>ul{
+      list-style-type: none;
+      margin-left:-37px;
+    }
+  
+  /*=========================================*/
+  .ProgressCon{
+    height: 3px;
+    width: 100%;
+    background-color:rgba(197, 204, 216, 0.795) ;
+  }
+  .progressBar{background-color: rgb(63, 108, 192) ;
+  height: 3px;
+  
+  z-index:1;
+}
+  
       /* ============pulse animation 2========== */
       @keyFrames pulse {
         0% {

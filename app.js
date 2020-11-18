@@ -295,6 +295,22 @@ app.post('/editselected',(req,res)=>{
         })
     }
 })
+//==============================================================//
+app.post('/updatetimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.updateTimeMotion(req.body.id, req.body.startTime,req.body.stopTime,req.body.motionId,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
 //===============================================//
 app.post('/addtimemotion', (req, res) => {
     console.log(req.body);
@@ -311,6 +327,74 @@ app.post('/addtimemotion', (req, res) => {
     
 
 });
+//==============================================================//
+app.post('/deletetimemotion', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.deleteTimeMotion(req.body.id).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//==============================================================//
+app.post('/getmotiondevices', (req, res) => {
+    //console.log(req.body);
+    dataModule.getAllMotionRelatedDevices(req.body.deviceId).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+//==============================================================//
+app.post('/changeMotionDeviceStatus', (req, res) => {
+    //console.log(req.body);
+    dataModule.changeMotionDeviceStatus(req.body.relationId).then((device) => {
+        res.json(device)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+//==============================================================//
+app.post('/reversmotiondevices', (req, res) => {
+    //console.log(req.body);
+    dataModule.reversMotionDevices(req.body.id, req.body.status).then((devices) => {
+        res.json(devices)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
+
+//=========================================//
+app.post('/editsecure' , (req, res) => {
+    console.log(req.body);
+    dataModule.editSecure(req.body.roomId, req.body.secure).then((room) => {
+        res.json(room)
+
+    }).catch(error => {
+        res.json(error)
+    })
+})
+//==========================================//
+app.post('/getsecure',(req,res)=>{
+    
+    dataModule.getSecureAllHouse().then((data)=>{
+       
+        res.json(data)
+    }).catch(error=>{
+       
+        res.json(2)
+    })
+})
 //===================================================//
 app.post('/secureAllHouse',(req,res)=>{
     
@@ -322,6 +406,65 @@ app.post('/secureAllHouse',(req,res)=>{
         res.json(2)
     })
 })
+//====================================//
+app.post('/addtimeDevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.addTimeDevice(req.body.startTime,req.body.stopTime,req.body.deviceId,req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//=============================================//
+app.post('/updatetimedevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.updateTimeDevice(req.body.id, req.body.startTime,req.body.stopTime,req.body.deviceId, req.body.active).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+//============================================//
+app.post('/deletetimedevice', (req, res) => {
+    console.log(req.body);
+    // res.json(req.body)
+    dataModule.deleteTimeMotion(req.body.id).then(data => {
+        res.json(data)
+    }).catch(error => {
+        if (error === 3) {
+            res.json(3)
+        } else {
+            res.json(4)
+        }
+    })
+    
+
+});
+
+//=================================//
+app.post('/changeDeviceStatus', (req, res) => {
+    //console.log(req.body);
+    dataModule.changeDeviceStatus(req.body.relationId).then((device) => {
+        res.json(device)
+
+    }).catch(error => {
+        res.json(error)
+    })
+});
 
 //=============================================================//
 app.use('/', (req, res, next) => {
