@@ -1,7 +1,3 @@
-
-//import * as constants from '../reducers/constants';
-
-
 export const setUserAction = (user) => {
     return{
         type: 'CHANGE_USER',
@@ -13,20 +9,16 @@ export const setLoggedInAction = (loggedin) => {
         type: 'CHANGE_LOGGEDIN',
         payload: loggedin
     }
-} 
+}
 
-// export const logoutUser = () =>{ 
-//     localStorage.removeItem('USER_INFO');
-//     return {
-//         type: constants.RESET.USER_INFO
-//     }
-
-// }
-
-export const setRoomsAction = (rooms) => {
+export const setRoomsAction = (rooms,socketData) => {
+    let payload = rooms
+    if(socketData){
+        payload = {rooms,socketData}
+    }
     return {
         type: 'SET_ROOMS',
-        payload: rooms
+        payload
         
     }
 }
@@ -35,6 +27,20 @@ export const setSocketAction = socket => {
     return {
         type: 'SET_SOCKET',
         payload: socket
+    }
+}
+
+export const toggleSideBar = check => {
+    return {
+        type: 'TOGGLE_NAVBAR',
+        payload: check
+    }
+}
+
+export const toggleSideBarSmallScreen = (check) => {
+    return {
+        type: 'TOGGLE_NAVBAR_SMALL',
+        payload: check
     }
 }
 

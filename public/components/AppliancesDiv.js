@@ -10,23 +10,21 @@ import {ListGroup, ListGroupItem,Button, Label, Input} from 'reactstrap';
 // importing the action
 import {setRoomsAction} from '../actions'
 
-// importing components
 import {deleteDevicePost, editDataPost} from '../services/api'
 import ConfirmModal from './ConfirmModal'
 import CustomModal from './CustomModal'
 
 
 //------------------------------------------------------------//
-///////////////     FUNCTIONAL COMPONENT       ////////////////
-//-----------------------------------------------------------//
-
+///////////////         CLASS COMPONENT       //////////////////
+//------------------------------------------------------------//
 const AppliancesDiv = (props) =>{
 
- const params = useParams()
+    const params = useParams()
   
- //===================== Set the initial state ======================//
+    //===================== Set the initial state ======================//
   
-    let initialState = {
+    let intialState = {
         //for the modal of errors
         errorModal: {
           show: false,
@@ -42,7 +40,7 @@ const AppliancesDiv = (props) =>{
         }
     }
   
-    const [state,setState] = useState(initialState)
+    const [state,setState] = useState(intialState)
   
 
     
@@ -53,7 +51,7 @@ const AppliancesDiv = (props) =>{
   }
 
 
-  //============================//
+     //============================//
   
      const turnOnOff=(e, deviceid, roomid)=> {
       e.preventDefault()
@@ -64,7 +62,7 @@ const AppliancesDiv = (props) =>{
      let device = room.devices.find(device => device.id == deviceid)
      device.data = device.data == 'on' ? 'off' : 'on'
 
- 
+
        editDataPost(deviceid,device.data).then(data1 => {
         
         
@@ -76,25 +74,25 @@ const AppliancesDiv = (props) =>{
  
  
    }
+   //=============================//
 
-  //=============================//
 
   //Check if rooms inside props are loading or not to use the redux method
   if(props.rooms.length > 0) {
     const AppliancesElement = props.AppliancesDevice.map(device =>{
       return(
         <div key={device.id} className="card active" data-unit="switch-light-1">
-    {/* Show the name of the device and switch*/}
+          {/* Show the name of the device */}
           <div className="card-body d-flex flex-row justify-content-start">
             <h5><img src={device.imgUrl}></img> {device.name}</h5>
             <Label className={`switch ml-auto ${device.data === 'on' ? 'checked' : '' }`} onClick={(e) => {turnOnOff(e, device.id, device.room_id)}} >
            <Input type="checkbox" id={'switch-light-' + device.id} defaultChecked={device.data === 'on' }/> 
             </Label>
           </div>
-          {/* <!-- name of the device and switch END --> */}
+          {/* <!-- Light switch END --> */}
 
           <hr className="my-0" />
-   {/* <!-- SerialNr details START --> */}
+          {/* <!-- Bulb details START --> */}
             &nbsp;&nbsp;&nbsp;
           <ListGroup className="list-group borderless px-1">
             <ListGroupItem className="list-group-item pt-0 pb-4">
@@ -102,9 +100,8 @@ const AppliancesDiv = (props) =>{
               <p className="ml-auto mb-0">{device.number}</p>
              </ListGroupItem>
           </ListGroup>
-    {/* <!-- SerialNr details END --> */}
+            {/* <!-- Bulb details END --> */}
 
-    {/* <!-- Appliance edit button  START --> */}
           <hr className="my-0"/>
           <div className="card-body">
             <div className="row">
@@ -115,14 +112,12 @@ const AppliancesDiv = (props) =>{
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="left"
-                  title="Edit Room">
+                  title="Edit Device">
                     <i className="fas fa-tools"></i>
                   </Button>
                 </Link>
               &nbsp;&nbsp;</div>
-    {/* <!-- Appliance edit button END --> */} 
 
-    {/* <!-- Appliance delete button START --> */}
               <div className="col-auto">
               &nbsp;&nbsp;
                 <Button
@@ -130,12 +125,10 @@ const AppliancesDiv = (props) =>{
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="right"
-                  title="Delete Room"
+                  title="Delete Device"
                   onClick={()=>{deleteBtnClick(device.id)}}>
                     <i className="far fa-trash-alt"></i>
                 </Button>
-
-   {/* <!-- Appliance delete button END--> */}
               </div>
             </div>
           </div>
@@ -143,7 +136,6 @@ const AppliancesDiv = (props) =>{
 
       )
     })
-    // get the appliance element
     AppliancesInfo.AppliancesArr = AppliancesElement
    
   }
@@ -166,8 +158,8 @@ const AppliancesDiv = (props) =>{
         let badgeMessage = ''
         let badgeTitle = ''
         //data success
-        //2 this device id doesn't exist
-        //3 no devices
+        //2 this device id doesnt exist
+        //3 kein devices
         //4 server error
         switch (data) {
           case 10:
@@ -176,19 +168,19 @@ const AppliancesDiv = (props) =>{
 
           case 3:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'Can not find a device with this id, please contact the administrator'
+            badgeMessage = 'Can not find a device with this id, contact the administrator'
             badgeTitle = 'Device not found'
           break;
 
           case 2:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'There are no devices for this room, please add some'
+            badgeMessage = 'There is no devices for this room, please add some'
             badgeTitle = 'Server side error'
           break;
 
           case 4:
             badgeClass = 'alert alert-danger'
-            badgeMessage = 'There was a server side error, please contact the administrator'
+            badgeMessage = 'There was a server side error, please contact the adminstrator'
             badgeTitle = 'Server side error'
           break;
           
@@ -224,7 +216,7 @@ const AppliancesDiv = (props) =>{
       }).catch((error) => {
         const badge = (
           <div className="alert alert-danger" role="alert">
-            Can not send the registration data to the server
+            Can not send the registration data to server
           </div>
         )
         const newState = {...state}
@@ -266,15 +258,15 @@ const AppliancesDiv = (props) =>{
 
       <ConfirmModal
         className="bg-danger"
-        show = {state.confirmModal.confirmModalShow}
-        close = {closeConfirmModal}
-        title = "Confirm Delete"
-        payload = {state.confirmModal.confirmModalPayLoad}
-        onConfirm = {deleteConfirm}>
+        show={state.confirmModal.confirmModalShow}
+        close={closeConfirmModal}
+        title="Confirm Delete"
+        payload={state.confirmModal.confirmModalPayLoad}
+        onConfirm={deleteConfirm}>
         {state.confirmModal.confirmModalElement}
       </ConfirmModal>
 
-      {/*  <!-- APPLIANCES DEV COMPONENT CALL START --> */}     
+      {/*  <!-- APPLIANCES DEV COMPONENT CALL  START --> */}     
       <div className="col-12">
         {/* <!-- Appliances unit START --> */}
         {AppliancesInfo.AppliancesArr }
@@ -291,4 +283,4 @@ const setStateToProps = (state) => {
   })
 }
 
-export default connect(setStateToProps,{setRoomsAction})(AppliancesDiv)
+export default connect(setStateToProps, {setRoomsAction})(AppliancesDiv)

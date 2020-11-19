@@ -1,6 +1,3 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     //////////////////
-//------------------------------------------------------------//
 import React from 'react'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -26,12 +23,16 @@ class AccountSettings extends React.Component {
     oldPassword: '',
     errorComponent: null,
     showErrorModal: false,
-    resultElement: null
+    resultElement: null,
+    alert: '',
+    alertColor: 'text-danger',
+    showSpan : false
   }
  
   onRegisterBtnClick = (e) => {
+    //console.log('strong',this.state.alert);
     e.preventDefault()
-    if (this.state.name.trim() === '' || this.state.oldPassword.trim() === '' || this.state.password === '' || this.state.password !== this.state.repassword) {
+    if (this.state.name.trim() === '' || this.state.oldPassword.trim() === '' || (this.state.password === '' || this.state.alert === 'weak password') || this.state.password !== this.state.repassword) {
       const errorsElement = (
 
         <ul>
@@ -47,6 +48,9 @@ class AccountSettings extends React.Component {
             : null}
           {this.state.password === ''
             ? <div>Please enter your new Password into the input box</div>
+            : null}
+          {this.state.alert === 'weak password'
+            ? <div>Your password is too weak... Please enter a strong one into the input box</div>
             : null}
           {this.state.password !== this.state.repassword
             ? <div>Your Password is not matching the Confirmed one</div>
@@ -67,7 +71,7 @@ class AccountSettings extends React.Component {
           case 1:
             // badgeClass = 'alert alert-success'
             // badgeMessage = 'The changes are done successfully, you can login again now'
-            this.props.history.push('/rooms')
+            this.props.history.push('/dashboard')
             break;
           case 2:
           case 4:
@@ -95,7 +99,7 @@ class AccountSettings extends React.Component {
 
 
       }).catch(error => {
-          console.log(error);
+         // console.log(error);
         const badge = (
           <div className="alert alert-danger" role="alert">
               Can not send the registration data to the server
@@ -116,6 +120,34 @@ class AccountSettings extends React.Component {
     this.setState({showErrorModal: false})
   }
 
+  analyze = (e) =>{
+    //this.setState({password: e.target.value})
+    const mediumRegex = new RegExp("^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,9}$");
+    const strongRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,15})");
+    
+    if(strongRegex.test(e.target.value)) {
+        this.setState({ alert: "strong password" ,
+        alertColor: "text-success",
+                        password: e.target.value,
+                        showSpan:true
+        });
+        //console.log('strong');
+    } else if(mediumRegex.test(e.target.value)) {
+      this.setState({ alert: "medium password" ,
+      alertColor: "text-warning",
+                      password: e.target.value,
+                      showSpan:true
+      });
+      //console.log('medium');
+    } else {
+      this.setState({ alert: "weak password" ,
+                      alertColor: "text-danger",
+                      password: e.target.value,
+                      showSpan:true
+      });
+      //console.log('weak');
+    }
+}
   
   render() {
     //   console.log('the props is:',this.props);
@@ -186,10 +218,10 @@ class AccountSettings extends React.Component {
                                   className="form-control custom-focus"
                                   type="password"
                                   value={this.state.password}
-                                  onChange={(e) => {
-                                   this.setState({password: e.target.value})
-                                   }}
-                                  id="user-password"/>
+                                  onChange={this.analyze}
+                                  id="user-password"
+                                  title="8 characters minimum"/>
+                                  <span className={this.state.showSpan ?  this.state.alertColor : ''} style={{ display: this.state.showSpan ?  'block' : 'none' }} >{this.state.alert}</span>
                               </div>
                             </div>
                             <div className="form-group row has-success">

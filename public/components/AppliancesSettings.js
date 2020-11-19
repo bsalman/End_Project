@@ -1,6 +1,3 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     //////////////////
-//------------------------------------------------------------//
 import React, {useEffect, useState} from 'react'
 import {Link,useParams} from 'react-router-dom'
 import {
@@ -10,28 +7,21 @@ import {
   FormGroup,
   Label,
   Input,
-  ListGroup,
-  ListGroupItem
+  ListGroup
 } from 'reactstrap';
 //==============================================//
 import {connect} from 'react-redux'
 // importing the action
 import {setRoomsAction} from '../actions'
 //==============================================//
-// importing components
 import CustomModal from './CustomModal'
 import TimeNow from './TimeNow'
+import {editDevicePost, getDeviceRelatedDevicesPost, reversTimeDevicesPost} from '../services/api'
+
 import AppliancesDeviceSettings from './TimeDeviceSettings'
 
-import {editDevicePost, getDeviceRelatedDevicesPost} from '../services/api'
-
-//------------------------------------------------------------//
-///////////////     FUNCTIONAL COMPONENT       ////////////////
-//-----------------------------------------------------------//
-
-
+//==============functionalComponent start==============================//
 const AppliancesSetting = (props) => {
-
   const params = useParams()
   const deviceCategory=params.deviceCategory;
   const deviceId=params.id
@@ -39,14 +29,14 @@ const AppliancesSetting = (props) => {
   const roomId =params.roomId
   
 
- useEffect(() => {
+  useEffect(() => {
     getDeviceRelatedDevicesPost(params.id).then(relatedDevices => {
       // motionDevices : [
       //   {startTime: '',
       //   stopTime: '',
       //   selectedDevice: null,}],
-     // console.log(relatedDevices);
-     let checkChecked = true
+      // console.log(relatedDevices);
+      let checkChecked = true
       const applianceDevices = relatedDevices.map((device) => {
         if(device.active != 1)
           checkChecked = false
@@ -62,18 +52,17 @@ const AppliancesSetting = (props) => {
         
         
       })
-      applianceDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          id: null,
-          active: 1
-        }
-      )
+      // applianceDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, applianceDevices: applianceDevices, checked: checkChecked })
     })
-
   }, [])
 
 
@@ -83,7 +72,7 @@ const AppliancesSetting = (props) => {
       title: '',
       content: null
     },
-    //time on/off
+            //time on/off
     applianceDevices: [
     ],
     showdownTime:"",
@@ -120,7 +109,7 @@ const AppliancesSetting = (props) => {
   }
 
  //============================================//
-  const turnOnOff=(e,deviceId,roomId)=> {
+const turnOnOff=(e,deviceId,roomId)=> {
   e.preventDefault()
   setState({...state,
     checked: !state.checked})
@@ -135,16 +124,16 @@ const AppliancesSetting = (props) => {
     })
 }
 
-  const applianceDevicesElement = state.applianceDevices.map((device,idx) => {
+const applianceDevicesElement = state.applianceDevices.map((device,idx) => {
   return (
     <AppliancesDeviceSettings deviceId={params.id} key={idx} device={device}/>
   )
-  })
+})
 
   //add new time on + btn click function
   const addNewTimeBoxBtn = (e) => {
-
     e.preventDefault()
+    //// big NOOOOOOOOOOOOOO
     //state.motionDevices.forEach(Element=>{
     const newApplianceDevices = state.applianceDevices
     newApplianceDevices.push({
@@ -156,18 +145,50 @@ const AppliancesSetting = (props) => {
     setState({ ...state, applianceDevices: newApplianceDevices })
     //})
 
+
     // console.log('hi');
+
     // console.log('state,motionDevices', state.motionDevices);
   }
 
-  //============== edit serial number function  ========================//
+  const reversTimeDevices = (e) => {
+    e.preventDefault()
+    // console.log('click');
+    reversTimeDevicesPost(params.id, e.target.checked ? 1 : 0).then(relatedDevices => {
+      const applianceDevices = relatedDevices.map(device => {
+      
+        return (
+          {
+            startTime: device.start_time,
+            stopTime: device.stop_time,
+            selectedDevice: device.device_id,
+            id: device.id,
+            active: device.active
+          })
+      })
+      // motionDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     selectedDevice: null,
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
+      setState({ ...state, applianceDevices: applianceDevices, checked: !state.checked })
+    })
+    
+  }
+
+
+  //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
     if (state.serialNumber.trim() === '') {
       const errorsElement = (
         <ListGroup>
-          {state.serialNumber.trim() === ''? <div>Serial Number is empty</div>: null}
+          {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
         </ListGroup>
       )
       const newState = {...state}
@@ -179,15 +200,12 @@ const AppliancesSetting = (props) => {
       newState.roomModalShow = false
       setState(newState)
     }else{
-    
-    editDevicePost(deviceId, state.serialNumber).then((device)=>{
+      editDevicePost(deviceId,state.serialNumber).then((device)=>{
        
-      //const devices = props.rooms.find(room => room.id == device.room_id)
-      props.rooms.find(room => room.id == device.room_id)
+         //const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-      
-            console.log("dev",device);
+
           const errorsElement = (
             <ListGroup>
               <div>Your Serial Number has been changed successfully</div>
@@ -197,11 +215,9 @@ const AppliancesSetting = (props) => {
           newState.errorModal.show = true
           newState.errorModal.title = "Data Change"
           newState.errorModal.content = errorsElement
-          
-          
           newState.roomModalShow = false
           setState(newState)
-              //  console.log("device", device);
+          
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -246,7 +262,7 @@ const AppliancesSetting = (props) => {
         <div className="col-sm-12">
           <div className="card p-2 mb-4">
             <div className="card-body d-flex flex-row justify-content-center">
-        <h3 className="card-title">{room.roomType}/{deviceCategory}/{deviceName}</h3>
+  <h3 className="card-title">{room.roomType}/{deviceCategory}/{deviceName}</h3>
             </div>
           </div>
         </div>
@@ -255,23 +271,23 @@ const AppliancesSetting = (props) => {
       <div className="col-sm-12">
         <div className="card active">
           <div className="card-body">
-      <div><h3 className="card-title text-center"><TimeNow/></h3></div>
+          <div><h3 className="card-title text-center"><TimeNow/></h3></div>
           </div>
           <hr className="my-0"/>
-          <ListGroup className="list-group borderless">
-            <ListGroupItem className="list-group-item align-items-center">
+          <ul className="list-group borderless">
+            <li className="list-group-item align-items-center">
             <img src="/images/timer.png"></img>
               &nbsp;
-              <h5 className="card-title">{deviceName}: Set Time to ternOn </h5>
+              <h5 className="card-title"> Set Time to turn on : {deviceName}</h5>
               <div className="d-flex ml-auto align-items-center ">
-              <Label className={`switch ml-auto ${device.data=="on" ? 'checked' : '' }`} onClick={(e)=>{turnOnOff(e,deviceId,roomId)}}>
-							<Input type="checkbox" id={deviceId} />
+              <Label className={`switch ml-auto ${state.checked==true ? 'checked' : '' }`}>
+							<input type="checkbox" id={deviceId}   onChange={reversTimeDevices} checked={state.checked} />
               </Label>
             &nbsp;
                 
               </div>
-            </ListGroupItem>
-          </ListGroup>
+            </li>
+          </ul>
 
           <hr className="my-0"/>
           &nbsp;
@@ -283,7 +299,7 @@ const AppliancesSetting = (props) => {
             className="btn btn-primary"
             data-toggle="tooltip"
             data-placement="right"
-            title="Add Devices"
+            title="Set Timer"
             onClick={addNewTimeBoxBtn}>
             <i className="fas fa-plus"></i>
           </Button>
@@ -293,7 +309,7 @@ const AppliancesSetting = (props) => {
             <div className="col justify-content-center ">
               <h5 className="specs text-center">From</h5>
             </div>
-            <div className="col justify-content-center">
+            <div className="col justify-content-center ">
               <Input
                 className="ml-auto mb-0 text-primary text-center"
                 type="time"
@@ -340,7 +356,7 @@ const AppliancesSetting = (props) => {
                       id="serialNumber"
                       placeholder="insert new Serial Number"
                       value={state.serialNumber}
-                     onChange={(e)=>{setState({...state, serialNumber: e.target.value})}}/>
+                     onChange={(e)=>{setState({...state,serialNumber: e.target.value})}}/>
                   </Col>
                   <Button onClick={editSerialNumberOnClick}>Save</Button>
                 </FormGroup>
@@ -364,13 +380,13 @@ const AppliancesSetting = (props) => {
             </div>
           </div>
         </div>
-        {/* <!-- Living room temperature END --> */}
+        {/* <!-- Living room temperature  END --> */}
       </div>
       </div>
     </React.Fragment>
   )
 
- 
+  // }) // from room Element map
 }
 
 const setStateToProps = (state) => {
@@ -379,4 +395,4 @@ const setStateToProps = (state) => {
   })
 }
 export default connect(setStateToProps, {setRoomsAction})(AppliancesSetting)
-
+//export default SingleRoomOv

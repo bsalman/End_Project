@@ -1,36 +1,26 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     /////////////////
-//-----------------------------------------------------------//
 import React,{ useState } from 'react'
 import {connect} from 'react-redux'
-import {Label, Input, Button} from 'reactstrap';
-// import the action
+import {Label, Input} from 'reactstrap';
+
 import {setRoomsAction} from '../actions'
 
 import {editDataPost,editSelected} from '../services/api';
 
-//------------------------------------------------------------//
-///////////////    FUNCTIONAL COMPONENT       ////////////////
-//-----------------------------------------------------------//
 
 const DashboardLights = (props)=>{
-
-//====== Set initial State ========//
- const initialStat={
-
-    isOpen:false  
- }
-
- const [state, setState] = useState(initialStat);
+//=======================================================//
+const initialStat={
+    isOpen:false
+    
+}
+    const [state, setState] = useState(initialStat);
 
     const toggle = (e,roomId) =>{
         e.preventDefault()
         // setState({...state,isOpen:!state.isOpen})
         const rooms = [...props.rooms]
         let room = rooms.find(room => room.id == roomId)
-
         room.selected= room.selected == 'on' ? 'off' : 'on'
-
         editSelected(roomId,room.selected).then(data=>{
             console.log('data',data);
             rooms[rooms.map(room => room.id).indexOf(roomId)] = room
@@ -47,9 +37,7 @@ const DashboardLights = (props)=>{
        let room = rooms.find(room => room.id == roomid)
        let device = room.devices.find(device => device.id == deviceid)
        device.data = device.data == 'on' ? 'off' : 'on'
-
        editDataPost(deviceid,device.data).then(data1 => {
-        
         room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
         rooms[rooms.map(room => room.id).indexOf(roomid)] = room
         console.log('rooms after change', rooms);
@@ -60,9 +48,8 @@ const DashboardLights = (props)=>{
    
     }
  //===============================================//
-    const rooms2 = props.parameter
-
-    const LightElement = rooms2.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
+    const rooms2=props.parameter
+    const LightElement=rooms2.filter(room => room.devices.find(device => device.category ==='Light')).map((room)=>{
         const devices = room.devices.filter(device=>device.category ==='Light').map(device => {
             return(
                    <div key={device.id} className=" d-flex flex-row justify-content-start mb-3" >
@@ -77,20 +64,20 @@ const DashboardLights = (props)=>{
                  
         return(
            
-        <div key={room.id} className="card">
+        <div  key={room.id} className="card">
           <div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
                 
-                <img src="/images/light.png" style={{width:"32px",height:"32px"}}></img>
+                <img src="../images/light.png" style={{width:"32px",height:"32px"}}></img>
                  <h5>{room.type}</h5>
-                 <Button className="btn btn-secondary ml-auto" onClick={(e)=>{toggle(e,room.id)}}
+                 <button className="btn btn-secondary  ml-auto" onClick={(e)=>{toggle(e,room.id)}}
                   data-toggle="tooltip"
                    data-placement="top" 
                    title="show all lights in this room"
                    id={room.id}>
                        <i className={`${room.selected=='off'?"far fa-eye":"far fa-eye-slash"}`}></i>
-                   </Button>
+                   </button>
                 </div>
-                <div className={`col ${room.selected=='off'?"d-none":"d-block"}`} >
+                <div  className={` col ${room.selected=='off'?"d-none":"d-block"}`} >
                 { devices}
                  </div>
            
@@ -104,20 +91,14 @@ const DashboardLights = (props)=>{
         return (
         <React.Fragment>
             <div className="col-sm-12 col-md-6 col-xl-4">
-                <div className="card text-center">
+                <div className="card">
                     <div className="card-body">
-                        <h4 className="card-title">Lights - Interior</h4>
+                        <h4 className="card-title">Lights - interior</h4>
                         <div className="overflow">
                         {LightElement}
                         </div>
                     </div>
                     <hr className="my-0"/>
-                    <div className="card-body">
-                        <div className="lights-controls" data-controls="switch-lights">
-                            <Button data-action="all-on" type="button" className="btn btn-primary lights-control">All <strong>ON</strong></Button>
-                            <Button data-action="all-off" type="button" className="btn btn-secondary lights-control">All <strong>OFF</strong></Button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </React.Fragment>

@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 
 
-import { addTimeDevicePost, updateTimeDevicePost, deleteTimeDevicePost } from '../services/api'
+import { addTimeDevicePost, updateTimeDevicePost, deleteTimeDevicePost, changeTimeDeviceStatus } from '../services/api'
 
 const TimeDeviceSetting = ({deviceId,device}) => {
   useEffect(() => {
@@ -21,20 +21,21 @@ const TimeDeviceSetting = ({deviceId,device}) => {
     startTime: '',
     stopTime: '',
     id: null,
-    deleted: false
+    deleted: false,
+    active: false
   }
 
 
   const saveRef = useRef()
   const [state, setState] = useState(initialState)
-//   const setMotionDeviceStatus = (relationId) => {
-//     changeMotionDeviceStatus(relationId).then(data => {
-//       setState({ ...state, active: (state.active ? 0 : 1) })
+  const setTimeDeviceStatus = () => {
+    changeTimeDeviceStatus(state.id).then(data => {
+      setState({ ...state, active: (state.active ? 0 : 1) })
 
-//     })
-//   }
+    })
+  }
   const onClickSaveBtn = () => {
-    console.log(state.id);
+    //console.log(state.id);
     if (state.id === null) {
         addTimeDevicePost(state.startTime, state.stopTime, deviceId, 1).then(data => {
           //console.log(data);
@@ -69,15 +70,17 @@ const TimeDeviceSetting = ({deviceId,device}) => {
 
   if (!state.deleted) {
     return (
-      <FormGroup className="row" >
+      <FormGroup className=" card row m-2" >
         {/* //from to with + button */}
-        <div className="row col-xl-12 col-sm-12">
-            <div className="col-2">
+        <div className="row col-xl-12 col-md-12 col-sm-12 mb-3">
+
+          {/* //from  */}
+            <div className="col-xl-2 col-md-2 col-sm-6 mt-4">
               <h5 className="specs text-center">From</h5>
             </div>
-            <div className="col-3 ">
+            <div className="col-xl-3 col-md-3 col-sm-6 mt-4">
             <Input
-              className="ml-auto mb-0 text-primary text-center"
+              className="text-primary text-center"
               type="time"
               id="device_seralNum"
               onChange={e => {
@@ -88,10 +91,10 @@ const TimeDeviceSetting = ({deviceId,device}) => {
           </div>
 
           {/* //to */}
-          <div className="col-1">
+            <div className="col-xl-1 col-md-1 col-sm-6 mt-4">
               <h5 className="specs text-center">To</h5>
             </div>
-            <div className="col-3">
+            <div className="col-xl-3 col-md-3 col-sm-6 mt-4">
             <Input
               className="ml-auto mb-0 text-primary text-center"
               type="time"
@@ -129,10 +132,10 @@ const TimeDeviceSetting = ({deviceId,device}) => {
 
 
           {/* button part */}
-          <div className="row col-xl-3 col-sm-12">
+          <div className="row col-xl-3 col-md-3 col-sm-9 mt-4 col-9 mx-auto">
 
               {/* button for save */}
-            <div className="col-xl-4 col-sm-4">
+            <div className="col-xl-4 col-md-4 col-sm-4 col-4">
               <button
                 ref={saveRef}
                 className="btn btn-sm btn-primary d-none"
@@ -145,7 +148,7 @@ const TimeDeviceSetting = ({deviceId,device}) => {
             </div>
             
             {/* button for delete */}
-            <div className="col-xl-4 col-sm-4">
+            <div className="col-xl-4 col-md-4 col-sm-4 col-4 pl-2">
               <button
                 className="btn btn-sm btn-danger"
                 data-toggle="tooltip"
@@ -158,9 +161,9 @@ const TimeDeviceSetting = ({deviceId,device}) => {
             </div>
             
             {/* button for activate the light device */}
-            <div className="col-xl-4 col-sm-4 ml-auto">
+            <div className="col-xl-4 col-md-4 col-sm-4 col-4">
               <Label className={`switch ml-auto ${state.active ? 'checked' : ''}`} >
-                <Input type="checkbox" />
+                <Input type="checkbox"  onChange={setTimeDeviceStatus}/>
               </Label>
             </div>
           

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-
+import {connect} from 'react-redux'
 
 import SideNav from './SideNav'
 import TopNav from './TopNav'
@@ -31,7 +31,7 @@ const Wrapper = (props) => {
                        
 
                         <div className="wrapper-offcanvas">
-                            <div className="row-offcanvas row-offcanvas-left">
+                            <div className={ props.smallScreenCheck ? "row-offcanvas row-offcanvas-left active" : "row-offcanvas row-offcanvas-left"}>
                                 <SideNav/>
                                      <div id="main">
                                         <div className="container-fluid"> 
@@ -46,5 +46,9 @@ const Wrapper = (props) => {
                     </div>
     )
 }
-
-export default Wrapper
+const mapStateToProps = (state) => {
+    return({
+      smallScreenCheck: state.smallScreenCheck, 
+    })
+  }
+export default connect(mapStateToProps)(Wrapper)

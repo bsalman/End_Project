@@ -1,7 +1,3 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     //////////////////
-//------------------------------------------------------------//
-
 import React, { Fragment, useEffect, useState, useRef } from 'react'
 // import {connect} from 'react-redux' import {useParams, useHistory} from
 // 'react-router-dom'
@@ -17,19 +13,16 @@ import {
   Col
 } from 'reactstrap';
 import { connect } from 'react-redux'
-import { useParams } from 'react-router-dom';
+
+// importing the components
 // importing the action
 import { setRoomsAction } from '../actions'
-// importing the components
-
+import { useParams } from 'react-router-dom';
 import CustomModal from './CustomModal'
 import MotionDeviceSetting from './MotionDeviceSetting'
 import { editDevicePost, getMotionRelatedDevicesPost, reversMotionDevicesPost } from '../services/api'
 
 
-//------------------------------------------------------------//
-///////////////        FUNCTIONAL COMPONENT       //////////////
-//------------------------------------------------------------//
 
 const MotionSettings = (props) => {
 
@@ -53,15 +46,15 @@ const MotionSettings = (props) => {
             active: device.active
           })
       })
-      motionDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          selectedDevice: null,
-          id: null,
-          active: 1
-        }
-      )
+      // motionDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     selectedDevice: null,
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, motionDevices: motionDevices, checked: checkChecked })
     })
@@ -134,7 +127,7 @@ const MotionSettings = (props) => {
   //add new time on + btn click function
   const addNewTimeBoxBtn = (e) => {
     e.preventDefault()
-
+    //// big NOOOOOOOOOOOOOO
     //state.motionDevices.forEach(Element=>{
     const newMotionDevices = state.motionDevices
     newMotionDevices.push({
@@ -168,15 +161,15 @@ const MotionSettings = (props) => {
             active: device.active
           })
       })
-      motionDevices.push(
-        {
-          startTime: '',
-          stopTime: '',
-          selectedDevice: null,
-          id: null,
-          active: 1
-        }
-      )
+      // motionDevices.push(
+      //   {
+      //     startTime: '',
+      //     stopTime: '',
+      //     selectedDevice: null,
+      //     id: null,
+      //     active: 1
+      //   }
+      // )
 
       setState({ ...state, motionDevices: motionDevices, checked: !state.checked })
     })
@@ -184,64 +177,59 @@ const MotionSettings = (props) => {
   }
 
   //============== edit serial number function  ========================//
+  const editSerialNumberOnClick = (e) => {
+    e.preventDefault()
 
-    const editDataOnClick =(e)=>{
-   
-      if (state.serialNumber.trim() === '') {
-        const errorsElement = (
-          <ListGroup>
-            {state.serialNumber.trim() === ''? <div>Serial Number is empty</div>: null}
-          </ListGroup>
-        )
-        const newState = {...state}
-        newState.errorModal.show = true
-        newState.errorModal.title = "Error with your Entries"
-        newState.errorModal.content = errorsElement
-   
-        newState.roomModalShow = false
-        setState(newState)
-      }else{
-      
-      editDevicePost(deviceId, state.serialNumber).then((device)=>{
-         
+
+        if (state.serialNumber.trim() === '') {
+          const errorsElement = (
+            <ListGroup>
+              {state.serialNumber.trim() === ''? <div>Serial Number empty</div>: null}
+            </ListGroup>
+          )
+          const newState = {...state}
+          newState.errorModal.show = true
+          newState.errorModal.title = "Error with your Entries"
+          newState.errorModal.content = errorsElement
+          // hide addroom modal because we need to show error modal and we can not show
+          // two modals on the same time
+          newState.roomModalShow = false
+          setState(newState)
+  }else {
+      editDevicePost(params.id, state.serialNumber).then((device) => {
+
         //const devices = props.rooms.find(room => room.id == device.room_id)
-        props.rooms.find(room => room.id == device.room_id)
-         
-          if(device){
-        
-              console.log("dev",device);
-            const errorsElement = (
-              <ListGroup>
-                <div>Your Serial Number has been changed successfully</div>
-              </ListGroup>
-            )
-            const newState = {...state}
-            newState.errorModal.show = true
-            newState.errorModal.title = "Data Change"
-            newState.errorModal.content = errorsElement
-            
-            
-            newState.roomModalShow = false
-            setState(newState)
-                //  console.log("device", device);
-            const newRooms = props.rooms.map(room => {
-              if(room.id === device.room_id){
-                  room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
-                  // room.devices.push(device)
-              }
-              return room;
+
+        if (device) {
+          const errorsElement = (
+            <ListGroup>
+              <div>Your Serial Number has been changed successfully</div>
+            </ListGroup>
+          )
+          const newState = {...state}
+          newState.errorModal.show = true
+          newState.errorModal.title = "Data Change"
+          newState.errorModal.content = errorsElement
+          newState.roomModalShow = false
+          setState(newState)
+          // console.log("device", device);
+          const newRooms = props.rooms.map(room => {
+            if (room.id === device.room_id) {
+              room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
+              // room.devices.push(device)
+            }
+            return room;
           });
-            // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
+          // {id: 25, name: "3", number: "147", category: "Light", room_id: 91}
           props.setRoomsAction(newRooms)
-             setState(
-            {...state,serialNumber:""}
-          
-           )}
-          
-        })
-  
-      }
+          setState({ ...state, serialNumber: "" })
+
+        }
+
+      })
+
     }
+  }
   //==========================================//
   const errorModalClose = () => {
     const newState = {
@@ -310,7 +298,7 @@ const MotionSettings = (props) => {
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="right"
-                  title="Add Devices"
+                  title="Set Timer"
                   onClick={addNewTimeBoxBtn}>
                   <i className="fas fa-plus"></i>
                 </Button>
@@ -356,7 +344,7 @@ const MotionSettings = (props) => {
                     className="btn btn-primary"
                     data-toggle="tooltip"
                     data-placement="right"
-                    title="Go Back">
+                    title="Save changes">
                     BACK
                 </Button>
                 </Link>
@@ -370,8 +358,8 @@ const MotionSettings = (props) => {
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="right"
-                  title="Save Changes"
-                  onClick={editDataOnClick}>
+                  title="Save changes"
+                  onClick={editSerialNumberOnClick}>
                   SAVE
                 </Button>
 
@@ -380,7 +368,7 @@ const MotionSettings = (props) => {
             {/* <!-- button Save END --> */}
           </div>
         </div>
-        {/* <!--  END --> */}
+        {/* <!-- temp  END --> */}
 
       </div>
 
@@ -388,10 +376,12 @@ const MotionSettings = (props) => {
 
   )
 
-
+  // }) // from room Element map
 }
 
-
+// here we change our initial state to props to be able to send it to the main
+// state //! this is to get the state of redux and save it in the props of this
+// component
 const setStateToProps = (state) => {
   return ({
     // rooms: state.rooms
@@ -399,6 +389,8 @@ const setStateToProps = (state) => {
   })
 }
 
+// when you see props.room. ..... is touching the main state ( the redux state)
+// when you see this.state....  it is touching the initial state
 
 export default connect(setStateToProps, { setRoomsAction })(MotionSettings)
-
+//export default SingleRoomOv

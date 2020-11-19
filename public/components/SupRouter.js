@@ -18,44 +18,27 @@ import TempSettings from './TemperatureSettings'
 import MotionSettings from './MotionSettings'
 import LightSetting from './LightSettings'
 import AppliancesSetting from './AppliancesSettings'
-import AboutUsPage from './AboutUs'
+
 import AccountSettings from './AccountSettings'
-import CheckLogin from './CheckLogin'
-//test
-
-//import {setUserAction} from '../actions'
-
 
 class SupRouter extends React.Component {
-    // componentDidMount(){
-    //     loginPost().then(data => {
-    //         if(data != 10) {
-    //             this.props.setUserAction(data)
-    //         }
-    //     })
-    // }
-
     render() {
         return (
             
             <BrowserRouter>
                 <div>
                     <div id="wrapper">
-                        <TopNav /> 
-                  
-                       
-
+                        <TopNav/> 
                         <div className="wrapper-offcanvas">
-                            <div className="row-offcanvas row-offcanvas-left">
-                                <SideNav/>
-                                     <div id="main">
+                            <div className={ this.props.smallScreenCheck ? "row-offcanvas row-offcanvas-left active" : "row-offcanvas row-offcanvas-left"}>
+                                <SideNav />
+                                <div id="main">
                                         <div className="container-fluid"> 
                                 
                                             <Switch>
-                                                <Route path="/dashboard" exact component={Dashboard}/> 
-                                                {/* <Route path="/dashboard" exact component={()=> <CheckLogin><Dashboard /></CheckLogin>} />  */}
+                                            <Route path="/dashboard" exact component={Dashboard}/>
                                                 <Route path="/rooms" exact component={Rooms} />
-                                                <Route path="/aboutus" exact component={AboutUsPage} />
+                                                
                                                 {/* <Route path="/dashboard/allrooms" exact component={()=><YourRooms/>} /> */}
                                                 <Route path="/settings" exact component={Settings} />
                                                 <Route path="/accountSettings" exact component={AccountSettings}/>
@@ -81,7 +64,10 @@ class SupRouter extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return({
+        smallScreenCheck: state.smallScreenCheck
+    })
+}
 
-
-//export default connect(null, {setUserAction})(SupRouter)
- export default SupRouter
+export default connect(mapStateToProps,null)(SupRouter)

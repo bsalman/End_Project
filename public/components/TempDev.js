@@ -25,7 +25,7 @@ const Temperature = (props) => {
 
   //===================== Set the initial state ======================//
 
-  let initialState = {
+  let intialState = {
 
       //for the modal of errors
       errorModal: {
@@ -41,7 +41,7 @@ const Temperature = (props) => {
       }
   }
 
-  const [state,setState] = useState(initialState)
+  const [state,setState] = useState(intialState)
 
   //===================== Set the variable for redux(main State) ======================//
 
@@ -69,7 +69,7 @@ const Temperature = (props) => {
               
               <p className="specs">Status</p>
               &nbsp;&nbsp;&nbsp;
-              <p className="ml-auto mb-0 text-success">{device.connected ? 'Connected': 'Disconnected'}</p>
+              <p className="ml-auto mb-0 text-success">{device.connected? 'Connected': 'Disconnected'}</p>
               &nbsp;&nbsp;&nbsp;
             </ListGroupItem>       
             </ListGroup>
@@ -133,7 +133,7 @@ const Temperature = (props) => {
                       className="btn btn-primary"
                       data-toggle="tooltip"
                       data-placement="left"
-                      title="Edit Room">
+                      title="Edit Device">
                         <i className="fas fa-tools"></i>
                     </Button>
                   </Link>
@@ -148,7 +148,7 @@ const Temperature = (props) => {
                     className="btn btn-primary"
                     data-toggle="tooltip"
                     data-placement="right"
-                    title="Delete Room"
+                    title="Delete Device"
                     onClick={()=>{deleteBtnClick(device.id)}}>
                       <i className="far fa-trash-alt"></i>
                   </Button>
@@ -169,7 +169,7 @@ const Temperature = (props) => {
       const newState = {...state}
       newState.confirmModal.confirmModalShow= true,
       newState.confirmModal.confirmModalPayLoad= deviceId,
-      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device is going to be deleted forever</p>
+      newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device gonna be deleted for ever</p>
       setState(newState)
   }
 

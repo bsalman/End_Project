@@ -1,6 +1,3 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     /////////////////
-//-----------------------------------------------------------//
 import React from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {
@@ -10,12 +7,8 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink
+    NavLink,
   } from 'reactstrap';
-
-//-------------------------------------------------------//
-///////////////    CLASS COMPONENT       ////////////////
-//------------------------------------------------------//
 class LandNav extends React.Component {
     state={
         isOpen:false
@@ -32,15 +25,18 @@ class LandNav extends React.Component {
             <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar> 
                 <NavItem>
-                    <NavLink tag={Link} to="/aboutus">About Us</NavLink>
+                    <NavLink  tag={Link} to="/aboutus">About us</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink tag={Link} to="/aboutus">Contact Us</NavLink>
+                    <NavLink tag={Link} to="/contactus">Contact us</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink tag={Link} to="/technology">Technology</NavLink>
                 </NavItem>
                 </Nav>
             </Collapse>
             
-        </Navbar>
+        </Navbar >
          
         </React.Fragment>
       )

@@ -1,23 +1,16 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     /////////////////
-//-----------------------------------------------------------//
 import React from 'react'
 
 
-//------------------------------------------------------------//
-///////////////    FUNCTIONAL COMPONENT       ////////////////
-//-----------------------------------------------------------//
-
 const DashboardMotion = (props)=>{
    
-    const rooms = props.parameter
-    const MotionElement = rooms.filter(room => room.devices.find(device => device.category ==='Motion')).map((room)=>{
+    const rooms=props.parameter
+    const MotionElement=rooms.filter(room => room.devices.find(device => device.category ==='Motion')).map((room)=>{
             
         return(
-            <div key={room.id} className="card">
+            <div  key={room.id} className="card">
                 <div className="card-body d-flex flex-row justify-content-start" data-unit="room-temp-02">
                     <h5><img src="/images/wave1.png"></img> {room.type}</h5>
-                    <h6 className="mt-2 ml-auto status">no motion</h6>
+                    <h6 className="mt-2 ml-auto status">{room.devices.find(device => (device.category == 'Motion' && device.data == '1')) ? 'Movement' : 'No Movement'}</h6>
                 </div>
             </div>
         )
@@ -25,7 +18,7 @@ const DashboardMotion = (props)=>{
         return (
         <React.Fragment>
           <div className="col-sm-12 col-md-6 col-xl-4">
-							<div className="card text-center">
+							<div className="card">
 								<div className="card-body">
 									<h4 className="card-title">Motion</h4>
                                     <div className="overflow">

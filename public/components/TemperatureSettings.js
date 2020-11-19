@@ -48,23 +48,27 @@ console.log('paramsId:',params.id);
   let roomInfo = {
     roomType : '',
     deviceCategory : '',
-    deviceName : ''
+    deviceName : '',
+    deviceData: ''
   }
 
   if (props.rooms.length > 0) {
     const selectedRoom = props.rooms.find(room => room.id == params.roomId) 
     const selectedDevices = selectedRoom.devices.find(device => device.id == params.id) 
-    console.log('selectedRoom', selectedRoom)
-    console.log('selectedDevices', selectedDevices)
+    //console.log('selectedRoom', selectedRoom)
+ 
 
     roomInfo.roomType = selectedRoom.type
     roomInfo.deviceCategory = params.deviceCategory
     roomInfo.deviceName = params.deviceName
+    roomInfo.deviceData = selectedDevices.data ? JSON.parse(selectedDevices.data) : null
+    
   }
+  console.log('selectedDevices', roomInfo.deviceData)
 
   // console.log('selectedRoom',state.selectedRoom,'/',state.selectedDevice);
 
-  //================ edit serial number function  ========================//
+  //============== edit serial number function  ========================//
   const editSerialNumberOnClick =(e)=>{
    
     if (state.serialNumber.trim() === '') {
@@ -77,19 +81,16 @@ console.log('paramsId:',params.id);
       newState.errorModal.show = true
       newState.errorModal.title = "Error with your Entries"
       newState.errorModal.content = errorsElement
-      
+      // hide addroom modal because we need to show error modal and we can not show
+      // two modals on the same time
       newState.roomModalShow = false
       setState(newState)
     }else{
-    
-    editDevicePost(deviceId, state.serialNumber).then((device)=>{
+      editDevicePost(params.id,state.serialNumber).then((device)=>{
        
-      //const devices = props.rooms.find(room => room.id == device.room_id)
-      props.rooms.find(room => room.id == device.room_id)
+         //const  devices=props.rooms.find(room=>room.id==device.room_id)
        
         if(device){
-      
-            console.log("dev",device);
           const errorsElement = (
             <ListGroup>
               <div>Your Serial Number has been changed successfully</div>
@@ -99,11 +100,9 @@ console.log('paramsId:',params.id);
           newState.errorModal.show = true
           newState.errorModal.title = "Data Change"
           newState.errorModal.content = errorsElement
-          
-          
           newState.roomModalShow = false
           setState(newState)
-              //  console.log("device", device);
+          //console.log("device", device);
           const newRooms = props.rooms.map(room => {
             if(room.id === device.room_id){
                 room.devices[room.devices.map(device => device.id).indexOf(device.id)] = device
@@ -175,11 +174,11 @@ console.log('paramsId:',params.id);
                   position: 'relative'
                 }}>
                   <p className="mr-auto mt-2 mb-0 display-5">
-                    <span className="room-temp-C">22</span>
+                    <span className="room-temp-C">{roomInfo.deviceData ? roomInfo.deviceData.t : '0.00'}</span>
                     <sup>°C</sup>
                   </p>
                   <p className="mr-auto mt-2 mb-0 lead text-primary">
-                    <span className="room-temp-F">71.6</span>
+                    <span className="room-temp-F">{roomInfo.deviceData ? roomInfo.deviceData.h : '0.00'}</span>
                     <sup>°F</sup>
                   </p>
                 </div>
@@ -190,9 +189,9 @@ console.log('paramsId:',params.id);
                 <div className="col-12" modal-content="true">
                   <ListGroupItem className="list-group-item list-group-item2 align-items-center">
 
-                    <Label for="device_seralNum" className="col-3 col-form-label modal-font">Device Serial Number</Label >
+                    <Label for="device_seralNum" className=" col-xl-3 col-md-3 col-sm-3 col-form-label modal-font">Device Serial Number</Label >
                     <Input
-                      className="form-control custom-focus col-9"
+                      className=" form-control custom-focus col-xl-9 col-md-9 col-sm-9"
                       type="text"
                       id="device_seralNum"
                       placeholder="insert new Serial Number"

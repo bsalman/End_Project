@@ -15,7 +15,7 @@ import CustomModal from './CustomModal'
 
 
 //------------------------------------------------------------//
-///////////////        FUNCTIONAL COMPONENT       //////////////
+///////////////         CLASS COMPONENT       //////////////////
 //------------------------------------------------------------//
 
 const Motion = (props) =>{
@@ -24,7 +24,7 @@ const Motion = (props) =>{
 
   //===================== Set the initial state ======================//
 
-  let initialState = {
+  let intialState = {
 
      //for the modal of errors
      errorModal: {
@@ -42,7 +42,7 @@ const Motion = (props) =>{
     motionDevices: [...props.motionDevices]
   }
 
-  const [state,setState] = useState(initialState)
+  const [state,setState] = useState(intialState)
 
   //===================== Set the variable for redux(main State) ======================//
 
@@ -50,8 +50,12 @@ const Motion = (props) =>{
     motionElementArr:[]
   }
 
+      //============================//
 
-//=============================//
+      
+
+
+      //=============================//
 //console.log('props',props);
  //Check if rooms inside props are loading or not to use the redux method
   if(props.rooms.length > 0) {
@@ -65,7 +69,10 @@ const Motion = (props) =>{
           {/* Show the name of the device */}
           <ListGroup className="list-group borderless">
             <ListGroupItem className="list-group-item align-items-center">
-            
+              {/* <svg className="icon-sprite icon-1x">
+                <use className="glow" fill="url(#radial-glow)" xlinkHref="images/icons-sprite.svg#glow"/>
+                <use xlinkHref="images/icons-sprite.svg#camera"/>
+              </svg> */}
               <img src="/images/wave.png"></img>
               <h5>{device.name}</h5>
               {/* <Label className={`switch ml-auto ${state.checked === true  ? 'checked' : '' }`} onClick={turnOnOff}>
@@ -136,10 +143,12 @@ const Motion = (props) =>{
       )
     })
 
+
     //console.log('motionElement',props.motionDevices);
-    // put the element that we create inside the arr that we declared on the main state
+    // put the element that we crete inside the arr that we declared on the main state
     motionInfo.motionElementArr = motionElement
 
+    
 
   }
 
@@ -149,7 +158,7 @@ const Motion = (props) =>{
     const newState = {...state}
     newState.confirmModal.confirmModalShow= true,
     newState.confirmModal.confirmModalPayLoad= deviceId,
-    newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device is going to be deleted forever</p>
+    newState.confirmModal.confirmModalElement= <p>I hope you know what you are doing , this device gonna be deleted for ever</p>
     setState(newState)
   }
 
@@ -160,30 +169,30 @@ const Motion = (props) =>{
       let badgeMessage = ''
       let badgeTitle = ''
       //data success
-      //2 this device id doesn't exist
-      //3 no devices
+      //2 this device id doesnt exist
+      //3 kein devices
       //4 server error
       switch (data) {
         case 3:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'Can not find a device with this id, please contact the administrator'
+          badgeMessage = 'Can not find a device with this id, contact the administrator'
           badgeTitle = 'Device not found'
           break;
 
         case 2:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'There are no devices for this room, please add some'
+          badgeMessage = 'There is no devices for this room, please add some'
           badgeTitle = 'Server side error'
         break;
 
         case 4:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'There was a server side error, please contact the administrator'
+          badgeMessage = 'There was a server side error, please contact the adminstrator'
           badgeTitle = 'Server side error'
         break;
 
         default:
-          //delete the device selected from the main state(redux) ans set the rooms again
+          //delete the device slected from the main state(redux) ans set the rooms again
           const newRooms = props.rooms.map(room => {
             if(room.id === data[0].room_id){
               //Delete the selected device from the main state(redux)
@@ -217,7 +226,7 @@ const Motion = (props) =>{
     }).catch((error) => {
         const badge = (
           <div className="alert alert-danger" role="alert">
-            can not send the registration data to the server
+            can not send the registration data to server
           </div>
         )
       const newState = {...state}

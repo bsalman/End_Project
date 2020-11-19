@@ -1,16 +1,8 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     /////////////////
-//-----------------------------------------------------------//
 import React from 'react';
 import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
-
-//------------------------------------------------------------//
-///////////////     CLASS COMPONENT       ////////////////
-//-----------------------------------------------------------//
 class CustomModal extends React.Component {
-    
-   state = {
+    state = {
         modal: true
     }
     
@@ -20,12 +12,11 @@ class CustomModal extends React.Component {
         // })
         this.props.close()
     }
-
   render() {
       const {className,title, children,background} = this.props
     return (
       <Modal className={background} isOpen={this.props.show} toggle={this.toggle} >
-        <ModalHeader className={className}>{title}</ModalHeader>
+        <ModalHeader  className={className}>{title}</ModalHeader>
         <ModalBody >
           {children}
         </ModalBody>

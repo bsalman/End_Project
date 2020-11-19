@@ -1,20 +1,14 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     //////////////////
-//------------------------------------------------------------//
 import React, { useState } from 'react'
 // import {Collapse} from 'react-transition-group'
+import {
+  Button
+} from 'reactstrap';
 // import LandNav from './LandNav'
 
-//------------------------------------------------------------//
-///////////////     FUNCTIONAL COMPONENT       ////////////////
-//-----------------------------------------------------------//
-
 const AboutUsPage = () => {
-
-
     //===================== Set the initial state ======================//
 
-    let initialState = {
+    let intialState = {
       //for the first member display the front or the back of the box
       dFirstBlock:true,
       dFirstNone:false,
@@ -28,7 +22,7 @@ const AboutUsPage = () => {
       dThirdNone:false,
   }
 
-  const [state,setState] = useState(initialState)
+  const [state,setState] = useState(intialState)
 
 
   // display and hide the first box
@@ -82,16 +76,16 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dFirstNone === true ? "d-block" : 'd-none'}`}>
                   <h3>Neda Dehghan</h3>
-                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in fine Arts.<br/>With Web Development<br/> 
+                  <p className={`${state.dFirstNone === true ? 'text-typing' : ''}`}>I have a Background as a<br/>translator and have<br/>my roots in fine Arts.<br/>With Web Development<br/>
                   I am able to combine all<br/>my previous knowledge.<br/>I like to bring ideas<br/>to life and work with<br/>my team to find the best<br/>solution for the customer.<br/></p>
                 </div>
               </div>
               <ul>
-              <li><a href="https://github.com/NerdiNed" target="_blank"><i className="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="https://github.com/NerdiNed"><i className="fab fa-github" aria-hidden="true"></i></a></li>
+                <li><a href="https://mail.google.com/mail/u/0/#inbox" title="nerdined7@gmail.com"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="https://www.xing.com/profile/Neda_Dehghan/cv" target="_blank"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
-              </ul> 
+                <li><a href="https://www.xing.com/profile/Neda_Dehghan/cv"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
+              </ul>
             </div>
 
             {/* SECOND MEMBER */}
@@ -110,14 +104,14 @@ const AboutUsPage = () => {
 
                 <div className={`member_info ${state.dSecondNone === true ? "d-block" : 'd-none'}`}>
                 <h3>Bashar Salman</h3>
-                <p className={`${state.dSecondNone === true ? 'text-typing' : ''}`}>Electrical engineer with<br/>experience in embedded<br/>system and i had the<br/>chance to add the<br/>knowledge frontend and<br/>backend web<br/>development to my<br/>background.<br/></p>
+                <p className={`${state.dSecondNone === true ? 'text-typing' : ''}`}>I graduated as Lawyer.<br/>As a full stack Web<br/>Developer I am able to<br/>combine my love for<br/>Design and my logical<br/>thinking to create special<br/>concepts for the company<br/>I work for. I enjoy team<br/>work as I think the more<br/>great heads work together<br/>the better solutions<br/>are found.<br/></p>
                 </div>
               </div>
               <ul>
-              <li><a href="#"><i className="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
+              <li><a href="https://github.com/bsalman"><i className="fab fa-github" aria-hidden="true"></i></a></li>
+                <li><a href="https://mail.google.com/mail/u/0/#inbox" title='bsalman395850@gmail.com'><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="#"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
+                <li><a href="https://www.xing.com/profile/Bashar_Salman"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
             </div>
 
@@ -126,7 +120,7 @@ const AboutUsPage = () => {
               <div onClick={showDetailsThirdMember}>
                 <div className={`member_area ${state.dThirdBlock === true ? "d-block" : 'd-none'}`}>
                   <div className="member_img">
-                    <img src="https://i.imgur.com/JzUIF4o.png" alt="our_team"/>
+                    <img src="/images/safa.jpg" alt="our_team"/>
                     <div className="social_media">
                       <h3>Click on me</h3>
                     </div>
@@ -143,7 +137,7 @@ const AboutUsPage = () => {
               </div>
               <ul>
                 <li><a href="https://github.com/Safa-14" target="_blank"><i className="fab fa-github" aria-hidden="true"></i></a></li>
-                <li><a href="#"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="https://mail.google.com/mail/u/0/#inbox" title="safa.bouhlel91@gmail.com"><i className="fab fa-google-plus" aria-hidden="true"></i></a></li>
                 <li><a href="https://www.linkedin.com/in/safa-bouhlel/" target="_blank"><i className="fab fa-linkedin" aria-hidden="true"></i></a></li>
                 <li><a href="https://www.xing.com/profile/Safa_Bouhlel/cv" target="_blank"><i className="fab fa-xing" aria-hidden="true"></i></a></li>
               </ul>
@@ -151,6 +145,17 @@ const AboutUsPage = () => {
           </div>
 
         {/* TEAMS MEMBERS END */}
+
+        <a href="/">
+                    <Button
+                      type="button "
+                      className="btn btn-primary"
+                      data-toggle="tooltip"
+                       data-placement="right"
+                        title="go Back">
+                        <i className="fas fa-arrow-circle-left"></i>
+                    </Button>
+                 </a>
       </div>
 
 

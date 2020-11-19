@@ -12,6 +12,17 @@ import {Link} from 'react-router-dom'
 class Settings extends React.Component {
   
 
+    
+  // create a state
+  
+ 
+  
+
+  
+
+
+
+  
   render() {
    
     return (

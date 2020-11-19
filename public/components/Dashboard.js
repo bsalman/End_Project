@@ -1,38 +1,28 @@
-//------------------------------------------------------------//
-///////////////       IMPORT DEPENDENCIES     /////////////////
-//-----------------------------------------------------------//
 import React,{ useEffect, useState } from 'react'
 import {connect} from 'react-redux'
 import { Button, Label, Input} from 'reactstrap'
 //=====================================//
-// importing components
 import DashboardLights from './DashboardLights'
 import DashboardTemperature from './DashboardTemperature'
 import DashboardMotion from './DashboardMotion'
 import DashboardAppliances from './DashboardAppliances'
-// importing actions 
 import {setRoomsAction} from '../actions'
-
 import {secureAllHousePost, getSecurePost} from '../services/api'
+import Garage from './Garage'
+// import {setRoomsAction} from '../actions'
 
 
-//------------------------------------------------------------//
-///////////////    FUNCTIONAL COMPONENT       ////////////////
-//-----------------------------------------------------------//
 
 const Dashboard =(props)=> {
 		
-//==== Set the initial state ====//
-
+	//=================================//	
 	let initialState={
 		security:false
 		
 	}
 
 	const [state,setState] = useState(initialState)
-//=========================================//
-
-// activate the security 
+	//=========================================//
 	//console.log("sec1",state.security);
 	const securityActivate=(e)=>{
 		e.preventDefault()
@@ -40,6 +30,10 @@ const Dashboard =(props)=> {
 		// 	security: !state.security})
 			//console.log("sec2",state.security);
 		secureAllHousePost(!state.security).then(data=>{
+			if(state.security){
+				props.socket.emit('stop_home_alarm', null)
+			}
+			
 				//console.log(JSON.parse(data[0].value));
 				setState({...state,
 					security: JSON.parse(data[0].value)})
@@ -57,27 +51,30 @@ const Dashboard =(props)=> {
 		
 	
 				
-	return(
-			<React.Fragment>
+			
+		return(
+			
+				<React.Fragment>
+					
 					<div className="row">
 						<div className="col-sm-12">
 							<div className="card p-2 mb-4 align-items-center">
-								<h4>Hello User</h4>
+								<h4>Welcome Home</h4>
 							</div>
 						</div>
 					</div>
 					<div className="row">
 						{/* security system start  */}
 						<div className="col-sm-12 col-md-6">
-							<div className= {`card lock ${state.security == true ? "active" : ""}`} data-unit="switch-house-lock">
+							<div className=  {`card lock ${state.security==true?" active":""}`} data-unit="switch-house-lock">
 								<div className="card-body " >
 									<div className="d-flex flex-wrap mb-2">
 										<img src={`${state.security==true?"../images/home-lock.png":"../images/home-unlock.png"}`} style={{width:"32px",height:"32px"}}></img>
 										<div className="title-status">
 											<h4>Security System</h4>
-											<p>{`${state.security== true ? "Active":"Not active"}`}</p>
+											<p>{`${state.security==true?"Active":"Not active"}`}</p>
 										</div>
-										<Label className={`switch ml-auto ${state.security == true ? "checked" : ""}`}>
+										<Label className={`switch ml-auto ${state.security==true?"checked":""}`}>
 											<Input type="checkbox" id="switch-house-lock" onClick={(e)=>{securityActivate(e)}}/>
 										</Label>
 									</div>
@@ -85,8 +82,10 @@ const Dashboard =(props)=> {
 							</div>
 						</div>
 						{/* security system end  */}
-						<div className="col-sm-12 col-md-6">
-									{/* <!-- Garage-doors START --> */}
+						{/* Garage Door starts  */}
+							<Garage />	
+						{/* <div className="col-sm-12 col-md-6">
+								
 							<div className="card" data-unit="garage-doors-1">
 								<div className="card-body">
 									<div className="d-flex flex-wrap mb-2">
@@ -110,8 +109,9 @@ const Dashboard =(props)=> {
 									</div>
 								</div>
 							</div>
-						</div>
-	
+						</div> */}
+
+						{/* Garage Door ends  */}
 					</div>
 					{/* lights temp motion aria started */}
 					<div className="row">
@@ -136,7 +136,10 @@ const Dashboard =(props)=> {
 		
 	
 const setStateToProps = (state) => {
-		return ({rooms: state.rooms})
+		return ({
+			rooms: state.rooms,
+			socket: state.socket
+		})
 		  }
 
 export default connect(setStateToProps,{setRoomsAction})(Dashboard)

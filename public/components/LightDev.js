@@ -15,16 +15,16 @@ import CustomModal from './CustomModal'
 
 
 //------------------------------------------------------------//
-///////////////         FUNCTIONAL COMPONENT       /////////////
+///////////////         CLASS COMPONENT       //////////////////
 //------------------------------------------------------------//
 
 const Light = (props) =>{
 
   const params = useParams()
 // console.log(params);
-  //==============  Set the initial state ==============//
+  //===================== Set the initial state ======================//
 
-  let initialState = {
+  let intialState = {
 
     //for the modal of errors
     errorModal: {
@@ -42,15 +42,15 @@ const Light = (props) =>{
 
   }
 
-  const [state,setState] = useState(initialState)
+  const [state,setState] = useState(intialState)
 
-  //============= Set the variable for redux(main State)  ==============//
+  //===================== Set the variable for redux(main State) ======================//
 
   const lightInfo={
       lightElementArr:[]
   }
 
-  // Check if rooms inside props are loading or not to use the redux method
+  //Check if rooms inside props are loading or not to use the redux method
   // console.log('first load rooms', props.rooms);
   if(props.rooms.length > 0) {
       const lightElement = props.lightDevices.map(device =>{
@@ -77,7 +77,7 @@ const Light = (props) =>{
               
               <p className="specs">Status</p>
               &nbsp;&nbsp;&nbsp;
-              <p className="ml-auto mb-0 text-success">{device.connected ? 'Connected':'Disconnected'}</p>
+              <p className="ml-auto mb-0 text-success">{device.connected? 'Connected': 'Disconnected'}</p>
               &nbsp;&nbsp;&nbsp;
             </ListGroupItem>       
             </ListGroup>
@@ -96,13 +96,13 @@ const Light = (props) =>{
             <div className="card-body">
             <div className="row">
               <div className="col-auto mr-auto">
-                <Link to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
+                <Link  to={"/lightSetting/" + device.category+"/"+ device.name + "/" + device.room_id+"/"+device.id}>
                 <Button
                   type="button"
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="left"
-                  title="Edit Room">
+                  title="Edit Device">
                   <i className="fas fa-tools"></i>
                 </Button></Link>
               &nbsp;&nbsp;</div>
@@ -114,7 +114,7 @@ const Light = (props) =>{
                   className="btn btn-primary"
                   data-toggle="tooltip"
                   data-placement="right"
-                  title="Delete Room"
+                  title="Delete Device"
                   onClick={()=>{deleteBtnClick(device.id)}}>
                     <i className="far fa-trash-alt"></i>
                 </Button>
@@ -155,7 +155,7 @@ const Light = (props) =>{
         let device = room.devices.find(device => device.id == deviceid)
         device.data = device.data == 'on' ? 'off' : 'on'
 
-       editDataPost(deviceid, device.data).then(data1 => {
+       editDataPost(deviceid,device.data).then(data1 => {
         
         
         room.devices[room.devices.map(device => device.id).indexOf(deviceid)] = device
@@ -186,25 +186,25 @@ const Light = (props) =>{
       let badgeMessage = ''
       let badgeTitle = ''
       //data success
-      //2 this device id doesn't exist
-      //3 no devices
+      //2 this device id doesnt exist
+      //3 kein devices
       //4 server error
       switch (data) {
         case 3:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'Can not find a device with this id, please contact the administrator'
+          badgeMessage = 'Can not find a device with this id, contact the administrator'
           badgeTitle = 'Device not found'
         break;
 
         case 2:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'There are no devices for this room, please add some'
+          badgeMessage = 'There is no devices for this room, please add some'
           badgeTitle = 'Server side error'
         break;
 
         case 4:
           badgeClass = 'alert alert-danger'
-          badgeMessage = 'There was a server side error, please contact the administrator'
+          badgeMessage = 'There was a server side error, please contact the adminstrator'
           badgeTitle = 'Server side error'
         break;
 

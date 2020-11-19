@@ -25,7 +25,7 @@ function connect() {
                 multipleStatements: true,
                 host: 'localhost',
                 port: 3306,
-                user: 'ubuntu',
+                user: 'root',
                 password: '12345678',
                 database: 'smarthome'
             })
@@ -242,7 +242,7 @@ function getRoom(roomId) {
                                     category: device.category,
                                     room_id: room.id,
                                     connected: device.connected === 1 ? true : false,
-                                    data: data,
+                                    data: device.data,
                                     imgUrl: device.img_url
                                 }
                                 room.devices.push(deviceObj)
@@ -524,6 +524,16 @@ function changeMotionDeviceStatus(relationid) {
     })
 }
 //=============================================//
+function changeTimeDeviceStatus(relationid) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_timer SET active =NOT active   WHERE id = '${relationid}'`).then((result) => {
+            resolve(result)
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+//=============================================//
 function reversMotionDevices(motionId, status) {
     return new Promise((resolve,reject) => {
         runQuery(`UPDATE device_motion SET active = ${status}   WHERE motion_id = '${motionId}'`).then((result) => {
@@ -791,6 +801,90 @@ function getAllTimeRelatedDevices(deviceId){
 }
 
 //=================================================//
+
+
+function getSchedules(){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM device_timer WHERE active = 1`).then(devices=>{
+            resolve(devices)    
+          
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+
+//=================================================//
+
+function checkHomeSecurity(){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT * FROM configurations WHERE name LIKE 'secure'`).then(value=>{
+            resolve(value[0].value)    
+          
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+
+//=================================================//
+
+function checkRoomSecurity(roomId){
+    return new Promise((resolve,reject)=>{
+    //    let oldDevice= runQuery(`SELECT * FROM devices WHERE id LIKE ${deviceId}`)
+    //    let upDatedDevice=''
+        
+        runQuery(`SELECT secure FROM rooms WHERE id = ${roomId}`).then(value=>{
+            resolve(value[0].secure)    
+          
+        }).catch((error)=>{
+            console.log(error);
+            reject(error)
+           })
+
+       
+        
+    })
+
+}
+//=================================================//
+//=============================================//
+function reversTimeDevices(deviceId, status) {
+    return new Promise((resolve,reject) => {
+        runQuery(`UPDATE device_timer SET active = ${status}   WHERE device_id = '${deviceId}'`).then((result) => {
+            getAllTimeRelatedDevices(deviceId).then(devices => {
+                resolve(devices)
+            }).catch(error => {
+                reject(error)
+            })
+            
+        }).catch(error => {
+            reject(error)
+        })
+    })
+}
+
+
+//==================================//
+//=================================================//
+
+
 module.exports = {
     checkUser,
     changeUser,
@@ -819,6 +913,11 @@ module.exports = {
     addTimeDevice,
     updateTimeDevice,
     deleteTimeDevice,
-    getAllTimeRelatedDevices
+    getAllTimeRelatedDevices,
+    getSchedules,
+    changeTimeDeviceStatus,
+    checkHomeSecurity,
+    checkRoomSecurity,
+    reversTimeDevices
 
 }

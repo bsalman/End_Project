@@ -1,17 +1,20 @@
 import React from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {ListGroup, ListGroupItem} from 'reactstrap';
-
+import {connect} from 'react-redux'
 
 
 
 class SideNav extends React.Component{
+
+
+
   render(){
       return(
           <React.Fragment>
            
                  {/* <!-- Side menu START --> */}
-            <div id="sidebar" className="sidebar-offcanvas">
+            <div id="sidebar" className={`${this.props.check ? 'sidebar-offcanvas' : 'sidebar-offcanvas  mini'}`}>
               <ListGroup className="nav flex-column nav-sidebar">
               <ListGroupItem className="nav-item">
                     <Link className="nav-link" to="/dashboard">
@@ -62,4 +65,13 @@ class SideNav extends React.Component{
 
 }
 
-export default withRouter(SideNav)
+let sideNavWithRouter = withRouter(SideNav);
+
+const mapStateToProps = (state) => {
+  return({
+    check: state.check,
+    smallScreenCheck: state.smallScreenCheck, 
+  })
+}
+
+export default connect(mapStateToProps,null)(sideNavWithRouter)
