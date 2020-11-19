@@ -359,7 +359,7 @@ if(props.rooms.length>0){
             className="btn btn-primary"
             data-toggle="tooltip"
             data-placement="right"
-            title="Add Devices"
+            title="Set Timer"
             onClick={addNewTimeBoxBtn}>
             <i className="fas fa-plus"></i>
           </Button>

@@ -133,7 +133,7 @@ const Temperature = (props) => {
                       className="btn btn-primary"
                       data-toggle="tooltip"
                       data-placement="left"
-                      title="Edit Room">
+                      title="Edit Device">
                         <i className="fas fa-tools"></i>
                     </Button>
                   </Link>
@@ -148,7 +148,7 @@ const Temperature = (props) => {
                     className="btn btn-primary"
                     data-toggle="tooltip"
                     data-placement="right"
-                    title="Delete Room"
+                    title="Delete Device"
                     onClick={()=>{deleteBtnClick(device.id)}}>
                       <i className="far fa-trash-alt"></i>
                   </Button>

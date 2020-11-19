@@ -735,7 +735,7 @@ dataModule.getDevices().then(initDevices => {
         }).catch(error => {
             console.log(error);
         })
-    }, 60 * 1000);
+    }, 20 * 1000);
 
     // connection to iot devices
     const radio = new Radio()
@@ -901,6 +901,7 @@ dataModule.getDevices().then(initDevices => {
 
         })
     })
+    
     socketClient.on('stop_home_alarm', data => {
         //socket.broadcast.to('home').emit('light_status', data)
         devices.forEach(device => {

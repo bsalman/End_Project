@@ -8,6 +8,7 @@ import SupRouter from './SupRouter'
 import LandingPage from './LandingPage'
 import AboutUsPage from './AboutUs'
 import ContactPage from './ContactPage'
+import Technology from './Technology'
 
 import {setRoomsAction, setSocketAction} from '../actions'
 import {allRoomsPost} from '../services/api'
@@ -114,6 +115,7 @@ class MainRouter extends React.Component {
 						<Route path="/accountSettings" exact component={ () => <Wrapper><AccountSettings/></Wrapper>} />
 						{/* <Route path="/showdevices/:roomtype/:id"exact component={ShowDevices} /> */}
 						<Route path="/room/:roomtype/:id" exact component={ () => <Wrapper><SingleRoomOv/></Wrapper>} />
+                        <Route path="/technology" exact component={Technology }/>
 						{/* <Route path="/room/:roomtype/:id"exact component={SingleRoomOv} /> */}
 						{/* <Route path="/dashboard/deleteroom" exact component={()=><YourRooms/>} /> */}
 						<Route
