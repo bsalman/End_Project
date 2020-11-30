@@ -16,7 +16,7 @@ possible for all of us to work on the front and back end as well as on the datab
 
 The Group-Members are : 
 - Safa Bouhlel  email: 
-- Bahsar Salman email:
+- Bashar Salman email:bsalman395850@gmail.com
 - Neda Dehghan email: neda.mail7@yahoo.com
 
 Day 1.  Wednesday 30.9. 
@@ -35,7 +35,7 @@ motion sensors,
 temperature sensors,
 buzzer sensors,
 arduino (nano, suppor),
-relys,
+rely,
 antenna, 
 
 We set up the repository for our Git Hub accounts, created a main project folder and made local ones and set up the individual branches. 
