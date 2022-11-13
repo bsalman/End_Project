@@ -617,366 +617,366 @@ const server = app.listen(port, () => {
 
 
 
-const io = require('socket.io')(server)
+// const io = require('socket.io')(server)
 
-io.on('connection', socket => {
-    console.log('user is connected');
+// io.on('connection', socket => {
+//     console.log('user is connected');
 
-    socket.join('home')
-    //socket listeneer
-    socket.on('device_connect', sn => {
-        socket.broadcast.to('home').emit('device_connect', sn)
-    })
-    socket.on('device_disconnect', sn => {
-        socket.broadcast.to('home').emit('device_disconnect', sn)
-    })
-    socket.on('light_status', data => {
-        socket.broadcast.to('home').emit('light_status', data)
-    })
-    socket.on('device_status', data => {
-        socket.broadcast.to('home').emit('device_status', data)
-    })
-    socket.on('temp_data', data => {
-        socket.broadcast.to('home').emit('temp_data', data)
-    })
-    socket.on('stop_home_alarm', data => {
-        socket.broadcast.to('home').emit('stop_home_alarm', data)
-    })
+//     socket.join('home')
+//     //socket listeneer
+//     socket.on('device_connect', sn => {
+//         socket.broadcast.to('home').emit('device_connect', sn)
+//     })
+//     socket.on('device_disconnect', sn => {
+//         socket.broadcast.to('home').emit('device_disconnect', sn)
+//     })
+//     socket.on('light_status', data => {
+//         socket.broadcast.to('home').emit('light_status', data)
+//     })
+//     socket.on('device_status', data => {
+//         socket.broadcast.to('home').emit('device_status', data)
+//     })
+//     socket.on('temp_data', data => {
+//         socket.broadcast.to('home').emit('temp_data', data)
+//     })
+//     socket.on('stop_home_alarm', data => {
+//         socket.broadcast.to('home').emit('stop_home_alarm', data)
+//     })
 
-})
+// })
 
-const ioClient = require('socket.io-client')
+// const ioClient = require('socket.io-client')
 
-const socketClient = ioClient('http://pi.local:3000')
-socketClient.on('connect', () => {
-    console.log('house is connected');
-})
-
-
-
-// get a list of devices from database
-dataModule.getDevices().then(initDevices => {
+// const socketClient = ioClient('http://pi.local:3000')
+// socketClient.on('connect', () => {
+//     console.log('house is connected');
+// })
 
 
-    let devices = initDevices
-    setInterval(()=>{
-        dataModule.getDevices().then(CurrentDevices => {
-            devices = CurrentDevices
-        })
-    },500)
+
+// // get a list of devices from database
+// dataModule.getDevices().then(initDevices => {
+
+
+//     let devices = initDevices
+//     setInterval(()=>{
+//         dataModule.getDevices().then(CurrentDevices => {
+//             devices = CurrentDevices
+//         })
+//     },500)
  
-    // check schedule jobs
-    setInterval(() => {
-        dataModule.getSchedules().then(schedules => {
+//     // check schedule jobs
+//     setInterval(() => {
+//         dataModule.getSchedules().then(schedules => {
 
 
-            devices.forEach(device => {
+//             devices.forEach(device => {
 
-                if (device.category === 'Light' || device.category === 'Appliance') {
-
-
-
-                    schedules.forEach(schedule => {
-                        if (schedule.device_id === device.id) {
-                            const startTime = schedule.start_time.split(':')
-                            const startHour = parseInt(startTime[0])
-                            const startMinuts = parseInt(startTime[1])
-
-                            const stopTime = schedule.stop_time.split(':')
-                            const stopHour = parseInt(stopTime[0])
-                            const stopMinuts = parseInt(stopTime[1])
-
-                            const currentD = new Date();
-                            const startHourD = new Date();
-                            startHourD.setHours(startHour, startMinuts, 0); // 5.30 pm
-                            const endHourD = new Date();
-                            endHourD.setHours(stopHour, stopMinuts, 0); // 6.30 pm
-
-                            if (currentD >= startHourD && currentD < endHourD) {
-                                console.log("yes!");
-                                if (device.data === 'off') {
-                                    dataModule.editData(device.id, 'on').then(data => {
-                                        devices[devices.map(device => device.id).indexOf(device.id)].data = 'on'
-                                        radio.send('data-on', 3, device.number).then(() => {
-
-                                        }).catch(error => {
-
-                                        })
-                                        socketClient.emit('device_status', { id: device.id, status: 'on' })
-                                    }).catch(error => {
-                                        console.log(error);
-                                    })
-                                }
-                            } else {
-                                if (device.data === 'on') {
-                                    dataModule.editData(device.id, 'off').then(data => {
-                                        devices[devices.map(device => device.id).indexOf(device.id)].data = 'off'
-                                        radio.send('data-off', 3, device.number).then(() => {
-
-                                        }).catch(error => {
-
-                                        })
-                                        socketClient.emit('device_status', { id: device.id, status: 'off' })
-                                    }).catch(error => {
-                                        console.log(error);
-                                    })
-                                }
-                            }
-                        }
-                    })
+//                 if (device.category === 'Light' || device.category === 'Appliance') {
 
 
 
+//                     schedules.forEach(schedule => {
+//                         if (schedule.device_id === device.id) {
+//                             const startTime = schedule.start_time.split(':')
+//                             const startHour = parseInt(startTime[0])
+//                             const startMinuts = parseInt(startTime[1])
 
-                }
-            })
+//                             const stopTime = schedule.stop_time.split(':')
+//                             const stopHour = parseInt(stopTime[0])
+//                             const stopMinuts = parseInt(stopTime[1])
+
+//                             const currentD = new Date();
+//                             const startHourD = new Date();
+//                             startHourD.setHours(startHour, startMinuts, 0); // 5.30 pm
+//                             const endHourD = new Date();
+//                             endHourD.setHours(stopHour, stopMinuts, 0); // 6.30 pm
+
+//                             if (currentD >= startHourD && currentD < endHourD) {
+//                                 console.log("yes!");
+//                                 if (device.data === 'off') {
+//                                     dataModule.editData(device.id, 'on').then(data => {
+//                                         devices[devices.map(device => device.id).indexOf(device.id)].data = 'on'
+//                                         radio.send('data-on', 3, device.number).then(() => {
+
+//                                         }).catch(error => {
+
+//                                         })
+//                                         socketClient.emit('device_status', { id: device.id, status: 'on' })
+//                                     }).catch(error => {
+//                                         console.log(error);
+//                                     })
+//                                 }
+//                             } else {
+//                                 if (device.data === 'on') {
+//                                     dataModule.editData(device.id, 'off').then(data => {
+//                                         devices[devices.map(device => device.id).indexOf(device.id)].data = 'off'
+//                                         radio.send('data-off', 3, device.number).then(() => {
+
+//                                         }).catch(error => {
+
+//                                         })
+//                                         socketClient.emit('device_status', { id: device.id, status: 'off' })
+//                                     }).catch(error => {
+//                                         console.log(error);
+//                                     })
+//                                 }
+//                             }
+//                         }
+//                     })
 
 
-        }).catch(error => {
-            console.log(error);
-        })
-    }, 20 * 1000);
-
-    // connection to iot devices
-    const radio = new Radio()
 
 
-    radio.setReadingPipe('0xABCDABCD71')
-    radio.begin()
+//                 }
+//             })
+
+
+//         }).catch(error => {
+//             console.log(error);
+//         })
+//     }, 20 * 1000);
+
+//     // connection to iot devices
+//     const radio = new Radio()
+
+
+//     radio.setReadingPipe('0xABCDABCD71')
+//     radio.begin()
 
 
     
 
 
-    radio.read((data) => {
-        console.log(data);
-        const sn = data.substr(0, data.indexOf('-'))
+//     radio.read((data) => {
+//         console.log(data);
+//         const sn = data.substr(0, data.indexOf('-'))
 
-        //console.log(sn);
-        const device = devices.find(device => device.number === sn)
-        if (device) {
-            devices[devices.map(device => device.id).indexOf(device.id)].connected = true
-            // get the message and replace the empty hexa field with nothing
-            const message = data.substr(data.indexOf('-') + 1, data.length).replace(/\x00/gi, '')
-            if (message === 'hi') {
-                dataModule.setDeviceConnection(sn, true).then(() => {
-                    socketClient.emit('device_connect', sn)
-                    if (device.category === 'Light') {
-                        // if(device.data === 'on'){
+//         //console.log(sn);
+//         const device = devices.find(device => device.number === sn)
+//         if (device) {
+//             devices[devices.map(device => device.id).indexOf(device.id)].connected = true
+//             // get the message and replace the empty hexa field with nothing
+//             const message = data.substr(data.indexOf('-') + 1, data.length).replace(/\x00/gi, '')
+//             if (message === 'hi') {
+//                 dataModule.setDeviceConnection(sn, true).then(() => {
+//                     socketClient.emit('device_connect', sn)
+//                     if (device.category === 'Light') {
+//                         // if(device.data === 'on'){
 
-                        // }
-                        radio.send('data-' + device.data, 3, device.number).then(() => {
-                            //console.log('setting has been sent');
-                        }).catch(error => {
-                            //console.log('setting has not been sent');
+//                         // }
+//                         radio.send('data-' + device.data, 3, device.number).then(() => {
+//                             //console.log('setting has been sent');
+//                         }).catch(error => {
+//                             //console.log('setting has not been sent');
 
-                        })
+//                         })
 
-                    }
-                }).catch(error => {
-                    console.log(error);
-                })
-            }
+//                     }
+//                 }).catch(error => {
+//                     console.log(error);
+//                 })
+//             }
 
-            if (message.indexOf('data') === 0) {
-                //socketClient.emit('device_status', {id: 78, status: message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '') == '1'? 'on' : 'off'})
-                if (device.category === 'Motion') {
-                    const stringData = message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '')
+//             if (message.indexOf('data') === 0) {
+//                 //socketClient.emit('device_status', {id: 78, status: message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '') == '1'? 'on' : 'off'})
+//                 if (device.category === 'Motion') {
+//                     const stringData = message.substr(message.lastIndexOf('-') + 1, message.length).replace(/\x00/gi, '')
 
-                    dataModule.checkHomeSecurity().then(value => {
-                        if(value === 'true') {
-                            devices.forEach(device => {
-                                if (device.category === 'Motion'){
-                                    radio.send('alarm-on', 10, device.number).then(() => {
-                                        console.log('alarm sent to ', device.number);
-                                    }).catch(error => {
+//                     dataModule.checkHomeSecurity().then(value => {
+//                         if(value === 'true') {
+//                             devices.forEach(device => {
+//                                 if (device.category === 'Motion'){
+//                                     radio.send('alarm-on', 10, device.number).then(() => {
+//                                         console.log('alarm sent to ', device.number);
+//                                     }).catch(error => {
                                 
-                                    })
-                                }
-                            })
-                        }
-                    })
-                    dataModule.checkRoomSecurity(device.room_id).then(value => {
-                        if(value) {
-                            devices.forEach(device => {
-                                if (device.category === 'Motion'){
-                                    radio.send('alarm-on', 10, device.number).then(() => {
-                                        console.log('alarm sent to ', device.number);
-                                    }).catch(error => {
+//                                     })
+//                                 }
+//                             })
+//                         }
+//                     })
+//                     dataModule.checkRoomSecurity(device.room_id).then(value => {
+//                         if(value) {
+//                             devices.forEach(device => {
+//                                 if (device.category === 'Motion'){
+//                                     radio.send('alarm-on', 10, device.number).then(() => {
+//                                         console.log('alarm sent to ', device.number);
+//                                     }).catch(error => {
                                 
-                                    })
-                                }
-                            })
-                        }
-                    })
-                    dataModule.editData(device.id, stringData == '1' ? '1' : '').then(() => {
-                        socketClient.emit('device_status', { id: device.id, status: stringData == '1' ? '1' : '' })
-                        devices[devices.map(device => device.id).indexOf(device.id)].data = (stringData == '1' ? '1' : '')
-                        dataModule.getMotionRelatedDevices(device.id).then((results) => {
-                            //console.log('429',results);
-                            results.forEach(realtedDevice => {
-                                dataModule.getSchedules().then(schedules => {
-                                    let hasControl = true
-                                    schedules.forEach(schedule => {
-                                        if (schedule.device_id == realtedDevice.device_id){
-                                            const startTime = schedule.start_time.split(':')
-                                            const startHour = parseInt(startTime[0])
-                                            const startMinuts = parseInt(startTime[1])
+//                                     })
+//                                 }
+//                             })
+//                         }
+//                     })
+//                     dataModule.editData(device.id, stringData == '1' ? '1' : '').then(() => {
+//                         socketClient.emit('device_status', { id: device.id, status: stringData == '1' ? '1' : '' })
+//                         devices[devices.map(device => device.id).indexOf(device.id)].data = (stringData == '1' ? '1' : '')
+//                         dataModule.getMotionRelatedDevices(device.id).then((results) => {
+//                             //console.log('429',results);
+//                             results.forEach(realtedDevice => {
+//                                 dataModule.getSchedules().then(schedules => {
+//                                     let hasControl = true
+//                                     schedules.forEach(schedule => {
+//                                         if (schedule.device_id == realtedDevice.device_id){
+//                                             const startTime = schedule.start_time.split(':')
+//                                             const startHour = parseInt(startTime[0])
+//                                             const startMinuts = parseInt(startTime[1])
     
-                                            const stopTime = schedule.stop_time.split(':')
-                                            const stopHour = parseInt(stopTime[0])
-                                            const stopMinuts = parseInt(stopTime[1])
+//                                             const stopTime = schedule.stop_time.split(':')
+//                                             const stopHour = parseInt(stopTime[0])
+//                                             const stopMinuts = parseInt(stopTime[1])
     
-                                            const currentD = new Date();
-                                            const startHourD = new Date();
-                                            startHourD.setHours(startHour, startMinuts, 0); // 5.30 pm
-                                            const endHourD = new Date();
-                                            endHourD.setHours(stopHour, stopMinuts, 0); // 6.30 pm
+//                                             const currentD = new Date();
+//                                             const startHourD = new Date();
+//                                             startHourD.setHours(startHour, startMinuts, 0); // 5.30 pm
+//                                             const endHourD = new Date();
+//                                             endHourD.setHours(stopHour, stopMinuts, 0); // 6.30 pm
     
-                                            if (currentD >= startHourD && currentD < endHourD) {
-                                                hasControl = false
-                                            }
-                                        }
+//                                             if (currentD >= startHourD && currentD < endHourD) {
+//                                                 hasControl = false
+//                                             }
+//                                         }
                                         
-                                        })
-                                    if (hasControl) {
-                                        const foundDevice = devices.find(device => device.id === realtedDevice.device_id)
-                                        dataModule.editData(foundDevice.id, stringData == '1' ? 'on' : 'off').then(() => {
-                                            setTimeout(() => {
-                                                radio.send('data-' + (stringData === '1' ? 'on' : 'off'), 3, foundDevice.number).then(() => {
-                                                    devices[devices.map(device => device.id).indexOf(foundDevice.id)].data = stringData == '1' ? 'on' : 'off'
-                                                    socketClient.emit('device_status', { id: foundDevice.id, status: stringData == '1' ? 'on' : 'off' })
-                                                    console.log('434', stringData);
-                                                }).catch(error => {
-                                                    console.log('436', error);
-                                                })
-                                            }, 500)
+//                                         })
+//                                     if (hasControl) {
+//                                         const foundDevice = devices.find(device => device.id === realtedDevice.device_id)
+//                                         dataModule.editData(foundDevice.id, stringData == '1' ? 'on' : 'off').then(() => {
+//                                             setTimeout(() => {
+//                                                 radio.send('data-' + (stringData === '1' ? 'on' : 'off'), 3, foundDevice.number).then(() => {
+//                                                     devices[devices.map(device => device.id).indexOf(foundDevice.id)].data = stringData == '1' ? 'on' : 'off'
+//                                                     socketClient.emit('device_status', { id: foundDevice.id, status: stringData == '1' ? 'on' : 'off' })
+//                                                     console.log('434', stringData);
+//                                                 }).catch(error => {
+//                                                     console.log('436', error);
+//                                                 })
+//                                             }, 500)
 
-                                        }).catch(error => {
-                                            console.log('439', error);
-                                        })
-                                    }
+//                                         }).catch(error => {
+//                                             console.log('439', error);
+//                                         })
+//                                     }
 
-                                })
+//                                 })
 
 
-                            });
-                        }).catch(error => {
-                            console.log('444', error);
-                        })
-                    }).catch(error => {
-                        console.log('447', error);
-                    })
-                }
-                if (device.category === 'Temperature') {
-                    const stringData = message.substr(message.indexOf('-') + 1, message.length).replace(/\x00/gi, '')
-                    const savedData = {
-                        t: stringData.split('-')[0],
-                        h: stringData.split('-')[1]
-                    }
-                    dataModule.editData(device.id, JSON.stringify(savedData)).then(() => {
-                        devices[devices.map(device => device.id).indexOf(device.id)].data = JSON.stringify(savedData)
-                        socketClient.emit('temp_data', { id: device.id, status: JSON.stringify(savedData) })
-                    }).catch(error => {
-                        console.log('447', error);
-                    })
-                }
-            }
-        }
-    })
+//                             });
+//                         }).catch(error => {
+//                             console.log('444', error);
+//                         })
+//                     }).catch(error => {
+//                         console.log('447', error);
+//                     })
+//                 }
+//                 if (device.category === 'Temperature') {
+//                     const stringData = message.substr(message.indexOf('-') + 1, message.length).replace(/\x00/gi, '')
+//                     const savedData = {
+//                         t: stringData.split('-')[0],
+//                         h: stringData.split('-')[1]
+//                     }
+//                     dataModule.editData(device.id, JSON.stringify(savedData)).then(() => {
+//                         devices[devices.map(device => device.id).indexOf(device.id)].data = JSON.stringify(savedData)
+//                         socketClient.emit('temp_data', { id: device.id, status: JSON.stringify(savedData) })
+//                     }).catch(error => {
+//                         console.log('447', error);
+//                     })
+//                 }
+//             }
+//         }
+//     })
 
-    // radio.send('hi', 10, '0x744d52687C').then(() => {
-    //     console.log('sent');
-    // })
+//     // radio.send('hi', 10, '0x744d52687C').then(() => {
+//     //     console.log('sent');
+//     // })
 
-    socketClient.on('light_status', data => {
-        //socket.broadcast.to('home').emit('light_status', data)
-        // console.log(data);
-        const device = devices.find(device => device.number === data.sn)
-        devices[devices.map(device => device.id).indexOf(device.id)].data = data.status
-        radio.send('data-' + data.status, 3, device.number).then(() => {
-            console.log('setting has been sent');
-        }).catch(error => {
-            console.log('setting has not been sent');
+//     socketClient.on('light_status', data => {
+//         //socket.broadcast.to('home').emit('light_status', data)
+//         // console.log(data);
+//         const device = devices.find(device => device.number === data.sn)
+//         devices[devices.map(device => device.id).indexOf(device.id)].data = data.status
+//         radio.send('data-' + data.status, 3, device.number).then(() => {
+//             console.log('setting has been sent');
+//         }).catch(error => {
+//             console.log('setting has not been sent');
 
-        })
-    })
+//         })
+//     })
     
-    socketClient.on('stop_home_alarm', data => {
-        //socket.broadcast.to('home').emit('light_status', data)
-        devices.forEach(device => {
-            if (device.category === 'Motion'){
-                radio.send('alarm-off', 3, device.number).then(() => {
-                    console.log('stop alarm sent to ', device.number);
-                }).catch(error => {
+//     socketClient.on('stop_home_alarm', data => {
+//         //socket.broadcast.to('home').emit('light_status', data)
+//         devices.forEach(device => {
+//             if (device.category === 'Motion'){
+//                 radio.send('alarm-off', 3, device.number).then(() => {
+//                     console.log('stop alarm sent to ', device.number);
+//                 }).catch(error => {
             
-                })
-            }
-        })
-    })
+//                 })
+//             }
+//         })
+//     })
 
-    setInterval(() => {
-        // recursiveSend(0)
-        devices.forEach(device => {
-            checkConnected(device).then(() => {
+//     setInterval(() => {
+//         // recursiveSend(0)
+//         devices.forEach(device => {
+//             checkConnected(device).then(() => {
 
-            }).catch(error => {
-                console.log(error, device.number);
-            })
-        })
-    }, (devices.length) * 1000)
+//             }).catch(error => {
+//                 console.log(error, device.number);
+//             })
+//         })
+//     }, (devices.length) * 1000)
 
 
-    // function recursiveSend(i){
-    //     if(i < devices.length){
+//     // function recursiveSend(i){
+//     //     if(i < devices.length){
 
-    //        checkConnected(devices[i]).then(() => {
-    //         recursiveSend(i+1)
-    //        }).catch(() => {
-    //         recursiveSend(i+1)
-    //        })
-    //     }
-    // }
+//     //        checkConnected(devices[i]).then(() => {
+//     //         recursiveSend(i+1)
+//     //        }).catch(() => {
+//     //         recursiveSend(i+1)
+//     //        })
+//     //     }
+//     // }
 
-    function checkConnected(device) {
-        //console.log(device);
-        return new Promise((resolve, reject) => {
+//     function checkConnected(device) {
+//         //console.log(device);
+//         return new Promise((resolve, reject) => {
 
-            radio.checkConnected('hi', 10, device.number).then(() => {
+//             radio.checkConnected('hi', 10, device.number).then(() => {
 
-                if (device.connected) {
-                    resolve()
-                } else {
-                    dataModule.setDeviceConnection(device.number, true).then(() => {
-                        devices[devices.map(device => device.id).indexOf(device.id)].connected = true
-                        //device.connected = true
-                        socketClient.emit('device_connect', device.number)
-                        resolve()
-                    }).catch(error => {
-                        console.log(error);
-                        reject()
-                    })
-                }
+//                 if (device.connected) {
+//                     resolve()
+//                 } else {
+//                     dataModule.setDeviceConnection(device.number, true).then(() => {
+//                         devices[devices.map(device => device.id).indexOf(device.id)].connected = true
+//                         //device.connected = true
+//                         socketClient.emit('device_connect', device.number)
+//                         resolve()
+//                     }).catch(error => {
+//                         console.log(error);
+//                         reject()
+//                     })
+//                 }
 
-            }).catch(() => {
-                if (device.connected) {
-                    dataModule.setDeviceConnection(device.number, false).then(() => {
-                        devices[devices.map(device => device.id).indexOf(device.id)].connected = false
-                        //device.connected = false
-                        socketClient.emit('device_disconnect', device.number)
-                        reject()
-                    }).catch(error => {
-                        console.log(error);
-                        reject()
-                    })
-                } else {
-                    reject()
-                }
+//             }).catch(() => {
+//                 if (device.connected) {
+//                     dataModule.setDeviceConnection(device.number, false).then(() => {
+//                         devices[devices.map(device => device.id).indexOf(device.id)].connected = false
+//                         //device.connected = false
+//                         socketClient.emit('device_disconnect', device.number)
+//                         reject()
+//                     }).catch(error => {
+//                         console.log(error);
+//                         reject()
+//                     })
+//                 } else {
+//                     reject()
+//                 }
 
-            })
-        })
-    }
+//             })
+//         })
+//     }
 
-}).catch(error => {
-    console.log(error);
-})
+// }).catch(error => {
+//     console.log(error);
+// })

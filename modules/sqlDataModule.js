@@ -26,7 +26,7 @@ function connect() {
                 host: 'localhost',
                 port: 3306,
                 user: 'root',
-                password: '12345678',
+                password: '**********',
                 database: 'smarthome'
             })
             con.connect(error => {
@@ -69,6 +69,7 @@ function checkUser(username, password) {
                 reject(4)
             } else {
                 if (passwordHash.verify(password, systemPassword)) {
+                  console.log('hi',passwordHash.generate("sha1$556019ff$1$da1e43a4242c4d330a6abf2058248e88c37c78bc"));  
                     if(systemCheckLogin === 'false') {
                         runQuery("UPDATE configurations SET value = 'true' WHERE name LIKE 'loggedin'").then(() => {
                         resolve(systemCheckLogin)
