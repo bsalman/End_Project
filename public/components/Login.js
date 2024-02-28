@@ -160,9 +160,9 @@ const Login = (props) => {
                   }}
                       className="form-control custom-focus"
                       type="password"
-                      value="professor"
+                      // value="professor"
                       id="user-password"
-                      value={myState.password}/>
+                      value ={myState.password}/>
                   </div>
                 </div>
                 <div className="form-group row">
